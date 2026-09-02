@@ -57,7 +57,7 @@ categorías de Lighthouse móvil. Falta el backend (Fase 2) y desplegar.
 | Control | Resultado |
 |---|---|
 | `pnpm verificar` | verde: lint, typecheck, pruebas, prohibiciones, build y humo |
-| `pnpm humo` | **60 pruebas en verde** (móvil y escritorio) |
+| `pnpm humo` | **64 pruebas en verde** (móvil y escritorio) |
 | Lighthouse móvil `/` | rendimiento 100 · accesibilidad 100 · buenas prácticas 100 · SEO 100 |
 | Lighthouse móvil `/precios` y `/demo` | 100 / 100 / 100 / 100 |
 | `axe` (wcag2a/aa, wcag21a/aa) | sin fallos graves ni críticos, en tema claro y oscuro |
@@ -105,6 +105,15 @@ categorías de Lighthouse móvil. Falta el backend (Fase 2) y desplegar.
 10. **Un SVG cargado con `<img>` no ve las variables CSS del documento.** El
     hueco del isotipo se dejó transparente, que resuelve claro y oscuro sin
     duplicar archivos; para fondos oscuros existe `isotipo-claro.svg`.
+11. **Un carrusel no puede deducir su posición de `scrollLeft` en cada clic.**
+    Mientras la animación suave está en vuelo, `scrollLeft` devuelve un punto
+    intermedio y las flechas saltan de diapositiva equivocada. El índice se
+    lleva en una variable y el desplazamiento solo lo reconcilia cuando quedó
+    **sobre** una diapositiva. Además hay contextos donde el navegador descarta
+    la animación suave: si a los 350 ms no se movió, se salta al destino, para
+    que una flecha nunca quede sin efecto.
+12. **`role="group"` sobre un `<article>` deja el árbol de accesibilidad mal
+    formado.** Las diapositivas son `div`. Lo detectó Lighthouse.
 
 ---
 
