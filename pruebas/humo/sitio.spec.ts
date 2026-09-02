@@ -1,0 +1,137 @@
+import { test, expect, type Page } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+/**
+ * Humo del sitio estático.
+ *
+ * Lo que de verdad cubre esta suite, y por qué existe cada bloque:
+ *
+ *  1. **Violaciones de la CSP.** Son el fallo más traicionero del proyecto: el
+ *     navegador bloquea el recurso y no pasa nada visible. Ya ocurrió una vez
+ *     (Astro incrustaba los scripts en el HTML y la política los rechazaba, con
+ *     el conmutador de tema y el banner de consentimiento muertos en silencio).
+ *     Cada página se carga y cualquier mensaje «Refused to…» rompe la prueba.
+ *  2. **Accesibilidad con axe**, en tema claro y oscuro.
+ *  3. **Nada de medición sin consentimiento**: ni Google ni Meta pueden
+ *     descargarse hasta que la persona acepta.
+ *  4. **El rótulo del QR de demostración** existe donde se muestra el QR.
+ */
+
+const RUTAS = [
+  '/',
+  '/como-funciona',
+  '/soluciones/salud-belleza',
+  '/soluciones/gastronomia',
+  '/soluciones/comercio',
+  '/consola',
+  '/precios',
+  '/demo',
+  '/nosotros',
+  '/preguntas-frecuentes',
+  '/contacto',
+  '/privacidad',
+  '/terminos',
+  '/en',
+  '/en/precios',
+  '/en/consola',
+  '/en/contacto',
+  '/en/privacidad',
+];
+
+/** Recoge los errores de consola y las peticiones fallidas de una página. */
+function vigilar(page: Page): { errores: string[]; externas: string[] } {
+  const errores: string[] = [];
+  const externas: string[] = [];
+
+  page.on('console', (msg) => {
+    if (msg.type() === 'error') errores.push(msg.text());
+  });
+  page.on('pageerror', (err) => errores.push(String(err)));
+  page.on('request', (req) => {
+    const host = new URL(req.url()).host;
+    if (host !== '127.0.0.1:5245') externas.push(req.url());
+  });
+
+  return { errores, externas };
+}
+
+for (const ruta of RUTAS) {
+  test(`${ruta} carga sin violar la CSP`, async ({ page }) => {
+    const { errores } = vigilar(page);
+    const respuesta = await page.goto(ruta);
+
+    expect(respuesta?.status(), `${ruta} debe responder 200`).toBe(200);
+
+    const violaciones = errores.filter((e) => /Refused to|Content Security Policy/i.test(e));
+    expect(violaciones, `${ruta} viola la CSP`).toEqual([]);
+    expect(errores, `${ruta} tiene errores de consola`).toEqual([]);
+
+    // Toda página debe tener un h1, y solo uno.
+    await expect(page.locator('h1')).toHaveCount(1);
+  });
+}
+
+test('sin consentimiento no se carga nada de Google ni de Meta', async ({ page }) => {
+  const { externas } = vigilar(page);
+  await page.goto('/');
+  await page.waitForLoadState('networkidle');
+
+  expect(
+    externas.filter((u) => /googletagmanager|google-analytics|facebook/.test(u)),
+    'no debe descargarse medición antes de aceptar',
+  ).toEqual([]);
+
+  await expect(page.locator('[data-consentimiento]')).toBeVisible();
+});
+
+test('al aceptar el consentimiento se pide la medición', async ({ page }) => {
+  const { externas } = vigilar(page);
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Aceptar' }).click();
+  await page.waitForTimeout(1500);
+
+  expect(
+    externas.some((u) => /googletagmanager|connect\.facebook\.net/.test(u)),
+    'tras aceptar debe cargarse al menos una de las dos etiquetas',
+  ).toBe(true);
+});
+
+test('el conmutador de tema cambia y persiste', async ({ page }) => {
+  await page.goto('/');
+  const raiz = page.locator('html');
+
+  await page.getByRole('button', { name: /tema claro y oscuro/i }).click();
+  await expect(raiz).toHaveAttribute('data-tema', 'oscuro');
+
+  await page.reload();
+  await expect(raiz).toHaveAttribute('data-tema', 'oscuro');
+});
+
+test('el QR de demostración lleva su rótulo, y no se esconde', async ({ page }) => {
+  await page.goto('/soluciones/gastronomia');
+  const rotulo = page.getByText(/DEMOSTRACIÓN — este QR no cobra/i);
+  await expect(rotulo).toBeVisible();
+  await expect(rotulo).toHaveCSS('opacity', '1');
+});
+
+for (const ruta of ['/', '/precios', '/demo', '/preguntas-frecuentes']) {
+  for (const tema of ['claro', 'oscuro'] as const) {
+    test(`axe sin fallos críticos en ${ruta} (tema ${tema})`, async ({ page }) => {
+      await page.goto('/');
+      await page.evaluate((t) => localStorage.setItem('novuchat.tema', t), tema);
+      await page.goto(ruta);
+
+      const { violations } = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+        .analyze();
+
+      const graves = violations.filter(
+        (v) => v.impact === 'critical' || v.impact === 'serious',
+      );
+      expect(
+        graves.map((v) => `${v.id}: ${v.nodes[0]?.target.join(' ')}`),
+        `axe encontró fallos graves en ${ruta} (${tema})`,
+      ).toEqual([]);
+    });
+  }
+}

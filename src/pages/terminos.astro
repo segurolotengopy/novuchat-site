@@ -1,0 +1,129 @@
+---
+import Base from '../layouts/Base.astro';
+import IdentidadLegal from '../components/IdentidadLegal.astro';
+import { precios } from '../contenido/precios.es';
+import { sitio } from '../contenido/sitio.es';
+
+const actualizado = '2 de septiembre de 2026';
+const { instalacion, excedente, comoContamos } = precios;
+---
+
+<Base
+  titulo="Términos del servicio | NovuChat"
+  descripcion="Qué incluye el servicio, cómo se cobra, qué pasa si te atrasas y cómo darte de baja."
+  migajas={[
+    { nombre: 'Inicio', ruta: '/' },
+    { nombre: 'Términos', ruta: '/terminos' },
+  ]}
+>
+  <section class="seccion">
+    <div class="contenedor" style="max-width: var(--ancho-lectura)">
+      <h1>Términos del servicio</h1>
+      <p class="texto-apagado">Última actualización: {actualizado}</p>
+
+      <h2>1. Quién presta el servicio</h2>
+      <IdentidadLegal />
+
+      <h2>2. Qué es el servicio</h2>
+      <p>
+        NovuChat configura y opera un asistente conversacional que atiende a tus
+        clientes por WhatsApp, usando exclusivamente el canal oficial de WhatsApp
+        Business Cloud API de Meta. Incluye una consola web desde la que
+        administras tu configuración y ves tus conversaciones.
+      </p>
+
+      <h2>3. Cómo se cobra</h2>
+      <p>
+        Los planes se facturan por mes adelantado, en bolivianos. Cada plan
+        incluye una cantidad de conversaciones.
+      </p>
+      <p>
+        <strong>{comoContamos.parrafos[0]}</strong>
+      </p>
+      <p>
+        Si superas lo incluido, cada bloque adicional de {excedente.conversaciones}
+        {' '}conversaciones cuesta {excedente.precioBs} Bs. Te avisamos al llegar
+        al 80 % de tu plan para que decidas antes de que ocurra. El consumo del
+        modelo de inteligencia artificial y las conversaciones de WhatsApp están
+        incluidos en el precio del plan.
+      </p>
+      <p>
+        La instalación se cobra una sola vez: {instalacion.estandar} Bs en su
+        modalidad estándar, y desde{' '}
+        {instalacion.aMedidaDesde.toLocaleString('es-BO')} Bs cuando requiere
+        integraciones a medida.
+      </p>
+
+      <h2>4. Plazo de instalación</h2>
+      <p>
+        Ponemos tu asistente en funcionamiento en 48 horas contadas desde que nos
+        entregas la información completa: servicios o productos con precios,
+        horarios, calendario y número de WhatsApp. Los trámites de verificación
+        de tu negocio ante Meta no dependen de nosotros y pueden tomar más
+        tiempo; te acompañamos en ellos.
+      </p>
+
+      <h2>5. Tus obligaciones</h2>
+      <ul>
+        <li>Usar el servicio conforme a las políticas de WhatsApp Business de Meta.</li>
+        <li>No enviar mensajes masivos no solicitados.</li>
+        <li>Mantener veraz y actualizada la información que carga el asistente: precios, horarios y disponibilidad.</li>
+        <li>Responder a las derivaciones que el asistente haga a tu equipo.</li>
+      </ul>
+      <p>
+        El incumplimiento de las políticas de Meta puede llevar a que Meta
+        restrinja o bloquee tu número. Es una decisión de Meta, no nuestra.
+      </p>
+
+      <h2>6. Si un pago se atrasa</h2>
+      <p>
+        Suspendemos el asistente, pero conservas el acceso de lectura a la consola
+        y a todos tus datos. A tus clientes les llega un mensaje neutro: nunca se
+        informa que hubo un problema de pago. Al regularizar, el servicio se
+        reanuda sin costo de reinstalación.
+      </p>
+
+      <h2>7. Baja y exportación</h2>
+      <p>
+        Puedes darte de baja cuando quieras, avisando antes del siguiente ciclo de
+        facturación. No hay permanencia mínima ni penalidad. Al darte de baja
+        puedes pedir una exportación de tus contactos y conversaciones, que
+        entregamos en un plazo de diez días hábiles. Después de treinta días,
+        eliminamos tus datos.
+      </p>
+
+      <h2>8. Disponibilidad y soporte</h2>
+      <p>
+        El asistente funciona las 24 horas. El soporte humano atiende en horario
+        de oficina de Bolivia, por WhatsApp al {sitio.contacto.whatsapp} y por
+        correo a{' '}
+        <a href={`mailto:${sitio.contacto.correo}`}>{sitio.contacto.correo}</a>.
+        El plan Pro incluye atención prioritaria.
+      </p>
+
+      <h2>9. Propiedad</h2>
+      <p>
+        Tu configuración, tus contenidos y tus datos de clientes son tuyos. La
+        plataforma, el software y sus componentes son de NovuChat y no se ceden
+        con la contratación.
+      </p>
+
+      <h2>10. Límites de responsabilidad</h2>
+      <p>
+        El servicio depende de terceros —Meta para el canal de WhatsApp, los
+        proveedores de inteligencia artificial y la infraestructura de nube— y no
+        respondemos por interrupciones causadas por ellos. El asistente puede
+        equivocarse: está diseñado para verificar antes de confirmar una cita y
+        para derivar a una persona cuando no está seguro, pero no reemplaza el
+        criterio de tu equipo. Nuestra responsabilidad se limita, como máximo, al
+        importe facturado en el mes en que ocurrió el hecho.
+      </p>
+
+      <h2>11. Ley aplicable</h2>
+      <p>
+        Estos términos se rigen por las leyes del Estado Plurinacional de Bolivia,
+        y cualquier controversia se somete a los tribunales de La Paz.
+      </p>
+    </div>
+  </section>
+</Base>

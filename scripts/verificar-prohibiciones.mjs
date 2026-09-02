@@ -34,6 +34,8 @@ const RUTAS_IGNORADAS = [
   // Las propias herramientas nombran los patrones prohibidos para poder buscarlos.
   'eslint.config.js',
   'scripts/verificar-prohibiciones.mjs',
+  // Documenta la marca `<!-- CONFIRMAR -->` para explicar por qué no se usa.
+  'src/contenido/pendientes.ts',
 ];
 
 /** Código nuestro que sí se renderiza o se despliega. */
@@ -43,13 +45,35 @@ const EXTENSIONES = new Set(['.astro', '.ts', '.tsx', '.js', '.mjs', '.jsx', '.c
 
 // `set:html` solo se permite para el JSON-LD, que se genera en build a partir
 // de objetos del repositorio y se serializa con JSON.stringify.
-const EXCEPCIONES_SET_HTML = new Set(['src/components/DatosEstructurados.astro']);
+const EXCEPCIONES_SET_HTML = new Set([
+  // JSON-LD: se construye con objetos del repositorio y se serializa con
+  // JSON.stringify. No hay dato de usuario en el camino.
+  'src/components/DatosEstructurados.astro',
+  // Script anti-destello del tema: literal del repositorio, autorizado en la
+  // CSP por hash SHA-256 (nunca por 'unsafe-inline'). Ver docs/csp.md.
+  'src/layouts/Base.astro',
+]);
 
+// Espejo EXACTO de los orígenes de la CSP de `firebase.json`, más los dominios
+// propios. Se listan hosts completos, no dominios padre: `googleapis.com` a
+// secas dejaría pasar `fonts.googleapis.com`, que la CSP sí bloquea.
 const DOMINIOS_PERMITIDOS = [
-  'novuchat.site', 'novuchat-site.web.app', 'novuchat-admin-prod.web.app',
-  'schema.org', 'www.w3.org', 'astro.build', 'wa.me',
-  'googleapis.com', 'gstatic.com', 'google.com', 'googletagmanager.com',
-  'google-analytics.com', 'facebook.net', 'facebook.com', 'cloudfunctions.net',
+  'novuchat.site',
+  'www.novuchat.site',
+  'novuchat-site.web.app',
+  'novuchat-admin-prod.web.app',
+  'consola.novuchat.site',
+  'us-east1-novuchat-site.cloudfunctions.net',
+  'firebaseappcheck.googleapis.com',
+  'content-firebaseappcheck.googleapis.com',
+  'www.google.com',
+  'www.gstatic.com',
+  'www.googletagmanager.com',
+  'www.google-analytics.com',
+  'analytics.google.com',
+  'region1.google-analytics.com',
+  'connect.facebook.net',
+  'www.facebook.com',
 ];
 
 const LISTA_BLANCA_CONSOLA = [
@@ -113,16 +137,24 @@ for (const rel of recorrer(RAIZ)) {
     });
   }
 
-  // Dominios externos: cualquier URL absoluta fuera de la lista permitida.
+  // Dominios externos: solo importan los que CARGAN un recurso (`src=`,
+  // `<link href=`, `url(...)` de CSS, `import` de un módulo remoto). Un enlace
+  // de navegación a un sitio externo —una cita, una fuente— no lo bloquea la
+  // CSP y no es un hallazgo.
   if (['.astro', '.ts', '.tsx', '.js', '.jsx', '.css'].includes(extname(rel))) {
     lineas.forEach((linea, i) => {
-      for (const url of linea.match(/https?:\/\/[\w.-]+/g) ?? []) {
+      const cargas =
+        linea.match(/(?:\bsrc\s*=\s*["'{`]|url\(\s*["']?|\bfrom\s+["']|<link[^>]+href\s*=\s*["'])(https?:\/\/[\w.-]+)/g) ?? [];
+      for (const bruto of cargas) {
+        const encontrado = bruto.match(/https?:\/\/[\w.-]+/);
+        if (!encontrado) continue;
+        const url = encontrado[0];
         const host = url.replace(/^https?:\/\//, '');
         if (host === 'localhost' || host.startsWith('127.0.0.1')) continue;
-        if (DOMINIOS_PERMITIDOS.some((d) => host === d || host.endsWith(`.${d}`))) continue;
+        if (DOMINIOS_PERMITIDOS.includes(host)) continue;
         hallazgos.push({
           rel, linea: i + 1, regla: 'dominio-externo',
-          prohibicion: 'CLAUDE.md 3 — sin CDN ni dominios externos fuera de la CSP',
+          prohibicion: 'CLAUDE.md 3 — sin CDN ni recursos de dominios externos',
           texto: url,
         });
       }

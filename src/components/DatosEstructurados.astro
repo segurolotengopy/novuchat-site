@@ -1,0 +1,100 @@
+---
+/**
+ * JSON-LD del sitio.
+ *
+ * ÚNICO lugar del repositorio donde se permite `set:html` (prohibición 2 de
+ * CLAUDE.md, excepción declarada en `scripts/verificar-prohibiciones.mjs`). Es
+ * seguro porque el contenido no viene de ningún usuario: se construye con
+ * objetos del propio repositorio y se serializa con `JSON.stringify`, que
+ * escapa lo necesario. Aun así se neutraliza `</script>` a mano, que es la
+ * única secuencia capaz de cerrar la etiqueta antes de tiempo.
+ */
+import { precios } from '../contenido/precios.es';
+import { preguntas } from '../contenido/faq.es';
+import { sitio } from '../contenido/sitio.es';
+
+interface Migaja {
+  nombre: string;
+  ruta: string;
+}
+
+interface Props {
+  /** Incluir el bloque FAQPage (solo en las páginas que muestran el FAQ). */
+  conFaq?: boolean;
+  migajas?: Migaja[];
+}
+
+const { conFaq = false, migajas = [] } = Astro.props;
+const base = 'https://novuchat.site';
+
+const grafo: Record<string, unknown>[] = [
+  {
+    '@type': 'Organization',
+    '@id': `${base}/#organizacion`,
+    name: sitio.nombre,
+    url: base,
+    logo: `${base}/isotipo.svg`,
+    image: `${base}/og.png`,
+    description:
+      'Asistentes conversacionales de WhatsApp con inteligencia artificial para negocios de Bolivia.',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: sitio.contacto.ciudad,
+      addressCountry: 'BO',
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'sales',
+      email: sitio.contacto.correo,
+      telephone: sitio.contacto.whatsapp,
+      availableLanguage: ['es', 'en'],
+      areaServed: 'BO',
+    },
+  },
+  {
+    '@type': 'SoftwareApplication',
+    '@id': `${base}/#aplicacion`,
+    name: sitio.nombre,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    provider: { '@id': `${base}/#organizacion` },
+    offers: precios.planes.map((plan) => ({
+      '@type': 'Offer',
+      name: `Plan ${plan.nombre}`,
+      price: String(plan.precioBs),
+      priceCurrency: 'BOB',
+      description: plan.resumen,
+      url: `${base}/precios`,
+    })),
+  },
+];
+
+if (conFaq) {
+  grafo.push({
+    '@type': 'FAQPage',
+    mainEntity: preguntas.map((p) => ({
+      '@type': 'Question',
+      name: p.pregunta,
+      acceptedAnswer: { '@type': 'Answer', text: p.respuesta },
+    })),
+  });
+}
+
+if (migajas.length > 0) {
+  grafo.push({
+    '@type': 'BreadcrumbList',
+    itemListElement: migajas.map((m, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: m.nombre,
+      item: `${base}${m.ruta}`,
+    })),
+  });
+}
+
+const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': grafo })
+  // `</script>` dentro de una cadena cerraría la etiqueta: se parte en dos.
+  .replace(/<\/script/gi, '<\\/script');
+---
+
+<script type="application/ld+json" set:html={json} is:inline />

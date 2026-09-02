@@ -1,0 +1,51 @@
+---
+import type { Turno } from '../contenido/tipos';
+
+interface Props {
+  turnos: Turno[];
+  /** Nombre del negocio ficticio, se muestra en el encabezado. */
+  negocio?: string;
+}
+
+const { turnos, negocio } = Astro.props;
+---
+
+<div class="conversacion">
+  {
+    negocio && (
+      <p class="card-meta" style="margin: 0">
+        <img src="/isotipo.svg" alt="" width="18" height="18" />
+        {negocio} · ejemplo con datos ficticios
+      </p>
+    )
+  }
+
+  {
+    turnos.map((turno) => (
+      <div class={`burbuja burbuja-${turno.de}`}>
+        <span class="solo-lectores">
+          {turno.de === 'cliente' ? 'Cliente:' : 'Asistente:'}
+        </span>
+        {turno.texto}
+        {turno.qrDemostracion && (
+          <figure class="qr-demo" style="margin-top: var(--space-3)">
+            <img
+              src="/imagenes/qr-demostracion.png"
+              alt="Código QR de demostración. No cobra."
+              width="132"
+              height="132"
+              loading="lazy"
+            />
+            <figcaption class="qr-demo-rotulo">
+              Demostración — este QR no cobra
+            </figcaption>
+          </figure>
+        )}
+      </div>
+    ))
+  }
+
+  <div class="burbuja burbuja-asistente escribiendo" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+</div>

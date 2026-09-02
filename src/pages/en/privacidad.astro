@@ -1,0 +1,129 @@
+---
+import Base from '../../layouts/Base.astro';
+import { sitio } from '../../contenido/sitio.es';
+import { identidadLegal } from '../../contenido/pendientes';
+
+const actualizado = '2 September 2026';
+---
+
+<Base
+  titulo="Privacy policy | NovuChat"
+  descripcion="What data we handle, what for, who we share it with and how to exercise your rights."
+  rutaAlterna="/privacidad"
+>
+  <section class="seccion">
+    <div class="contenedor" style="max-width: var(--ancho-lectura)">
+      <h1>Privacy policy</h1>
+      <p class="texto-apagado">Last updated: {actualizado}</p>
+      <p class="texto-apagado">
+        This is a translation for convenience. In case of discrepancy, the
+        <a href="/privacidad">Spanish version</a> prevails.
+      </p>
+
+      <h2>1. Who we are</h2>
+      {
+        identidadLegal ? (
+          <p>
+            The controller of your data is <strong>{identidadLegal.razonSocial}</strong>,
+            tax ID {identidadLegal.nit}, based in {sitio.contacto.ciudad}, Bolivia.
+          </p>
+        ) : (
+          <aside class="card elev-sm" style="border-left: 4px solid var(--color-aviso)">
+            <p class="card-kicker" style="color: var(--color-aviso)">Pending registration</p>
+            <p class="card-body">
+              NovuChat's registered name and tax ID are being issued and will be
+              published here as soon as they are. In the meantime, the controller
+              of your data answers at{' '}
+              <a href={`mailto:${sitio.contacto.correo}`}>{sitio.contacto.correo}</a>{' '}
+              and on WhatsApp {sitio.contacto.whatsapp}, in {sitio.contacto.ciudad}, Bolivia.
+            </p>
+          </aside>
+        )
+      }
+
+      <h2>2. What data we handle</h2>
+      <p>
+        <strong>If you use the form:</strong> your name, your business name, your
+        industry, your city, your WhatsApp number, your email and whatever you
+        write in the message.
+      </p>
+      <p>
+        <strong>If you use the site assistant:</strong> the text of the
+        conversation, the language, the page you wrote from and a technical
+        identifier that cannot be traced back to your identity.
+      </p>
+      <p>
+        <strong>Measurement:</strong> if you accept the measurement notice, Google
+        Analytics and the Meta pixel record which pages you visited and where you
+        came from, with their own cookies. If you decline, neither is loaded and
+        no third-party cookie is written.
+      </p>
+
+      <h2>3. The assistant is an artificial intelligence</h2>
+      <p>
+        It is not a person, and it says so if asked. Replies are generated with
+        third-party models (Google Gemini and Anthropic Claude). Your message is
+        sent to the provider solely to generate the reply and, under those
+        providers' API terms, is not used to train their models. Do not write
+        passwords, card numbers or sensitive data in the chat.
+      </p>
+
+      <h2>4. What we use it for</h2>
+      <p>
+        To reply to you, arrange a demo, prepare a proposal and improve the
+        assistant. We do not sell or trade your data.
+      </p>
+
+      <h2>5. If you are a customer of a business using NovuChat</h2>
+      <p>
+        When you message a business that works with us, <strong>that business is
+        the controller of your data</strong>. NovuChat acts as processor and
+        follows its instructions. The channel is Meta's WhatsApp Business Cloud
+        API. The assistant identifies itself as an AI and can hand you over to a
+        person. To stop receiving messages, reply <strong>BAJA</strong> or block
+        the number. Demonstration charges are always labelled as simulated.
+      </p>
+
+      <h2>6. How we protect your data</h2>
+      <ul>
+        <li>All traffic is encrypted, with secure connection enforced in the browser.</li>
+        <li>Data is stored encrypted on Google Cloud infrastructure.</li>
+        <li>Every request is verified to tell a person from a bot.</li>
+        <li>Rate limits prevent abuse of the assistant.</li>
+        <li>No browser can reach our database: everything goes through our servers.</li>
+        <li>Technical logs never store your email or phone number in the clear.</li>
+        <li>Each business is isolated from the others, with rules tested automatically on every change.</li>
+      </ul>
+
+      <h2>7. Who we share it with</h2>
+      <p>
+        Google Cloud and Firebase (hosting, database, anti-fraud verification),
+        our transactional email provider, the AI model providers (the query text
+        only), Meta Platforms when the conversation happens on WhatsApp, Google
+        and Meta if you accepted measurement, and the competent authority upon a
+        legal request. Our servers are located in the United States.
+      </p>
+
+      <h2>8. Your rights</h2>
+      <p>
+        You can ask for access, correction or deletion of your data, and withdraw
+        your consent at any time. Write to{' '}
+        <a href={`mailto:${sitio.contacto.correo}`}>{sitio.contacto.correo}</a>{' '}
+        and we reply within fifteen business days.
+      </p>
+
+      <h2>9. Retention</h2>
+      <p>
+        Assistant conversations and technical logs are deleted after ninety days.
+        Contact details are kept while a commercial relationship exists or until
+        you ask us to delete them.
+      </p>
+
+      <h2>10. Changes and applicable law</h2>
+      <p>
+        If we change this policy we update the date above. It is governed by the
+        laws of the Plurinational State of Bolivia.
+      </p>
+    </div>
+  </section>
+</Base>

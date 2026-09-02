@@ -1,0 +1,156 @@
+---
+import Base from '../layouts/Base.astro';
+import { precios } from '../contenido/precios.es';
+
+const { planes, instalacion, excedente, comoContamos } = precios;
+---
+
+<Base
+  titulo="Planes y precios de NovuChat"
+  descripcion="Planes desde 250 Bs al mes, con el consumo de la IA y de WhatsApp incluido. Instalación en 48 horas. Sin contratos largos."
+  rutaAlterna="/en/precios"
+  migajas={[
+    { nombre: 'Inicio', ruta: '/' },
+    { nombre: 'Precios', ruta: '/precios' },
+  ]}
+>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>Planes y precios</h1>
+      <p class="seccion-bajada" style="font-size: 18px">
+        Todo en bolivianos. El consumo del modelo de inteligencia artificial y
+        las conversaciones de WhatsApp están incluidos en el precio: no hay
+        cargos sorpresa a fin de mes.
+      </p>
+
+      <div class="rejilla">
+        {
+          planes.map((plan) => (
+            <article class={`plan${plan.destacado ? ' plan-destacado' : ''}`}>
+              {plan.destacado && (
+                <span class="tag tag-accent-2" style="align-self: flex-start">
+                  El más elegido
+                </span>
+              )}
+              <h2 class="plan-nombre">{plan.nombre}</h2>
+              <p class="plan-precio">
+                {plan.precioBs} Bs <small>/ mes</small>
+              </p>
+              <p class="card-body">{plan.resumen}</p>
+              <p class="tag tag-neutral" style="align-self: flex-start">
+                {plan.conversaciones.toLocaleString('es-BO')} conversaciones al mes
+              </p>
+              <ul class="plan-lista">
+                {plan.incluye.map((c) => (
+                  <li>
+                    <span>
+                      {c.texto}
+                      {c.proximamente && (
+                        <span class="tag tag-proximamente" style="margin-left: 6px">
+                          Próximamente
+                        </span>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <a class="btn btn-primary btn-block" href={`/demo?plan=${plan.id}`}>
+                Empezar con {plan.nombre}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+
+      <p class="texto-apagado" style="margin-top: var(--space-6); font-size: 14px">
+        Las funciones marcadas como «Próximamente» todavía no están disponibles.
+        Las anunciamos aquí para que sepas hacia dónde va el producto, no para
+        cobrarlas antes de tiempo.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Excedentes e instalación ──────────────────────────────────────── -->
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <div class="rejilla" style="align-items: start">
+        <article class="card elev-sm">
+          <h2 class="card-title">Si te pasas del plan</h2>
+          <p class="card-body">
+            Cada bloque adicional de {excedente.conversaciones} conversaciones
+            cuesta {excedente.precioBs} Bs. No se corta el servicio ni se te
+            cobra sin avisar: te escribimos cuando llegas al 80 % de tu plan,
+            para que decidas si conviene subir de nivel.
+          </p>
+        </article>
+
+        <article class="card elev-sm">
+          <h2 class="card-title">Instalación</h2>
+          <p class="plan-precio" style="font-size: 30px">
+            {instalacion.estandar} Bs <small>/ una sola vez</small>
+          </p>
+          <ul class="plan-lista">
+            {instalacion.incluye.map((i) => <li>{i}</li>)}
+          </ul>
+          <p class="card-body">
+            Para arquitecturas más complejas —conexión con un sistema propio,
+            consultas a tu base de datos en tiempo real— la instalación a medida
+            arranca en {instalacion.aMedidaDesde.toLocaleString('es-BO')} Bs.
+          </p>
+          {
+            instalacion.bonificacion && (
+              <p class="tag tag-accent-2" style="align-self: flex-start">
+                {instalacion.bonificacion}
+              </p>
+            )
+          }
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Cómo contamos ─────────────────────────────────────────────────── -->
+  <section class="seccion" id="como-contamos">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">{comoContamos.titulo}</h2>
+      <div style="max-width: var(--ancho-lectura)">
+        {comoContamos.parrafos.map((p) => <p>{p}</p>)}
+      </div>
+
+      <table class="table" style="margin-top: var(--space-8); max-width: 780px">
+        <caption class="solo-lectores">Glosario de las unidades que se miden</caption>
+        <thead>
+          <tr>
+            <th scope="col">Término</th>
+            <th scope="col">Qué significa</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            comoContamos.glosario.map((g) => (
+              <tr>
+                <th scope="row" style="text-transform: none; font-size: 15px; letter-spacing: 0">
+                  {g.termino}
+                </th>
+                <td>{g.definicion}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="seccion banda">
+    <div class="contenedor" style="text-align: center">
+      <h2 class="seccion-titulo" style="margin-inline: auto">
+        ¿No sabes qué plan te conviene?
+      </h2>
+      <p class="seccion-bajada" style="margin-inline: auto">
+        Cuéntanos cuántos clientes atiendes al día y te decimos cuál alcanza. Sin
+        vender de más.
+      </p>
+      <a class="btn btn-cta btn-grande" href="/demo">Pedir una demostración</a>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,57 @@
+---
+/**
+ * Banner de consentimiento de medición.
+ *
+ * Se muestra solo si la persona no ha respondido antes. Por omisión **no** se
+ * mide: rechazar es tan fácil como aceptar y las dos acciones tienen el mismo
+ * peso visual, que es lo que exige un consentimiento que valga algo.
+ */
+---
+
+<div class="consentimiento" data-consentimiento hidden>
+  <p style="margin: 0; max-width: 52ch">
+    Usamos medición de Google y de Meta para saber qué páginas ayudan a que nos
+    escribas. Puedes decir que no: el sitio funciona igual.
+    <a href="/privacidad">Cómo tratamos tus datos</a>.
+  </p>
+  <div class="consentimiento-acciones">
+    <button type="button" class="btn btn-secondary" data-consentimiento-rechazar>
+      Solo lo necesario
+    </button>
+    <button type="button" class="btn btn-primary" data-consentimiento-aceptar>
+      Aceptar
+    </button>
+  </div>
+</div>
+
+<script>
+  import {
+    activarMedicion,
+    guardarConsentimiento,
+    leerConsentimiento,
+  } from '../lib/medicion';
+
+  const banner = document.querySelector<HTMLElement>('[data-consentimiento]');
+  const respuesta = leerConsentimiento();
+
+  if (respuesta === 'aceptado') {
+    activarMedicion();
+  } else if (respuesta === null && banner) {
+    banner.hidden = false;
+  }
+
+  banner
+    ?.querySelector('[data-consentimiento-aceptar]')
+    ?.addEventListener('click', () => {
+      guardarConsentimiento('aceptado');
+      activarMedicion();
+      banner.hidden = true;
+    });
+
+  banner
+    ?.querySelector('[data-consentimiento-rechazar]')
+    ?.addEventListener('click', () => {
+      guardarConsentimiento('rechazado');
+      banner.hidden = true;
+    });
+</script>

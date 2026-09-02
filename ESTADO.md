@@ -9,9 +9,9 @@
 
 ## 1. Dónde estamos
 
-**Fase 0 (preparación) completa.** El repositorio existe, tiene el estándar
-DevSecOps v2 aplicado y el esqueleto de Astro compila. La infraestructura de
-Google Cloud está creada y verificada. Todavía no hay contenido ni backend.
+**Fases 0 y 1 completas.** El sitio está construido: dieciocho rutas, sistema de
+diseño, contenido, logotipo y medición. Verifica solo y da 100 en las cuatro
+categorías de Lighthouse móvil. Falta el backend (Fase 2) y desplegar.
 
 | Pieza | Estado |
 |---|---|
@@ -23,7 +23,13 @@ Google Cloud está creada y verificada. Todavía no hay contenido ni backend.
 | App web | `NovuChat sitio` — `1:50331646927:web:54f472bf096c63a0caf0ba` |
 | App Check | reCAPTCHA Enterprise registrado, TTL 3600 s, `minValidScore 0.5`, modo monitoreo |
 | Dominios | `novuchat.site` y `www` → `OWNERSHIP_ACTIVE` + `HOST_ACTIVE`; certificado en emisión |
-| Contenido y páginas | pendiente (Fase 1) |
+| Píxel de Meta | `1058454173766291`, dominio verificado |
+| GA4 | `G-BDYVHDEH9R`, detrás del banner de consentimiento |
+| Search Console | verificado por TXT |
+| Contenido y páginas | **18 rutas** (13 en español, 5 en inglés) + 404 |
+| Sistema de diseño | `tokens.css`, `base.css`, `componentes.css` con los tokens del prototipo |
+| Logotipo | `isotipo.svg`, `isotipo-claro.svg`, `favicon.svg`, `favicon.ico`, `og.png` |
+| Formularios de demo y contacto | maquetados y **desactivados** hasta la Fase 2 |
 | Functions `lead` y `asistente` | pendiente (Fase 2) |
 
 ---
@@ -45,6 +51,18 @@ Google Cloud está creada y verificada. Todavía no hay contenido ni backend.
 | 2026-09-02 | Ninguna dependencia ejecuta scripts de instalación (`allowBuilds: false`) | Riesgo S-9: los `postinstall` de terceros son superficie de cadena de suministro |
 
 ---
+
+## 2bis. Evidencia de verificación (2026-09-02)
+
+| Control | Resultado |
+|---|---|
+| `pnpm verificar` | verde: lint, typecheck, pruebas, prohibiciones, build y humo |
+| `pnpm humo` | **60 pruebas en verde** (móvil y escritorio) |
+| Lighthouse móvil `/` | rendimiento 100 · accesibilidad 100 · buenas prácticas 100 · SEO 100 |
+| Lighthouse móvil `/precios` y `/demo` | 100 / 100 / 100 / 100 |
+| `axe` (wcag2a/aa, wcag21a/aa) | sin fallos graves ni críticos, en tema claro y oscuro |
+| CSP | las 18 rutas cargan sin ningún «Refused to» |
+| Peso del inicio | HTML 29,2 KB + CSS 16,5 KB + JS 25,4 KB (presupuesto: 300 KB) |
 
 ## 3. Hallazgos que costaron tiempo
 
@@ -72,6 +90,21 @@ Google Cloud está creada y verificada. Todavía no hay contenido ni backend.
 6. **La CSP no se puede probar con `astro dev`.** Solo `pnpm build && pnpm csp`
    sirve `dist/` con las cabeceras reales de `firebase.json` (puerto 5245, para
    no chocar con el emulador de Hosting en el 5240).
+7. **Astro incrusta los scripts pequeños en el HTML y la CSP los mata en
+   silencio.** El conmutador de tema y el banner de consentimiento no
+   funcionaban, sin un solo error visible en la página. Se arregla con
+   `vite.build.assetsInlineLimit: 0` en `astro.config.mjs`, que fuerza archivos
+   externos cubiertos por `script-src 'self'`. **No lo cambie.**
+8. **`.nav a` le gana en especificidad a `.btn-cta`.** El botón «Pedir una demo»
+   del encabezado heredaba el color del texto: en tema oscuro quedaba texto
+   claro sobre menta, 1,6:1. Lo detectó `axe`, no el ojo. Los selectores de
+   navegación y de banda llevan `:not(.btn)`.
+9. **`build.format: 'file'` hace que `Astro.url.pathname` termine en `.html`.**
+   La canónica y los `hreflang` salían como `/precios.html`, que Google habría
+   indexado como duplicado de `/precios`. Se normaliza en `Base.astro`.
+10. **Un SVG cargado con `<img>` no ve las variables CSS del documento.** El
+    hueco del isotipo se dejó transparente, que resuelve claro y oscuro sin
+    duplicar archivos; para fondos oscuros existe `isotipo-claro.svg`.
 
 ---
 
@@ -79,13 +112,11 @@ Google Cloud está creada y verificada. Todavía no hay contenido ni backend.
 
 **De Claude Code:**
 
-1. Fase 1: `tokens.css` y `componentes.css` con los valores del prototipo,
-   `Base.astro`, las 12 rutas del doc 03 §3, contenido tipado en `src/contenido/`,
-   logo SVG, favicon, imagen OG, banner de consentimiento.
-2. Actualizar `CLAUDE.md` y los docs 05, 06 y 08 con las decisiones del 2026-09-02.
-3. Fase 2: `functions/` con `lead` (FormSubmit desde el servidor) y `asistente`
-   (RAG estricto), islas Preact, pruebas de unidad, de reglas con documento
-   sembrado, de inyección de prompt y de humo.
+1. Fase 2: `functions/` con `lead` (FormSubmit llamado desde el servidor) y
+   `asistente` (RAG estricto), islas Preact que activen los dos formularios,
+   pruebas de unidad, de reglas con documento sembrado y de inyección de prompt.
+2. Capturas reales de la consola para la página `/consola`.
+3. Primer despliegue a un canal de vista previa de Hosting.
 
 **De Andres:**
 

@@ -1,17 +1,344 @@
 ---
-
+import Base from '../layouts/Base.astro';
+import Conversacion from '../components/Conversacion.astro';
+import Preguntas from '../components/Preguntas.astro';
+import {
+  heroe,
+  conversacionHeroe,
+  problema,
+  capacidades,
+  comparativa,
+  instalacion48,
+  compromiso,
+  ejemplosDeUso,
+  cierre,
+} from '../contenido/inicio.es';
+import { conversacionDemostracion, verticales } from '../contenido/verticales.es';
+import { precios } from '../contenido/precios.es';
+import { preguntasDestacadas } from '../contenido/faq.es';
+import { sitio } from '../contenido/sitio.es';
+import { urlConsola } from '../lib/consola';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base
+  titulo="NovuChat — Asistente de WhatsApp con IA para tu negocio en Bolivia"
+  descripcion="Atiende 24/7, agenda citas, toma pedidos y cobra por QR. Instalación en 48 horas y consola desde tu celular."
+  rutaAlterna="/en"
+  conFaq
+>
+  <!-- ── Héroe ─────────────────────────────────────────────────────────── -->
+  <section class="heroe">
+    <div class="contenedor heroe-rejilla">
+      <div>
+        <p class="tag tag-accent-2">{heroe.insignia}</p>
+        <h1>
+          {heroe.titulo}{' '}
+          <span style="color: var(--verde-texto)">{heroe.tituloDestacado}</span>.
+        </h1>
+        <p class="heroe-bajada">{heroe.bajada}</p>
+
+        <div class="heroe-acciones">
+          <a class="btn btn-cta btn-grande" href={heroe.ctaPrimario.ruta}>
+            {heroe.ctaPrimario.texto}
+          </a>
+          <a class="btn btn-secondary btn-grande" href={heroe.ctaSecundario.ruta}>
+            {heroe.ctaSecundario.texto}
+          </a>
+        </div>
+
+        <ul class="heroe-pruebas">
+          {heroe.pruebas.map((p) => <li>· {p}</li>)}
+        </ul>
+      </div>
+
+      <Conversacion turnos={conversacionHeroe} negocio="Salón Aurora" />
+    </div>
+  </section>
+
+  <!-- ── El problema ───────────────────────────────────────────────────── -->
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">{problema.titulo}</h2>
+      <p class="seccion-bajada">{problema.bajada}</p>
+
+      <div class="rejilla">
+        {
+          problema.tarjetas.map((t) => (
+            <article class="card elev-sm">
+              <h3 class="card-title">{t.titulo}</h3>
+              <p class="card-body">{t.texto}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <table class="table" style="margin-top: var(--space-10); max-width: 620px">
+        <caption class="solo-lectores">
+          Tiempo de respuesta según quién atiende
+        </caption>
+        <thead>
+          <tr><th scope="col">Quién responde</th><th scope="col">En cuánto tiempo</th></tr>
+        </thead>
+        <tbody>
+          {
+            problema.velocidad.map((v) => (
+              <tr>
+                <td>{v.quien}</td>
+                <td>{v.cuando}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+
+      <p class="texto-apagado" style="margin-top: var(--space-4); font-size: 13px">
+        Fuente: <a href={problema.fuente.url} rel="noopener nofollow">{problema.fuente.texto}</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Qué hace ──────────────────────────────────────────────────────── -->
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Qué hace por tu negocio</h2>
+      <p class="seccion-bajada">
+        No es un menú de botones: entiende lo que le escriben y actúa sobre tu
+        agenda y tu catálogo de verdad.
+      </p>
+      <div class="rejilla">
+        {
+          capacidades.map((c) => (
+            <article class="card elev-sm">
+              <h3 class="card-title">{c.titulo}</h3>
+              <p class="card-body">{c.texto}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ── IA contra botones ─────────────────────────────────────────────── -->
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">{comparativa.titulo}</h2>
+      <p class="seccion-bajada">
+        Si el cliente cambia de opinión a mitad del pedido, el asistente adapta
+        la orden, recalcula el total y manda el QR corregido.
+      </p>
+      <div class="rejilla" style="max-width: 900px">
+        {
+          comparativa.columnas.map((col, i) => (
+            <article class="card elev-sm">
+              <p class="card-kicker">{i === 0 ? 'Lo de siempre' : 'NovuChat'}</p>
+              <h3 class="card-title">{col.titulo}</h3>
+              <ul class="plan-lista">
+                {col.puntos.map((p) => (
+                  <li>{p}</li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Rubros ────────────────────────────────────────────────────────── -->
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Soluciones por rubro</h2>
+      <p class="seccion-bajada">
+        Cada rubro vende distinto. El asistente se configura para el tuyo.
+      </p>
+      <div class="rejilla">
+        {
+          verticales.map((v) => (
+            <a class="card elev-sm" href={`/soluciones/${v.id}`} style="color: inherit">
+              <img
+                class="marco"
+                src={v.foto.archivo}
+                alt={v.foto.alt}
+                width="900"
+                height="672"
+                loading="lazy"
+                style="aspect-ratio: 4 / 3; object-fit: cover"
+              />
+              <h3 class="card-title">{v.nombre}</h3>
+              <p class="card-body">{v.bajada}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Conversación de ejemplo con QR ────────────────────────────────── -->
+  <section class="seccion seccion-alterna">
+    <div class="contenedor" style="display: grid; gap: var(--space-8)">
+      <div>
+        <h2 class="seccion-titulo">Así se ve en la vida real</h2>
+        <p class="seccion-bajada">
+          Un pedido completo: variante, zona de envío, total y cobro. Todo dentro
+          de WhatsApp, sin que nadie del negocio tenga que escribir.
+        </p>
+      </div>
+      <div style="max-width: 620px">
+        <Conversacion turnos={conversacionDemostracion} negocio="Parrilla El Fogón" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Consola ───────────────────────────────────────────────────────── -->
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Tu negocio, bajo control, desde el celular</h2>
+      <p class="seccion-bajada">
+        Mira qué está haciendo tu asistente y cambia lo que necesites, sin llamar
+        a nadie.
+      </p>
+      <ul class="plan-lista" style="max-width: var(--ancho-lectura)">
+        <li>Las conversaciones, en vivo</li>
+        <li>Horarios, servicios y precios</li>
+        <li>Funcionarios, cada uno con su agenda y sus especialidades</li>
+        <li>Los cierres del mes y el consumo de tu plan</li>
+        <li>Reclamos y bitácora de todo lo que pasó</li>
+      </ul>
+      <div class="heroe-acciones">
+        <a class="btn btn-primary" href="/consola">Conocer la consola</a>
+        <a class="btn btn-ghost" href={urlConsola} rel="noopener">
+          Ya soy cliente: ingresar
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Planes ────────────────────────────────────────────────────────── -->
+  <section class="seccion seccion-alterna" id="planes">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Planes y precios</h2>
+      <p class="seccion-bajada">
+        Todo en bolivianos, sin contratos largos. El consumo de la inteligencia
+        artificial y de WhatsApp está incluido.
+      </p>
+      <div class="rejilla">
+        {
+          precios.planes.map((plan) => (
+            <article class={`plan${plan.destacado ? ' plan-destacado' : ''}`}>
+              {plan.destacado && <span class="tag tag-accent-2" style="align-self: flex-start">El más elegido</span>}
+              <h3 class="plan-nombre">{plan.nombre}</h3>
+              <p class="plan-precio">
+                {plan.precioBs} Bs <small>/ mes</small>
+              </p>
+              <p class="card-body">{plan.resumen}</p>
+              <p class="tag tag-neutral" style="align-self: flex-start">
+                {plan.conversaciones.toLocaleString('es-BO')} conversaciones al mes
+              </p>
+              <a class="btn btn-primary btn-block" href={`/demo?plan=${plan.id}`}>
+                Empezar con {plan.nombre}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+      <p style="margin-top: var(--space-6)">
+        <a class="btn btn-ghost" href="/precios">Ver qué incluye cada plan</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Instalación ───────────────────────────────────────────────────── -->
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">{instalacion48.titulo}</h2>
+      <p class="seccion-bajada">{instalacion48.bajada}</p>
+      <ol class="rejilla" style="list-style: none; padding: 0">
+        {
+          instalacion48.pasos.map((paso, i) => (
+            <li class="card elev-sm">
+              <p class="card-kicker">Paso {i + 1}</p>
+              <h3 class="card-title">{paso.titulo}</h3>
+              <p class="card-body">{paso.texto}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ── Ejemplos de aplicación y uso ──────────────────────────────────── -->
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Ejemplos de aplicación y uso</h2>
+      <p class="seccion-bajada">
+        Situaciones típicas de cada rubro, redactadas por nosotros para mostrar
+        qué cambia en el día a día. No son testimonios de clientes.
+      </p>
+      <div class="rejilla">
+        {
+          ejemplosDeUso.map((e) => (
+            <article class="card elev-sm">
+              <img
+                class="marco"
+                src={e.foto.archivo}
+                alt={e.foto.alt}
+                width="900"
+                height="672"
+                loading="lazy"
+                style="aspect-ratio: 4 / 3; object-fit: cover"
+              />
+              <span class="tag tag-accent-2" style="align-self: flex-start">
+                {e.rubro}
+              </span>
+              <p class="card-body">{e.frase}</p>
+            </article>
+          ))
+        }
+      </div>
+      <p class="texto-apagado" style="margin-top: var(--space-4); font-size: 13px">
+        Ejemplos ilustrativos. Las imágenes son referenciales y no corresponden a
+        clientes reales.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Compromiso ────────────────────────────────────────────────────── -->
+  <section class="seccion banda">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">{compromiso.titulo}</h2>
+      <ul class="plan-lista" style="max-width: var(--ancho-lectura)">
+        {compromiso.puntos.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── Preguntas ─────────────────────────────────────────────────────── -->
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Preguntas frecuentes</h2>
+      <Preguntas preguntas={preguntasDestacadas} />
+      <p style="margin-top: var(--space-6)">
+        <a class="btn btn-ghost" href="/preguntas-frecuentes">Ver todas</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Cierre ────────────────────────────────────────────────────────── -->
+  <section class="seccion banda">
+    <div class="contenedor" style="text-align: center">
+      <h2 class="seccion-titulo" style="margin-inline: auto">{cierre.titulo}</h2>
+      <p class="seccion-bajada" style="margin-inline: auto">{cierre.bajada}</p>
+      <div class="heroe-acciones" style="justify-content: center">
+        <a class="btn btn-cta btn-grande" href="/demo">Pedir una demostración</a>
+        <a
+          class="btn btn-secondary btn-grande"
+          href={`https://wa.me/${sitio.contacto.whatsappEnlace}`}
+          rel="noopener"
+          style="color: var(--banda-texto)"
+        >
+          Escribir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

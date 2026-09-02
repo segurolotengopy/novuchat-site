@@ -1,0 +1,148 @@
+---
+import Base from '../layouts/Base.astro';
+import { instalacion48 } from '../contenido/inicio.es';
+
+const flujo = [
+  { titulo: 'WhatsApp', texto: 'Tu cliente escribe a tu número de siempre, desde la aplicación que ya usa.' },
+  { titulo: 'Entiende', texto: 'El asistente lee el mensaje completo, con su contexto, aunque tenga errores de tipeo.' },
+  { titulo: 'Consulta', texto: 'Mira tu agenda o tu catálogo de verdad, no una copia desactualizada.' },
+  { titulo: 'Responde', texto: 'Contesta con datos reales: horarios libres, precios, tiempos de entrega.' },
+  { titulo: 'Te avisa', texto: 'La cita queda en tu calendario y el pedido llega a tu equipo.' },
+];
+
+const detalles = [
+  {
+    titulo: 'Memoria por cliente',
+    texto:
+      'Cada número tiene su propia conversación. El asistente recuerda lo que hablaron antes y no vuelve a preguntar lo mismo.',
+  },
+  {
+    titulo: 'Agenda de verdad',
+    texto:
+      'Consulta la disponibilidad en tu Google Calendar y crea la cita. Si el horario está ocupado ofrece alternativas, y nunca confirma un turno que no existe: verifica que el evento se haya creado antes de decirte que sí.',
+  },
+  {
+    titulo: 'Pedidos y cobros',
+    texto:
+      'Variantes, notas, envío por zona, total calculado y el QR de tu banco. El cliente manda el comprobante y el negocio lo valida. El dinero va directo a tu cuenta: nunca pasa por nosotros.',
+  },
+  {
+    titulo: 'Recordatorios',
+    texto:
+      'Se envían 24 horas antes por una plantilla aprobada por Meta, con marca anti-duplicado para que nadie reciba dos.',
+  },
+  {
+    titulo: 'Derivación a una persona',
+    texto:
+      'Después de tres intentos fallidos, o apenas el cliente lo pide, la conversación pasa a tu equipo y el asistente se calla.',
+  },
+];
+---
+
+<Base
+  titulo="Cómo funciona NovuChat"
+  descripcion="Qué pasa cuando un cliente te escribe por WhatsApp: entiende, consulta tu agenda, responde y te avisa. Sin programar nada."
+  migajas={[
+    { nombre: 'Inicio', ruta: '/' },
+    { nombre: 'Cómo funciona', ruta: '/como-funciona' },
+  ]}
+>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>Qué pasa cuando un cliente te escribe</h1>
+      <p class="seccion-bajada" style="font-size: 18px">
+        Cinco pasos que ocurren en menos de un minuto, a cualquier hora, sin que
+        nadie de tu equipo tenga que estar mirando el celular.
+      </p>
+
+      <ol class="rejilla" style="list-style: none; padding: 0">
+        {
+          flujo.map((paso, i) => (
+            <li class="card elev-sm">
+              <p class="card-kicker">{i + 1}</p>
+              <h2 class="card-title">{paso.titulo}</h2>
+              <p class="card-body">{paso.texto}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Los detalles que importan</h2>
+      <div class="rejilla">
+        {
+          detalles.map((d) => (
+            <article class="card elev-sm">
+              <h3 class="card-title">{d.titulo}</h3>
+              <p class="card-body">{d.texto}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">{instalacion48.titulo}</h2>
+      <p class="seccion-bajada">{instalacion48.bajada}</p>
+      <ol class="rejilla" style="list-style: none; padding: 0">
+        {
+          instalacion48.pasos.map((paso, i) => (
+            <li class="card elev-sm">
+              <p class="card-kicker">Paso {i + 1}</p>
+              <h3 class="card-title">{paso.titulo}</h3>
+              <p class="card-body">{paso.texto}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="seccion seccion-alterna">
+    <div class="contenedor" style="display: grid; gap: var(--space-8)">
+      <div>
+        <h2 class="seccion-titulo">Qué necesitamos de ti</h2>
+        <ul class="plan-lista" style="max-width: var(--ancho-lectura)">
+          <li>Tu número de WhatsApp, o te damos uno de nuestra cuenta verificada</li>
+          <li>La lista de tus servicios o productos con sus precios</li>
+          <li>Tus horarios de atención</li>
+          <li>Tu calendario de Google, si agendas citas</li>
+          <li>El tono con el que quieres que hable el asistente</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="seccion-titulo">Qué no hacemos</h2>
+        <ul class="plan-lista" style="max-width: var(--ancho-lectura)">
+          <li>
+            No usamos WhatsApp por dispositivos vinculados ni por conexiones no
+            oficiales. Meta bloquea esos números, y perder tu número es perder tu
+            negocio.
+          </li>
+          <li>
+            No hacemos que el asistente se haga pasar por una persona. Si le
+            preguntan, dice que es una inteligencia artificial.
+          </li>
+          <li>
+            No prometemos funciones que todavía no construimos. Lo que está en
+            camino va rotulado como «Próximamente».
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion banda">
+    <div class="contenedor" style="text-align: center">
+      <h2 class="seccion-titulo" style="margin-inline: auto">
+        ¿Lo vemos con los datos de tu negocio?
+      </h2>
+      <a class="btn btn-cta btn-grande" href="/demo">Pedir una demostración</a>
+    </div>
+  </section>
+</Base>

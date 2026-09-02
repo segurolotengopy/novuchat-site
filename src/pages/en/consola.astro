@@ -1,0 +1,62 @@
+---
+import Base from '../../layouts/Base.astro';
+import { urlConsola } from '../../lib/consola';
+
+const pantallas = [
+  { titulo: 'Conversations', texto: 'Everything your customers wrote and how the assistant replied, live.' },
+  { titulo: 'Configuration', texto: 'Hours, services, prices and the assistant tone. Change something and it applies at once.' },
+  { titulo: 'Staff', texto: 'Each professional with their own calendar, specialties and working hours.' },
+  { titulo: 'Closes', texto: 'How many appointments and orders were confirmed, and how much of your plan you have used.' },
+  { titulo: 'Contacts', texto: 'Who wrote to you, when, and what they bought.' },
+  { titulo: 'Claims and audit log', texto: 'Registered claims and the history of every change, with who made it.' },
+];
+---
+
+<Base
+  titulo="The NovuChat console"
+  descripcion="Read conversations, configure hours and prices and run your assistant from your phone."
+  rutaAlterna="/consola"
+>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>Your business, under control, from your phone</h1>
+      <p class="seccion-bajada" style="font-size: 18px">
+        The console is built to be used one-handed, on a phone, between customers.
+        Everything the assistant does is recorded, and anything you want to change
+        is changed without calling anyone.
+      </p>
+      <div class="heroe-acciones">
+        <a class="btn btn-primary btn-grande" href={urlConsola} rel="noopener">Sign in</a>
+        <a class="btn btn-secondary btn-grande" href="/demo">Request a demo</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">What you see inside</h2>
+      <div class="rejilla">
+        {
+          pantallas.map((p) => (
+            <article class="card elev-sm">
+              <h3 class="card-title">{p.titulo}</h3>
+              <p class="card-body">{p.texto}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Security, without the jargon</h2>
+      <ul class="plan-lista" style="max-width: var(--ancho-lectura)">
+        <li>Each business sees only its own data. The rules that guarantee it are tested automatically on every change.</li>
+        <li>NovuChat staff sign in only with a Google account and a second factor, and every action lands in your audit log.</li>
+        <li>If a payment is late you still see your data and the reason. Your customers get a neutral message and never find out.</li>
+        <li>Your data travels encrypted and is stored encrypted on Google Cloud.</li>
+      </ul>
+    </div>
+  </section>
+</Base>

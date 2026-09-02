@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import { compromiso } from '../contenido/inicio.es';
+import { sitio } from '../contenido/sitio.es';
+---
+
+<Base
+  titulo="Nosotros | NovuChat"
+  descripcion="Quiénes construimos NovuChat, por qué en Bolivia y qué nos comprometemos a no hacer."
+  migajas={[
+    { nombre: 'Inicio', ruta: '/' },
+    { nombre: 'Nosotros', ruta: '/nosotros' },
+  ]}
+>
+  <section class="seccion">
+    <div class="contenedor" style="max-width: var(--ancho-lectura)">
+      <h1>Somos de acá</h1>
+      <p style="font-size: 18px">
+        NovuChat nació en La Paz, resolviendo un problema que vimos de cerca:
+        negocios buenos perdiendo ventas por no llegar a responder. No por falta
+        de ganas, sino porque nadie puede estar en el mostrador y en el celular al
+        mismo tiempo.
+      </p>
+      <p>
+        Construimos asistentes que atienden por WhatsApp con inteligencia
+        artificial de verdad, conectados a la agenda y al catálogo del negocio.
+        No vendemos un chatbot de botones con otro nombre.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Por qué en Bolivia</h2>
+      <div class="rejilla">
+        <article class="card elev-sm">
+          <h3 class="card-title">Acá se vende por WhatsApp</h3>
+          <p class="card-body">
+            No es un canal más: para la mayoría de los negocios pequeños es
+            <em>el</em> canal. Todo lo que construimos parte de ahí.
+          </p>
+        </article>
+        <article class="card elev-sm">
+          <h3 class="card-title">Precios en bolivianos</h3>
+          <p class="card-body">
+            Sin tarifas en dólares que suben solas, sin planes pensados para
+            empresas de otro tamaño y otra moneda.
+          </p>
+        </article>
+        <article class="card elev-sm">
+          <h3 class="card-title">Soporte en tu horario</h3>
+          <p class="card-body">
+            Cuando algo falla, contesta alguien que está en tu zona horaria y
+            entiende cómo trabaja tu negocio.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion banda">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">{compromiso.titulo}</h2>
+      <ul class="plan-lista" style="max-width: var(--ancho-lectura)">
+        {compromiso.puntos.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor" style="text-align: center">
+      <h2 class="seccion-titulo" style="margin-inline: auto">¿Conversamos?</h2>
+      <div class="heroe-acciones" style="justify-content: center">
+        <a class="btn btn-cta btn-grande" href="/demo">Pedir una demostración</a>
+        <a class="btn btn-secondary btn-grande" href={`mailto:${sitio.contacto.correo}`}>
+          {sitio.contacto.correo}
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

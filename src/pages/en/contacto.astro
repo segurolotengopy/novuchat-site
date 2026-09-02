@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import { sitio } from '../../contenido/sitio.es';
+---
+
+<Base
+  titulo="Contact | NovuChat"
+  descripcion="Write to us on WhatsApp or by email. We are in La Paz, Bolivia, and reply the same day."
+  rutaAlterna="/contacto"
+>
+  <section class="seccion">
+    <div class="contenedor" style="max-width: var(--ancho-lectura)">
+      <h1>Let's talk</h1>
+      <p style="font-size: 18px">
+        For a quick question, WhatsApp is the fastest way. If you would rather
+        write at length, email reaches the same place.
+      </p>
+
+      <div class="heroe-acciones">
+        <a
+          class="btn btn-cta btn-grande"
+          href={`https://wa.me/${sitio.contacto.whatsappEnlace}`}
+          rel="noopener"
+        >
+          WhatsApp {sitio.contacto.whatsapp}
+        </a>
+        <a class="btn btn-secondary btn-grande" href={`mailto:${sitio.contacto.correo}`}>
+          {sitio.contacto.correo}
+        </a>
+      </div>
+
+      <p class="texto-apagado" style="margin-top: var(--space-8)">
+        {sitio.contacto.ciudad}, {sitio.contacto.pais}
+      </p>
+
+      <p>
+        Prefer a walkthrough? <a href="/demo">Request a demo</a> and we will show
+        the assistant running with your own services and prices.
+      </p>
+    </div>
+  </section>
+</Base>
