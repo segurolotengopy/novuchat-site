@@ -80,6 +80,25 @@ export function construirCorpus(): Fragmento[] {
       .join(' '),
   });
 
+  // — Resumen de precios —
+  // Existe porque la calibración lo pidió: «¿cuánto cuesta?», que es la
+  // pregunta más frecuente de un sitio comercial, no recuperaba ningún plan.
+  // Los fragmentos por plan responden «qué incluye el plan X», no «cuánto
+  // cuesta esto». Son preguntas distintas y necesitan material distinto.
+  fragmentos.push({
+    id: 'precios-resumen',
+    titulo: 'Cuánto cuesta NovuChat',
+    url: '/precios',
+    texto:
+      `¿Cuánto cuesta NovuChat? Hay tres planes mensuales en bolivianos: ` +
+      precios.planes
+        .map((p) => `${p.nombre} a ${bs(p.precioBs)} al mes con ${p.conversaciones.toLocaleString('es-BO')} conversaciones`)
+        .join(', ') +
+      `. El más económico es ${precios.planes[0]!.nombre}, desde ${bs(precios.planes[0]!.precioBs)} al mes. ` +
+      `Aparte se paga una única instalación de ${bs(precios.instalacion.estandar)}. ` +
+      `El precio incluye el consumo de la inteligencia artificial y las conversaciones de WhatsApp.`,
+  });
+
   // — Planes, uno por plan para que la recuperación sea precisa —
   for (const plan of precios.planes) {
     fragmentos.push({

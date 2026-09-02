@@ -52,7 +52,8 @@ contradicción, **manda esta lista**.
 | **Identidad** | **Ninguna referencia a AAB1** en el sitio ni en el RAG. NovuChat factura como comercio con NIT propio, en trámite | docs 02 §9, 04 §5, 05 §0 y §7 |
 | **Analítica** | **GA4 + píxel de Meta**, ambos detrás de un banner de consentimiento y declarados en `/privacidad` | doc 06 D5 (decía «ninguna») |
 | **Correo de leads** | **FormSubmit**, llamado **desde la Function `lead`**, nunca desde el navegador. Resend queda para después | doc 06 D4 |
-| **Asistente** | **RAG estricto**: umbral de similitud, y si no se alcanza no se llama al modelo | doc 03 §5.1 punto 4 |
+| **Asistente** | **RAG estricto**: umbral **medido** en 0,64, y si no se alcanza no se llama al modelo | doc 03 §5.1 punto 4 |
+| **Proveedor de IA** | **Vertex AI** con la cuenta de servicio, sin clave de API. La API de AI Studio usa créditos de prepago que se agotan aparte | doc 03 §2 |
 | **Unidad comercial** | **«Conversaciones»** = todos los mensajes con un cliente en 24 h continuas. Definida en `/precios` y en `/terminos` | doc 02 §5 |
 | **Planes** | Impulso 250 / Crecimiento 450 / Pro 850 Bs. Instalación 800 Bs (a medida desde 1.500). Excedente 50 Bs por 150 conversaciones | doc 02 §5 |
 | **Generador** | **Astro 7**, no 5 | doc 03 §2 |
@@ -123,7 +124,13 @@ pnpm humo                # Playwright contra emuladores
 pnpm build && pnpm csp   # sirve dist/ con las cabeceras REALES de firebase.json → 0 "Refused to"
 pnpm verificar           # lint + typecheck + pruebas + prohibiciones + build + humo
 pnpm listo               # compuerta de producción: falla si queda un dato sin confirmar
+pnpm rag:indexar         # regenera el índice del asistente desde el contenido del sitio
+pnpm rag:calibrar        # mide la recuperación y el umbral contra el índice real
 ```
+
+- **Si cambia el contenido del sitio hay que reindexar** (`pnpm rag:indexar`) y
+  volver a calibrar: el corpus del asistente se deriva de `src/contenido/`, y un
+  índice viejo hace que el asistente cite precios que la página ya no muestra.
 
 - `pnpm verificar` **no** bloquea por datos pendientes: para eso está `pnpm listo`,
   que lee `src/contenido/pendientes.ts` y falla si queda alguno. Así se puede

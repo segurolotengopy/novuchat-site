@@ -34,8 +34,10 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | Asistente del sitio | isla Preact `Asistente`, con RAG estricto en el servidor |
 | Function `lead` | validación, trampa de robots, límite de tasa, deduplicación, Firestore y aviso por FormSubmit **desde el servidor** |
 | Function `asistente` | límite de tasa, filtro de términos, recuperación con umbral, verificación de la respuesta |
-| Índice del RAG | **pendiente**: necesita `GEMINI_API_KEY` para generarse |
-| Secretos en Secret Manager | **pendientes**: `GEMINI_API_KEY`, `FORMSUBMIT_ALIAS`, `SAL_HASH` |
+| Índice del RAG | ✔ generado: 34 fragmentos, 563 KB, con Vertex AI |
+| Umbral del RAG | ✔ **medido** en 0,64 (`pnpm rag:calibrar`), no elegido a ojo |
+| Proveedor de IA | **Vertex AI** con la cuenta de servicio: sin clave de API |
+| Secretos en Secret Manager | `SAL_HASH` ✔ · `FORMSUBMIT_ALIAS` **pendiente** · `GEMINI_API_KEY` ya no se usa |
 
 ---
 
@@ -54,6 +56,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | 2026-09-02 | Planes 250 / 450 / 850 Bs, setup 800 Bs, a medida desde 1.500 Bs, excedentes 50 Bs × 150 | Confirmados contra el diseño y `Presentación NovuChat2.html` |
 | 2026-09-02 | `staging` y `production` en el **mismo** proyecto Firebase | Staging es un canal de vista previa de Hosting; no hay presupuesto para dos proyectos |
 | 2026-09-02 | Ninguna dependencia ejecuta scripts de instalación (`allowBuilds: false`) | Riesgo S-9: los `postinstall` de terceros son superficie de cadena de suministro |
+| 2026-09-02 | **Vertex AI en vez de la API de AI Studio** | La API de AI Studio se paga con créditos de prepago que se agotan aparte; Vertex cobra a la cuenta de facturación del proyecto, que ya tiene presupuesto y alertas. Y no necesita clave: se autentica con la cuenta de servicio. Un secreto que no existe no se filtra |
 
 ---
 
@@ -63,6 +66,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 |---|---|
 | `pnpm verificar` | verde: lint, typecheck, pruebas, prohibiciones, build y humo |
 | `pnpm humo` | **66 pruebas en verde** (móvil y escritorio) |
+| `pnpm rag:calibrar` | recuperación **100 %** entre los cuatro primeros (28 preguntas); las preguntas ajenas al negocio quedan por debajo del umbral con 0,017 de margen |
 | `pnpm pruebas` | **61 pruebas de unidad**: saneo, verificación del RAG, corpus, inyección de prompt y aviso de leads |
 | `pnpm test:rules` | **28 pruebas de reglas** contra el emulador, cada una con documento sembrado |
 | Lighthouse móvil `/` | rendimiento 100 · accesibilidad 100 · buenas prácticas 100 · SEO 100 |
@@ -133,7 +137,22 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     ignora mientras el movimiento está en vuelo.
 15. **`functions/` se instala con `--ignore-workspace`.** Firebase empaqueta ese
     directorio por su cuenta y no puede depender de enlaces al espacio de
-    trabajo de la raíz.
+    trabajo de la raíz. Consecuencia que costó un intento: un script de la raíz
+    **no puede importar** las dependencias de `functions/`.
+16. **La API de Gemini de AI Studio se paga con créditos de prepago.** Devuelve
+    un 429 idéntico al de un límite de tasa —«prepayment credits are
+    depleted»— así que el reintento con espera creciente no sirve de nada: no
+    es un límite temporal. Vertex AI, sobre el mismo proyecto, cobra a la
+    cuenta de facturación normal y no necesita clave.
+17. **La calibración del RAG cambió el contenido, no solo el umbral.** «¿Cuánto
+    cuesta?» —la pregunta más frecuente de un sitio comercial— no recuperaba
+    ningún plan: los fragmentos por plan responden «qué incluye el plan X», que
+    es otra pregunta. Hizo falta un fragmento de resumen de precios. La
+    recuperación pasó de 71 % a 100 % entre los cuatro primeros.
+18. **La política de cadena de suministro de pnpm bloqueó `@google/genai`** por
+    haberse publicado horas antes del cutoff de `minimumReleaseAge`. Al final
+    se quitó la dependencia, pero conviene saber que ese control existe y que
+    frena instalaciones de paquetes recién publicados.
 
 ---
 
@@ -155,12 +174,9 @@ abierta en el 5245 y el proceso se cerró, el navegador da un error de conexión
 
 **De Claude Code:**
 
-1. Generar el índice del RAG en cuanto exista `GEMINI_API_KEY`, y calibrar el
-   umbral de similitud con un conjunto dorado de preguntas reales. Hoy el
-   umbral (0,62) es un valor de partida razonable, **no medido**.
+1. Pruebas de humo del formulario y del asistente contra los emuladores.
 2. Capturas reales de la consola para la página `/consola`.
 3. Primer despliegue a un canal de vista previa de Hosting.
-4. Pruebas de humo del formulario y del asistente contra los emuladores.
 
 **De Andres:**
 

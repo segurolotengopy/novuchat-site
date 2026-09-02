@@ -4,15 +4,17 @@
   "private": true,
   "type": "module",
   "main": "lib/index.js",
-  "engines": { "node": "22" },
+  "engines": {
+    "node": "22"
+  },
   "scripts": {
     "build": "tsc",
     "serve": "pnpm build && firebase emulators:start --only functions,firestore"
   },
   "dependencies": {
-    "@google/genai": "^2.21.0",
     "firebase-admin": "^14.3.0",
     "firebase-functions": "^7.3.2",
+    "google-auth-library": "^11.0.2",
     "zod": "^4.5.4"
   },
   "devDependencies": {

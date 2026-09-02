@@ -19,12 +19,22 @@ import type {
  * Umbral de similitud. Por debajo de esto **no se llama al modelo**: se
  * responde que no se sabe.
  *
- * Es el parámetro que define lo «estricto» del RAG, y está calibrado con el
- * conjunto dorado de `pruebas/unidad/rag.test.ts`. Bajarlo hace que el asistente
- * conteste preguntas que no entiende; subirlo lo vuelve inútil. No lo cambie
- * sin volver a correr esas pruebas.
+ * MEDIDO, no elegido a ojo. `pnpm rag:calibrar` corrió 28 preguntas escritas
+ * como las escribe un visitante y 10 preguntas ajenas al negocio, contra el
+ * índice real (2026-09-02, 34 fragmentos):
+ *
+ *   preguntas DEL corpus  : min 0,657 · media 0,748 · max 0,829
+ *   preguntas AJENAS      : min 0,507 · media 0,591 · max 0,627
+ *   recuperación          : 100 % entre los cuatro primeros, 71 % en el primero
+ *
+ * Los dos grupos no se solapan, y 0,64 cae en medio con 0,017 de margen a cada
+ * lado. Bajarlo hace que el asistente conteste preguntas que no entiende;
+ * subirlo lo vuelve inútil.
+ *
+ * **Hay que volver a calibrar cuando cambie el contenido del sitio**, porque
+ * cambian los fragmentos y con ellos las distancias.
  */
-export const UMBRAL = 0.62;
+export const UMBRAL = 0.64;
 
 /** Coseno entre dos vectores. */
 export function similitudCoseno(a: readonly number[], b: readonly number[]): number {
