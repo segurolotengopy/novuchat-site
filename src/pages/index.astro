@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Conversacion from '../components/Conversacion.astro';
 import Preguntas from '../components/Preguntas.astro';
+import CarruselEjemplos from '../components/CarruselEjemplos.astro';
 import {
   heroe,
   conversacionHeroe,
@@ -274,27 +275,7 @@ import { urlConsola } from '../lib/consola';
         Situaciones típicas de cada rubro, redactadas por nosotros para mostrar
         qué cambia en el día a día. No son testimonios de clientes.
       </p>
-      <div class="rejilla">
-        {
-          ejemplosDeUso.map((e) => (
-            <article class="card elev-sm">
-              <img
-                class="marco"
-                src={e.foto.archivo}
-                alt={e.foto.alt}
-                width="900"
-                height="672"
-                loading="lazy"
-                style="aspect-ratio: 4 / 3; object-fit: cover"
-              />
-              <span class="tag tag-accent-2" style="align-self: flex-start">
-                {e.rubro}
-              </span>
-              <p class="card-body">{e.frase}</p>
-            </article>
-          ))
-        }
-      </div>
+      <CarruselEjemplos ejemplos={ejemplosDeUso} />
       <p class="texto-apagado" style="margin-top: var(--space-4); font-size: 13px">
         Ejemplos ilustrativos. Las imágenes son referenciales y no corresponden a
         clientes reales.

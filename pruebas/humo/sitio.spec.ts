@@ -114,6 +114,51 @@ test('el QR de demostración lleva su rótulo, y no se esconde', async ({ page }
   await expect(rotulo).toHaveCSS('opacity', '1');
 });
 
+test('el carrusel de ejemplos avanza, retrocede y da la vuelta', async ({ page }) => {
+  await page.goto('/');
+  const carrusel = page.locator('[data-carrusel]');
+  const pista = carrusel.locator('[data-carrusel-pista]');
+  const puntos = carrusel.locator('[data-carrusel-ir]');
+
+  await expect(puntos).toHaveCount(4);
+  await carrusel.scrollIntoViewIfNeeded();
+
+  const posicion = () => pista.evaluate((el) => Math.round(el.scrollLeft));
+  const activo = () =>
+    puntos.evaluateAll((els) => els.findIndex((e) => e.getAttribute('aria-current') === 'true'));
+
+  expect(await posicion()).toBe(0);
+
+  await carrusel.locator('[data-carrusel-siguiente]').click();
+  await expect.poll(posicion).toBeGreaterThan(0);
+  expect(await activo()).toBe(1);
+
+  // Ir directo a la última con su punto, y comprobar que la vuelta funciona.
+  await carrusel.locator('[data-carrusel-ir="3"]').click();
+  await expect.poll(activo).toBe(3);
+
+  await carrusel.locator('[data-carrusel-siguiente]').click();
+  await expect.poll(posicion).toBe(0);
+  expect(await activo()).toBe(0);
+});
+
+test('el carrusel se puede recorrer con el teclado', async ({ page }) => {
+  await page.goto('/');
+  const carrusel = page.locator('[data-carrusel]');
+  await carrusel.scrollIntoViewIfNeeded();
+
+  // La pista es enfocable, así que el teclado puede desplazarla.
+  await carrusel.locator('[data-carrusel-pista]').focus();
+  await expect(carrusel.locator('[data-carrusel-pista]')).toBeFocused();
+
+  // Y las flechas son botones reales, alcanzables con Tab.
+  await carrusel.locator('[data-carrusel-siguiente]').focus();
+  await page.keyboard.press('Enter');
+  await expect
+    .poll(() => carrusel.locator('[data-carrusel-pista]').evaluate((el) => el.scrollLeft))
+    .toBeGreaterThan(0);
+});
+
 for (const ruta of ['/', '/precios', '/demo', '/preguntas-frecuentes']) {
   for (const tema of ['claro', 'oscuro'] as const) {
     test(`axe sin fallos críticos en ${ruta} (tema ${tema})`, async ({ page }) => {
