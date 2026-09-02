@@ -57,7 +57,7 @@ categorías de Lighthouse móvil. Falta el backend (Fase 2) y desplegar.
 | Control | Resultado |
 |---|---|
 | `pnpm verificar` | verde: lint, typecheck, pruebas, prohibiciones, build y humo |
-| `pnpm humo` | **64 pruebas en verde** (móvil y escritorio) |
+| `pnpm humo` | **66 pruebas en verde** (móvil y escritorio) |
 | Lighthouse móvil `/` | rendimiento 100 · accesibilidad 100 · buenas prácticas 100 · SEO 100 |
 | Lighthouse móvil `/precios` y `/demo` | 100 / 100 / 100 / 100 |
 | `axe` (wcag2a/aa, wcag21a/aa) | sin fallos graves ni críticos, en tema claro y oscuro |
@@ -116,6 +116,20 @@ categorías de Lighthouse móvil. Falta el backend (Fase 2) y desplegar.
     formado.** Las diapositivas son `div`. Lo detectó Lighthouse.
 
 ---
+
+## 3bis. Cómo mirar el sitio
+
+Hay **dos servidores** y sirven para cosas distintas. Confundirlos es la causa
+más probable de un «el preview da errores»:
+
+| Comando | Dirección | Para qué |
+|---|---|---|
+| `pnpm dev` | `http://localhost:4321` | Ver contenido y diseño, con recarga en caliente. **No aplica las cabeceras de seguridad**, así que aquí una violación de la CSP no se ve |
+| `pnpm build && pnpm csp` | `http://127.0.0.1:5245` | Ver el sitio compilado con las cabeceras **reales** de `firebase.json`. Es el único que sirve para verificar la CSP |
+
+El segundo solo existe mientras el comando está corriendo: si la ventana quedó
+abierta en el 5245 y el proceso se cerró, el navegador da un error de conexión.
+`.claude/launch.json` deja el primero listo para arrancar desde el editor.
 
 ## 4. Próximos pasos
 

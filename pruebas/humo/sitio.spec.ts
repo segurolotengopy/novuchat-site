@@ -114,6 +114,25 @@ test('el QR de demostración lleva su rótulo, y no se esconde', async ({ page }
   await expect(rotulo).toHaveCSS('opacity', '1');
 });
 
+test('el conmutador de rubro cambia de rubro y marca el actual', async ({ page }) => {
+  await page.goto('/soluciones/gastronomia');
+
+  const conmutador = page.getByRole('navigation', { name: 'Elegir rubro' });
+  await expect(conmutador.getByRole('link')).toHaveCount(3);
+  await expect(conmutador.getByRole('link', { name: 'Gastronomía' })).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
+
+  await conmutador.getByRole('link', { name: 'Salud y Belleza' }).click();
+  await expect(page).toHaveURL(/\/soluciones\/salud-belleza$/);
+  await expect(page.locator('h1')).toContainText('salones y consultorios');
+  await expect(conmutador.getByRole('link', { name: 'Salud y Belleza' })).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
+});
+
 test('el carrusel de ejemplos avanza, retrocede y da la vuelta', async ({ page }) => {
   await page.goto('/');
   const carrusel = page.locator('[data-carrusel]');
