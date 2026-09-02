@@ -1,0 +1,43 @@
+---
+import { verticales } from '../contenido/verticales.es';
+
+interface Props {
+  /** Rubro que se está mostrando. */
+  actual: (typeof verticales)[number]['id'];
+}
+
+const { actual } = Astro.props;
+
+/**
+ * Conmutador de rubro, como en el prototipo: un control segmentado que cambia
+ * entre Salud y Belleza, Gastronomía y Comercio.
+ *
+ * DIFERENCIA DELIBERADA con el prototipo: cada opción es un **enlace a su
+ * propia página**, no un cambio de estado en la misma. El prototipo era una
+ * sola pantalla y podía permitírselo; un sitio real no, por tres razones:
+ *
+ *  1. Cada rubro necesita su propio `<title>`, su descripción y su URL para
+ *     posicionarse en Google (doc 05 §10). Con un conmutador en cliente los
+ *     tres rubros comparten una sola dirección y compiten entre sí.
+ *  2. Un enlace se puede compartir por WhatsApp, que es exactamente como este
+ *     negocio manda su material.
+ *  3. Funciona sin JavaScript.
+ *
+ * Para quien lo usa, la sensación es la misma: se pulsa el rubro y el contenido
+ * cambia. Las páginas son estáticas y pesan poco, así que el salto es inmediato.
+ */
+---
+
+<nav class="seg" aria-label="Elegir rubro">
+  {
+    verticales.map((v) => (
+      <a
+        class="seg-opt"
+        href={`/soluciones/${v.id}`}
+        aria-current={v.id === actual ? 'page' : undefined}
+      >
+        {v.nombre}
+      </a>
+    ))
+  }
+</nav>
