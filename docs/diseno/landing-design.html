@@ -1,0 +1,1594 @@
+<!--
+  EXPORTACIÓN DEL ARTEFACTO DE CLAUDE DESIGN "Novuchat Responsive landing page design"
+  https://claude.ai/code/artifact/0dc499f8-c9b4-459e-9847-d224862e69ae  (versión 2026-09-02, reemplaza a f47e3ccb)
+  Es la REFERENCIA VISUAL y de contenido para Claude Code. No es código de producción:
+  usa la sintaxis de plantillas del prototipo ({{ }}, sc-if, sc-for, x-dc, image-slot) y trae
+  gtag/fbq y testimonios ilustrativos que NO deben pasar a producción como reales (ver docs/09).
+  Fotos de referencia (generadas, ilustrativas) en ./fotos/; QR de demostración en ./qr-demostracion.png.
+-->
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- runtime de Claude Design (omitido) -->
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>NovuChat — Asistente de WhatsApp con IA para tu negocio en Bolivia</title>
+<meta name="description" content="Atiende 24/7 por WhatsApp con IA generativa: responde, agenda citas, toma pedidos y cobra por QR. Canal oficial de Meta. Planes desde 250 Bs al mes.">
+<meta name="keywords" content="asistente WhatsApp IA, chatbot IA Bolivia, WhatsApp Business API, agendamiento automático, NovuChat">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="NovuChat — El primer empleado de tu negocio que nunca duerme">
+<meta property="og:description" content="IA generativa conectada a la API oficial de WhatsApp: agenda, toma pedidos y cobra por QR.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_BO">
+<style>/* Organic — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
+/* latin-ext */
+@font-face {
+  font-family: 'Caprasimo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fuentes/archivo-latin-ext.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Caprasimo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fuentes/archivo-latin.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fuentes/archivo-latin-ext.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fuentes/archivo-latin.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fuentes/archivo-latin-ext.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fuentes/archivo-latin.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fuentes/archivo-latin-ext.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fuentes/archivo-latin.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+:root {
+  --color-bg: #f5ead8;
+  --color-surface: #ebddc5;
+  --color-text: #201e1d;
+  --color-accent: #c67139;
+  --color-accent-2: #7a8a5e;
+  --color-divider: color-mix(in srgb, #201e1d 16%, transparent);
+
+  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
+     same step of any role matches the others in visual value. */
+  --color-neutral-100: #f9f4ed;
+  --color-neutral-200: #eee7db;
+  --color-neutral-300: #dcd3c4;
+  --color-neutral-400: #c0b6a5;
+  --color-neutral-500: #a19786;
+  --color-neutral-600: #82796a;
+  --color-neutral-700: #645c50;
+  --color-neutral-800: #474238;
+  --color-neutral-900: #2e2b25;
+
+  --color-accent-100: #fff2eb;
+  --color-accent-200: #ffe1d0;
+  --color-accent-300: #ffc6a5;
+  --color-accent-400: #f6a06b;
+  --color-accent-500: #d67f48;
+  --color-accent-600: #b2622d;
+  --color-accent-700: #8c491a;
+  --color-accent-800: #643312;
+  --color-accent-900: #402310;
+
+  --color-accent-2-100: #f0fae1;
+  --color-accent-2-200: #e1eecc;
+  --color-accent-2-300: #ccdbb2;
+  --color-accent-2-400: #aebf92;
+  --color-accent-2-500: #8fa073;
+  --color-accent-2-600: #728157;
+  --color-accent-2-700: #56633f;
+  --color-accent-2-800: #3d472b;
+  --color-accent-2-900: #272e1b;
+
+  --font-heading: "Caprasimo", system-ui, sans-serif;
+  --font-heading-weight: 400;
+  --font-body: "Figtree", system-ui, sans-serif;
+
+  --space-1: 4.4px;
+  --space-2: 8.8px;
+  --space-3: 13.2px;
+  --space-4: 17.6px;
+  --space-6: 26.4px;
+  --space-8: 35.2px;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+
+  /* Elevation — derived from the ground: soft ink-tinted shadows on a
+     light theme, a hairline edge + ambient darkness on a dark one. */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2e2b25 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2e2b25 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2e2b25 22%, transparent);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: var(--font-heading-weight); }
+
+.washed{filter:saturate(0.6) contrast(0.85) brightness(1.1) opacity(0.94)}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Components — built with the tokens above. Plain CSS
+   on plain HTML: no JavaScript, no build step. Each class is documented in
+   readme.md and demonstrated in foundations/ and components/.
+   ══════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-size: 15px; line-height: 1.55; font-weight: 400; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
+}
+h1 { font-size: 42px; }
+h2 { font-size: 32px; }
+h3 { font-size: 25px; }
+h4 { font-size: 20px; }
+h5 { font-size: 16px; }
+h6 { font-size: 13px; }
+h6 { letter-spacing: 0.08em; text-transform: uppercase; }
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-accent); text-underline-offset: 3px; }
+img { display: block; max-width: 100%; }
+figure { margin: 0; }
+figcaption {
+  font-size: 11px; margin-top: var(--space-1);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.text-muted { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+/* — rules — */
+.hr {
+  height: 1px; border: 0; margin: var(--space-4) 0;
+  background: var(--color-divider);
+}
+
+/* — buttons — */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 14px; line-height: 1.2; color: var(--color-text); /* matches the .input's 14px —
+     the pair sits side by side in sign-up rows */
+  background: transparent; border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  border-radius: var(--radius-md);
+}
+.btn svg { display: block; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: var(--color-accent); color: var(--color-bg); }
+.btn-primary:hover { background: var(--color-accent-600); }
+.btn-primary:active { background: var(--color-accent-700); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+.btn-icon { width: 36px; height: 36px; padding: 0; }
+.btn-block { width: 100%; margin-top: var(--space-2); }
+
+/* — forms — */
+.field > label {
+  display: block; font-size: 12px; margin-bottom: 5px;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+.input {
+  width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
+  font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+textarea.input { min-height: 90px; resize: vertical; }
+.radio { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
+.radio input, .seg-opt input {
+  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+}
+.radio .dot {
+  width: 16px; height: 16px; flex: none; border-radius: 50%;
+  border: 1.5px solid var(--color-divider);
+}
+.radio:hover .dot { border-color: var(--color-accent); }
+.radio input:checked + .dot {
+  border-color: var(--color-accent); background: var(--color-accent);
+  box-shadow: inset 0 0 0 4px var(--color-bg);
+}
+.radio input:focus-visible + .dot { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.seg {
+  display: inline-flex; overflow: hidden;
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.seg-opt {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; font-size: 13px; cursor: pointer;
+}
+.seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
+.seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-bg); }
+.seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+
+/* — cards — */
+.card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3); border-radius: var(--radius-md); background: var(--color-surface);
+}
+.card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.card-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 17px; line-height: 1.2;
+}
+.card-body { margin: 0; font-size: 13px; opacity: 0.8; flex: 1; }
+.card-meta {
+  display: flex; align-items: center; gap: 6px; font-size: 11px;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+.elev-sm { box-shadow: var(--shadow-sm); }
+.elev-md { box-shadow: var(--shadow-md); }
+.elev-lg { box-shadow: var(--shadow-lg); }
+
+/* — tags — */
+.tag {
+  display: inline-flex; align-items: center; font-size: 11px;
+  letter-spacing: 0.02em; padding: 3px 10px;
+  border-radius: calc(var(--radius-md) * 0.75);
+}
+.tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.tag-accent-2 { background: var(--color-accent-2-100); color: var(--color-accent-2-800); }
+.tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* — navigation — */
+.nav {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: none;
+}
+.nav-brand {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 18px; margin-right: auto;
+}
+.nav a { color: inherit; text-decoration: none; font-size: 14px; }
+.nav a:hover, .nav a[aria-current='page'] { color: var(--color-accent); }
+
+/* — tables — */
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th {
+  text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  padding: var(--space-2); border-bottom: 1px solid var(--color-divider);
+}
+.table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+.table tbody tr:hover { background: color-mix(in srgb, var(--color-text) 4%, transparent); }
+
+/* — dialog — */
+.dialog-backdrop {
+  position: fixed; inset: 0; display: grid; place-items: center;
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-neutral-900) 50%, transparent);
+}
+.dialog {
+  width: min(440px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4); border-radius: var(--radius-lg);
+  background: var(--color-surface); box-shadow: var(--shadow-lg);
+}
+.dialog-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 20px;
+}
+.dialog-body { font-size: 14px; opacity: 0.85; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
+
+/* — rounded frame: everything softens, small controls go pill — */
+.card, .dialog { border-radius: calc(var(--radius-lg) * 1.15); }
+.btn, .tag, .seg, .input { border-radius: 999px; }
+.input { padding-inline: 14px; }
+
+</style>
+<!-- runtime de Claude Design (omitido) -->
+<!-- runtime de Claude Design (omitido) -->
+<!-- runtime de Claude Design (omitido) -->
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
+gtag('js',new Date());gtag('config','G-XXXXXXXXXX');
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}(window,document);
+fbq('init','000000000000000');fbq('track','PageView');
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","name":"NovuChat","url":"https://novuchat.site","parentOrganization":{"@type":"Organization","name":"AAB1"},"address":{"@type":"PostalAddress","addressLocality":"La Paz","addressCountry":"BO"}},
+{"@type":"SoftwareApplication","name":"NovuChat","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":[
+{"@type":"Offer","name":"Plan Base","price":"250","priceCurrency":"BOB"},
+{"@type":"Offer","name":"Plan Crecimiento","price":"450","priceCurrency":"BOB"},
+{"@type":"Offer","name":"Plan Corporativo","price":"850","priceCurrency":"BOB"}]}]}
+</script>
+<style>
+:root{
+--color-bg:#f7f3ec; --color-surface:#ffffff; --color-text:#1c211f;
+--color-accent:#2f3a44; --color-on-accent:#ffffff; --color-accent-2:#12c489;
+--color-divider:color-mix(in srgb,#1c211f 12%,transparent);
+--color-accent-100:#eef1f4;--color-accent-200:#d8dee4;--color-accent-300:#b3bec8;--color-accent-400:#7d8b98;--color-accent-500:#2f3a44;--color-accent-600:#27303a;--color-accent-700:#1f2731;--color-accent-800:#181f27;--color-accent-900:#11171d;
+--color-accent-2-100:#e4faf1;--color-accent-2-200:#bff3de;--color-accent-2-300:#8aeac4;--color-accent-2-400:#35e2a0;--color-accent-2-500:#12c489;--color-accent-2-600:#0ea975;--color-accent-2-700:#0b855c;--color-accent-2-800:#086546;--color-accent-2-900:#064733;
+--cta-bg:#35e2a0;--cta-fg:#0f1a16;--cta-bg-hover:#12c489;
+--pizarra:#2f3a44;--banda:#1b2430;--banda-texto:#f2f7f5;
+--verde-texto:#0b855c;--fondo-alterno:#fffdfa;
+--r-sm:14px;--r-md:22px;--r-lg:34px;
+--shadow-sm:0 2px 10px color-mix(in srgb,#1c211f 6%,transparent);
+--shadow-md:0 12px 34px color-mix(in srgb,#1c211f 9%,transparent);
+--shadow-lg:0 34px 80px color-mix(in srgb,#1c211f 14%,transparent);
+--font-heading:"Figtree",system-ui,sans-serif;--font-heading-weight:800;--ancho:1180px;--tipo-h1:clamp(32px,4.6vw,52px);--tipo-h2:clamp(25px,3.2vw,36px);
+color-scheme:light;
+}
+[data-tema="oscuro"]{
+--color-bg:#101614;--color-surface:#18201d;--color-text:#eef5f1;
+--color-accent:#35e2a0;--color-on-accent:#0f1a16;
+--color-accent-500:#35e2a0;--color-accent-600:#12c489;--color-accent-100:#1d2a26;--color-accent-200:#243330;
+--color-divider:color-mix(in srgb,#eef5f1 14%,transparent);
+--shadow-sm:0 2px 10px rgba(0,0,0,.35);--shadow-md:0 12px 34px rgba(0,0,0,.45);--shadow-lg:0 34px 80px rgba(0,0,0,.55);
+--verde-texto:#7ee7bd;--fondo-alterno:#131a18;--banda:#18201d;--pizarra:#28332f;
+color-scheme:dark;
+}
+body{margin:0;font-size:16.5px;background:var(--color-bg);color:var(--color-text)}
+a{color:var(--color-accent);text-decoration:none}
+a:hover{color:var(--color-accent-600);text-decoration:underline}
+h1,h2,h3{letter-spacing:-.01em}
+h1{line-height:1.05}
+h1,h2,h3,h4{letter-spacing:-.025em}
+.btn{white-space:nowrap}
+[data-nav-desktop] a{white-space:nowrap}
+@media (max-width:640px){body{font-size:17px}}
+@keyframes burbuja{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes latido{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes deriva1{0%,100%{transform:translate3d(0,0,0) scale(1)}33%{transform:translate3d(4vw,6vh,0) scale(1.08)}66%{transform:translate3d(-3vw,3vh,0) scale(.96)}}
+@keyframes deriva2{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-6vw,-7vh,0) scale(1.1)}}
+@keyframes deriva3{0%,100%{transform:translate3d(0,0,0) scale(1)}40%{transform:translate3d(5vw,-5vh,0) scale(1.06)}75%{transform:translate3d(-4vw,2vh,0) scale(.98)}}
+@keyframes flotar{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(0,-18px,0) scale(1.05)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:1180px){[data-nav-desktop]{display:none!important}[data-solo-desktop]{display:none!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:var(--font-body);position:relative;isolation:isolate">
+
+  <div aria-hidden="true" style="position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none">
+    <div style="position:absolute;top:-12vh;left:-8vw;width:52vw;height:52vw;border-radius:50%;background:radial-gradient(circle at 40% 40%,rgba(53,226,160,.20),rgba(53,226,160,0) 68%);filter:blur(14px);animation:deriva1 34s ease-in-out infinite"></div>
+    <div style="position:absolute;top:34vh;right:-14vw;width:46vw;height:46vw;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(47,58,68,.14),rgba(47,58,68,0) 70%);filter:blur(16px);animation:deriva2 44s ease-in-out infinite"></div>
+    <div style="position:absolute;bottom:-16vh;left:24vw;width:44vw;height:44vw;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(18,196,137,.13),rgba(18,196,137,0) 72%);filter:blur(18px);animation:deriva3 52s ease-in-out infinite"></div>
+  </div>
+
+  <sc-if value="{{ mostrarAviso }}" hint-placeholder-val="{{ true }}">
+    <div style="position:relative;z-index:1;background:var(--banda);color:var(--banda-texto);font-size:13px;padding:9px 20px;display:flex;justify-content:center;gap:8px;text-align:center">
+      <span data-en="We're at the Business Roundtable on September 9 and 10 — free setup for the first 10 businesses">Estamos en la Rueda de Negocios el 9 y 10 de septiembre — instalación bonificada para los primeros 10 comercios</span>
+    </div>
+  </sc-if>
+
+  <header style="position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--color-bg) 86%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--color-divider)">
+    <div style="max-width:var(--ancho);margin:0 auto;height:64px;padding:0 20px;display:flex;align-items:center;gap:20px">
+      <a href="#inicio" sc-camel-on-click="{{ irInicio }}" style="display:flex;align-items:center;gap:9px;color:var(--color-text)">
+        <svg sc-camel-view-box="0 0 32 32" width="26" height="26" aria-hidden="true"><circle cx="15" cy="14.5" r="13.2" fill="var(--pizarra)"></circle><path d="M21 24 L28.5 31 L26.2 22.5 Z" fill="var(--pizarra)"></path><circle cx="15" cy="14.5" r="10" fill="none" stroke="#fff" stroke-width="2.3"></circle><circle cx="10.6" cy="14.5" r="1.85" fill="#35e2a0"></circle><circle cx="15" cy="14.5" r="1.85" fill="#35e2a0"></circle><circle cx="19.4" cy="14.5" r="1.85" fill="#35e2a0"></circle></svg>
+        <span style="font-family:var(--font-heading);font-weight:800;font-size:17px;letter-spacing:-.015em">NovuChat</span>
+      </a>
+      <nav style="display:flex;gap:16px;margin-left:10px" data-nav-desktop="">
+        <a href="#como-funciona" sc-camel-on-click="{{ irComo }}" style="font-size:14px;color:var(--color-text)" data-en="How it works">Cómo funciona</a>
+        <a href="#soluciones" sc-camel-on-click="{{ irSoluciones }}" style="font-size:14px;color:var(--color-text)" data-en="Solutions">Soluciones</a>
+        <a href="#consola" sc-camel-on-click="{{ irConsola }}" style="font-size:14px;color:var(--color-text)" data-en="Console">Consola</a>
+        <a href="#precios" sc-camel-on-click="{{ irPrecios }}" style="font-size:14px;color:var(--color-text)" data-en="Pricing">Precios</a>
+        <a href="#nosotros" sc-camel-on-click="{{ irNosotros }}" style="font-size:14px;color:var(--color-text)" data-en="About">Nosotros</a>
+      </nav>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+        <button class="btn btn-secondary" sc-camel-on-click="{{ cambiarIdioma }}" style="min-height:36px;font-size:12px;letter-spacing:.04em" aria-label="Cambiar idioma">{{ etiquetaIdioma }}</button>
+        <button class="btn btn-secondary btn-icon" sc-camel-on-click="{{ cambiarTema }}" aria-label="Cambiar tema">{{ iconoTema }}</button>
+        <a class="btn btn-secondary" href="#ingresar" style="min-height:40px" data-en="Sign in">Ingresar</a>
+        <a class="btn" href="#demo" sc-camel-on-click="{{ irDemo }}" style="min-height:40px;background:var(--cta-bg);color:var(--cta-fg)" style-hover="background:var(--cta-bg-hover)" data-en="Book a demo">Pedir una demo</a>
+      </div>
+    </div>
+  </header>
+
+  <main style="flex:1;position:relative;z-index:1">
+
+    <sc-if value="{{ pInicio }}" hint-placeholder-val="{{ true }}">
+      <section style="position:relative;overflow:hidden">
+        <div aria-hidden="true" style="position:absolute;top:-160px;right:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(53,226,160,.32),rgba(53,226,160,0) 68%);filter:blur(10px);animation:flotar 14s ease-in-out infinite;pointer-events:none"></div>
+        <div aria-hidden="true" style="position:absolute;bottom:-220px;left:-140px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(47,58,68,.16),rgba(47,58,68,0) 70%);filter:blur(12px);pointer-events:none"></div>
+        <div style="position:relative;max-width:var(--ancho);margin:0 auto;padding:76px 20px 88px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:56px;align-items:center">
+          <div>
+            <span class="tag tag-accent-2" style="letter-spacing:.06em;text-transform:uppercase;font-size:10.5px" data-en="AI WhatsApp assistants for businesses in Bolivia">Asistentes de WhatsApp con IA para negocios de Bolivia</span>
+            <h1 style="font-size:var(--tipo-h1);margin:16px 0 18px;text-wrap:pretty" data-en="The first employee who never sleeps.">El primer empleado de tu negocio que nunca duerme.</h1>
+            <p style="max-width:56ch;opacity:.85;margin:0 0 26px" data-en="Every message you answer late is a sale someone else closes. NovuChat answers on WhatsApp 24/7 with generative AI: it replies, books appointments in your real calendar, takes orders and charges by QR.">Cada mensaje que respondes tarde es una venta que cierra otro. NovuChat atiende por WhatsApp las 24 horas con IA generativa: responde, agenda citas en tu calendario real, toma pedidos y cobra por QR.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:12px">
+              <a class="btn" href="#demo" sc-camel-on-click="{{ irDemo }}" style="min-height:52px;padding:0 22px;font-size:15px;background:var(--cta-bg);color:var(--cta-fg)" style-hover="background:var(--cta-bg-hover)" data-en="Book a demo">Agenda una demostración</a>
+              <a class="btn btn-secondary" href="#como-funciona" sc-camel-on-click="{{ irComo }}" style="min-height:52px;padding:0 22px;font-size:15px" data-en="See how it works">Ver cómo funciona</a>
+            </div>
+            <ul style="list-style:none;padding:0;margin:32px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 18px;font-size:13.5px">
+              <li style="display:flex;gap:8px;align-items:baseline"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Official Meta channel">Canal oficial de Meta</span></li>
+              <li style="display:flex;gap:8px;align-items:baseline"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Live in 48 hours">Instalación en 48 h</span></li>
+              <li style="display:flex;gap:8px;align-items:baseline"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Replies in under a minute">Responde en menos de 1 minuto</span></li>
+              <li style="display:flex;gap:8px;align-items:baseline"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="You see everything in the console">Tú ves todo desde la consola</span></li>
+            </ul>
+          </div>
+          <div style="background:var(--color-surface);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow-md);display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--color-divider)">
+              <svg sc-camel-view-box="0 0 32 32" width="18" height="18" aria-hidden="true"><circle cx="15" cy="14.5" r="13.2" fill="var(--pizarra)"></circle><circle cx="15" cy="14.5" r="10" fill="none" stroke="#fff" stroke-width="2.6"></circle><circle cx="10.6" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="15" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="19.4" cy="14.5" r="2" fill="#35e2a0"></circle></svg>
+              <strong style="font-size:13px" data-en="Salón Aurora · assistant">Salón Aurora · asistente</strong>
+              <span class="tag tag-neutral" style="margin-left:auto;font-size:10px" data-en="AI · 11:04 PM">IA · 23:04</span>
+            </div>
+            <div style="align-self:flex-end;max-width:82%;background:var(--color-bg);border:1px solid var(--color-divider);border-radius:20px;padding:11px 15px;font-size:14.5px;animation:burbuja .45s ease both" data-en="Hi, do you have an opening tomorrow afternoon?">Hola, ¿tienen turno mañana en la tarde?</div>
+            <div style="align-self:flex-start;max-width:88%;background:var(--color-accent-100);border-radius:20px;padding:11px 15px;font-size:14.5px;animation:burbuja .45s ease .5s both" data-en="Yes. Tomorrow I have 3:00 PM, 4:30 PM and 6:15 PM with Andrea. Which one works for you?">Sí. Mañana tengo 15:00, 16:30 y 18:15 con Andrea. ¿Cuál te queda mejor?</div>
+            <div style="align-self:flex-end;max-width:82%;background:var(--color-bg);border:1px solid var(--color-divider);border-radius:20px;padding:11px 15px;font-size:14.5px;animation:burbuja .45s ease 1s both" data-en="4:30 works">La de 16:30</div>
+            <div style="align-self:flex-start;max-width:88%;background:var(--color-accent-100);border-radius:20px;padding:11px 15px;font-size:14.5px;animation:burbuja .45s ease 1.5s both">
+              <span data-en="Booked: tomorrow 4:30 PM with Andrea. I'll remind you 24 hours before.">Listo: mañana 16:30 con Andrea. Te recuerdo 24 horas antes.</span>
+              <span style="display:block;margin-top:8px;font-size:11.5px;color:var(--verde-texto);font-weight:600" data-en="✓ Added to the salon's calendar">✓ Agregado al calendario del salón</span>
+            </div>
+            <div style="align-self:flex-start;display:flex;gap:4px;padding:8px 12px;background:var(--color-accent-100)">
+              <span style="width:6px;height:6px;background:#35e2a0;border-radius:50%;animation:latido 1.2s infinite"></span>
+              <span style="width:6px;height:6px;background:#35e2a0;border-radius:50%;animation:latido 1.2s .2s infinite"></span>
+              <span style="width:6px;height:6px;background:#35e2a0;border-radius:50%;animation:latido 1.2s .4s infinite"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:64px 20px">
+          <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:baseline;justify-content:space-between;margin-bottom:24px">
+            <h2 style="font-size:var(--tipo-h2);margin:0" data-en="Businesses that stopped losing sales">Negocios que dejaron de perder ventas</h2>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-secondary btn-icon" sc-camel-on-click="{{ carruselAnterior }}" aria-label="Foto anterior" style="width:44px;height:44px">←</button>
+              <button class="btn btn-secondary btn-icon" sc-camel-on-click="{{ carruselSiguiente }}" aria-label="Foto siguiente" style="width:44px;height:44px">→</button>
+            </div>
+          </div>
+          <div style="border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-lg)">
+            <div style="display:flex;transition:transform .45s ease;transform:{{ carruselDesplazamiento }}">
+              <div style="flex:0 0 100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+                <div class="washed" style="position:relative;aspect-ratio:4/3;min-height:0"><image-slot id="pyme-belleza" src="fotos/pyme-belleza.jpg" shape="rect" fit="cover" placeholder="Dueña de peluquería con una clienta satisfecha"></image-slot></div>
+                <div style="background:var(--color-surface);padding:32px 28px;display:flex;flex-direction:column;gap:14px;justify-content:center">
+                  <span class="tag tag-accent-2" style="align-self:flex-start;font-size:10px;letter-spacing:.06em;text-transform:uppercase" data-en="Health &amp; Beauty">Salud y Belleza</span>
+                  <blockquote style="margin:0;font-family:var(--font-heading);font-weight:800;font-size:clamp(19px,2.4vw,26px);line-height:1.18;letter-spacing:-.015em;text-wrap:pretty" data-en="&quot;I used to answer between clients. Now every appointment arrives already booked in my calendar.&quot;">«Antes respondía entre cliente y cliente. Ahora cada turno me llega ya agendado en mi calendario.»</blockquote>
+                  <span style="font-size:13.5px;opacity:.72" data-en="Andrea · hair salon · La Paz">Andrea · peluquería · La Paz</span>
+                </div>
+              </div>
+              <div style="flex:0 0 100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+                <div class="washed" style="position:relative;aspect-ratio:4/3;min-height:0"><image-slot id="pyme-gastro" src="fotos/pyme-gastro.jpg" shape="rect" fit="cover" placeholder="Dueño de restaurante recibiendo pedidos"></image-slot></div>
+                <div style="background:var(--color-surface);padding:32px 28px;display:flex;flex-direction:column;gap:14px;justify-content:center">
+                  <span class="tag tag-accent-2" style="align-self:flex-start;font-size:10px;letter-spacing:.06em;text-transform:uppercase" data-en="Food &amp; Delivery">Gastronomía</span>
+                  <blockquote style="margin:0;font-family:var(--font-heading);font-weight:800;font-size:clamp(19px,2.4vw,26px);line-height:1.18;letter-spacing:-.015em;text-wrap:pretty" data-en="&quot;Friday nights we don't lose orders any more: the assistant takes them, charges and the kitchen sees them.&quot;">«Los viernes ya no perdemos pedidos: el asistente los toma, cobra y la cocina los ve.»</blockquote>
+                  <span style="font-size:13.5px;opacity:.72" data-en="Marcelo · burger place · Santa Cruz">Marcelo · hamburguesería · Santa Cruz</span>
+                </div>
+              </div>
+              <div style="flex:0 0 100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+                <div class="washed" style="position:relative;aspect-ratio:4/3;min-height:0"><image-slot id="pyme-retail" src="fotos/pyme-retail.jpg" shape="rect" fit="cover" placeholder="Dueña de tienda de ropa con una clienta"></image-slot></div>
+                <div style="background:var(--color-surface);padding:32px 28px;display:flex;flex-direction:column;gap:14px;justify-content:center">
+                  <span class="tag tag-accent-2" style="align-self:flex-start;font-size:10px;letter-spacing:.06em;text-transform:uppercase" data-en="Retail &amp; Commerce">Comercio y Retail</span>
+                  <blockquote style="margin:0;font-family:var(--font-heading);font-weight:800;font-size:clamp(19px,2.4vw,26px);line-height:1.18;letter-spacing:-.015em;text-wrap:pretty" data-en="&quot;It answers size and stock questions at midnight, and the sale is closed by the morning.&quot;">«Responde por talla y stock a medianoche, y en la mañana la venta ya está cerrada.»</blockquote>
+                  <span style="font-size:13.5px;opacity:.72" data-en="Paola · clothing store · Cochabamba">Paola · tienda de ropa · Cochabamba</span>
+                </div>
+              </div>
+              <div style="flex:0 0 100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+                <div class="washed" style="position:relative;aspect-ratio:4/3;min-height:0"><image-slot id="pyme-salud" src="fotos/pyme-salud.jpg" shape="rect" fit="cover" placeholder="Odontólogo con un paciente en consultorio"></image-slot></div>
+                <div style="background:var(--color-surface);padding:32px 28px;display:flex;flex-direction:column;gap:14px;justify-content:center">
+                  <span class="tag tag-accent-2" style="align-self:flex-start;font-size:10px;letter-spacing:.06em;text-transform:uppercase" data-en="Clinics">Consultorios</span>
+                  <blockquote style="margin:0;font-family:var(--font-heading);font-weight:800;font-size:clamp(19px,2.4vw,26px);line-height:1.18;letter-spacing:-.015em;text-wrap:pretty" data-en="&quot;Reminders cut the no-shows. Nobody in the clinic makes phone calls any more.&quot;">«Los recordatorios bajaron las ausencias. En el consultorio ya nadie llama por teléfono.»</blockquote>
+                  <span style="font-size:13.5px;opacity:.72" data-en="Dr. Rojas · dental clinic · El Alto">Dr. Rojas · consultorio odontológico · El Alto</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;align-items:center;margin-top:16px;flex-wrap:wrap">
+            <div style="display:flex;gap:8px">
+              <sc-for list="{{ puntos }}" as="p" hint-placeholder-count="4">
+                <button sc-camel-on-click="{{ p.elegir }}" aria-label="{{ p.etiqueta }}" style="width:44px;height:44px;border:0;background:none;cursor:pointer;display:grid;place-items:center"><span style="display:block;width:30px;height:5px;border-radius:999px;background:{{ p.fondo }}"></span></button>
+              </sc-for>
+            </div>
+            <p style="margin:0;font-size:12px;opacity:.6;max-width:52ch" data-en="Illustrative quotes. To swap any photo, drop your own image onto the frame.">Testimonios ilustrativos. Para cambiar cualquier fotografía, arrastra tu propia imagen sobre el marco.</p>
+          </div>
+        </div>
+      </section>
+
+      <section style="background:var(--fondo-alterno)">
+        <div style="max-width:var(--ancho);margin:0 auto;padding:72px 20px">
+          <h2 style="font-size:var(--tipo-h2);margin:0 0 8px;max-width:30ch;text-wrap:pretty" data-en="68% of sales are lost to slow replies">El 68% de las ventas se pierden por atención lenta</h2>
+          <p style="max-width:62ch;opacity:.8;margin:0 0 40px" data-en="Not because of price. Because nobody answered in time. And a button chatbot doesn't fix it: it breaks with a voice note and frustrates the customer.">No por precio. Por que nadie respondió a tiempo. Y un chatbot de botones no lo arregla: se rompe con un audio y frustra al cliente.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+            <div style="background:var(--color-surface);border-radius:var(--r-lg);padding:30px 26px;box-shadow:var(--shadow-sm);">
+              <h3 style="font-size:18px;margin:0 0 8px" data-en="Chatbot with buttons">Chatbot de botones</h3>
+              <ul style="margin:0;padding-left:18px;font-size:14.5px;opacity:.85;display:grid;gap:8px">
+                <li data-en="An audio message stops it cold.">Un audio lo detiene en seco.</li>
+                <li data-en="Menu 1, menu 2, menu 3 — and the customer leaves.">Menú 1, menú 2, menú 3 y el cliente se va.</li>
+                <li data-en="It can't change an order halfway through.">No puede cambiar un pedido a medio camino.</li>
+                <li data-en="It never charges: it hands off.">Nunca cobra: deriva.</li>
+              </ul>
+            </div>
+            <div style="background:var(--color-surface);border-radius:var(--r-lg);padding:30px 26px;box-shadow:var(--shadow-sm);">
+              <h3 style="font-size:18px;margin:0 0 8px;color:var(--color-accent-2-800)" data-en="NovuChat with generative AI">NovuChat con IA generativa</h3>
+              <ul style="margin:0;padding-left:18px;font-size:14.5px;opacity:.85;display:grid;gap:8px">
+                <li data-en="It understands natural language and processes audio.">Entiende lenguaje natural y procesa audios.</li>
+                <li data-en="It infers intent: no menus, no keywords.">Deduce la intención: sin menús ni palabras clave.</li>
+                <li data-en="If the customer changes their mind mid-order, it adapts the order and recalculates the total.">Si el cliente cambia de opinión a mitad del pedido, adapta la orden y recalcula el total.</li>
+                <li data-en="It closes the sale: sends the payment QR and confirms.">Cierra la venta: manda el QR de pago y confirma.</li>
+              </ul>
+            </div>
+          </div>
+          <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px">
+            <div style="background:var(--color-surface);border-radius:var(--r-md);padding:22px 24px;box-shadow:var(--shadow-sm)"><strong style="display:block;font-size:22px;font-family:var(--font-heading);color:var(--verde-texto)" data-en="Under 1 min">Menos de 1 min</strong><span style="font-size:13px;opacity:.75" data-en="NovuChat, any hour">NovuChat, a cualquier hora</span></div>
+            <div style="background:var(--color-surface);border-radius:var(--r-md);padding:22px 24px;box-shadow:var(--shadow-sm)"><strong style="display:block;font-size:22px;font-family:var(--font-heading)">15–60 min</strong><span style="font-size:13px;opacity:.75" data-en="A person, during business hours">Una persona, en horario</span></div>
+            <div style="background:var(--color-surface);border-radius:var(--r-md);padding:22px 24px;box-shadow:var(--shadow-sm)"><strong style="display:block;font-size:22px;font-family:var(--font-heading);opacity:.5" data-en="Lost">Perdido</strong><span style="font-size:13px;opacity:.75" data-en="Outside business hours">Fuera de horario</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:72px 20px">
+          <h2 style="font-size:var(--tipo-h2);margin:0 0 40px" data-en="How it works, in three steps">Cómo funciona, en tres pasos</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px">
+            <article style="background:var(--color-surface);border-radius:var(--r-lg);padding:32px 28px;box-shadow:var(--shadow-sm)">
+              <span style="font-family:var(--font-body);font-weight:700;font-size:13px;color:var(--verde-texto)">01</span>
+              <h3 style="font-size:20px;margin:6px 0 10px" data-en="The official channel">El canal oficial</h3>
+              <p style="font-size:14.5px;opacity:.85;margin:0" data-en="A secure connection to Meta's official WhatsApp Business channel. Your customer downloads nothing and you install nothing.">Conexión segura con el canal oficial de WhatsApp Business de Meta. Tu cliente no descarga nada y tú no instalas nada.</p>
+            </article>
+            <article style="background:var(--color-surface);border-radius:var(--r-lg);padding:32px 28px;box-shadow:var(--shadow-sm)">
+              <span style="font-family:var(--font-body);font-weight:700;font-size:13px;color:var(--verde-texto)">02</span>
+              <h3 style="font-size:20px;margin:6px 0 10px" data-en="The AI brain">El cerebro IA</h3>
+              <p style="font-size:14.5px;opacity:.85;margin:0" data-en="AI that infers intent and processes text and audio: it remembers each customer's conversation, checks your calendar or catalogue and answers with real data.">IA que deduce intenciones y procesa texto y audio: recuerda la conversación de cada cliente, consulta tu agenda o catálogo y responde con datos reales.</p>
+            </article>
+            <article style="background:var(--color-surface);border-radius:var(--r-lg);padding:32px 28px;box-shadow:var(--shadow-sm)">
+              <span style="font-family:var(--font-body);font-weight:700;font-size:13px;color:var(--verde-texto)">03</span>
+              <h3 style="font-size:20px;margin:6px 0 10px" data-en="The console">El panel de control</h3>
+              <p style="font-size:14.5px;opacity:.85;margin:0" data-en="A web console where you watch conversations live and manage staff, schedules, prices and closings — from your phone.">Una consola web donde supervisas las conversaciones en vivo y gestionas funcionarios, horarios, precios y cierres. Desde tu celular.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section style="background:var(--fondo-alterno)">
+        <div style="max-width:var(--ancho);margin:0 auto;padding:72px 20px">
+          <h2 style="font-size:var(--tipo-h2);margin:0 0 8px" data-en="Cases by industry">Casos de uso por industria</h2>
+          <p style="opacity:.8;margin:0 0 40px" data-en="Same assistant, configured for how your business actually sells.">El mismo asistente, configurado para la forma en que tu negocio vende.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
+            <article style="background:var(--color-surface);border-radius:var(--r-lg);padding:32px 28px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:10px">
+              <h3 style="font-size:20px;margin:0" data-en="Health &amp; Beauty">Salud y Belleza</h3>
+              <p style="font-size:14.5px;opacity:.85;margin:0" data-en="Google Calendar sync and multiple schedules per specialist. It offers only real openings, reschedules and reminds 24 hours ahead.">Sincronización con Google Calendar y manejo de agendas múltiples por especialista. Ofrece solo horarios reales, reagenda y recuerda 24 horas antes.</p>
+              <a class="btn btn-ghost" href="#soluciones" sc-camel-on-click="{{ irSoluciones }}" style="align-self:flex-start;padding-inline:0" data-en="See the industry page →">Ver la página del rubro →</a>
+            </article>
+            <article style="background:var(--color-surface);border-radius:var(--r-lg);padding:32px 28px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:10px">
+              <h3 style="font-size:20px;margin:0" data-en="Retail &amp; Commerce">Retail y Comercio</h3>
+              <p style="font-size:14.5px;opacity:.85;margin:0" data-en="Catalogue guidance, sizes and colours, live stock, shipping details before the QR, and payment collection.">Asesoría de catálogo, tallas y colores, stock al día, datos de envío antes del QR y cobro.</p>
+              <a class="btn btn-ghost" href="#soluciones" sc-camel-on-click="{{ irSoluciones }}" style="align-self:flex-start;padding-inline:0" data-en="See the industry page →">Ver la página del rubro →</a>
+            </article>
+            <article style="background:var(--color-surface);border-radius:var(--r-lg);padding:32px 28px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:10px">
+              <h3 style="font-size:20px;margin:0" data-en="Food &amp; Delivery">Gastronomía</h3>
+              <p style="font-size:14.5px;opacity:.85;margin:0" data-en="Complex orders (&quot;no onions&quot;), delivery surcharges by zone, QR payment and receipt validation, with the kitchen notified.">Toma de pedidos complejos (por ejemplo «sin cebolla»), recargos por delivery según zona, cobro por QR y validación del comprobante, con aviso a la cocina.</p>
+              <a class="btn btn-ghost" href="#soluciones" sc-camel-on-click="{{ irSoluciones }}" style="align-self:flex-start;padding-inline:0" data-en="See the industry page →">Ver la página del rubro →</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:72px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:44px;align-items:center">
+          <div>
+            <h2 style="font-size:var(--tipo-h2);margin:0 0 12px" data-en="This is what it looks like in real life">Así se ve en la vida real</h2>
+            <p style="opacity:.85;max-width:52ch" data-en="A full order: variants, delivery zone, total and payment. Nobody from the business typed a single message.">Un pedido completo: variantes, zona de envío, total y pago. Nadie del negocio escribió un solo mensaje.</p>
+            <div style="margin-top:20px;background:var(--color-surface);border-radius:var(--r-md);padding:18px 20px;box-shadow:var(--shadow-sm);display:flex;gap:12px;align-items:flex-start">
+              <span aria-hidden="true" style="font-size:18px">🔒</span>
+              <p style="margin:0;font-size:13.5px" data-en="The QR below is a demonstration image and cannot charge anyone. Demo charges are always labelled as simulated, and the business cannot remove that label.">El QR de abajo es una imagen de demostración y no puede cobrar a nadie. Los cobros de demostración siempre se rotulan como simulados y el negocio no puede quitar ese rótulo.</p>
+            </div>
+          </div>
+          <div style="background:var(--color-surface);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow-md);display:flex;flex-direction:column;gap:12px">
+            <div style="align-self:flex-end;max-width:85%;background:var(--color-bg);border:1px solid var(--color-divider);border-radius:20px;padding:11px 15px;font-size:14.5px" data-en="Hi, I want a double burger, no onions. Delivery to Calacoto.">Hola, quiero una hamburguesa doble, sin cebolla. Es para mandar a Calacoto.</div>
+            <div style="align-self:flex-start;max-width:90%;background:var(--color-accent-100);border-radius:20px;padding:11px 15px;font-size:14.5px">
+              <span data-en="Double burger, no onions, noted. Total with delivery to Calacoto is 45 Bs. Here's the QR to pay:">Hamburguesa doble sin cebolla registrada. El total con envío a Calacoto es 45 Bs. Aquí tienes el QR para el pago:</span>
+              <div style="margin-top:10px;background:#fff;padding:10px;display:grid;gap:6px;justify-items:center;position:relative;width:max-content">
+                <img src="qr-demostracion.png" alt="Código QR de demostración que no cobra" width="132" height="132" style="display:block;image-rendering:pixelated">
+                <span style="position:absolute;top:44px;left:10px;right:10px;background:#b3261e;color:#fff;border-radius:999px;font-family:var(--font-body);font-weight:700;font-size:8.5px;letter-spacing:.04em;text-align:center;padding:3px 2px;transform:rotate(-6deg)" data-en="DEMO — DOES NOT CHARGE">DEMO — NO COBRA</span>
+                <strong style="font-size:9.5px;letter-spacing:.06em;text-align:center;color:#b3261e;font-family:var(--font-heading)" data-en="DEMONSTRATION — THIS QR DOES NOT CHARGE">DEMOSTRACIÓN — ESTE QR NO COBRA</strong>
+              </div>
+            </div>
+            <div style="align-self:flex-end;max-width:85%;background:var(--color-bg);border:1px solid var(--color-divider);border-radius:20px;padding:11px 15px;font-size:14.5px" data-en="Done, paid.">Listo, ya pagué.</div>
+            <div style="align-self:flex-start;max-width:90%;background:var(--color-accent-100);border-radius:20px;padding:11px 15px;font-size:14.5px" data-en="Payment confirmed! Your order is being prepared. Estimated time: 25 min.">¡Pago confirmado! Tu pedido ya se está preparando. Tiempo estimado: 25 min.</div>
+            <p style="margin:4px 0 0;font-size:11.5px;color:#b3261e;font-weight:600" data-en="Demonstration conversation with fictional data. The QR does not charge.">Conversación de demostración con datos ficticios. El QR no cobra.</p>
+          </div>
+        </div>
+      </section>
+
+      <section style="background:var(--fondo-alterno)">
+        <div style="max-width:var(--ancho);margin:0 auto;padding:72px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:44px;align-items:center">
+          <figure style="margin:0">
+            <div style="background:var(--color-surface);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-md);display:flex;flex-direction:column">
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--color-surface);border-bottom:1px solid var(--color-divider)">
+                <svg sc-camel-view-box="0 0 32 32" width="17" height="17" aria-hidden="true"><circle cx="15" cy="14.5" r="13.2" fill="var(--pizarra)"></circle><circle cx="15" cy="14.5" r="10" fill="none" stroke="#fff" stroke-width="2.6"></circle><circle cx="10.6" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="15" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="19.4" cy="14.5" r="2" fill="#35e2a0"></circle></svg>
+                <strong style="font-family:var(--font-body);font-weight:700;font-size:12px">NovuChat</strong>
+                <span style="width:2px;height:14px;background:var(--color-divider)"></span>
+                <span style="font-size:11px;opacity:.8">Salón Aurora</span>
+                <span class="tag tag-neutral" style="margin-left:auto;font-size:9px" data-en="Owner">Dueño</span>
+              </div>
+              <div style="display:flex;gap:14px;padding:0 10px;background:var(--color-surface);border-bottom:1px solid var(--color-divider);font-size:10px">
+                <span style="padding:7px 0;opacity:.7" data-en="Dashboard">Tablero</span>
+                <span style="padding:7px 0;font-weight:600;box-shadow:inset 0 -2px 0 var(--color-accent-2-600)" data-en="Conversations">Conversaciones</span>
+                <span style="padding:7px 0;opacity:.7" data-en="Settings">Configuración</span>
+                <span style="padding:7px 0;opacity:.7" data-en="Staff">Funcionarios</span>
+                <span style="padding:7px 0;opacity:.7" data-en="Usage">Uso</span>
+              </div>
+              <div style="display:grid;grid-template-columns:38% 1fr;min-height:290px">
+                <div style="border-right:1px solid var(--color-divider);display:flex;flex-direction:column">
+                  <div style="padding:8px 10px;border-bottom:1px solid var(--color-divider);background:var(--color-accent-100);display:grid;gap:2px">
+                    <div style="display:flex;gap:6px;align-items:baseline"><strong style="font-size:11px">María Q.</strong><span style="margin-left:auto;font-size:9px;opacity:.6">23:04</span></div>
+                    <span style="font-size:10px;opacity:.75" data-en="Booked: tomorrow 4:30 PM">Turno agendado: mañana 16:30</span>
+                  </div>
+                  <div style="padding:8px 10px;border-bottom:1px solid var(--color-divider);display:grid;gap:2px">
+                    <div style="display:flex;gap:6px;align-items:baseline"><strong style="font-size:11px">Jorge V.</strong><span style="margin-left:auto;font-size:9px;opacity:.6">22:51</span></div>
+                    <span style="font-size:10px;opacity:.75" data-en="Asked about colour prices">Preguntó precios de color</span>
+                  </div>
+                  <div style="padding:8px 10px;border-bottom:1px solid var(--color-divider);display:grid;gap:2px">
+                    <div style="display:flex;gap:6px;align-items:baseline"><strong style="font-size:11px">Lucía R.</strong><span style="margin-left:auto;font-size:9px;opacity:.6">21:38</span></div>
+                    <span style="font-size:10px;opacity:.75;color:var(--verde-texto)" data-en="Handed off to a person">Derivada a una persona</span>
+                  </div>
+                  <div style="padding:8px 10px;display:grid;gap:2px">
+                    <div style="display:flex;gap:6px;align-items:baseline"><strong style="font-size:11px">Ana P.</strong><span style="margin-left:auto;font-size:9px;opacity:.6">20:12</span></div>
+                    <span style="font-size:10px;opacity:.75" data-en="Rescheduled to Friday">Reagendó para el viernes</span>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:7px;padding:10px">
+                  <div style="display:flex;align-items:center;gap:6px;padding-bottom:7px;border-bottom:1px solid var(--color-divider)">
+                    <strong style="font-size:11px">María Q. · +591 7•• ••• ••</strong>
+                    <span class="tag tag-accent-2" style="margin-left:auto;font-size:9px" data-en="AI answering">Atiende la IA</span>
+                  </div>
+                  <div style="align-self:flex-end;max-width:82%;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:13px;padding:6px 10px;font-size:10.5px" data-en="Do you have an opening tomorrow afternoon?">¿Tienen turno mañana en la tarde?</div>
+                  <div style="align-self:flex-start;max-width:86%;background:var(--color-accent-100);border-radius:13px;padding:6px 10px;font-size:10.5px" data-en="Tomorrow I have 3:00 PM, 4:30 PM and 6:15 PM with Andrea.">Mañana tengo 15:00, 16:30 y 18:15 con Andrea.</div>
+                  <div style="align-self:flex-end;max-width:82%;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:13px;padding:6px 10px;font-size:10.5px" data-en="4:30 works">La de 16:30</div>
+                  <div style="align-self:flex-start;max-width:86%;background:var(--color-accent-100);border-radius:13px;padding:6px 10px;font-size:10.5px" data-en="Booked: tomorrow 4:30 PM with Andrea. I'll remind you 24 hours before.">Listo: mañana 16:30 con Andrea. Te recuerdo 24 horas antes.</div>
+                  <div style="margin-top:auto;display:flex;gap:6px;padding-top:8px;border-top:1px solid var(--color-divider)">
+                    <span style="flex:1;border:1px solid var(--color-divider);border-radius:999px;background:var(--color-bg);padding:6px 12px;font-size:10px;opacity:.55" data-en="Write as the salon…">Escribir como el salón…</span>
+                    <span style="background:var(--pizarra);color:#fff;border-radius:999px;padding:6px 10px;font-size:10px;font-family:var(--font-heading);font-weight:800" data-en="Take over">Tomar el control</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <figcaption style="font-size:11.5px" data-en="Console, Conversations view. Fictional data.">Consola, vista de Conversaciones. Datos ficticios.</figcaption>
+          </figure>
+          <div>
+            <h2 style="font-size:var(--tipo-h2);margin:0 0 12px" data-en="Your business, under control, from your phone">Tu negocio, bajo control, desde el celular</h2>
+            <p style="opacity:.85;margin:0 0 20px" data-en="See what your assistant is doing and change whatever you need.">Mira qué está haciendo tu asistente y cambia lo que necesites.</p>
+            <ul style="list-style:none;padding:0;margin:0 0 24px;display:grid;gap:10px;font-size:14.5px">
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Live conversations, with handoff to a person">Conversaciones en vivo, con derivación a una persona</span></li>
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Hours, services and prices">Horarios, servicios y precios</span></li>
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Staff and their own calendars">Funcionarios y sus agendas propias</span></li>
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Monthly closings and usage">Cierres del mes y consumo</span></li>
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Complaints and activity log">Reclamos y bitácora</span></li>
+            </ul>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+              <a class="btn btn-secondary" href="#consola" sc-camel-on-click="{{ irConsola }}" style="min-height:48px;padding:0 18px" data-en="Explore the console">Conocer la consola</a>
+              <a href="#ingresar" style="font-size:14px" data-en="Already a customer: sign in">Ya soy cliente: ingresar</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="precios-resumen">
+        <div style="max-width:var(--ancho);margin:0 auto;padding:72px 20px">
+          <h2 style="font-size:var(--tipo-h2);margin:0 0 8px" data-en="Plans and pricing">Planes y precios</h2>
+          <p style="max-width:66ch;opacity:.8;margin:0 0 12px" data-en="Transparency note: usage is measured in continuous 24-hour session windows — you don't pay per individual message. Overage: 50 Bs per 150 chats.">Nota de transparencia: el consumo se mide en ventanas de sesión de 24 horas continuas, así que no pagas por cada mensaje suelto. Excedentes: 50 Bs por 150 chats.</p>
+          <p style="margin:0 0 40px;font-size:14.5px"><strong data-en="Standard setup: 800 Bs">Setup Estándar: 800 Bs</strong> <span style="opacity:.75" data-en="— one-time payment for installation, Meta API and database.">— pago único por instalación, API de Meta y base de datos.</span></p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:24px;align-items:start">
+            <article style="background:var(--color-surface);border-radius:var(--r-lg);padding:32px 28px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:14px">
+              <h3 style="font-size:19px;margin:0" data-en="Base plan">Plan Base</h3>
+              <p style="margin:0"><strong style="font-family:var(--font-heading);font-weight:800;font-size:34px">250 Bs</strong><span style="opacity:.7;font-size:14px" data-en="/month">/mes</span></p>
+              <ul style="list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:14px">
+                <li data-en="300 chats">300 chats</li>
+                <li data-en="Text AI chat">Chat IA en texto</li>
+                <li data-en="Google Calendar booking">Agendamiento en Calendar</li>
+                <li data-en="Web console">Panel web</li>
+              </ul>
+              <a class="btn btn-secondary" href="#demo" sc-camel-on-click="{{ irDemo }}" style="min-height:48px" data-en="Start with Base">Empezar con Base</a>
+            </article>
+            <article style="background:var(--color-surface);border-radius:var(--r-lg);padding:32px 28px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow-md)">
+              <div style="display:flex;align-items:center;gap:10px"><h3 style="font-size:19px;margin:0" data-en="Growth plan">Plan Crecimiento</h3><span class="tag tag-accent-2" style="font-size:10px;letter-spacing:.06em;text-transform:uppercase" data-en="Recommended">Recomendado</span></div>
+              <p style="margin:0"><strong style="font-family:var(--font-heading);font-weight:800;font-size:34px">450 Bs</strong><span style="opacity:.7;font-size:14px" data-en="/month">/mes</span></p>
+              <ul style="list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:14px">
+                <li data-en="1,000 chats">1.000 chats</li>
+                <li data-en="Listens to voice notes">Escucha audios</li>
+                <li data-en="Google Sheets integration">Integración con Google Sheets</li>
+                <li data-en="Multi-staff management">Gestión multi-funcionario</li>
+              </ul>
+              <a class="btn" href="#demo" sc-camel-on-click="{{ irDemo }}" style="min-height:48px;background:var(--cta-bg);color:var(--cta-fg)" style-hover="background:var(--cta-bg-hover)" data-en="Start with Growth">Empezar con Crecimiento</a>
+            </article>
+            <article style="background:var(--color-surface);border-radius:var(--r-lg);padding:32px 28px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:14px">
+              <h3 style="font-size:19px;margin:0" data-en="Corporate plan">Plan Corporativo</h3>
+              <p style="margin:0"><strong style="font-family:var(--font-heading);font-weight:800;font-size:34px">850 Bs</strong><span style="opacity:.7;font-size:14px" data-en="/month">/mes</span></p>
+              <ul style="list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:14px">
+                <li data-en="2,500 chats">2.500 chats</li>
+                <li data-en="Everything in Growth">Todo lo anterior</li>
+                <li data-en="Broadcast messaging">Difusión masiva</li>
+              </ul>
+              <a class="btn btn-secondary" href="#demo" sc-camel-on-click="{{ irDemo }}" style="min-height:48px" data-en="Start with Corporate">Empezar con Corporativo</a>
+            </article>
+          </div>
+          <p style="margin:24px 0 0;font-size:13.5px"><a href="#precios" sc-camel-on-click="{{ irPrecios }}" data-en="See the full comparison and glossary →">Ver la comparación completa y el glosario →</a></p>
+        </div>
+      </section>
+
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:32px 20px 56px"><div style="background:var(--banda);color:var(--banda-texto);border-radius:var(--r-lg);padding:52px 44px;position:relative;overflow:hidden;box-shadow:var(--shadow-md)"><div aria-hidden="true" style="position:absolute;top:-120px;right:-80px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(53,226,160,.22),rgba(53,226,160,0) 70%);pointer-events:none"></div>
+          <h2 style="font-size:var(--tipo-h2);margin:0 0 20px;color:var(--banda-texto)" data-en="Our commitment">Nuestro compromiso</h2>
+          <ul style="list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;font-size:15px">
+            <li style="display:flex;gap:10px"><span style="color:#35e2a0;font-weight:800">···</span><span data-en="Our assistant always says it is an AI.">Nuestro asistente siempre dice que es una IA.</span></li>
+            <li style="display:flex;gap:10px"><span style="color:#35e2a0;font-weight:800">···</span><span data-en="Demo charges are always labelled as simulated.">Los cobros de demostración siempre se rotulan como simulados.</span></li>
+            <li style="display:flex;gap:10px"><span style="color:#35e2a0;font-weight:800">···</span><span data-en="We use only the official WhatsApp Business channel.">Usamos únicamente el canal oficial de WhatsApp Business.</span></li>
+          </ul>
+        </div></div>
+      </section>
+
+      <section>
+        <div style="max-width:800px;margin:0 auto;padding:72px 20px">
+          <h2 style="font-size:var(--tipo-h2);margin:0 0 32px" data-en="Frequently asked questions">Preguntas frecuentes</h2>
+          <div style="border-top:1px solid var(--color-divider)">
+            <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="3">
+              <div style="border-bottom:1px solid var(--color-divider)">
+                <button sc-camel-on-click="{{ f.alternar }}" aria-expanded="{{ f.abiertaStr }}" style="width:100%;display:flex;gap:16px;align-items:baseline;text-align:left;background:none;border:0;padding:20px 0;cursor:pointer;font-family:var(--font-heading);font-weight:800;font-size:17px;color:var(--color-text)" style-hover="color:var(--color-accent)">
+                  <span style="flex:1">{{ f.p }}</span><span style="color:var(--verde-texto);font-size:20px">{{ f.signo }}</span>
+                </button>
+                <sc-if value="{{ f.abierta }}" hint-placeholder-val="{{ true }}">
+                  <p style="margin:0;padding:0 0 22px;max-width:66ch;font-size:15px;opacity:.85">{{ f.r }}</p>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <p style="margin:24px 0 0;font-size:13.5px"><a href="#preguntas" sc-camel-on-click="{{ irFaq }}" data-en="See all questions →">Ver todas las preguntas →</a></p>
+        </div>
+      </section>
+
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:72px 20px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+          <div>
+            <h2 style="font-size:var(--tipo-h2);margin:0 0 8px" data-en="Shall we see it in your business?">¿Lo vemos en tu negocio?</h2>
+            <p style="margin:0;opacity:.8;max-width:48ch" data-en="Book a 20-minute demo: we show you the assistant selling for a business like yours.">Agenda una demostración de 20 minutos: te mostramos el asistente vendiendo para un negocio como el tuyo.</p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px">
+            <a class="btn" href="#demo" sc-camel-on-click="{{ irDemo }}" style="min-height:52px;padding:0 22px;font-size:15px;background:var(--cta-bg);color:var(--cta-fg)" style-hover="background:var(--cta-bg-hover)" data-en="Book a demo">Pedir una demo</a>
+            <a class="btn btn-secondary" href="https://wa.me/59170661250?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20de%20NovuChat" target="_blank" rel="noopener noreferrer" style="min-height:52px;padding:0 22px;font-size:15px" data-en="Message us on WhatsApp">Escribir por WhatsApp</a>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ pComo }}">
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:56px 20px">
+          <h1 style="font-size:var(--tipo-h1);margin:0 0 14px;max-width:26ch" data-en="What happens when a customer writes to you">Qué pasa cuando un cliente te escribe</h1>
+          <p style="max-width:62ch;opacity:.85;margin:0" data-en="Five steps, no jargon. You program nothing.">Cinco pasos, sin jerga. Tú no programas nada.</p>
+        </div>
+      </section>
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:56px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px">
+          <div style="background:var(--color-surface);border-radius:var(--r-md);padding:24px 22px;box-shadow:var(--shadow-sm)"><span style="font-family:var(--font-heading);font-weight:800;color:var(--verde-texto);font-size:12px">01</span><h3 style="font-size:17px;margin:6px 0 6px" data-en="WhatsApp">WhatsApp</h3><p style="margin:0;font-size:14px;opacity:.8" data-en="The customer writes to your number, from the app they already use.">El cliente escribe a tu número, desde la aplicación que ya usa.</p></div>
+          <div style="background:var(--color-surface);border-radius:var(--r-md);padding:24px 22px;box-shadow:var(--shadow-sm)"><span style="font-family:var(--font-heading);font-weight:800;color:var(--verde-texto);font-size:12px">02</span><h3 style="font-size:17px;margin:6px 0 6px" data-en="It understands">Entiende</h3><p style="margin:0;font-size:14px;opacity:.8" data-en="It reads the message — or listens to the voice note — and works out what the customer wants.">Lee el mensaje —o escucha el audio— y deduce qué quiere el cliente.</p></div>
+          <div style="background:var(--color-surface);border-radius:var(--r-md);padding:24px 22px;box-shadow:var(--shadow-sm)"><span style="font-family:var(--font-heading);font-weight:800;color:var(--verde-texto);font-size:12px">03</span><h3 style="font-size:17px;margin:6px 0 6px" data-en="It checks">Consulta</h3><p style="margin:0;font-size:14px;opacity:.8" data-en="It looks at your real calendar or your catalogue. It never confirms an appointment that doesn't exist.">Mira tu calendario real o tu catálogo. Nunca confirma una cita que no existe.</p></div>
+          <div style="background:var(--color-surface);border-radius:var(--r-md);padding:24px 22px;box-shadow:var(--shadow-sm)"><span style="font-family:var(--font-heading);font-weight:800;color:var(--verde-texto);font-size:12px">04</span><h3 style="font-size:17px;margin:6px 0 6px" data-en="It answers">Responde</h3><p style="margin:0;font-size:14px;opacity:.8" data-en="It books, takes the order, sends the QR and validates the receipt.">Agenda, toma el pedido, manda el QR y valida el comprobante.</p></div>
+          <div style="background:var(--color-surface);border-radius:var(--r-md);padding:24px 22px;box-shadow:var(--shadow-sm)"><span style="font-family:var(--font-heading);font-weight:800;color:var(--verde-texto);font-size:12px">05</span><h3 style="font-size:17px;margin:6px 0 6px" data-en="It notifies you">Te avisa</h3><p style="margin:0;font-size:14px;opacity:.8" data-en="You see the conversation in the console and get the closing. It hands off to a person when needed.">Ves la conversación en la consola y recibes el cierre. Deriva a una persona cuando hace falta.</p></div>
+        </div>
+      </section>
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:56px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px">
+          <div>
+            <h2 style="font-size:26px;margin:0 0 14px" data-en="What we need from you">Qué necesitamos de ti</h2>
+            <ul style="margin:0;padding-left:18px;display:grid;gap:8px;font-size:15px;opacity:.88">
+              <li data-en="Your WhatsApp number (or we give you one).">Tu número de WhatsApp (o te damos uno).</li>
+              <li data-en="Your list of services or products with prices.">Tu lista de servicios o productos con precios.</li>
+              <li data-en="Your opening hours and your Google calendar.">Tus horarios y tu calendario de Google.</li>
+              <li data-en="The tone you want the assistant to use.">El tono con el que quieres que hable el asistente.</li>
+            </ul>
+          </div>
+          <div>
+            <h2 style="font-size:26px;margin:0 0 14px" data-en="What we don't do">Qué no hacemos</h2>
+            <ul style="margin:0;padding-left:18px;display:grid;gap:8px;font-size:15px;opacity:.88">
+              <li data-en="We don't use unofficial WhatsApp connections: Meta blocks those numbers.">No usamos conexiones no oficiales de WhatsApp: Meta bloquea esos números.</li>
+              <li data-en="We don't let the assistant pretend to be a person.">No hacemos que el asistente se haga pasar por una persona.</li>
+              <li data-en="We don't confirm appointments or payments that didn't happen.">No confirmamos citas ni pagos que no ocurrieron.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ pSoluciones }}">
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:56px 20px">
+          <h1 style="font-size:var(--tipo-h1);margin:0 0 14px" data-en="Solutions by industry">Soluciones por rubro</h1>
+          <p style="max-width:60ch;opacity:.85;margin:0 0 24px" data-en="Choose your industry to see the use cases, an example conversation and the recommended plan.">Elige tu rubro para ver los casos de uso, una conversación de ejemplo y el plan recomendado.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:2px;border:1px solid var(--color-divider);width:max-content">
+            <sc-for list="{{ rubros }}" as="r" hint-placeholder-count="3">
+              <button sc-camel-on-click="{{ r.elegir }}" style="background:{{ r.fondo }};color:{{ r.color }};border:0;padding:12px 18px;min-height:48px;cursor:pointer;font-family:var(--font-body);font-weight:700;font-size:14px">{{ r.nombre }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:56px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:44px">
+          <div>
+            <h2 style="font-size:var(--tipo-h2);margin:0 0 24px">{{ rubroNombre }}</h2>
+            <div style="display:grid;gap:16px">
+              <sc-for list="{{ rubroCasos }}" as="c" hint-placeholder-count="3">
+                <article style="background:var(--color-bg);padding:20px 0"><h3 style="font-size:18px;margin:0 0 6px">{{ c.t }}</h3><p style="margin:0;font-size:14.5px;opacity:.85">{{ c.d }}</p></article>
+              </sc-for>
+            </div>
+            <p style="margin:24px 0 0;font-size:14.5px"><span style="opacity:.75" data-en="Recommended plan:">Plan recomendado:</span> <strong>{{ rubroPlan }}</strong></p>
+            <a class="btn" href="#demo" sc-camel-on-click="{{ irDemo }}" style="margin-top:16px;min-height:52px;padding:0 22px;background:var(--cta-bg);color:var(--cta-fg)" style-hover="background:var(--cta-bg-hover)" data-en="Book a demo for this industry">Pedir una demo para este rubro</a>
+          </div>
+          <div style="background:var(--color-surface);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow-md);display:flex;flex-direction:column;gap:12px;align-self:start">
+            <strong style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.7" data-en="Example conversation · fictional data">Conversación de ejemplo · datos ficticios</strong>
+            <sc-for list="{{ rubroDemo }}" as="m" hint-placeholder-count="4">
+              <div style="max-width:88%;padding:11px 15px;font-size:14.5px;border-radius:20px;background:{{ m.fondo }};align-self:{{ m.alineado }};border:{{ m.borde }}">{{ m.texto }}</div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ pConsola }}">
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:56px 20px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between">
+          <div>
+            <h1 style="font-size:var(--tipo-h1);margin:0 0 14px;max-width:24ch" data-en="Your business, under control, from your phone">Tu negocio, bajo control, desde el celular</h1>
+            <p style="max-width:58ch;opacity:.85;margin:0" data-en="The console is where you watch the assistant work and change whatever you need.">La consola es donde miras trabajar al asistente y cambias lo que necesites.</p>
+          </div>
+          <a class="btn btn-secondary" href="#ingresar" style="min-height:52px;padding:0 22px" data-en="Sign in to the console">Ingresar a la consola</a>
+        </div>
+      </section>
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:56px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px">
+
+          <figure style="margin:0">
+            <div style="background:var(--color-surface);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-md)">
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--color-surface);border-bottom:1px solid var(--color-divider)">
+                <svg sc-camel-view-box="0 0 32 32" width="17" height="17" aria-hidden="true"><circle cx="15" cy="14.5" r="13.2" fill="var(--pizarra)"></circle><circle cx="15" cy="14.5" r="10" fill="none" stroke="#fff" stroke-width="2.6"></circle><circle cx="10.6" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="15" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="19.4" cy="14.5" r="2" fill="#35e2a0"></circle></svg>
+                <strong style="font-family:var(--font-body);font-weight:700;font-size:12px">NovuChat</strong>
+                <span style="width:2px;height:14px;background:var(--color-divider)"></span>
+                <span style="font-size:11px;opacity:.8">Salón Aurora</span>
+                <span class="tag tag-neutral" style="margin-left:auto;font-size:9px" data-en="Owner">Dueño</span>
+              </div>
+              <div style="padding:12px 10px;display:grid;gap:10px">
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+                  <div style="background:var(--color-bg);border-radius:14px;padding:10px 12px"><strong style="display:block;font-family:var(--font-heading);font-weight:800;font-size:20px">38</strong><span style="font-size:9.5px;opacity:.7" data-en="chats this month">chats este mes</span></div>
+                  <div style="background:var(--color-bg);border-radius:14px;padding:10px 12px"><strong style="display:block;font-family:var(--font-heading);font-weight:800;font-size:20px;color:var(--verde-texto)">21</strong><span style="font-size:9.5px;opacity:.7" data-en="closings">cierres</span></div>
+                  <div style="background:var(--color-bg);border-radius:14px;padding:10px 12px"><strong style="display:block;font-family:var(--font-heading);font-weight:800;font-size:20px">52 s</strong><span style="font-size:9.5px;opacity:.7" data-en="avg. reply">respuesta media</span></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:9.5px;opacity:.7;margin-bottom:5px"><span data-en="Plan usage: 38 of 300 chats">Consumo del plan: 38 de 300 chats</span><span>13%</span></div>
+                  <div style="height:8px;border-radius:999px;background:var(--color-accent-100)"><div style="width:13%;height:8px;border-radius:999px;background:#12c489"></div></div>
+                </div>
+                <div style="display:flex;align-items:flex-end;gap:5px;height:64px;padding-top:4px;border-bottom:1px solid var(--color-divider)">
+                  <span style="flex:1;height:38%;background:var(--color-accent-200);border-radius:999px 999px 0 0"></span>
+                  <span style="flex:1;height:56%;background:var(--color-accent-200);border-radius:999px 999px 0 0"></span>
+                  <span style="flex:1;height:30%;background:var(--color-accent-200);border-radius:999px 999px 0 0"></span>
+                  <span style="flex:1;height:72%;background:var(--color-accent-200);border-radius:999px 999px 0 0"></span>
+                  <span style="flex:1;height:88%;background:#12c489;border-radius:999px 999px 0 0"></span>
+                  <span style="flex:1;height:64%;background:var(--color-accent-200);border-radius:999px 999px 0 0"></span>
+                  <span style="flex:1;height:44%;background:var(--color-accent-200);border-radius:999px 999px 0 0"></span>
+                </div>
+                <span style="font-size:9.5px;opacity:.6" data-en="Chats per day, last 7 days">Chats por día, últimos 7 días</span>
+              </div>
+            </div>
+            <figcaption style="font-size:11.5px" data-en="Dashboard. Fictional data.">Tablero. Datos ficticios.</figcaption>
+          </figure>
+
+          <figure style="margin:0">
+            <div style="background:var(--color-surface);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-md)">
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--color-surface);border-bottom:1px solid var(--color-divider)">
+                <svg sc-camel-view-box="0 0 32 32" width="17" height="17" aria-hidden="true"><circle cx="15" cy="14.5" r="13.2" fill="var(--pizarra)"></circle><circle cx="15" cy="14.5" r="10" fill="none" stroke="#fff" stroke-width="2.6"></circle><circle cx="10.6" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="15" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="19.4" cy="14.5" r="2" fill="#35e2a0"></circle></svg>
+                <strong style="font-family:var(--font-body);font-weight:700;font-size:12px">NovuChat</strong>
+                <span style="width:2px;height:14px;background:var(--color-divider)"></span>
+                <strong style="font-family:var(--font-body);font-weight:700;font-size:12px" data-en="Conversations">Conversaciones</strong>
+                <span class="tag tag-accent-2" style="margin-left:auto;font-size:9px" data-en="4 active">4 activas</span>
+              </div>
+              <div style="display:grid;grid-template-columns:40% 1fr;min-height:236px">
+                <div style="border-right:1px solid var(--color-divider)">
+                  <div style="padding:8px 9px;border-bottom:1px solid var(--color-divider);background:var(--color-accent-100)"><strong style="font-size:10.5px">María Q.</strong><span style="display:block;font-size:9.5px;opacity:.75" data-en="Booked: tomorrow 4:30 PM">Turno: mañana 16:30</span></div>
+                  <div style="padding:8px 9px;border-bottom:1px solid var(--color-divider)"><strong style="font-size:10.5px">Jorge V.</strong><span style="display:block;font-size:9.5px;opacity:.75" data-en="Colour prices">Precios de color</span></div>
+                  <div style="padding:8px 9px;border-bottom:1px solid var(--color-divider)"><strong style="font-size:10.5px">Lucía R.</strong><span style="display:block;font-size:9.5px;opacity:.75;color:var(--verde-texto)" data-en="Handed off">Derivada</span></div>
+                  <div style="padding:8px 9px"><strong style="font-size:10.5px">Ana P.</strong><span style="display:block;font-size:9.5px;opacity:.75" data-en="Rescheduled">Reagendó</span></div>
+                </div>
+                <div style="padding:10px;display:flex;flex-direction:column;gap:7px">
+                  <div style="align-self:flex-end;max-width:84%;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:13px;padding:6px 10px;font-size:10.5px" data-en="Can I move it to Friday?">¿Puedo pasarlo al viernes?</div>
+                  <div style="align-self:flex-start;max-width:88%;background:var(--color-accent-100);border-radius:13px;padding:6px 10px;font-size:10.5px" data-en="Friday I have 10:00 and 5:00 PM free.">El viernes tengo libre 10:00 y 17:00.</div>
+                  <div style="align-self:flex-end;max-width:84%;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:13px;padding:6px 10px;font-size:10.5px">10:00</div>
+                  <div style="align-self:flex-start;max-width:88%;background:var(--color-accent-100);border-radius:13px;padding:6px 10px;font-size:10.5px" data-en="Moved to Friday 10:00. The old slot is free again.">Cambiado al viernes 10:00. El horario anterior queda libre.</div>
+                </div>
+              </div>
+            </div>
+            <figcaption style="font-size:11.5px" data-en="Conversations, with handoff to a person.">Conversaciones, con derivación a una persona.</figcaption>
+          </figure>
+
+          <figure style="margin:0">
+            <div style="background:var(--color-surface);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-md)">
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--color-surface);border-bottom:1px solid var(--color-divider)">
+                <svg sc-camel-view-box="0 0 32 32" width="17" height="17" aria-hidden="true"><circle cx="15" cy="14.5" r="13.2" fill="var(--pizarra)"></circle><circle cx="15" cy="14.5" r="10" fill="none" stroke="#fff" stroke-width="2.6"></circle><circle cx="10.6" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="15" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="19.4" cy="14.5" r="2" fill="#35e2a0"></circle></svg>
+                <strong style="font-family:var(--font-body);font-weight:700;font-size:12px">NovuChat</strong>
+                <span style="width:2px;height:14px;background:var(--color-divider)"></span>
+                <strong style="font-family:var(--font-body);font-weight:700;font-size:12px" data-en="Settings">Configuración</strong>
+              </div>
+              <div style="padding:12px 10px;display:grid;gap:10px">
+                <div><span style="display:block;font-size:9.5px;opacity:.7;margin-bottom:3px" data-en="Opening hours">Horarios de atención</span><span style="display:block;border:1px solid var(--color-divider);border-radius:999px;background:var(--color-bg);padding:7px 12px;font-size:10.5px" data-en="Mon to Sat · 9:00 – 19:00">Lun a Sáb · 9:00 – 19:00</span></div>
+                <div><span style="display:block;font-size:9.5px;opacity:.7;margin-bottom:3px" data-en="Assistant tone">Tono del asistente</span><span style="display:block;border:1px solid var(--color-divider);border-radius:999px;background:var(--color-bg);padding:7px 12px;font-size:10.5px" data-en="Warm, informal, no slang">Cordial, tuteo, sin modismos</span></div>
+                <div>
+                  <span style="display:block;font-size:9.5px;opacity:.7;margin-bottom:3px" data-en="Services and prices">Servicios y precios</span>
+                  <sc-raw-table class="table" style="font-size:10.5px"><sc-raw-tbody>
+                    <sc-raw-tr><sc-raw-td style="padding:5px 6px" data-en="Haircut">Corte</sc-raw-td><sc-raw-td style="padding:5px 6px;text-align:right">70 Bs</sc-raw-td><sc-raw-td style="padding:5px 6px;text-align:right">45 min</sc-raw-td></sc-raw-tr>
+                    <sc-raw-tr><sc-raw-td style="padding:5px 6px" data-en="Colour">Color</sc-raw-td><sc-raw-td style="padding:5px 6px;text-align:right">280 Bs</sc-raw-td><sc-raw-td style="padding:5px 6px;text-align:right">2 h</sc-raw-td></sc-raw-tr>
+                    <sc-raw-tr><sc-raw-td style="padding:5px 6px" data-en="Manicure">Manicure</sc-raw-td><sc-raw-td style="padding:5px 6px;text-align:right">60 Bs</sc-raw-td><sc-raw-td style="padding:5px 6px;text-align:right">40 min</sc-raw-td></sc-raw-tr>
+                  </sc-raw-tbody></sc-raw-table>
+                </div>
+                <div style="display:flex;gap:6px"><span style="background:var(--pizarra);color:#fff;border-radius:999px;padding:7px 10px;font-size:10px;font-family:var(--font-heading);font-weight:800" data-en="Save changes">Guardar cambios</span><span style="border:1px solid var(--color-divider);padding:7px 10px;font-size:10px" data-en="Discard">Descartar</span></div>
+              </div>
+            </div>
+            <figcaption style="font-size:11.5px" data-en="Settings: hours, tone, services and prices.">Configuración: horarios, tono, servicios y precios.</figcaption>
+          </figure>
+
+          <figure style="margin:0">
+            <div style="background:var(--color-surface);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-md)">
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--color-surface);border-bottom:1px solid var(--color-divider)">
+                <svg sc-camel-view-box="0 0 32 32" width="17" height="17" aria-hidden="true"><circle cx="15" cy="14.5" r="13.2" fill="var(--pizarra)"></circle><circle cx="15" cy="14.5" r="10" fill="none" stroke="#fff" stroke-width="2.6"></circle><circle cx="10.6" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="15" cy="14.5" r="2" fill="#35e2a0"></circle><circle cx="19.4" cy="14.5" r="2" fill="#35e2a0"></circle></svg>
+                <strong style="font-family:var(--font-body);font-weight:700;font-size:12px">NovuChat</strong>
+                <span style="width:2px;height:14px;background:var(--color-divider)"></span>
+                <strong style="font-family:var(--font-body);font-weight:700;font-size:12px" data-en="Staff and closings">Funcionarios y cierres</strong>
+              </div>
+              <div style="padding:12px 10px;display:grid;gap:12px">
+                <sc-raw-table class="table" style="font-size:10.5px">
+                  <sc-raw-thead><sc-raw-tr><sc-raw-th style="padding:5px 6px" data-en="Staff">Funcionario</sc-raw-th><sc-raw-th style="padding:5px 6px" data-en="Specialty">Especialidad</sc-raw-th><sc-raw-th style="padding:5px 6px;text-align:right" data-en="Bookings">Citas</sc-raw-th></sc-raw-tr></sc-raw-thead>
+                  <sc-raw-tbody>
+                    <sc-raw-tr><sc-raw-td style="padding:5px 6px">Andrea</sc-raw-td><sc-raw-td style="padding:5px 6px" data-en="Colour and cut">Color y corte</sc-raw-td><sc-raw-td style="padding:5px 6px;text-align:right">14</sc-raw-td></sc-raw-tr>
+                    <sc-raw-tr><sc-raw-td style="padding:5px 6px">Rocío</sc-raw-td><sc-raw-td style="padding:5px 6px" data-en="Manicure">Manicure</sc-raw-td><sc-raw-td style="padding:5px 6px;text-align:right">9</sc-raw-td></sc-raw-tr>
+                    <sc-raw-tr><sc-raw-td style="padding:5px 6px">Pablo</sc-raw-td><sc-raw-td style="padding:5px 6px" data-en="Barber">Barbería</sc-raw-td><sc-raw-td style="padding:5px 6px;text-align:right">11</sc-raw-td></sc-raw-tr>
+                  </sc-raw-tbody>
+                </sc-raw-table>
+                <div style="border-top:1px solid var(--color-divider);padding-top:9px;display:flex;justify-content:space-between;align-items:baseline">
+                  <span style="font-size:10px;opacity:.75" data-en="September closings">Cierres de septiembre</span>
+                  <strong style="font-family:var(--font-heading);font-weight:800;font-size:17px">34</strong>
+                </div>
+                <div style="background:var(--color-surface);border-radius:14px;border-left:3px solid #12c489;padding:10px 12px;font-size:10px" data-en="Log: NovuChat support opened your settings on 09/01 at your request. It changed nothing.">Bitácora: soporte de NovuChat abrió tu configuración el 01/09 a tu pedido. No cambió nada.</div>
+              </div>
+            </div>
+            <figcaption style="font-size:11.5px" data-en="Staff with their own calendars, closings and activity log.">Funcionarios con agenda propia, cierres y bitácora.</figcaption>
+          </figure>
+
+        </div>
+      </section>
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:56px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px">
+          <div>
+            <h2 style="font-size:26px;margin:0 0 16px" data-en="Roles">Roles</h2>
+            <sc-raw-table class="table">
+              <sc-raw-tbody>
+                <sc-raw-tr><sc-raw-td style="width:34%"><strong data-en="Owner">Dueño</strong></sc-raw-td><sc-raw-td data-en="Configures everything and sees every closing.">Configura todo y ve todos los cierres.</sc-raw-td></sc-raw-tr>
+                <sc-raw-tr><sc-raw-td><strong data-en="Operator">Operador</strong></sc-raw-td><sc-raw-td data-en="Watches conversations and records complaints.">Mira conversaciones y registra reclamos.</sc-raw-td></sc-raw-tr>
+                <sc-raw-tr><sc-raw-td><strong>NovuChat</strong></sc-raw-td><sc-raw-td data-en="Support only; never edits your settings without your request.">Soporte; nunca edita tu configuración sin tu pedido.</sc-raw-td></sc-raw-tr>
+              </sc-raw-tbody>
+            </sc-raw-table>
+          </div>
+          <div>
+            <h2 style="font-size:26px;margin:0 0 16px" data-en="Security, without jargon">Seguridad, sin jerga</h2>
+            <ul style="list-style:none;padding:0;margin:0;display:grid;gap:12px;font-size:15px">
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Each business sees only its own data, and the rules that guarantee it are tested automatically on every change.">Cada negocio ve solo lo suyo, y las reglas que lo garantizan se prueban automáticamente en cada cambio.</span></li>
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="NovuChat staff sign in only with a Google account and a second factor.">El personal de NovuChat entra únicamente con cuenta de Google y segundo factor.</span></li>
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="If a payment is late you still see your data and the reason; your customers get a neutral message.">Si un pago se atrasa, sigues viendo tus datos y el motivo; tus clientes reciben un mensaje neutro.</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ pPrecios }}">
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:56px 20px">
+          <h1 style="font-size:var(--tipo-h1);margin:0 0 14px" data-en="Plans and pricing">Planes y precios</h1>
+          <p style="max-width:66ch;opacity:.85;margin:0 0 8px" data-en="Usage is measured in continuous 24-hour session windows: you don't pay per individual message. Overage: 50 Bs per 150 chats.">El consumo se mide en ventanas de sesión de 24 horas continuas: no pagas por cada mensaje suelto. Excedentes: 50 Bs por 150 chats.</p>
+          <p style="margin:0;font-size:14.5px"><strong data-en="Standard setup: 800 Bs">Setup Estándar: 800 Bs</strong> <span style="opacity:.75" data-en="— one-time payment for installation, Meta API and database.">— pago único por instalación, API de Meta y base de datos.</span></p>
+        </div>
+      </section>
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:40px 20px;overflow-x:auto">
+          <sc-raw-table class="table" style="min-width:640px">
+            <sc-raw-thead>
+              <sc-raw-tr>
+                <sc-raw-th data-en="What's included">Qué incluye</sc-raw-th>
+                <sc-raw-th data-en="Base · 250 Bs">Base · 250 Bs</sc-raw-th>
+                <sc-raw-th style="color:var(--verde-texto)" data-en="Growth · 450 Bs">Crecimiento · 450 Bs</sc-raw-th>
+                <sc-raw-th data-en="Corporate · 850 Bs">Corporativo · 850 Bs</sc-raw-th>
+              </sc-raw-tr>
+            </sc-raw-thead>
+            <sc-raw-tbody>
+              <sc-raw-tr><sc-raw-td data-en="Chats included per month">Chats incluidos al mes</sc-raw-td><sc-raw-td>300</sc-raw-td><sc-raw-td>1.000</sc-raw-td><sc-raw-td>2.500</sc-raw-td></sc-raw-tr>
+              <sc-raw-tr><sc-raw-td data-en="AI text chat">Chat IA en texto</sc-raw-td><sc-raw-td>✓</sc-raw-td><sc-raw-td>✓</sc-raw-td><sc-raw-td>✓</sc-raw-td></sc-raw-tr>
+              <sc-raw-tr><sc-raw-td data-en="Google Calendar booking">Agendamiento en Google Calendar</sc-raw-td><sc-raw-td>✓</sc-raw-td><sc-raw-td>✓</sc-raw-td><sc-raw-td>✓</sc-raw-td></sc-raw-tr>
+              <sc-raw-tr><sc-raw-td data-en="Web console">Panel web</sc-raw-td><sc-raw-td>✓</sc-raw-td><sc-raw-td>✓</sc-raw-td><sc-raw-td>✓</sc-raw-td></sc-raw-tr>
+              <sc-raw-tr><sc-raw-td data-en="Listens to voice notes">Escucha audios</sc-raw-td><sc-raw-td style="opacity:.4">—</sc-raw-td><sc-raw-td>✓</sc-raw-td><sc-raw-td>✓</sc-raw-td></sc-raw-tr>
+              <sc-raw-tr><sc-raw-td data-en="Google Sheets integration">Integración con Google Sheets</sc-raw-td><sc-raw-td style="opacity:.4">—</sc-raw-td><sc-raw-td>✓</sc-raw-td><sc-raw-td>✓</sc-raw-td></sc-raw-tr>
+              <sc-raw-tr><sc-raw-td data-en="Multi-staff management">Gestión multi-funcionario</sc-raw-td><sc-raw-td style="opacity:.4">—</sc-raw-td><sc-raw-td>✓</sc-raw-td><sc-raw-td>✓</sc-raw-td></sc-raw-tr>
+              <sc-raw-tr><sc-raw-td data-en="Broadcast messaging">Difusión masiva</sc-raw-td><sc-raw-td style="opacity:.4">—</sc-raw-td><sc-raw-td style="opacity:.4">—</sc-raw-td><sc-raw-td>✓</sc-raw-td></sc-raw-tr>
+              <sc-raw-tr><sc-raw-td data-en="Overage">Excedentes</sc-raw-td><sc-raw-td sc-camel-col-span="3" data-en="50 Bs per 150 additional chats, on any plan">50 Bs por cada 150 chats adicionales, en cualquier plan</sc-raw-td></sc-raw-tr>
+            </sc-raw-tbody>
+          </sc-raw-table>
+        </div>
+      </section>
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:48px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px">
+          <div>
+            <h2 style="font-size:22px;margin:0 0 12px" data-en="Glossary">Glosario</h2>
+            <dl style="margin:0;font-size:14.5px;display:grid;gap:12px">
+              <div><dt style="font-weight:600" data-en="Session window">Ventana de sesión</dt><dd style="margin:2px 0 0;opacity:.82" data-en="24 continuous hours of conversation with one customer, however many messages it takes.">24 horas continuas de conversación con un cliente, sin importar cuántos mensajes tome.</dd></div>
+              <div><dt style="font-weight:600" data-en="Chat">Chat</dt><dd style="margin:2px 0 0;opacity:.82" data-en="One session window with one number. Two windows with the same customer count as two.">Una ventana de sesión con un número. Dos ventanas con el mismo cliente cuentan como dos.</dd></div>
+              <div><dt style="font-weight:600" data-en="Closing">Cierre</dt><dd style="margin:2px 0 0;opacity:.82" data-en="A conversation that ended in a booked appointment or a paid order.">Una conversación que terminó en cita agendada o pedido pagado.</dd></div>
+            </dl>
+          </div>
+          <div style="background:var(--color-surface);border-radius:var(--r-lg);padding:28px 26px;box-shadow:var(--shadow-sm)">
+            <h2 style="font-size:22px;margin:0 0 10px" data-en="Launch offer">Oferta de lanzamiento</h2>
+            <p style="margin:0 0 16px;font-size:14.5px;opacity:.85" data-en="Setup free for the first 10 businesses that sign up during the Business Roundtable, September 9 and 10.">Setup bonificado para los primeros 10 comercios que contraten durante la Rueda de Negocios, el 9 y 10 de septiembre.</p>
+            <a class="btn" href="#demo" sc-camel-on-click="{{ irDemo }}" style="min-height:48px;background:var(--cta-bg);color:var(--cta-fg)" style-hover="background:var(--cta-bg-hover)" data-en="Claim the offer">Aprovechar la oferta</a>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ pDemo }}">
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:56px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:44px;align-items:start">
+          <div>
+            <h1 style="font-size:var(--tipo-h1);margin:0 0 14px" data-en="Book a demo">Pedir una demostración</h1>
+            <p style="max-width:52ch;opacity:.85;margin:0 0 28px" data-en="Leave us your details and we'll write to you on WhatsApp in under 24 business hours.">Déjanos tus datos y te escribimos por WhatsApp en menos de 24 horas hábiles.</p>
+            <sc-if value="{{ envioExito }}">
+              <div style="background:var(--color-surface);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow-sm)">
+                <h2 style="font-size:20px;margin:0 0 8px" data-en="Done, we'll write to you on WhatsApp in under 24 business hours.">Listo, te escribimos por WhatsApp en menos de 24 horas hábiles.</h2>
+                <p style="margin:0 0 14px;font-size:14.5px;opacity:.82" data-en="Meanwhile, you can try the simulator here beside this.">Mientras tanto, puedes probar el simulador que está al lado.</p>
+                <button class="btn btn-secondary" sc-camel-on-click="{{ reiniciarFormulario }}" style="min-height:44px" data-en="Send another">Enviar otro</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ envioCargando }}">
+              <div style="border:1px solid var(--color-divider);padding:20px;font-size:14.5px" data-en="Sending your details…">Enviando tus datos…</div>
+            </sc-if>
+            <sc-if value="{{ envioInactivo }}" hint-placeholder-val="{{ true }}">
+              <form sc-camel-on-submit="{{ enviarFormulario }}" style="display:grid;gap:16px">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px">
+                  <div class="field"><label for="d-nombre" data-en="Name">Nombre</label><input class="input" id="d-nombre" name="nombre" required="" style="min-height:48px"></div>
+                  <div class="field"><label for="d-negocio" data-en="Business">Negocio</label><input class="input" id="d-negocio" name="negocio" required="" style="min-height:48px"></div>
+                  <div class="field"><label for="d-rubro" data-en="Industry">Rubro</label><sc-raw-select class="input" id="d-rubro" name="rubro" style="min-height:48px"><option>Salud y Belleza</option><option>Gastronomía</option><option>Comercio y Retail</option><option>Otro</option></sc-raw-select></div>
+                  <div class="field"><label for="d-ciudad" data-en="City">Ciudad</label><input class="input" id="d-ciudad" name="ciudad" style="min-height:48px"></div>
+                  <div class="field"><label for="d-wa" data-en="WhatsApp">WhatsApp</label><input class="input" id="d-wa" name="whatsapp" sc-camel-default-value="+591 " required="" style="min-height:48px"></div>
+                  <div class="field"><label for="d-correo" data-en="Email">Correo</label><input class="input" id="d-correo" name="correo" type="email" required="" style="min-height:48px"></div>
+                  <div class="field"><label for="d-clientes" data-en="Customers per day">Clientes por día</label><sc-raw-select class="input" id="d-clientes" name="clientes" style="min-height:48px"><option>1 a 10</option><option>10 a 30</option><option>30 a 100</option><option>más de 100</option></sc-raw-select></div>
+                  <div class="field"><label for="d-interes" data-en="What interests you">Qué te interesa</label><sc-raw-select class="input" id="d-interes" name="interes" style="min-height:48px"><option>Agenda</option><option>Pedidos</option><option>Ambos</option></sc-raw-select></div>
+                </div>
+                <div class="field"><label for="d-mensaje" data-en="Message">Mensaje</label><textarea class="input" id="d-mensaje" name="mensaje" style="min-height:96px"></textarea></div>
+                <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px"><input type="checkbox" name="privacidad" style="margin-top:3px;width:20px;height:20px;accent-color:var(--color-accent-2-600)"><span data-en="I accept the privacy policy and that NovuChat contacts me about this request.">Acepto la política de privacidad y que NovuChat me contacte por esta solicitud.</span></label>
+                <sc-if value="{{ envioError }}">
+                  <div style="border:1px solid #b3261e;border-radius:var(--r-md);padding:16px 18px;font-size:14px;color:#b3261e" role="alert" data-en="We couldn't send it: you need to accept the privacy policy. If the problem persists, write to us on WhatsApp.">No pudimos enviarlo: falta aceptar la política de privacidad. Si el problema sigue, escríbenos por WhatsApp.</div>
+                </sc-if>
+                <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+                  <button class="btn" type="submit" style="min-height:52px;padding:0 22px;font-size:15px;background:var(--cta-bg);color:var(--cta-fg)" style-hover="background:var(--cta-bg-hover)" data-en="Book my demo">Pedir mi demostración</button>
+                  <a href="#privacidad" sc-camel-on-click="{{ irPrivacidad }}" style="font-size:13.5px" data-en="Read the privacy policy">Leer la política de privacidad</a>
+                </div>
+              </form>
+            </sc-if>
+          </div>
+          <div style="background:var(--color-surface);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow-md);display:flex;flex-direction:column;gap:12px">
+            <div style="padding-bottom:12px;border-bottom:1px solid var(--color-divider)">
+              <strong style="font-size:13.5px" data-en="Simulator · Salón Aurora (fictional business)">Simulador · Salón Aurora (negocio ficticio)</strong>
+              <span style="display:block;font-size:11.5px;opacity:.7;margin-top:2px" data-en="No real WhatsApp, no real appointments. It's an AI.">Sin WhatsApp real y sin citas reales. Es una IA.</span>
+            </div>
+            <sc-for list="{{ simMensajes }}" as="m" hint-placeholder-count="2">
+              <div style="max-width:88%;padding:11px 15px;font-size:14.5px;border-radius:20px;background:{{ m.fondo }};align-self:{{ m.alineado }};border:{{ m.borde }}">{{ m.texto }}</div>
+            </sc-for>
+            <form sc-camel-on-submit="{{ enviarSim }}" style="display:flex;gap:8px;margin-top:auto">
+              <input class="input" value="{{ simTexto }}" sc-camel-on-change="{{ cambiarSimTexto }}" placeholder="Escribe como si fueras un cliente" style="min-height:44px">
+              <button class="btn btn-secondary" type="submit" style="min-height:44px" data-en="Send">Enviar</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ pFaq }}">
+      <section>
+        <div style="max-width:800px;margin:0 auto;padding:56px 20px">
+          <h1 style="font-size:var(--tipo-h1);margin:0 0 28px" data-en="Frequently asked questions">Preguntas frecuentes</h1>
+          <div style="border-top:1px solid var(--color-divider)">
+            <sc-for list="{{ faqsTodas }}" as="f" hint-placeholder-count="6">
+              <div style="border-bottom:1px solid var(--color-divider)">
+                <button sc-camel-on-click="{{ f.alternar }}" aria-expanded="{{ f.abiertaStr }}" style="width:100%;display:flex;gap:16px;align-items:baseline;text-align:left;background:none;border:0;padding:20px 0;cursor:pointer;font-family:var(--font-heading);font-weight:800;font-size:17px;color:var(--color-text)" style-hover="color:var(--color-accent)">
+                  <span style="flex:1">{{ f.p }}</span><span style="color:var(--verde-texto);font-size:20px">{{ f.signo }}</span>
+                </button>
+                <sc-if value="{{ f.abierta }}">
+                  <p style="margin:0;padding:0 0 22px;max-width:66ch;font-size:15px;opacity:.85">{{ f.r }}</p>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ pNosotros }}">
+      <section>
+        <div style="max-width:800px;margin:0 auto;padding:56px 20px">
+          <h1 style="font-size:var(--tipo-h1);margin:0 0 20px" data-en="About us">Nosotros</h1>
+          <p style="opacity:.88" data-en="NovuChat is a service of AAB1, a Bolivian technology consultancy based in La Paz that builds cloud and AI systems for local companies.">NovuChat es un servicio de AAB1, consultoría tecnológica boliviana con base en La Paz que construye sistemas de nube e inteligencia artificial para empresas locales.</p>
+          <p style="opacity:.88" data-en="We build for businesses here: mid-range Android phones, mobile data, customers who write at eleven at night. That constraint decides how the assistant and the console are designed.">Construimos para los negocios de aquí: celulares Android de gama media, datos móviles, clientes que escriben a las once de la noche. Esa restricción decide cómo se diseñan el asistente y la consola.</p>
+          <hr class="hr">
+          <ul style="list-style:none;padding:0;margin:0;display:grid;gap:14px;font-size:15px">
+            <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Our assistant always says it is an AI.">Nuestro asistente siempre dice que es una IA.</span></li>
+            <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Demo charges are always labelled as simulated.">Los cobros de demostración siempre se rotulan como simulados.</span></li>
+            <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="We use only the official WhatsApp Business channel.">Usamos únicamente el canal oficial de WhatsApp Business.</span></li>
+          </ul>
+          <p style="margin-top:24px;font-size:14.5px"><a href="https://www.aab1.website" target="_blank" rel="noopener noreferrer">www.aab1.website ↗</a></p>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ pContacto }}">
+      <section>
+        <div style="max-width:var(--ancho);margin:0 auto;padding:56px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:44px;align-items:start">
+          <div>
+            <h1 style="font-size:var(--tipo-h1);margin:0 0 16px" data-en="Contact">Contacto</h1>
+            <p style="max-width:48ch;opacity:.85;margin:0 0 24px" data-en="Write to us on WhatsApp for an answer the same day, or leave your message in the form.">Escríbenos por WhatsApp y te respondemos el mismo día, o déjanos tu mensaje en el formulario.</p>
+            <ul style="list-style:none;padding:0;margin:0 0 24px;display:grid;gap:14px;font-size:15px">
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span>WhatsApp: <a href="https://wa.me/59170661250?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20de%20NovuChat" target="_blank" rel="noopener noreferrer">+591 70661250</a></span></li>
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span><span data-en="Email">Correo</span>: <a href="mailto:silvana@novuchat.site">silvana@novuchat.site</a></span></li>
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="La Paz, Bolivia">La Paz, Bolivia</span></li>
+              <li style="display:flex;gap:10px"><span style="color:var(--verde-texto);font-weight:800">···</span><span data-en="Monday to Friday, 9:00 to 19:00. The assistant answers 24/7.">Lunes a viernes de 9:00 a 19:00. El asistente atiende 24/7.</span></li>
+            </ul>
+            <a class="btn" href="https://wa.me/59170661250?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20de%20NovuChat" target="_blank" rel="noopener noreferrer" style="min-height:52px;padding:0 22px;background:var(--cta-bg);color:var(--cta-fg)" style-hover="background:var(--cta-bg-hover)" data-en="Message +591 70661250 on WhatsApp">Escribir al WhatsApp +591 70661250</a>
+          </div>
+          <div style="background:var(--color-surface);border-radius:var(--r-lg);padding:32px 28px;box-shadow:var(--shadow-sm)">
+            <h2 style="font-size:22px;margin:0 0 18px" data-en="Send us a message">Envíanos un mensaje</h2>
+            <sc-if value="{{ envioCExito }}">
+              <div>
+                <p style="margin:0 0 14px;font-size:15px" data-en="Thanks. We received your message and we'll reply from silvana@novuchat.site or by WhatsApp.">Gracias. Recibimos tu mensaje y te respondemos desde silvana@novuchat.site o por WhatsApp.</p>
+                <button class="btn btn-secondary" sc-camel-on-click="{{ reiniciarContacto }}" style="min-height:44px" data-en="Send another">Enviar otro</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ envioCCargando }}">
+              <p style="margin:0;font-size:14.5px" data-en="Sending your message…">Enviando tu mensaje…</p>
+            </sc-if>
+            <sc-if value="{{ envioCInactivo }}" hint-placeholder-val="{{ true }}">
+              <form sc-camel-on-submit="{{ enviarContacto }}" style="display:grid;gap:14px">
+                <div class="field"><label for="c-nombre" data-en="Name">Nombre</label><input class="input" id="c-nombre" name="nombre" required="" style="min-height:48px"></div>
+                <div class="field"><label for="c-correo" data-en="Email">Correo</label><input class="input" id="c-correo" name="correo" type="email" required="" style="min-height:48px"></div>
+                <div class="field"><label for="c-wa" data-en="WhatsApp">WhatsApp</label><input class="input" id="c-wa" name="whatsapp" sc-camel-default-value="+591 " style="min-height:48px"></div>
+                <div class="field"><label for="c-mensaje" data-en="Message">Mensaje</label><textarea class="input" id="c-mensaje" name="mensaje" required="" style="min-height:96px"></textarea></div>
+                <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px"><input type="checkbox" name="privacidadC" style="margin-top:3px;width:20px;height:20px;accent-color:var(--color-accent-2-600)"><span data-en="I accept the privacy policy and that NovuChat replies to me.">Acepto la política de privacidad y que NovuChat me responda.</span></label>
+                <sc-if value="{{ envioCError }}">
+                  <div style="border:1px solid #b3261e;border-radius:var(--r-md);padding:16px 18px;font-size:14px;color:#b3261e" role="alert" data-en="We couldn't send it: you need to accept the privacy policy.">No pudimos enviarlo: falta aceptar la política de privacidad.</div>
+                </sc-if>
+                <button class="btn" type="submit" style="min-height:52px;padding:0 22px;background:var(--cta-bg);color:var(--cta-fg)" style-hover="background:var(--cta-bg-hover)" data-en="Send message">Enviar mensaje</button>
+              </form>
+            </sc-if>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ pPrivacidad }}">
+      <section>
+        <div style="max-width:720px;margin:0 auto;padding:56px 20px">
+          <h1 style="font-size:var(--tipo-h1);margin:0 0 8px" data-en="Privacy policy">Política de privacidad</h1>
+          <p style="font-size:13px;opacity:.65;margin:0 0 28px" data-en="Template page — legal text pending review.">Página plantilla — texto legal pendiente de revisión.</p>
+          <h2 style="font-size:22px;margin:28px 0 8px" data-en="Who we are">Quiénes somos</h2>
+          <p style="opacity:.85" data-en="NovuChat is a service of AAB1, La Paz, Bolivia.">NovuChat es un servicio de AAB1, La Paz, Bolivia.</p>
+          <h2 style="font-size:22px;margin:28px 0 8px" data-en="WhatsApp messaging">Mensajería por WhatsApp</h2>
+          <p style="opacity:.85" data-en="We process the customer's number, message content and delivery states through Meta's official WhatsApp Business Cloud API. NovuChat acts as data processor on behalf of each client business, which remains the data controller.">Tratamos el número del cliente, el contenido de los mensajes y los estados de entrega a través de la API oficial de WhatsApp Business Cloud de Meta. NovuChat actúa como encargado del tratamiento por cuenta de cada empresa cliente, que es la responsable de los datos.</p>
+          <h2 style="font-size:22px;margin:28px 0 8px" data-en="Third-party AI models">Modelos de IA de terceros</h2>
+          <p style="opacity:.85" data-en="Replies are generated with third-party AI models. We send them the conversation needed to answer, and the assistant always identifies itself as an AI.">Las respuestas se generan con modelos de IA de terceros. Les enviamos la conversación necesaria para responder, y el asistente siempre se identifica como una IA.</p>
+          <h2 style="font-size:22px;margin:28px 0 8px" data-en="Rights">Derechos</h2>
+          <p style="opacity:.85" data-en="You can request access, rectification or deletion of your data, and withdraw your consent, by writing to silvana@novuchat.site.">Puedes solicitar acceso, rectificación o eliminación de tus datos y retirar tu consentimiento escribiendo a silvana@novuchat.site.</p>
+        </div>
+      </section>
+    </sc-if>
+
+  </main>
+
+  <footer style="background:var(--color-surface);border-top:1px solid var(--color-divider);position:relative;z-index:1">
+    <div style="max-width:var(--ancho);margin:0 auto;padding:48px 20px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:32px">
+      <div>
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+          <svg sc-camel-view-box="0 0 32 32" width="24" height="24" aria-hidden="true"><circle cx="15" cy="14.5" r="13.2" fill="var(--pizarra)"></circle><path d="M21 24 L28.5 31 L26.2 22.5 Z" fill="var(--pizarra)"></path><circle cx="15" cy="14.5" r="10" fill="none" stroke="#fff" stroke-width="2.3"></circle><circle cx="10.6" cy="14.5" r="1.85" fill="#35e2a0"></circle><circle cx="15" cy="14.5" r="1.85" fill="#35e2a0"></circle><circle cx="19.4" cy="14.5" r="1.85" fill="#35e2a0"></circle></svg>
+          <span style="font-family:var(--font-heading);font-weight:800;font-size:16px">NovuChat</span>
+        </div>
+        <p style="font-size:13px;opacity:.7;margin:0;max-width:34ch" data-en="Official channel: WhatsApp Business Cloud API by Meta.">Canal oficial: WhatsApp Business Cloud API de Meta.</p>
+      </div>
+      <div>
+        <h6 style="margin:0 0 10px" data-en="Product">Producto</h6>
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:13.5px">
+          <li><a href="#como-funciona" sc-camel-on-click="{{ irComo }}" data-en="How it works">Cómo funciona</a></li>
+          <li><a href="#soluciones" sc-camel-on-click="{{ irSoluciones }}" data-en="Solutions">Soluciones</a></li>
+          <li><a href="#consola" sc-camel-on-click="{{ irConsola }}" data-en="Console">Consola</a></li>
+          <li><a href="#precios" sc-camel-on-click="{{ irPrecios }}" data-en="Pricing">Precios</a></li>
+          <li><a href="#preguntas" sc-camel-on-click="{{ irFaq }}" data-en="FAQ">Preguntas frecuentes</a></li>
+        </ul>
+      </div>
+      <div>
+        <h6 style="margin:0 0 10px" data-en="Company">Empresa</h6>
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:13.5px">
+          <li><a href="#nosotros" sc-camel-on-click="{{ irNosotros }}" data-en="About">Nosotros</a></li>
+          <li><a href="https://www.aab1.website" target="_blank" rel="noopener noreferrer">AAB1 ↗</a></li>
+          <li><a href="#contacto" sc-camel-on-click="{{ irContacto }}" data-en="Contact">Contacto</a></li>
+          <li><a href="https://wa.me/59170661250?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20de%20NovuChat" target="_blank" rel="noopener noreferrer">WhatsApp +591 70661250</a></li>
+          <li><a href="mailto:silvana@novuchat.site">silvana@novuchat.site</a></li>
+        </ul>
+      </div>
+      <div>
+        <h6 style="margin:0 0 10px" data-en="Legal">Legal</h6>
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:13.5px">
+          <li><a href="#privacidad" sc-camel-on-click="{{ irPrivacidad }}" data-en="Privacy">Privacidad</a></li>
+          <li><a href="#privacidad" sc-camel-on-click="{{ irPrivacidad }}" data-en="Terms">Términos</a></li>
+          <li><a href="#ingresar" data-en="Sign in to the console">Ingresar a la consola</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="max-width:var(--ancho);margin:0 auto;padding:0 20px 40px">
+      <hr class="hr" style="margin:0 0 16px">
+      <p style="margin:0;font-size:12.5px;opacity:.7">NovuChat es un servicio de AAB1 · La Paz, Bolivia</p>
+    </div>
+  </footer>
+
+  <sc-if value="{{ mostrarAsistente }}" hint-placeholder-val="{{ true }}">
+  <div style="position:fixed;right:20px;bottom:20px;z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:12px">
+    <sc-if value="{{ chatAbierto }}">
+      <div role="dialog" aria-label="Asistente virtual de NovuChat" style="width:min(348px,calc(100vw - 40px));background:var(--color-bg);border:1px solid var(--color-divider);border-radius:26px;overflow:hidden;box-shadow:var(--shadow-lg);display:flex;flex-direction:column">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--color-divider);display:flex;align-items:center;gap:8px">
+          <svg sc-camel-view-box="0 0 32 32" width="22" height="22" aria-hidden="true"><circle cx="15" cy="14.5" r="13.2" fill="var(--pizarra)"></circle><path d="M21 24 L28.5 31 L26.2 22.5 Z" fill="var(--pizarra)"></path><circle cx="15" cy="14.5" r="10" fill="none" stroke="#fff" stroke-width="2.3"></circle><circle cx="10.6" cy="14.5" r="1.85" fill="#35e2a0"></circle><circle cx="15" cy="14.5" r="1.85" fill="#35e2a0"></circle><circle cx="19.4" cy="14.5" r="1.85" fill="#35e2a0"></circle></svg>
+          <strong style="font-size:13.5px;white-space:nowrap" data-en="Virtual assistant">Asistente virtual</strong>
+          <span class="tag tag-accent-2" style="font-size:10px;white-space:nowrap" data-en="it's an AI">es una IA</span>
+          <button class="btn btn-secondary btn-icon" sc-camel-on-click="{{ alternarChat }}" style="margin-left:auto;min-height:28px;width:28px;height:28px" aria-label="Cerrar">✕</button>
+        </div>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:10px;max-height:300px;overflow-y:auto">
+          <sc-for list="{{ mensajes }}" as="m" hint-placeholder-count="2">
+            <div style="display:flex;gap:7px;align-items:flex-start;max-width:94%;align-self:{{ m.alineado }}">
+              <sc-if value="{{ m.esIa }}">
+                <svg sc-camel-view-box="0 0 32 32" width="16" height="16" aria-hidden="true" style="flex:none;margin-top:6px"><circle cx="15" cy="14.5" r="13.2" fill="var(--pizarra)"></circle><circle cx="15" cy="14.5" r="10" fill="none" stroke="#fff" stroke-width="2.8"></circle><circle cx="10.6" cy="14.5" r="2.1" fill="#35e2a0"></circle><circle cx="15" cy="14.5" r="2.1" fill="#35e2a0"></circle><circle cx="19.4" cy="14.5" r="2.1" fill="#35e2a0"></circle></svg>
+              </sc-if>
+              <div style="padding:10px 14px;font-size:14px;border-radius:20px;background:{{ m.fondo }};border:{{ m.borde }}">{{ m.texto }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:0 14px 10px;display:flex;flex-wrap:wrap;gap:6px">
+          <sc-for list="{{ chips }}" as="c" hint-placeholder-count="3">
+            <button class="btn btn-secondary" sc-camel-on-click="{{ c.enviar }}" style="font-size:12px;min-height:32px">{{ c.texto }}</button>
+          </sc-for>
+        </div>
+        <form sc-camel-on-submit="{{ enviarChat }}" style="display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--color-divider)">
+          <input class="input" value="{{ chatTexto }}" sc-camel-on-change="{{ cambiarChatTexto }}" placeholder="Escribe tu pregunta" style="min-height:40px">
+          <button class="btn" type="submit" style="min-height:40px;background:var(--cta-bg);color:var(--cta-fg)" style-hover="background:var(--cta-bg-hover)" data-en="Send">Enviar</button>
+        </form>
+      </div>
+    </sc-if>
+    <button sc-camel-on-click="{{ alternarChat }}" style="display:flex;align-items:center;gap:10px;background:var(--pizarra);color:#fff;border:0;border-radius:999px;padding:14px 20px;min-height:56px;cursor:pointer;box-shadow:var(--shadow-md);font-family:var(--font-body);font-weight:700;font-size:13.5px" style-hover="background:var(--color-accent-700)">
+      <svg sc-camel-view-box="0 0 32 32" width="24" height="24" aria-hidden="true"><circle cx="15" cy="14.5" r="13.2" fill="#fff" opacity=".14"></circle><circle cx="15" cy="14.5" r="10" fill="none" stroke="#fff" stroke-width="2.3"></circle><circle cx="10.6" cy="14.5" r="1.85" fill="#35e2a0"></circle><circle cx="15" cy="14.5" r="1.85" fill="#35e2a0"></circle><circle cx="19.4" cy="14.5" r="1.85" fill="#35e2a0"></circle></svg>
+      <span data-en="Virtual assistant">Asistente virtual</span>
+    </button>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;mostrarAviso&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sitio&quot;},&quot;mostrarAsistente&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sitio&quot;},&quot;temaInicial&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;sistema&quot;,&quot;claro&quot;,&quot;oscuro&quot;],&quot;default&quot;:&quot;sistema&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sitio&quot;},&quot;idiomaInicial&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;es&quot;,&quot;en&quot;],&quot;default&quot;:&quot;es&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sitio&quot;}}">
+const FAQS = [
+  {p:"¿Tengo que perder mi número actual?", pe:"Do I have to give up my current number?",
+   r:"No. Ofrecemos migración total de tu número famoso, o un modelo híbrido usando un chip nuevo exclusivo para ventas rápidas.",
+   re:"No. We can fully migrate your well-known number, or set up a hybrid model with a new SIM dedicated to fast sales."},
+  {p:"¿Qué pasa si un cliente abusa del bot?", pe:"What if a customer abuses the assistant?",
+   r:"Nuestro sistema tiene memoria limitada por sesión y cobramos por ventanas de 24 horas, protegiendo tus costos.",
+   re:"The system has limited memory per session and we bill in 24-hour windows, which protects your costs."},
+  {p:"¿Me roban mi contraseña de Meta?", pe:"Can my Meta password be stolen?",
+   r:"No. Nosotros alojamos la WABA en nuestra nube, así que tus credenciales no se comparten ni se guardan en tu equipo.",
+   re:"No. We host the WhatsApp Business account in our own cloud, so your credentials are never shared or stored on your device."},
+];
+
+const RESPUESTAS = [
+  {claves:["precio","cuesta","cuánto","cuanto","plan","price","cost"], r:"Los planes son 250 Bs (300 chats), 450 Bs (1.000 chats, audios y multi-funcionario) y 850 Bs (2.500 chats y difusión masiva) al mes, más un setup único de 800 Bs. Los excedentes cuestan 50 Bs por 150 chats."},
+  {claves:["instala","setup","48","cómo se","como se","install"], r:"Nos das tu número de WhatsApp, tu lista de servicios o productos con precios, tus horarios y tu calendario de Google. Nosotros hacemos la conexión con el canal oficial de Meta; tú no programas nada."},
+  {claves:["demo","demostración","demostracion","reunión"], r:"Con gusto. Déjanos tus datos en el formulario de demostración y te escribimos por WhatsApp en menos de 24 horas hábiles."},
+  {claves:["audio","voz","nota de voz"], r:"Sí: en el Plan Crecimiento y superiores el asistente escucha audios y responde según lo que el cliente dijo."},
+  {claves:["cobra","qr","pago"], r:"El asistente muestra el QR de tu banco y valida el comprobante que envía el cliente. En demostraciones el QR está rotulado como simulado y no cobra."},
+];
+
+const FAQS_TODAS = FAQS.concat([
+  {p:"¿Qué pasa si el cliente manda un audio o una foto?", pe:"What if a customer sends a voice note or a photo?",
+   r:"Desde el Plan Crecimiento el asistente escucha los audios y responde según lo que el cliente dijo. Con imágenes, valida comprobantes de pago y, si no está seguro, deriva a una persona.",
+   re:"From the Growth plan on, the assistant listens to voice notes and answers accordingly. With images it validates payment receipts and, when unsure, hands off to a person."},
+  {p:"¿Puede equivocarse?", pe:"Can it make mistakes?",
+   r:"Sí. Por eso nunca confirma una cita sin verificar que exista en tu calendario y deriva a una persona cuando no está seguro.",
+   re:"Yes. That is why it never confirms an appointment without checking your calendar, and hands off to a person whenever it is unsure."},
+  {p:"¿El asistente dice que es una IA?", pe:"Does the assistant say it is an AI?",
+   r:"Siempre, si le preguntan. Nunca se hace pasar por una persona.",
+   re:"Always, if asked. It never pretends to be a person."},
+  {p:"¿Cobra de verdad?", pe:"Does it really take payment?",
+   r:"Muestra el QR de tu banco y valida el comprobante que envía el cliente; el cobro se acredita en tu cuenta. En demostraciones, el QR está rotulado como simulado.",
+   re:"It shows your bank's QR and validates the receipt the customer sends; the money goes to your account. In demos the QR is labelled as simulated."},
+  {p:"¿Puedo cambiar de plan?", pe:"Can I change plans?",
+   r:"Sí, en cualquier momento. El cambio aplica el mes siguiente.",
+   re:"Yes, any time. The change applies the following month."},
+  {p:"¿Sirve para varias sucursales?", pe:"Does it work for several branches?",
+   r:"Sí: cada número de WhatsApp es un asistente, y una cuenta verificada admite hasta 20 números.",
+   re:"Yes: each WhatsApp number is its own assistant, and a verified account supports up to 20 numbers."},
+  {p:"¿Qué pasa si no pago un mes?", pe:"What happens if I miss a payment?",
+   r:"Se suspende el asistente; conservas tus datos y el acceso a la consola en modo lectura. Tus clientes reciben un mensaje neutro.",
+   re:"The assistant is suspended; you keep your data and read-only access to the console. Your customers get a neutral message."},
+]);
+
+const RUBROS = {
+  salud: {
+    nombre:"Salud y Belleza", nombreEn:"Health & Beauty",
+    casos:[
+      {t:"Agenda por especialista", te:"Per-specialist calendar", d:"Cada funcionario tiene su calendario y sus especialidades; el asistente ofrece solo horarios reales.", de:"Each staff member has their own calendar and specialties; the assistant offers only real openings."},
+      {t:"Recordatorio 24 h antes", te:"24-hour reminder", d:"Menos ausencias sin que nadie llame por teléfono.", de:"Fewer no-shows without anyone making a phone call."},
+      {t:"Reagendamiento", te:"Rescheduling", d:"Si el cliente no puede, el asistente busca otro hueco y libera el anterior.", de:"If the customer can't make it, the assistant finds another slot and frees the old one."},
+    ],
+    demo:["¿Tienen turno mañana en la tarde?","Mañana tengo 15:00, 16:30 y 18:15 con Andrea. ¿Cuál te queda mejor?","La de 16:30","Listo: mañana 16:30 con Andrea. Te recuerdo 24 horas antes."],
+    plan:"Plan Crecimiento",
+  },
+  gastro: {
+    nombre:"Gastronomía", nombreEn:"Food & Delivery",
+    casos:[
+      {t:"Pedidos con notas", te:"Orders with notes", d:"«Sin cebolla», «doble queso», «para llevar»: el asistente lo registra y lo pasa a la cocina.", de:"\"No onions\", \"extra cheese\", \"takeaway\": the assistant records it and passes it to the kitchen."},
+      {t:"Recargo por zona", te:"Delivery by zone", d:"Calcula el envío según la zona y suma el total antes de cobrar.", de:"It calculates delivery by zone and adds it to the total before charging."},
+      {t:"Cobro por QR", te:"QR payment", d:"Manda el QR, valida el comprobante y avisa el tiempo estimado.", de:"It sends the QR, validates the receipt and gives an estimated time."},
+    ],
+    demo:["Quiero una hamburguesa doble, sin cebolla. Es para Calacoto.","Hamburguesa doble sin cebolla registrada. El total con envío a Calacoto es 45 Bs. Aquí tienes el QR para el pago.","Listo, ya pagué.","¡Pago confirmado! Tu pedido ya se está preparando. Tiempo estimado: 25 min."],
+    plan:"Plan Crecimiento",
+  },
+  retail: {
+    nombre:"Comercio y Retail", nombreEn:"Retail & Commerce",
+    casos:[
+      {t:"Asesoría de catálogo", te:"Catalogue guidance", d:"Responde por talla, color y stock disponible sin que nadie revise el inventario a mano.", de:"It answers about size, colour and available stock without anyone checking inventory by hand."},
+      {t:"Datos de envío", te:"Shipping details", d:"Pide nombre y CI antes del QR, para que el envío salga completo.", de:"It asks for name and ID before the QR, so the shipment goes out complete."},
+      {t:"Coordinación con la flota", te:"Delivery coordination", d:"Deja el pedido listo y avisa al encargado del despacho.", de:"It leaves the order ready and notifies whoever handles dispatch."},
+    ],
+    demo:["¿Tienen la casaca negra en talla M?","Sí, quedan dos en talla M a 320 Bs. ¿La quieres con envío a domicilio?","Sí, a Sopocachi","Perfecto. Necesito tu nombre y CI para el envío y te manda el QR por 320 Bs + 15 Bs de envío."],
+    plan:"Plan Base",
+  },
+};
+
+class Component extends DCLogic {
+  state = {
+    pagina: "inicio", tema: "claro", idioma: "es", faqAbierta: null, faqPagAbierta: null,
+    chatAbierto: false, chatTexto: "", turnos: 0, rubro: "salud", envio: "inactivo",
+    carrusel: 0, envioC: "inactivo",
+    simTexto: "", simMensajes: [{de:"ia", texto:"Hola, soy el asistente de Salón Aurora (negocio de prueba). Pregúntame por un turno."}],
+    mensajes: [{de:"ia", texto:"Hola. Soy el asistente virtual de NovuChat y soy una IA. ¿Qué te gustaría saber?"}],
+  };
+
+  componentDidMount() {
+    const auto = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "oscuro" : "claro";
+    const inicial = this.props.temaInicial && this.props.temaInicial !== "sistema" ? this.props.temaInicial : auto;
+    this.setState({tema: inicial, idioma: this.props.idiomaInicial || "es"}, () => this.aplicarTema());
+    this.aplicarIdioma();
+  }
+  componentDidUpdate() { this.aplicarTema(); this.aplicarIdioma(); }
+
+  aplicarTema() { document.documentElement.setAttribute("data-tema", this.state.tema); }
+
+  aplicarIdioma() {
+    const en = this.state.idioma === "en";
+    document.documentElement.setAttribute("lang", en ? "en" : "es");
+    document.querySelectorAll("[data-en]").forEach(el => {
+      if (!el.dataset.es) el.dataset.es = el.textContent;
+      const quiere = en ? el.dataset.en : el.dataset.es;
+      if (el.textContent !== quiere) el.textContent = quiere;
+    });
+  }
+
+  ir(pagina) {
+    return (e) => {
+      if (e && e.preventDefault) e.preventDefault();
+      this.setState({pagina}, () => window.scrollTo(0, 0));
+    };
+  }
+
+  responder(texto) {
+    const q = texto.toLowerCase();
+    if (this.state.turnos >= 5) return "Por hoy alcanzamos el límite de este chat. Déjanos tus datos en el formulario de demostración y te escribimos por WhatsApp.";
+    const hit = RESPUESTAS.find(r => r.claves.some(c => q.includes(c)));
+    return hit ? hit.r : "Puedo contarte sobre precios, instalación, cobros por QR o pedir una demostración. Para una cotización a medida, deja tus datos en el formulario y te escribimos.";
+  }
+
+  enviar(texto) {
+    if (!texto || !texto.trim()) return;
+    const mensajes = this.state.mensajes.concat([{de:"cliente", texto}]);
+    this.setState({mensajes, chatTexto:"", turnos: this.state.turnos + 1});
+    const r = this.responder(texto);
+    setTimeout(() => this.setState(s => ({mensajes: s.mensajes.concat([{de:"ia", texto:r}])})), 500);
+  }
+
+  renderVals() {
+    const p = this.state.pagina;
+    const en = this.state.idioma === "en";
+    return {
+      pInicio: p === "inicio", pComo: p === "como", pSoluciones: p === "soluciones",
+      pConsola: p === "consola", pPrecios: p === "precios", pDemo: p === "demo",
+      pFaq: p === "faq", pNosotros: p === "nosotros", pContacto: p === "contacto",
+      pPrivacidad: p === "privacidad",
+      irInicio: this.ir("inicio"), irComo: this.ir("como"), irSoluciones: this.ir("soluciones"),
+      irConsola: this.ir("consola"), irPrecios: this.ir("precios"), irDemo: this.ir("demo"),
+      irFaq: this.ir("faq"), irNosotros: this.ir("nosotros"), irContacto: this.ir("contacto"),
+      irPrivacidad: this.ir("privacidad"),
+      carruselDesplazamiento: "translateX(-" + (this.state.carrusel * 100) + "%)",
+      carruselAnterior: () => this.setState(s => ({carrusel: (s.carrusel + 3) % 4})),
+      carruselSiguiente: () => this.setState(s => ({carrusel: (s.carrusel + 1) % 4})),
+      puntos: [0,1,2,3].map(i => ({
+        fondo: this.state.carrusel === i ? "#12c489" : "var(--color-accent-200)",
+        etiqueta: "Foto " + (i + 1),
+        elegir: () => this.setState({carrusel: i}),
+      })),
+      envioCInactivo: this.state.envioC === "inactivo" || this.state.envioC === "error",
+      envioCCargando: this.state.envioC === "cargando",
+      envioCError: this.state.envioC === "error",
+      envioCExito: this.state.envioC === "exito",
+      enviarContacto: (e) => {
+        e.preventDefault();
+        if (!e.target.elements.privacidadC.checked) { this.setState({envioC: "error"}); return; }
+        this.setState({envioC: "cargando"});
+        setTimeout(() => this.setState({envioC: "exito"}), 1100);
+      },
+      reiniciarContacto: () => this.setState({envioC: "inactivo"}),
+      mostrarAviso: this.props.mostrarAviso ?? true,
+      mostrarAsistente: this.props.mostrarAsistente ?? true,
+      etiquetaIdioma: en ? "ES" : "EN",
+      iconoTema: this.state.tema === "oscuro" ? "☀" : "☾",
+      cambiarIdioma: () => this.setState({idioma: en ? "es" : "en"}),
+      cambiarTema: () => this.setState({tema: this.state.tema === "oscuro" ? "claro" : "oscuro"}),
+      faqs: FAQS.map((f, i) => ({
+        p: en ? f.pe : f.p, r: en ? f.re : f.r,
+        abierta: this.state.faqAbierta === i,
+        abiertaStr: this.state.faqAbierta === i ? "true" : "false",
+        signo: this.state.faqAbierta === i ? "−" : "+",
+        alternar: () => this.setState({faqAbierta: this.state.faqAbierta === i ? null : i}),
+      })),
+      chatAbierto: this.state.chatAbierto,
+      alternarChat: () => this.setState({chatAbierto: !this.state.chatAbierto}),
+      chatTexto: this.state.chatTexto,
+      cambiarChatTexto: (e) => this.setState({chatTexto: e.target.value}),
+      enviarChat: (e) => { e.preventDefault(); this.enviar(this.state.chatTexto); },
+      mensajes: this.state.mensajes.map(m => ({
+        texto: m.texto, esIa: m.de === "ia",
+        fondo: m.de === "ia" ? "var(--color-accent-100)" : "var(--color-surface)",
+        borde: m.de === "ia" ? "0" : "1px solid var(--color-divider)",
+        alineado: m.de === "ia" ? "flex-start" : "flex-end",
+      })),
+      chips: ["¿Cuánto cuesta?", "¿Cómo se instala?", "Quiero una demo"].map(t => ({
+        texto: t, enviar: () => this.enviar(t),
+      })),
+      faqsTodas: FAQS_TODAS.map((f, i) => ({
+        p: en ? f.pe : f.p, r: en ? f.re : f.r,
+        abierta: this.state.faqPagAbierta === i,
+        abiertaStr: this.state.faqPagAbierta === i ? "true" : "false",
+        signo: this.state.faqPagAbierta === i ? "−" : "+",
+        alternar: () => this.setState({faqPagAbierta: this.state.faqPagAbierta === i ? null : i}),
+      })),
+      rubros: Object.keys(RUBROS).map(k => ({
+        clave: k, nombre: en ? RUBROS[k].nombreEn : RUBROS[k].nombre,
+        activo: this.state.rubro === k,
+        fondo: this.state.rubro === k ? "var(--pizarra)" : "transparent",
+        color: this.state.rubro === k ? "#fff" : "var(--color-text)",
+        elegir: () => this.setState({rubro: k}),
+      })),
+      rubroNombre: en ? RUBROS[this.state.rubro].nombreEn : RUBROS[this.state.rubro].nombre,
+      rubroPlan: RUBROS[this.state.rubro].plan,
+      rubroCasos: RUBROS[this.state.rubro].casos.map(c => ({t: en ? c.te : c.t, d: en ? c.de : c.d})),
+      rubroDemo: RUBROS[this.state.rubro].demo.map((texto, i) => ({
+        texto,
+        fondo: i % 2 ? "var(--color-accent-100)" : "var(--color-bg)",
+        borde: i % 2 ? "0" : "1px solid var(--color-divider)",
+        alineado: i % 2 ? "flex-start" : "flex-end",
+      })),
+      envioInactivo: this.state.envio === "inactivo" || this.state.envio === "error",
+      envioCargando: this.state.envio === "cargando",
+      envioError: this.state.envio === "error",
+      envioExito: this.state.envio === "exito",
+      enviarFormulario: (e) => {
+        e.preventDefault();
+        const f = e.target.elements;
+        if (!f.privacidad.checked) { this.setState({envio: "error"}); return; }
+        this.setState({envio: "cargando"});
+        setTimeout(() => this.setState({envio: "exito"}), 1100);
+      },
+      reiniciarFormulario: () => this.setState({envio: "inactivo"}),
+      simTexto: this.state.simTexto,
+      cambiarSimTexto: (e) => this.setState({simTexto: e.target.value}),
+      enviarSim: (e) => {
+        e.preventDefault();
+        const t = this.state.simTexto;
+        if (!t.trim()) return;
+        const r = /mañana|turno|hora|cita|tarde/i.test(t)
+          ? "Mañana tengo 15:00, 16:30 y 18:15 con Andrea. ¿Cuál te queda mejor?"
+          : /15|16|18|:00|:30/.test(t)
+            ? "Listo, agendé tu turno y te recuerdo 24 horas antes. (Simulación: no se creó ninguna cita real.)"
+            : "Soy una IA de demostración de un negocio ficticio. Pregúntame por un turno para mañana.";
+        this.setState(s => ({simMensajes: s.simMensajes.concat([{de:"cliente", texto:t}]), simTexto:""}));
+        setTimeout(() => this.setState(s => ({simMensajes: s.simMensajes.concat([{de:"ia", texto:r}])})), 500);
+      },
+      simMensajes: this.state.simMensajes.map(m => ({
+        texto: m.texto,
+        fondo: m.de === "ia" ? "var(--color-accent-100)" : "var(--color-surface)",
+        borde: m.de === "ia" ? "0" : "1px solid var(--color-divider)",
+        alineado: m.de === "ia" ? "flex-start" : "flex-end",
+      })),
+    };
+  }
+}
+</script>
+
+
+<div id="__claude_design_branding"><style>#__claude_design_branding{position:fixed;right:16px;bottom:16px;z-index:2147483646;display:flex;align-items:center;gap:7px;height:30px;padding:0 5px 0 10px;border-radius:999px;font-family:"Anthropic Sans",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:12.5px;font-weight:400;line-height:1;letter-spacing:normal;text-transform:none;color:#141413;background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);box-shadow:0 0 0 .5px rgba(31,30,29,.14),0 2px 10px rgba(0,0,0,.09)}
+#__claude_design_branding *{box-sizing:border-box;margin:0}
+#__claude_design_branding a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+#__claude_design_branding a:hover span{text-decoration:underline}
+#__claude_design_branding svg{flex:none}
+#__claude_design_branding a svg{color:#D97757}
+#__claude_design_branding button{width:20px;height:20px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:currentColor;opacity:.55;border:0;background:none;cursor:pointer;flex:none;font:inherit;transition:opacity .14s}
+#__claude_design_branding button:hover{opacity:1;background:rgba(127,127,127,.22)}
+@media print{#__claude_design_branding{display:none}}</style><a href="https://claude.com/product/design" target="_blank" rel="noopener noreferrer"><svg width="14" height="14" viewBox="0 0 20 21" fill="none" aria-hidden="true"><path fill="currentColor" d="M9.99902 0C15.5258 0.000170936 19.999 4.50643 19.999 10.0547C19.999 11.7656 19.5863 12.9976 18.7861 13.8203C17.9924 14.6362 16.9465 14.9138 15.9854 15.0078C15.05 15.0993 14.0097 15.0262 13.2549 15.0186C12.8524 15.0145 12.5177 15.0267 12.2441 15.0703C11.9682 15.1144 11.8143 15.1813 11.7305 15.2432C11.4745 15.4322 11.3353 15.7121 11.2656 16.1602C11.2303 16.3875 11.2168 16.6362 11.209 16.9131C11.2017 17.1715 11.1986 17.4893 11.1807 17.7705C11.1469 18.2975 11.0495 19.0865 10.4199 19.5908C9.7846 20.0996 8.88652 20.1057 7.85449 19.877C7.36399 19.7682 6.88652 19.6232 6.42578 19.4453C2.66989 17.9949 0.000187748 14.3414 0 10.0547C0 4.50643 4.47223 0.000171048 9.99902 0ZM9.99902 1.60547C5.36781 1.60564 1.60547 5.38391 1.60547 10.0547C1.60566 13.6582 3.84823 16.7296 7.00391 17.9482C7.39027 18.0974 7.79085 18.2184 8.20215 18.3096C9.1375 18.5169 9.384 18.3633 9.41602 18.3379C9.4524 18.3087 9.54558 18.1915 9.5791 17.668C9.5947 17.4239 9.59473 17.1786 9.60352 16.8672C9.61179 16.5742 9.62831 16.2435 9.67969 15.9131C9.78359 15.2455 10.0474 14.4906 10.7764 13.9521C11.1479 13.6778 11.5842 13.5493 11.9912 13.4844C12.4007 13.4191 12.8434 13.4088 13.2705 13.4131C14.1753 13.4222 15.0071 13.4905 15.8291 13.4102C16.6257 13.3322 17.2249 13.1235 17.6357 12.7012C18.0401 12.2855 18.3935 11.5261 18.3936 10.0547C18.3936 5.38391 14.6302 1.60564 9.99902 1.60547ZM5.11621 9.86719C5.86386 9.91468 6.45486 10.5348 6.45508 11.2939C6.45506 12.0838 5.81519 12.7245 5.02539 12.7246C4.28481 12.7246 3.67573 12.1617 3.60254 11.4404L3.59473 11.2939L3.60156 11.1533C3.66942 10.4596 4.23282 9.91186 4.93359 9.86719H5.11621ZM14.9814 7.19141C15.729 7.23889 16.3199 7.85919 16.3203 8.61816C16.3203 9.40801 15.6804 10.0487 14.8906 10.0488C14.1501 10.0487 13.5409 9.48586 13.4678 8.76465L13.46 8.61816L13.4668 8.47754C13.5348 7.78403 14.0983 7.23618 14.7988 7.19141H14.9814ZM6.4541 4.93457C7.20161 4.9822 7.79275 5.60231 7.79297 6.36133C7.79288 7.151 7.15291 7.7917 6.36328 7.79199C5.62274 7.79199 5.01369 7.22903 4.94043 6.50781L4.93262 6.36133L4.93945 6.2207C5.00731 5.52698 5.5707 4.97922 6.27148 4.93457H6.4541ZM11.3867 3.59668C12.1343 3.64419 12.7253 4.26436 12.7256 5.02344C12.7256 5.81326 12.0857 6.45393 11.2959 6.4541C10.5553 6.4541 9.94622 5.89123 9.87305 5.16992L9.86523 5.02344L9.87207 4.88281C9.93996 4.18912 10.5033 3.64133 11.2041 3.59668H11.3867Z"></path></svg><span>Made with Claude Design</span></a><button type="button" aria-label="Dismiss" onclick="this.parentElement.remove()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></button></div></body></html>

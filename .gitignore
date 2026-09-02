@@ -1,0 +1,39 @@
+# — Secretos y entorno (el repositorio es público: nunca versionar claves) —
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+serviceAccount*.json
+firebase-adminsdk-*.json
+
+# — Dependencias y compilación —
+node_modules/
+dist/
+.astro/
+functions/lib/
+*.tsbuildinfo
+
+# — Firebase y herramientas —
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+*-debug.log
+.firebaserc.local
+
+# — Pruebas —
+coverage/
+test-results/
+playwright-report/
+blob-report/
+.lighthouseci/
+
+# — Material previo, no forma parte del sitio (briefs y logos anteriores) —
+material-previo/
+
+# — Sistema y editores —
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
