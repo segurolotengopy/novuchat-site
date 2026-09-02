@@ -37,3 +37,15 @@ material-previo/
 Thumbs.db
 .vscode/
 .idea/
+.deploy-log/
+.security-reports/
+serviceAccountKey*.json
+*-sa-key.json
+tfplan*
+.terraform/
+*.tfstate*
+*.auto.tfvars
+secrets.tfvars
+.trivy-cache/
+.trivyignore.yaml
+.gitleaksignore

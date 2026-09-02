@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Bash(./deploy.sh prod*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(firebase deploy*--force*)"
+    ]
+  }
+}
