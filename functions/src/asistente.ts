@@ -5,7 +5,7 @@ import { logger } from 'firebase-functions';
 import { z } from 'zod';
 
 import { consumirCupo, identificar, VENTANAS_ASISTENTE } from './limites.js';
-import { gemini, incrustacionesGemini } from './proveedores/gemini.js';
+import { vertex, incrustacionesVertex } from './proveedores/vertex.js';
 import { RecuperadorEnMemoria, filtrarPorUmbral } from './rag/recuperador.js';
 import { verificar } from './rag/verificacion.js';
 import type { Indice, Recuperado } from './rag/tipos.js';
@@ -18,7 +18,6 @@ import {
 } from './asistente-logica.js';
 import indiceCrudo from './rag/indice.json' with { type: 'json' };
 
-const GEMINI_API_KEY = defineSecret('GEMINI_API_KEY');
 const SAL_HASH = defineSecret('SAL_HASH');
 
 const indice = indiceCrudo as unknown as Indice;
@@ -48,7 +47,7 @@ export const asistente = onCall(
     // Fase 1: monitoreo. Se pasa a `true` tras una semana sin falsos positivos
     // (doc 04 §4). El token igual se registra abajo.
     enforceAppCheck: false,
-    secrets: [GEMINI_API_KEY, SAL_HASH],
+    secrets: [SAL_HASH],
     timeoutSeconds: 30,
     memory: '512MiB',
     maxInstances: 10,
@@ -114,7 +113,7 @@ export const asistente = onCall(
     }
 
     // — Recuperación —
-    const recuperador = new RecuperadorEnMemoria(indice, incrustacionesGemini);
+    const recuperador = new RecuperadorEnMemoria(indice, incrustacionesVertex);
     const recuperados = await recuperador.recuperar(mensaje, CUANTOS);
     const utiles = filtrarPorUmbral(recuperados);
 
@@ -128,7 +127,7 @@ export const asistente = onCall(
     // — Generación —
     let bruta: string;
     try {
-      bruta = await gemini.generar({
+      bruta = await vertex.generar({
         sistema: construirPrompt(utiles, idioma),
         historial: historial.map((t) => ({ rol: t.rol, texto: t.texto })),
         mensaje,
