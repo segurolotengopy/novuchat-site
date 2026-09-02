@@ -43,8 +43,19 @@ El script anti-destello del tema (aplica `data-tema` **antes del primer
 pintado**, para evitar el salto claro→oscuro) es el único `<script>` en línea del
 sitio. Se autoriza por **hash SHA-256**, nunca con `'unsafe-inline'`.
 
-- Hash vigente: *pendiente — se calcula al escribir el script en la Fase 1 y se
-  anota aquí junto con el contenido exacto que lo produce.*
+- **Hash vigente:** `sha256-9D8Iby2VzhAdvSMmJ+6wMz0Xz3M/3V6Jfl9QJOalgFU=`
+- Contenido exacto que lo produce (una sola línea, sin salto final), definido en
+  `src/layouts/Base.astro` como `antiDestello`:
+
+  ```js
+  (function(){try{var t=localStorage.getItem('novuchat.tema');var o=t==='oscuro'||((!t||t==='sistema')&&matchMedia('(prefers-color-scheme: dark)').matches);var r=document.documentElement;if(o){r.dataset.tema='oscuro'}r.style.colorScheme=o?'dark':'light'}catch(e){}})();
+  ```
+
+- Recalcular así:
+
+  ```bash
+  printf '%s' "$CONTENIDO" | openssl dgst -sha256 -binary | openssl base64
+  ```
 - Si el script cambia una sola letra, el hash cambia y el navegador lo bloquea
   sin avisar. Procedimiento: modificar el script, recalcular el hash, actualizar
   `firebase.json` y esta tabla, y verificar con `pnpm csp`.
@@ -59,6 +70,20 @@ sitio. Se autoriza por **hash SHA-256**, nunca con `'unsafe-inline'`.
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | El sitio público **sí** quiere que sus enlaces salientes lleven origen; por eso no es `no-referrer` como en la consola |
 | `Permissions-Policy` | `geolocation=(), camera=(), microphone=(), payment=(), usb=()` | Ninguna de esas capacidades se usa |
 | `Cross-Origin-Opener-Policy` | `same-origin` | Aísla el contexto de navegación |
+
+## El resto del JavaScript NO puede ir en línea
+
+`astro.config.mjs` fija `vite.build.assetsInlineLimit: 0`. **No lo cambie.**
+
+Con el valor por defecto, Astro incrusta los scripts pequeños de los componentes
+dentro del HTML. Como no llevan hash, la CSP los rechaza y el fallo es
+completamente silencioso: no hay error en la página, simplemente el conmutador de
+tema y el banner de consentimiento dejan de responder. Pasó durante la Fase 1 y
+se detectó comprobando el estado del DOM, no mirando la página.
+
+La prueba de humo `pruebas/humo/sitio.spec.ts` recorre las dieciocho rutas y
+falla ante cualquier mensaje «Refused to…», para que esto no pueda repetirse sin
+que alguien se entere.
 
 ## Regla de mantenimiento
 

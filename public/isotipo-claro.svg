@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="NovuChat">
+  <!--
+    Isotipo para fondos oscuros: el aro y la cola pasan a claro y el disco se
+    mantiene pizarra, de modo que los tres puntos menta sigan destacando
+    (doc 08 §6). Se usa en la banda oscura, en el tema oscuro y en la imagen de
+    Open Graph.
+  -->
+  <g fill="none" fill-rule="evenodd">
+    <path fill="#f2f7f5" d="M97 79 112.5 112.5 83 93z" />
+    <circle cx="60" cy="56" r="47.5" stroke="#f2f7f5" stroke-width="9" />
+    <circle cx="60" cy="56" r="36" fill="#2f3a44" />
+    <g fill="#35e2a0">
+      <circle cx="43.5" cy="56" r="6.6" />
+      <circle cx="60" cy="56" r="6.6" />
+      <circle cx="76.5" cy="56" r="6.6" />
+    </g>
+  </g>
+</svg>

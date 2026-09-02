@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import { urlConsola } from '../lib/consola';
+
+const pantallas = [
+  { titulo: 'Conversaciones', texto: 'Todo lo que tus clientes escribieron y lo que el asistente respondió, en vivo.' },
+  { titulo: 'Configuración', texto: 'Horarios, servicios, precios y el tono del asistente. Cambias algo y se aplica al instante.' },
+  { titulo: 'Funcionarios', texto: 'Cada profesional con su agenda, sus especialidades y sus horarios propios.' },
+  { titulo: 'Cierres', texto: 'Cuántas citas y pedidos se confirmaron, y cuánto de tu plan llevas consumido.' },
+  { titulo: 'Contactos', texto: 'Quiénes te escribieron, cuándo y qué compraron.' },
+  { titulo: 'Reclamos y bitácora', texto: 'Los reclamos registrados y el historial de cada cambio, con quién lo hizo.' },
+];
+
+const roles = [
+  { rol: 'Dueño', puede: 'Configura todo: horarios, precios, servicios, funcionarios y el tono del asistente.' },
+  { rol: 'Operador', puede: 'Mira las conversaciones y registra reclamos. No puede cambiar la configuración.' },
+  { rol: 'NovuChat', puede: 'Soporte técnico. Nunca edita tu configuración sin que tú lo pidas, y cada acción queda en la bitácora.' },
+];
+---
+
+<Base
+  titulo="La consola de NovuChat"
+  descripcion="Mira las conversaciones, configura horarios y precios y controla tu asistente desde el celular."
+  rutaAlterna="/en/consola"
+  migajas={[
+    { nombre: 'Inicio', ruta: '/' },
+    { nombre: 'La consola', ruta: '/consola' },
+  ]}
+>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>Tu negocio, bajo control, desde el celular</h1>
+      <p class="seccion-bajada" style="font-size: 18px">
+        La consola está pensada para usarse con una mano, en el celular, entre
+        cliente y cliente. Todo lo que el asistente hace queda registrado y todo
+        lo que quieras cambiar se cambia sin llamar a nadie.
+      </p>
+      <div class="heroe-acciones">
+        <a class="btn btn-primary btn-grande" href={urlConsola} rel="noopener">
+          Ingresar a la consola
+        </a>
+        <a class="btn btn-secondary btn-grande" href="/demo">Pedir una demostración</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Qué ves adentro</h2>
+      <div class="rejilla">
+        {
+          pantallas.map((p) => (
+            <article class="card elev-sm">
+              <h3 class="card-title">{p.titulo}</h3>
+              <p class="card-body">{p.texto}</p>
+            </article>
+          ))
+        }
+      </div>
+      <p class="texto-apagado" style="margin-top: var(--space-6); font-size: 14px">
+        Las capturas de pantalla de esta página usan negocios de ejemplo («Salón
+        Aurora», «Parrilla El Fogón») y números de prueba. Nunca publicamos datos
+        de clientes reales.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Quién puede entrar y qué puede hacer</h2>
+      <table class="table" style="max-width: 820px">
+        <thead>
+          <tr>
+            <th scope="col">Perfil</th>
+            <th scope="col">Qué puede hacer</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            roles.map((r) => (
+              <tr>
+                <th scope="row" style="text-transform: none; font-size: 15px; letter-spacing: 0">
+                  {r.rol}
+                </th>
+                <td>{r.puede}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Seguridad, sin jerga</h2>
+      <ul class="plan-lista" style="max-width: var(--ancho-lectura)">
+        <li>
+          Cada negocio ve solamente lo suyo. Las reglas que lo garantizan se
+          prueban automáticamente en cada cambio que hacemos.
+        </li>
+        <li>
+          El personal de NovuChat entra únicamente con cuenta de Google y segundo
+          factor, y cada acción suya queda registrada en tu bitácora.
+        </li>
+        <li>
+          Si un pago se atrasa, sigues viendo tus datos y el motivo. A tus
+          clientes les llega un mensaje neutro: nunca se enteran.
+        </li>
+        <li>
+          Tus datos viajan cifrados y se guardan cifrados en la infraestructura
+          de Google Cloud.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="seccion banda">
+    <div class="contenedor" style="text-align: center">
+      <h2 class="seccion-titulo" style="margin-inline: auto">
+        ¿Quieres verla con los datos de tu negocio?
+      </h2>
+      <a class="btn btn-cta btn-grande" href="/demo">Pedir una demostración</a>
+    </div>
+  </section>
+</Base>

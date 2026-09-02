@@ -1,0 +1,147 @@
+---
+import Base from '../layouts/Base.astro';
+import IdentidadLegal from '../components/IdentidadLegal.astro';
+import { sitio } from '../contenido/sitio.es';
+
+/**
+ * Política de privacidad. Es la URL que se declara ante Meta para la
+ * verificación del negocio: debe ser pública, estable y estar enlazada desde el
+ * pie de todas las páginas.
+ *
+ * REGLA DE MANTENIMIENTO: la sección «Cómo protegemos tus datos» solo puede
+ * enumerar medidas que estén **realmente desplegadas**. Si se retira un control,
+ * se retira de aquí en el mismo cambio.
+ */
+const actualizado = '2 de septiembre de 2026';
+---
+
+<Base
+  titulo="Política de privacidad | NovuChat"
+  descripcion="Qué datos tratamos, para qué, con quién los compartimos y cómo ejercer tus derechos."
+  rutaAlterna="/en/privacidad"
+  migajas={[
+    { nombre: 'Inicio', ruta: '/' },
+    { nombre: 'Privacidad', ruta: '/privacidad' },
+  ]}
+>
+  <section class="seccion">
+    <div class="contenedor" style="max-width: var(--ancho-lectura)">
+      <h1>Política de privacidad</h1>
+      <p class="texto-apagado">Última actualización: {actualizado}</p>
+
+      <h2>1. Quiénes somos</h2>
+      <IdentidadLegal />
+
+      <h2>2. Qué datos tratamos en este sitio</h2>
+      <p>
+        <strong>Si nos escribes por el formulario:</strong> tu nombre, el nombre
+        de tu negocio, tu rubro, tu ciudad, tu número de WhatsApp, tu correo y lo
+        que nos cuentes en el mensaje.
+      </p>
+      <p>
+        <strong>Si usas el asistente virtual del sitio:</strong> el texto de la
+        conversación, el idioma, la página desde la que escribiste y un
+        identificador técnico que no permite volver a tu identidad.
+      </p>
+      <p>
+        <strong>Datos técnicos:</strong> los que registran nuestro proveedor de
+        hospedaje y el sistema antifraude para poder distinguir a una persona de
+        un robot.
+      </p>
+      <p>
+        <strong>Medición:</strong> si aceptas el aviso de medición, Google
+        Analytics y el píxel de Meta registran qué páginas visitaste y desde
+        dónde llegaste, con sus propias cookies. Si no aceptas, no se carga
+        ninguno de los dos y no se escribe ninguna cookie de terceros. Puedes
+        cambiar de opinión borrando los datos del sitio en tu navegador.
+      </p>
+
+      <h2>3. El asistente virtual es una inteligencia artificial</h2>
+      <p>
+        No es una persona, y lo dice si le preguntan. Sus respuestas se generan
+        con modelos de terceros (Google Gemini y Anthropic Claude). Tu mensaje se
+        envía al proveedor únicamente para generar la respuesta y, según los
+        términos de esos proveedores para uso por interfaz de programación, no se
+        usa para entrenar sus modelos. No escribas en el chat contraseñas,
+        números de tarjeta ni datos sensibles: no los necesitamos.
+      </p>
+
+      <h2>4. Para qué usamos tus datos</h2>
+      <p>
+        Para responderte, coordinar una demostración, prepararte una propuesta y
+        mejorar el asistente. Nada más. No vendemos ni cedemos tus datos con
+        fines comerciales.
+      </p>
+
+      <h2>5. Si eres cliente de un negocio que usa NovuChat</h2>
+      <p>
+        Cuando escribes por WhatsApp a un comercio que trabaja con nosotros, el
+        <strong> responsable de tus datos es ese comercio</strong>. NovuChat actúa
+        como encargado y trata la información siguiendo sus instrucciones.
+      </p>
+      <p>
+        En esa relación se tratan tu número de teléfono, el contenido de la
+        conversación, los estados de entrega de los mensajes, los datos de tu cita
+        o de tu pedido y, si lo envías, el comprobante de pago. El canal es
+        WhatsApp Business Cloud API de Meta Platforms, que verifica
+        criptográficamente el origen de cada mensaje.
+      </p>
+      <p>
+        El asistente se identifica como inteligencia artificial y puede derivarte
+        a una persona cuando lo pidas. Para dejar de recibir mensajes, responde
+        <strong> BAJA</strong> o bloquea el número. Los cobros de demostración
+        están siempre rotulados como simulados y no mueven dinero.
+      </p>
+
+      <h2>6. Cómo protegemos tus datos</h2>
+      <p>Esto no es una lista de intenciones: son controles que están activos hoy.</p>
+      <ul>
+        <li>Todo el tráfico va cifrado, con la conexión segura forzada en el navegador.</li>
+        <li>Los datos se guardan cifrados en la infraestructura de Google Cloud.</li>
+        <li>Cada petición se verifica para distinguir una persona de un robot.</li>
+        <li>Hay límites de uso que impiden el abuso del asistente.</li>
+        <li>Ningún navegador puede acceder a nuestra base de datos: todo pasa por servidores nuestros.</li>
+        <li>Los registros técnicos no guardan tu correo ni tu teléfono en claro.</li>
+        <li>Cada negocio está aislado de los demás, con reglas que se prueban automáticamente en cada cambio.</li>
+        <li>Las dependencias del sitio se analizan de forma automática en busca de vulnerabilidades conocidas.</li>
+      </ul>
+
+      <h2>7. Con quién compartimos</h2>
+      <ul>
+        <li>Google Cloud y Firebase: hospedaje, base de datos y verificación antifraude.</li>
+        <li>Nuestro proveedor de correo, para hacerte llegar la respuesta.</li>
+        <li>Los proveedores del modelo de inteligencia artificial, solo el texto de la consulta.</li>
+        <li>Meta Platforms, cuando la conversación ocurre por WhatsApp.</li>
+        <li>Google y Meta, si aceptaste la medición.</li>
+        <li>La autoridad competente, si media un requerimiento legal.</li>
+      </ul>
+      <p>
+        Nuestros servidores están en Estados Unidos. Al escribirnos, aceptas que
+        tus datos se traten allí.
+      </p>
+
+      <h2>8. Tus derechos</h2>
+      <p>
+        Puedes pedirnos acceso a tus datos, su corrección o su eliminación, y
+        retirar tu consentimiento en cualquier momento. Escríbenos a{' '}
+        <a href={`mailto:${sitio.contacto.correo}`}>{sitio.contacto.correo}</a> y
+        te respondemos en un plazo máximo de quince días hábiles. Puede que te
+        pidamos verificar tu identidad antes, justamente para proteger tus datos.
+      </p>
+
+      <h2>9. Cuánto tiempo los guardamos</h2>
+      <p>
+        Las conversaciones con el asistente del sitio y los registros técnicos se
+        borran a los noventa días. Los datos de contacto de quienes nos escriben
+        se conservan mientras exista una relación comercial o hasta que pidas que
+        los borremos.
+      </p>
+
+      <h2>10. Cambios y ley aplicable</h2>
+      <p>
+        Si cambiamos esta política, actualizamos la fecha del encabezado. Se rige
+        por las leyes del Estado Plurinacional de Bolivia.
+      </p>
+    </div>
+  </section>
+</Base>

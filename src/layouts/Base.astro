@@ -1,0 +1,130 @@
+---
+import '../estilos/tokens.css';
+import '../estilos/base.css';
+import '../estilos/componentes.css';
+import Cabecera from '../components/Cabecera.astro';
+import Pie from '../components/Pie.astro';
+import Consentimiento from '../components/Consentimiento.astro';
+import DatosEstructurados from '../components/DatosEstructurados.astro';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  /** Ruta equivalente en el otro idioma; sin ella no se emite `hreflang`. */
+  rutaAlterna?: string;
+  conFaq?: boolean;
+  migajas?: { nombre: string; ruta: string }[];
+}
+
+const { titulo, descripcion, rutaAlterna, conFaq = false, migajas = [] } =
+  Astro.props;
+
+const base = 'https://novuchat.site';
+// `build.format: 'file'` hace que en compilación la ruta llegue como
+// `/precios.html`, pero Firebase Hosting sirve con `cleanUrls: true` y la URL
+// pública es `/precios`. Sin esta normalización, la canónica y los `hreflang`
+// apuntarían a una dirección con `.html` que Google indexaría como duplicada.
+const ruta =
+  Astro.url.pathname
+    .replace(/\/index\.html$/, '/')
+    .replace(/\.html$/, '')
+    .replace(/(.)\/$/, '$1') || '/';
+const canonica = `${base}${ruta === '/' ? '' : ruta}`;
+const idioma = ruta.startsWith('/en') ? 'en' : 'es';
+
+/**
+ * Script anti-destello. Aplica `data-tema` ANTES del primer pintado, para que
+ * quien usa el tema oscuro no vea un fogonazo blanco al cargar cada página.
+ *
+ * Va en línea por necesidad: un archivo externo llegaría tarde. La CSP lo
+ * autoriza por hash SHA-256, nunca con `'unsafe-inline'`. Si cambia una sola
+ * letra, hay que recalcular el hash de `firebase.json` y anotarlo en
+ * `docs/csp.md`; el navegador bloquea el script sin avisar si no coinciden.
+ *
+ * Hash vigente: sha256-9D8Iby2VzhAdvSMmJ+6wMz0Xz3M/3V6Jfl9QJOalgFU=
+ */
+const antiDestello = `(function(){try{var t=localStorage.getItem('novuchat.tema');var o=t==='oscuro'||((!t||t==='sistema')&&matchMedia('(prefers-color-scheme: dark)').matches);var r=document.documentElement;if(o){r.dataset.tema='oscuro'}r.style.colorScheme=o?'dark':'light'}catch(e){}})();`;
+---
+
+<!doctype html>
+<html lang={idioma}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline set:html={antiDestello} />
+
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" sizes="32x32" />
+
+    <link
+      rel="preload"
+      href="/fuentes/archivo-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    {
+      rutaAlterna && (
+        <>
+          <link
+            rel="alternate"
+            hreflang={idioma === 'es' ? 'en' : 'es'}
+            href={`${base}${rutaAlterna}`}
+          />
+          <link rel="alternate" hreflang={idioma} href={canonica} />
+          <link
+            rel="alternate"
+            hreflang="x-default"
+            href={idioma === 'es' ? canonica : `${base}${rutaAlterna}`}
+          />
+        </>
+      )
+    }
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="NovuChat" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={`${base}/og.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={idioma === 'es' ? 'es_BO' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <DatosEstructurados conFaq={conFaq} migajas={migajas} />
+  </head>
+
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <Cabecera ruta={ruta} />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Pie />
+    <Consentimiento />
+
+    <script>
+      import { iniciarTema, leerTema, fijarTema } from '../lib/tema';
+
+      iniciarTema();
+
+      // El botón alterna entre claro y oscuro tomando como punto de partida lo
+      // que se está viendo, no lo que está guardado: si la preferencia es
+      // «sistema» y el sistema está oscuro, el primer clic lleva a claro.
+      document
+        .querySelector('[data-tema-boton]')
+        ?.addEventListener('click', () => {
+          const oscuroAhora =
+            document.documentElement.dataset['tema'] === 'oscuro';
+          fijarTema(oscuroAhora ? 'claro' : 'oscuro');
+          void leerTema();
+        });
+    </script>
+  </body>
+</html>

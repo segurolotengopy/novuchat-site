@@ -1,0 +1,110 @@
+---
+import Base from '../../layouts/Base.astro';
+import Conversacion from '../../components/Conversacion.astro';
+import { verticales } from '../../contenido/verticales.es';
+import { precios } from '../../contenido/precios.es';
+
+export function getStaticPaths() {
+  return verticales.map((v) => ({ params: { vertical: v.id }, props: { vertical: v } }));
+}
+
+const { vertical } = Astro.props;
+const plan = precios.planes.find((p) => p.id === vertical.planRecomendado)!;
+const otras = verticales.filter((v) => v.id !== vertical.id);
+---
+
+<Base
+  titulo={`${vertical.titulo} | NovuChat`}
+  descripcion={vertical.bajada}
+  migajas={[
+    { nombre: 'Inicio', ruta: '/' },
+    { nombre: 'Soluciones', ruta: `/soluciones/${vertical.id}` },
+    { nombre: vertical.nombre, ruta: `/soluciones/${vertical.id}` },
+  ]}
+>
+  <section class="heroe">
+    <div class="contenedor heroe-rejilla">
+      <div>
+        <p class="tag tag-accent-2">{vertical.nombre}</p>
+        <h1>{vertical.titulo}</h1>
+        <p class="heroe-bajada">{vertical.bajada}</p>
+        <div class="heroe-acciones">
+          <a class="btn btn-cta btn-grande" href="/demo">Pedir una demostración</a>
+          <a class="btn btn-secondary btn-grande" href="/precios">Ver precios</a>
+        </div>
+      </div>
+      <img
+        class="marco"
+        src={vertical.foto.archivo}
+        alt={vertical.foto.alt}
+        width="900"
+        height="672"
+        style="aspect-ratio: 4 / 3; object-fit: cover"
+      />
+    </div>
+  </section>
+
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Qué resuelve en tu rubro</h2>
+      <div class="rejilla">
+        {
+          vertical.casos.map((caso) => (
+            <article class="card elev-sm">
+              <h3 class="card-title">{caso.titulo}</h3>
+              <p class="card-body">{caso.texto}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor" style="display: grid; gap: var(--space-8)">
+      <div>
+        <h2 class="seccion-titulo">Una conversación real, paso a paso</h2>
+        <p class="seccion-bajada">
+          Los datos son ficticios: {vertical.negocioEjemplo} es un negocio de
+          ejemplo. Así responde el asistente configurado para tu rubro.
+        </p>
+      </div>
+      <div style="max-width: 620px">
+        <Conversacion turnos={vertical.conversacion} negocio={vertical.negocioEjemplo} />
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Plan recomendado para este rubro</h2>
+      <article class="plan plan-destacado" style="max-width: 420px">
+        <h3 class="plan-nombre">{plan.nombre}</h3>
+        <p class="plan-precio">{plan.precioBs} Bs <small>/ mes</small></p>
+        <p class="card-body">{plan.resumen}</p>
+        <a class="btn btn-primary btn-block" href={`/demo?plan=${plan.id}`}>
+          Empezar con {plan.nombre}
+        </a>
+      </article>
+      <p style="margin-top: var(--space-6)">
+        <a class="btn btn-ghost" href="/precios">Comparar los tres planes</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Otros rubros</h2>
+      <div class="rejilla">
+        {
+          otras.map((v) => (
+            <a class="card elev-sm" href={`/soluciones/${v.id}`} style="color: inherit">
+              <h3 class="card-title">{v.nombre}</h3>
+              <p class="card-body">{v.bajada}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>

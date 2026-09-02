@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import Preguntas from '../components/Preguntas.astro';
+import { preguntas } from '../contenido/faq.es';
+import { sitio } from '../contenido/sitio.es';
+---
+
+<Base
+  titulo="Preguntas frecuentes | NovuChat"
+  descripcion="Qué necesitas para empezar, cómo se cobra, dónde están tus datos y qué pasa si el asistente se equivoca."
+  conFaq
+  migajas={[
+    { nombre: 'Inicio', ruta: '/' },
+    { nombre: 'Preguntas frecuentes', ruta: '/preguntas-frecuentes' },
+  ]}
+>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>Preguntas frecuentes</h1>
+      <p class="seccion-bajada" style="font-size: 18px">
+        Si algo no está acá, escríbenos y lo respondemos. También agregamos la
+        respuesta a esta página.
+      </p>
+      <Preguntas preguntas={preguntas} />
+    </div>
+  </section>
+
+  <section class="seccion banda">
+    <div class="contenedor" style="text-align: center">
+      <h2 class="seccion-titulo" style="margin-inline: auto">¿Te quedó una duda?</h2>
+      <div class="heroe-acciones" style="justify-content: center">
+        <a class="btn btn-cta btn-grande" href="/contacto">Escribirnos</a>
+        <a
+          class="btn btn-secondary btn-grande"
+          href={`https://wa.me/${sitio.contacto.whatsappEnlace}`}
+          rel="noopener"
+          style="color: var(--banda-texto)"
+        >
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

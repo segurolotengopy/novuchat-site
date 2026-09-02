@@ -1,0 +1,21 @@
+---
+import type { Pregunta } from '../contenido/tipos';
+
+interface Props {
+  preguntas: Pregunta[];
+}
+
+const { preguntas } = Astro.props;
+---
+
+{/* `details`/`summary` nativos: accesibles por teclado sin una línea de JS. */}
+<div style="max-width: var(--ancho-lectura)">
+  {
+    preguntas.map((p) => (
+      <details class="acordeon">
+        <summary>{p.pregunta}</summary>
+        <p class="acordeon-cuerpo">{p.respuesta}</p>
+      </details>
+    ))
+  }
+</div>

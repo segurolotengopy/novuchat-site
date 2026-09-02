@@ -1,0 +1,118 @@
+---
+import Base from '../../layouts/Base.astro';
+import { pricing } from '../../contenido/precios.en';
+
+const { planes, instalacion, excedente, comoContamos } = pricing;
+---
+
+<Base
+  titulo="NovuChat pricing"
+  descripcion="Plans from 250 Bs per month, with AI usage and WhatsApp conversations included. Live in 48 hours."
+  rutaAlterna="/precios"
+>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>Plans and pricing</h1>
+      <p class="seccion-bajada" style="font-size: 18px">
+        In bolivianos. AI usage and WhatsApp conversations are included in the
+        price: no surprise charges at the end of the month.
+      </p>
+
+      <div class="rejilla">
+        {
+          planes.map((plan) => (
+            <article class={`plan${plan.destacado ? ' plan-destacado' : ''}`}>
+              {plan.destacado && (
+                <span class="tag tag-accent-2" style="align-self: flex-start">
+                  Most chosen
+                </span>
+              )}
+              <h2 class="plan-nombre">{plan.nombre}</h2>
+              <p class="plan-precio">
+                {plan.precioBs} Bs <small>/ month</small>
+              </p>
+              <p class="card-body">{plan.resumen}</p>
+              <p class="tag tag-neutral" style="align-self: flex-start">
+                {plan.conversaciones.toLocaleString('en-US')} conversations per month
+              </p>
+              <ul class="plan-lista">
+                {plan.incluye.map((c) => (
+                  <li>
+                    <span>
+                      {c.texto}
+                      {c.proximamente && (
+                        <span class="tag tag-proximamente" style="margin-left: 6px">
+                          Coming soon
+                        </span>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <a class="btn btn-primary btn-block" href="/demo">Request a demo</a>
+            </article>
+          ))
+        }
+      </div>
+
+      <p class="texto-apagado" style="margin-top: var(--space-6); font-size: 14px">
+        Features marked "Coming soon" are not available yet. We list them so you
+        know where the product is going, not to charge for them early.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <div class="rejilla" style="align-items: start">
+        <article class="card elev-sm">
+          <h2 class="card-title">If you go over your plan</h2>
+          <p class="card-body">
+            Each additional block of {excedente.conversaciones} conversations
+            costs {excedente.precioBs} Bs. Service is never cut off and nothing is
+            billed by surprise: we write to you at 80 % of your plan.
+          </p>
+        </article>
+
+        <article class="card elev-sm">
+          <h2 class="card-title">Setup</h2>
+          <p class="plan-precio" style="font-size: 30px">
+            {instalacion.estandar} Bs <small>/ one time</small>
+          </p>
+          <ul class="plan-lista">
+            {instalacion.incluye.map((i) => <li>{i}</li>)}
+          </ul>
+          <p class="card-body">
+            Custom integrations start at {instalacion.aMedidaDesde.toLocaleString('en-US')} Bs.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">{comoContamos.titulo}</h2>
+      <div style="max-width: var(--ancho-lectura)">
+        {comoContamos.parrafos.map((p) => <p>{p}</p>)}
+      </div>
+      <table class="table" style="margin-top: var(--space-8); max-width: 780px">
+        <thead>
+          <tr><th scope="col">Term</th><th scope="col">What it means</th></tr>
+        </thead>
+        <tbody>
+          {
+            comoContamos.glosario.map((g) => (
+              <tr>
+                <th scope="row" style="text-transform: none; font-size: 15px; letter-spacing: 0">
+                  {g.termino}
+                </th>
+                <td>{g.definicion}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,26 @@
+---
+import { identidadLegal } from '../contenido/pendientes';
+import { sitio } from '../contenido/sitio.es';
+---
+
+{
+  identidadLegal ? (
+    <p>
+      El responsable del tratamiento de tus datos es <strong>{identidadLegal.razonSocial}</strong>,
+      NIT {identidadLegal.nit}, con domicilio en {sitio.contacto.ciudad}, {sitio.contacto.pais}.
+      Puedes escribirnos a <a href={`mailto:${sitio.contacto.correo}`}>{sitio.contacto.correo}</a>.
+    </p>
+  ) : (
+    <aside class="card elev-sm" style="border-left: 4px solid var(--color-aviso)">
+      <p class="card-kicker" style="color: var(--color-aviso)">Dato en trámite</p>
+      <p class="card-body">
+        La razón social y el NIT de NovuChat están en trámite y se publicarán en
+        esta página en cuanto se emitan. Mientras tanto, el responsable del
+        tratamiento de tus datos responde en{' '}
+        <a href={`mailto:${sitio.contacto.correo}`}>{sitio.contacto.correo}</a> y
+        en el WhatsApp {sitio.contacto.whatsapp}, en {sitio.contacto.ciudad},{' '}
+        {sitio.contacto.pais}.
+      </p>
+    </aside>
+  )
+}

@@ -1,0 +1,173 @@
+/* =============================================================================
+   TOKENS — novuchat.site
+   =============================================================================
+   Fuente: los DOS ÚLTIMOS bloques `:root` / `[data-tema="oscuro"]` del prototipo
+   `docs/diseno/landing-design.html` (decisión de Andres del 2026-09-02: manda el
+   prototipo, no el doc 08). El prototipo apilaba dos capas: una base de sistema
+   (espaciado, radios, sombras, rampa neutra) y encima la capa de NovuChat, que
+   sobrescribe colores y tipografía. Aquí están fusionadas, con la capa de
+   NovuChat ya aplicada.
+
+   DIFERENCIAS DELIBERADAS respecto de la consola (`~/NovuChat/admin`), para que
+   quien mantenga los dos productos sepa qué es intencional:
+     · Radios: el sitio redondea (8/16/28 px, controles en píldora); la consola
+       usa 0. El sitio es comercial y busca calidez; el panel busca densidad.
+     · Fondo crema `#f7f3ec` en vez del gris `#f3f2f2`.
+     · Acento pizarra `#2f3a44` en vez de `#3d4753`.
+   Pendiente en el otro repositorio: alinear la consola (ver
+   `docs/pendiente-alineacion-consola.md`).
+
+   REGLA: ningún color ni radio literal fuera de este archivo. Stylelint lo
+   verifica con `declaration-strict-value` (doc 08 §7).
+
+   TIPOGRAFÍA: el prototipo nombra las familias «Figtree» y «Caprasimo», pero sus
+   `@font-face` apuntan a los `.woff2` de **Archivo**. Es un artefacto de la
+   exportación: la fuente real siempre fue Archivo, y así se mantiene —
+   autoalojada en `/fuentes/`, porque la CSP prohíbe Google Fonts.
+   ========================================================================== */
+
+:root {
+  /* — Superficies y texto — */
+  --color-bg: #f7f3ec;
+  --color-surface: #fff;
+  --color-text: #1c211f;
+  --color-divider: color-mix(in srgb, #1c211f 16%, transparent);
+
+  /* Los bordes de un control interactivo necesitan 3:1 (WCAG 1.4.11); el
+     divisor decorativo del prototipo se queda corto para eso. */
+  --color-borde-control: color-mix(in srgb, #1c211f 42%, transparent);
+
+  /* — Acento: pizarra del logotipo — */
+  --color-accent: #2f3a44;
+  --color-on-accent: #fff;
+  --color-accent-100: #eef1f4;
+  --color-accent-200: #d8dee4;
+  --color-accent-300: #b3bec8;
+  --color-accent-400: #7d8b98;
+  --color-accent-500: #2f3a44;
+  --color-accent-600: #27303a;
+  --color-accent-700: #1f2731;
+  --color-accent-800: #181f27;
+  --color-accent-900: #11171d;
+
+  /* — Acento 2: verde de marca. NUNCA como color de texto en tema claro
+       (#12c489 sobre crema da 2,0:1). Para texto use `--verde-texto`. — */
+  --color-accent-2: #12c489;
+  --color-accent-2-100: #e4faf1;
+  --color-accent-2-200: #bff3de;
+  --color-accent-2-300: #8aeac4;
+  --color-accent-2-400: #35e2a0;
+  --color-accent-2-500: #12c489;
+  --color-accent-2-600: #0ea975;
+  --color-accent-2-700: #0b855c;
+  --color-accent-2-800: #086546;
+  --color-accent-2-900: #064733;
+
+  /* — Rampa neutra (cálida, para armonizar con el fondo crema) — */
+  --color-neutral-100: #f9f4ed;
+  --color-neutral-200: #eee7db;
+  --color-neutral-300: #dcd3c4;
+  --color-neutral-400: #c0b6a5;
+  --color-neutral-500: #a19786;
+  --color-neutral-600: #82796a;
+  --color-neutral-700: #645c50;
+  --color-neutral-800: #474238;
+  --color-neutral-900: #2e2b25;
+
+  /* — Llamada a la acción: menta sobre tinta oscura (9,9:1) — */
+  --cta-bg: #35e2a0;
+  --cta-fg: #0f1a16;
+  --cta-bg-hover: #12c489;
+
+  /* — Bloques de marca — */
+  --pizarra: #2f3a44;
+  --banda: #1b2430;
+  --banda-texto: #f2f7f5;
+  --verde-texto: #0b855c;      /* verde legible como texto en claro (4,2:1) */
+  --fondo-alterno: #fffdfa;    /* secciones alternadas */
+
+  /* — Estados — */
+  --color-ok: #0b855c;
+  --color-aviso: #b26a00;
+  --color-error: #b3261e;
+
+  /* — Tipografía — */
+  --font-heading: "Archivo", system-ui, -apple-system, sans-serif;
+  --font-heading-weight: 800;
+  --font-body: "Archivo", system-ui, -apple-system, sans-serif;
+  --tipo-h1: clamp(32px, 4.6vw, 52px);
+  --tipo-h2: clamp(25px, 3.2vw, 36px);
+  --tipo-h3: 22px;
+  --tipo-cuerpo: 16.5px;
+
+  /* — Espaciado — */
+  --space-1: 4.4px;
+  --space-2: 8.8px;
+  --space-3: 13.2px;
+  --space-4: 17.6px;
+  --space-6: 26.4px;
+  --space-8: 35.2px;
+  --space-10: 44px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* — Medidas — */
+  --ancho: 1180px;
+  --ancho-lectura: 68ch;
+  --alto-cabecera: 64px;
+
+  /* — Radios. `--radius-*` es la escala del sistema; `--r-*` la que el
+       prototipo usa en las secciones. Los controles van en píldora. — */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+  --radius-pildora: 999px;
+  --r-sm: 14px;
+  --r-md: 22px;
+  --r-lg: 34px;
+
+  /* — Elevación — */
+  --shadow-sm: 0 2px 10px color-mix(in srgb, #1c211f 6%, transparent);
+  --shadow-md: 0 12px 34px color-mix(in srgb, #1c211f 9%, transparent);
+  --shadow-lg: 0 34px 80px color-mix(in srgb, #1c211f 14%, transparent);
+
+  /* — Foco visible: nunca `outline: none` sin reemplazo — */
+  --anillo-foco: 2px solid var(--color-accent);
+
+  color-scheme: light;
+}
+
+/* =============================================================================
+   TEMA OSCURO
+   Solo bajo `[data-tema="oscuro"]`, nunca dentro de `@media`: el atributo lo
+   fija `tema.ts` a partir de la preferencia del sistema, y así el conmutador
+   manual puede ganarle a esa preferencia en las dos direcciones.
+   ========================================================================== */
+[data-tema="oscuro"] {
+  --color-bg: #101614;
+  --color-surface: #18201d;
+  --color-text: #eef5f1;
+  --color-divider: color-mix(in srgb, #eef5f1 14%, transparent);
+  --color-borde-control: color-mix(in srgb, #eef5f1 40%, transparent);
+
+  /* En oscuro se invierte la jerarquía: el menta pasa a ser el acento. */
+  --color-accent: #35e2a0;
+  --color-on-accent: #0f1a16;
+  --color-accent-100: #1d2a26;
+  --color-accent-200: #243330;
+  --color-accent-500: #35e2a0;
+  --color-accent-600: #12c489;
+  --verde-texto: #7ee7bd;
+  --fondo-alterno: #131a18;
+  --banda: #18201d;
+  --banda-texto: #eef5f1;
+  --pizarra: #28332f;
+  --color-ok: #35e2a0;
+  --color-aviso: #f2b544;
+  --color-error: #ff8a80;
+  --shadow-sm: 0 2px 10px rgb(0 0 0 / 35%);
+  --shadow-md: 0 12px 34px rgb(0 0 0 / 45%);
+  --shadow-lg: 0 34px 80px rgb(0 0 0 / 55%);
+
+  color-scheme: dark;
+}

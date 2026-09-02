@@ -22,7 +22,10 @@ funcional, material comercial). Hito: demos comerciales el **9 y 10 de septiembr
 | `docs/07-prompt-claude-design.md` | Prompt del diseño para Claude Design |
 | `docs/09-prompt-claude-code.md` | Prompt de arranque y discrepancias del diseño de referencia con estas reglas |
 | `docs/diseno/landing-design.html` | Diseño de referencia del sitio (artefacto de Claude Design exportado): estructura, textos, tokens; **no es código de producción** |
-| `docs/08-sistema-de-diseno.md` | **Tokens definitivos** (del artefacto "Panel NovuChat"), contraste, adaptaciones panel → sitio |
+| `docs/08-sistema-de-diseno.md` | Tokens de la consola. **Superado en parte:** ver la nota de decisiones de abajo |
+| `docs/csp.md` | Cada excepción de la CSP, qué habilita y qué se rompe si se quita |
+| `docs/pendiente-alineacion-consola.md` | Diferencia visual entre sitio y consola, y cómo cerrarla |
+| `ESTADO.md` | Dónde estamos, decisiones, hallazgos que costaron tiempo, próximos pasos |
 
 La plataforma (flujos n8n y consola) vive en `~/NovuChat/`; su `CLAUDE.md`, `ESTADO.md`
 y `admin/{DISENO,SEGURIDAD,LEEME}.md` son la referencia de producto y de seguridad. **No
@@ -36,6 +39,23 @@ críticos. Andres tiene 25 años de experiencia en arquitectura y gestión; expe
 programando. Ejecute todo lo que pueda por su cuenta, verifíquelo y entregue resultados;
 señale con claridad **qué requiere su intervención** (consolas, claves, DNS, decisiones)
 y no lo mezcle con pasos que Claude Code puede hacer.
+
+## Decisiones que superan a los documentos (2026-09-02)
+
+Los docs 01–09 se escribieron antes de estas decisiones de Andres. Donde haya
+contradicción, **manda esta lista**.
+
+| Tema | Decisión vigente | Qué documento queda desactualizado |
+|---|---|---|
+| **Región de nube** | **Todo en `us-east1`.** Firestore y Functions. Determina `connect-src` y la respuesta del FAQ sobre ubicación de datos | doc 06 (decía `southamerica-east1`) |
+| **Sistema visual** | Tokens **del prototipo** (`docs/diseno/landing-design.html`, los dos últimos bloques): fondo crema `#f7f3ec`, acento `#2f3a44`, **radios 8/16/28 px y controles en píldora** | doc 08 (radios 0, fondo gris) |
+| **Identidad** | **Ninguna referencia a AAB1** en el sitio ni en el RAG. NovuChat factura como comercio con NIT propio, en trámite | docs 02 §9, 04 §5, 05 §0 y §7 |
+| **Analítica** | **GA4 + píxel de Meta**, ambos detrás de un banner de consentimiento y declarados en `/privacidad` | doc 06 D5 (decía «ninguna») |
+| **Correo de leads** | **FormSubmit**, llamado **desde la Function `lead`**, nunca desde el navegador. Resend queda para después | doc 06 D4 |
+| **Asistente** | **RAG estricto**: umbral de similitud, y si no se alcanza no se llama al modelo | doc 03 §5.1 punto 4 |
+| **Unidad comercial** | **«Conversaciones»** = todos los mensajes con un cliente en 24 h continuas. Definida en `/precios` y en `/terminos` | doc 02 §5 |
+| **Planes** | Impulso 250 / Crecimiento 450 / Pro 850 Bs. Instalación 800 Bs (a medida desde 1.500). Excedente 50 Bs por 150 conversaciones | doc 02 §5 |
+| **Generador** | **Astro 7**, no 5 | doc 03 §2 |
 
 ## Arquitectura (resumen)
 
@@ -73,10 +93,14 @@ Navegador ──► Firebase Hosting (Astro estático + CSP estricta)
 
 ## Reglas de diseño y contenido
 
-- Identidad: los tokens de la consola **sin renombrar** (doc 08): acento pizarra
-  `#3d4753` en claro, menta `#35e2a0` en oscuro, verde `#12c489` como segundo acento;
-  Archivo; radios 0; divisores de 2 px. El verde `#12c489` **nunca** como texto en tema
-  claro (2,0:1): usar `--color-accent-2-texto`. Ningún color fuera de `tokens.css`.
+- Identidad: los tokens **del prototipo**, en `src/estilos/tokens.css`: fondo crema
+  `#f7f3ec`, acento pizarra `#2f3a44` en claro, menta `#35e2a0` en oscuro, verde
+  `#12c489` como segundo acento; Archivo autoalojada; radios 8/16/28 px con los
+  controles en píldora. El verde `#12c489` **nunca** como texto en tema claro
+  (2,0:1): usar `--verde-texto`. Ningún color ni radio literal fuera de `tokens.css`.
+- Cuidado con la especificidad al escribir CSS de navegación o de bandas: una regla
+  como `.nav a` le gana a `.btn-cta` y deja el botón con el color equivocado. Use
+  `:not(.btn)`. Ya pasó una vez y lo detectó `axe`.
 - Vocabulario del doc 02 §10: "negocio", "asistente", "consola", "cita/pedido/cierre".
   Nunca "tenant", "bot", "dashboard", "API" en textos públicos.
 - El QR de demostración lleva el rótulo "DEMOSTRACIÓN — este QR no cobra" en la imagen y
@@ -97,8 +121,14 @@ pnpm emuladores          # Functions + Firestore (puertos 5241/8241; distintos d
 pnpm pruebas             # unidad + reglas (emulador) + inyección de prompt
 pnpm humo                # Playwright contra emuladores
 pnpm build && pnpm csp   # sirve dist/ con las cabeceras REALES de firebase.json → 0 "Refused to"
-pnpm verificar           # lint, typecheck, pruebas, prohibiciones, marcas CONFIRMAR, build
+pnpm verificar           # lint + typecheck + pruebas + prohibiciones + build + humo
+pnpm listo               # compuerta de producción: falla si queda un dato sin confirmar
 ```
+
+- `pnpm verificar` **no** bloquea por datos pendientes: para eso está `pnpm listo`,
+  que lee `src/contenido/pendientes.ts` y falla si queda alguno. Así se puede
+  trabajar con un dato en trámite sin romper el desarrollo, pero no se puede
+  desplegar con él.
 
 - Antes de dar algo por terminado: `pnpm verificar` en verde, `pnpm csp` sin violaciones,
   Lighthouse móvil ≥ 90, y probado en un celular real (o emulación) — reportar el

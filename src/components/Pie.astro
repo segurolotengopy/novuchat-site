@@ -1,0 +1,64 @@
+---
+import { sitio, insigniaCanal } from '../contenido/sitio.es';
+import { identidadLegal } from '../contenido/pendientes';
+import { urlConsola } from '../lib/consola';
+
+const anio = new Date().getFullYear();
+---
+
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-rejilla">
+      <div>
+        <a class="nav-brand" href="/">
+          <img src="/isotipo.svg" alt="" width="28" height="28" />
+          {sitio.nombre}
+        </a>
+        <p class="texto-apagado" style="margin-top: var(--space-3); max-width: 30ch">
+          {sitio.lema}
+        </p>
+        <p class="tag tag-accent-2">{insigniaCanal}</p>
+      </div>
+
+      {
+        sitio.pie.map((columna) => (
+          <div>
+            <h2>{columna.titulo}</h2>
+            <ul>
+              {columna.enlaces.map((enlace) => (
+                <li>
+                  <a href={enlace.ruta}>{enlace.texto}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+
+      <div>
+        <h2>Tu cuenta</h2>
+        <ul>
+          <li><a href={urlConsola} rel="noopener">Ingresar a la consola</a></li>
+          <li><a href={`mailto:${sitio.contacto.correo}`}>{sitio.contacto.correo}</a></li>
+          <li>
+            <a href={`https://wa.me/${sitio.contacto.whatsappEnlace}`} rel="noopener">
+              {sitio.contacto.whatsapp}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="pie-legal">
+      © {anio} {sitio.lineaLegal}
+      {
+        identidadLegal && (
+          <span>
+            {' '}· {identidadLegal.razonSocial} · NIT {identidadLegal.nit}
+          </span>
+        )
+      }
+      · <a href="/privacidad">Privacidad</a> · <a href="/terminos">Términos</a>
+    </p>
+  </div>
+</footer>

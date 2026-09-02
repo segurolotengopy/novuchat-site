@@ -21,6 +21,12 @@ export default defineConfig({
     build: {
       // Presupuesto del doc 03 §10: HTML+CSS+JS inicial <= 300 KB.
       chunkSizeWarningLimit: 300,
+      // CRÍTICO: con el valor por defecto, Astro incrusta los scripts pequeños
+      // dentro del HTML, y la CSP los bloquea sin dejar rastro visible (el
+      // conmutador de tema y el banner de consentimiento dejan de funcionar).
+      // En 0, todo script sale a un archivo servido desde el propio origen y
+      // queda cubierto por `script-src 'self'`. Ver docs/csp.md.
+      assetsInlineLimit: 0,
     },
   },
 });

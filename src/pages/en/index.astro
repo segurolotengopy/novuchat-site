@@ -1,0 +1,129 @@
+---
+import Base from '../../layouts/Base.astro';
+import Conversacion from '../../components/Conversacion.astro';
+import { pricing } from '../../contenido/precios.en';
+import { sitio } from '../../contenido/sitio.es';
+import { urlConsola } from '../../lib/consola';
+import type { Turno } from '../../contenido/tipos';
+
+const conversacion: Turno[] = [
+  { de: 'cliente', texto: 'Do you have an opening tomorrow afternoon?' },
+  {
+    de: 'asistente',
+    texto: 'Yes. Tomorrow I have 3:00, 4:30 and 6:00 pm free with Carla. Which one works?',
+  },
+  { de: 'cliente', texto: '4:30 please' },
+  {
+    de: 'asistente',
+    texto:
+      'Done. Your appointment with Carla is booked tomorrow at 4:30 pm at Salón Aurora. I will remind you a day before.',
+  },
+];
+
+const capacidades = [
+  { titulo: 'Answers around the clock', texto: 'Understands what the customer writes, typos and changes of mind included.' },
+  { titulo: 'Books in your real calendar', texto: 'Checks your Google Calendar, offers the slots that are genuinely free and creates the appointment.' },
+  { titulo: 'Takes orders and charges by QR', texto: 'Variants, notes, delivery by zone, calculated total and your bank QR. Validates the receipt.' },
+  { titulo: 'Reminds customers', texto: 'Sends the reminder 24 hours ahead through an approved WhatsApp template.' },
+  { titulo: 'Hands over to a person', texto: 'When it is not sure, or when the customer asks, it passes the conversation to your team.' },
+  { titulo: 'Console for the owner', texto: 'Read conversations, change hours and prices, all from your phone.' },
+];
+---
+
+<Base
+  titulo="NovuChat — AI WhatsApp assistant for your business in Bolivia"
+  descripcion="Answers 24/7, books appointments, takes orders and charges by QR. Live in 48 hours, managed from your phone."
+  rutaAlterna="/"
+>
+  <section class="heroe">
+    <div class="contenedor heroe-rejilla">
+      <div>
+        <p class="tag tag-accent-2">AI WhatsApp assistants for businesses in Bolivia</p>
+        <h1>
+          The first employee that <span style="color: var(--verde-texto)">never sleeps</span>.
+        </h1>
+        <p class="heroe-bajada">
+          NovuChat answers your customers on WhatsApp around the clock: it replies,
+          books appointments in your calendar, takes orders and charges by QR. We
+          set it up in 48 hours and you run it from your phone.
+        </p>
+        <div class="heroe-acciones">
+          <a class="btn btn-cta btn-grande" href="/demo">Request a demo</a>
+          <a class="btn btn-secondary btn-grande" href="/en/precios">See pricing</a>
+        </div>
+        <ul class="heroe-pruebas">
+          <li>· Official Meta channel</li>
+          <li>· Live in 48 hours</li>
+          <li>· Replies in under a minute</li>
+          <li>· You see everything in the console</li>
+        </ul>
+      </div>
+
+      <Conversacion turnos={conversacion} negocio="Salón Aurora" />
+    </div>
+  </section>
+
+  <section class="seccion seccion-alterna">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">What it does for your business</h2>
+      <p class="seccion-bajada">
+        Not a menu of buttons: it understands what people write and acts on your
+        real calendar and catalogue.
+      </p>
+      <div class="rejilla">
+        {
+          capacidades.map((c) => (
+            <article class="card elev-sm">
+              <h3 class="card-title">{c.titulo}</h3>
+              <p class="card-body">{c.texto}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Plans</h2>
+      <p class="seccion-bajada">
+        In bolivianos, no long contracts. AI usage and WhatsApp conversations are
+        included in the price.
+      </p>
+      <div class="rejilla">
+        {
+          pricing.planes.map((plan) => (
+            <article class={`plan${plan.destacado ? ' plan-destacado' : ''}`}>
+              <h3 class="plan-nombre">{plan.nombre}</h3>
+              <p class="plan-precio">
+                {plan.precioBs} Bs <small>/ month</small>
+              </p>
+              <p class="card-body">{plan.resumen}</p>
+              <p class="tag tag-neutral" style="align-self: flex-start">
+                {plan.conversaciones.toLocaleString('en-US')} conversations per month
+              </p>
+              <a class="btn btn-primary btn-block" href="/en/precios">
+                See what is included
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion banda">
+    <div class="contenedor" style="text-align: center">
+      <h2 class="seccion-titulo" style="margin-inline: auto">Shall we try it on your business?</h2>
+      <div class="heroe-acciones" style="justify-content: center">
+        <a class="btn btn-cta btn-grande" href="/demo">Request a demo</a>
+        <a class="btn btn-secondary btn-grande" href={urlConsola} rel="noopener" style="color: var(--banda-texto)">
+          Sign in
+        </a>
+      </div>
+      <p class="texto-apagado" style="margin-top: var(--space-6)">
+        {sitio.contacto.correo} · {sitio.contacto.whatsapp}
+      </p>
+    </div>
+  </section>
+</Base>

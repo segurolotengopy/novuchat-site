@@ -1,0 +1,834 @@
+/* =============================================================================
+   COMPONENTES — novuchat.site
+   =============================================================================
+   Primera mitad: las clases heredadas del sistema de la consola, con los mismos
+   nombres (`.btn*`, `.field`, `.input`, `.tag*`, `.card*`, `.table`, `.nav`,
+   `.dialog*`, `.elev-*`), adaptadas a los radios redondeados del prototipo.
+   Segunda mitad: las clases nuevas del sitio (`.seccion`, `.heroe`, `.burbuja`,
+   `.plan`, `.acordeon`, `.chip`, `.banda`, `.escribiendo`).
+
+   Todo con tokens: ningún literal de color ni de radio vive aquí.
+   ========================================================================== */
+
+/* ── Contenedor y ritmo de sección ──────────────────────────────────────── */
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+.seccion {
+  padding-block: var(--space-16);
+}
+
+@media (width >= 900px) {
+  .seccion {
+    padding-block: var(--space-24);
+  }
+}
+
+.seccion-alterna {
+  background: var(--fondo-alterno);
+}
+
+.seccion-titulo {
+  max-width: 30ch;
+  margin-bottom: var(--space-2);
+  font-size: var(--tipo-h2);
+}
+
+.seccion-bajada {
+  max-width: 62ch;
+  margin-bottom: var(--space-8);
+  opacity: 0.8;
+}
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+/* ── Botones ────────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px; /* objetivo táctil mínimo */
+  padding: var(--space-2) calc(var(--space-4) * 1.1);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pildora);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: var(--font-heading-weight);
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn svg {
+  display: block;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-600);
+  color: var(--color-on-accent);
+}
+
+.btn-primary:active {
+  background: var(--color-accent-700);
+}
+
+/* El CTA comercial: menta con tinta oscura, en los dos temas (9,9:1). */
+.btn-cta {
+  background: var(--cta-bg);
+  color: var(--cta-fg);
+}
+
+.btn-cta:hover {
+  background: var(--cta-bg-hover);
+  color: var(--cta-fg);
+}
+
+.btn-secondary {
+  border-color: var(--color-borde-control);
+}
+
+.btn-secondary:hover {
+  background: color-mix(in srgb, var(--color-text) 7%, transparent);
+  color: var(--color-text);
+}
+
+.btn-secondary:active {
+  background: color-mix(in srgb, var(--color-text) 14%, transparent);
+}
+
+.btn-ghost {
+  padding-inline: var(--space-2);
+  color: var(--color-accent);
+}
+
+.btn-ghost:hover {
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+
+.btn-icon {
+  width: 44px;
+  min-height: 44px;
+  padding: 0;
+}
+
+.btn-block {
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+/* El CTA principal del héroe es más alto: se pulsa con el pulgar. */
+.btn-grande {
+  min-height: 52px;
+  padding-inline: var(--space-6);
+  font-size: 16px;
+}
+
+@media (width >= 900px) {
+  .btn-grande {
+    min-height: 48px;
+  }
+}
+
+/* ── Formularios ────────────────────────────────────────────────────────── */
+
+.field {
+  display: block;
+  margin-bottom: var(--space-3);
+}
+
+.field > label {
+  display: block;
+  margin-bottom: 5px;
+  color: color-mix(in srgb, var(--color-text) 80%, transparent);
+  font-size: 13px;
+}
+
+.input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-borde-control);
+  border-radius: var(--radius-pildora);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 15px;
+  caret-color: var(--color-accent);
+}
+
+.input:hover {
+  border-color: var(--color-accent);
+}
+
+.input:focus-visible {
+  border-color: var(--color-accent);
+  outline-offset: 0;
+}
+
+textarea.input {
+  min-height: 96px;
+  border-radius: var(--radius-md);
+  resize: vertical;
+}
+
+.field-error {
+  margin-top: 5px;
+  color: var(--color-error);
+  font-size: 13px;
+}
+
+.field-pista {
+  margin-top: 5px;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  font-size: 13px;
+}
+
+/* Trampa para robots: invisible para las personas, no para un script. */
+.trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Etiquetas ──────────────────────────────────────────────────────────── */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--radius-pildora);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.tag-accent {
+  background: var(--color-accent-100);
+  color: var(--color-accent-800);
+}
+
+.tag-accent-2 {
+  background: var(--color-accent-2-100);
+  color: var(--color-accent-2-800);
+}
+
+.tag-neutral {
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-800);
+}
+
+.tag-outline {
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Para lo que la plataforma todavía no hace (prohibición 8 de CLAUDE.md). */
+.tag-proximamente {
+  background: var(--color-neutral-200);
+  color: var(--color-neutral-800);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+}
+
+/* ── Tarjetas ───────────────────────────────────────────────────────────── */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  border-radius: calc(var(--radius-lg) * 1.15);
+  background: var(--color-surface);
+}
+
+.card-kicker {
+  color: var(--verde-texto);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.card-title {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: var(--font-heading-weight);
+  line-height: 1.2;
+}
+
+.card-body {
+  flex: 1;
+  margin: 0;
+  font-size: 15px;
+  opacity: 0.82;
+}
+
+.card-meta {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+  font-size: 12px;
+}
+
+.elev-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.elev-md {
+  box-shadow: var(--shadow-md);
+}
+
+.elev-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+/* ── Navegación ─────────────────────────────────────────────────────────── */
+
+.nav {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  min-height: var(--alto-cabecera);
+}
+
+.nav-brand {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin-right: auto;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: var(--font-heading-weight);
+}
+
+.nav-brand:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+/* `:not(.btn)`: sin esto, `.nav a` le gana en especificidad a `.btn-cta` y el
+   botón de llamada a la acción hereda el color del texto. En tema oscuro eso
+   dejaba texto claro sobre menta, 1,6:1. Lo detectó `axe` en las pruebas. */
+.nav a:not(.btn) {
+  color: inherit;
+  font-size: 15px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav a:not(.btn):hover,
+.nav a:not(.btn)[aria-current="page"] {
+  color: var(--color-accent);
+}
+
+/* ── Tablas ─────────────────────────────────────────────────────────────── */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.table th {
+  padding: var(--space-2);
+  border-bottom: 2px solid var(--color-divider);
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+
+/* ── Diálogo ────────────────────────────────────────────────────────────── */
+
+.dialog-backdrop {
+  position: fixed;
+  z-index: 60;
+  display: grid;
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-neutral-900) 50%, transparent);
+  inset: 0;
+  place-items: center;
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: min(560px, 100%);
+  max-height: 85vh;
+  padding: var(--space-6);
+  overflow-y: auto;
+  border-radius: calc(var(--radius-lg) * 1.15);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.dialog-title {
+  font-family: var(--font-heading);
+  font-size: 21px;
+  font-weight: var(--font-heading-weight);
+}
+
+.dialog-body {
+  font-size: 15px;
+  opacity: 0.85;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  margin-top: var(--space-2);
+}
+
+/* =============================================================================
+   CLASES NUEVAS DEL SITIO
+   ========================================================================== */
+
+/* ── Héroe ──────────────────────────────────────────────────────────────── */
+
+.heroe {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--space-16) var(--space-16);
+}
+
+.heroe-rejilla {
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+  grid-template-columns: 1fr;
+}
+
+@media (width >= 900px) {
+  .heroe-rejilla {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--space-10);
+  }
+}
+
+.heroe h1 {
+  max-width: 16ch;
+}
+
+.heroe-bajada {
+  max-width: 54ch;
+  font-size: 18px;
+  opacity: 0.85;
+}
+
+.heroe-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.heroe-pruebas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  margin-top: var(--space-8);
+  font-size: 14px;
+  opacity: 0.75;
+}
+
+.heroe-pruebas li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  list-style: none;
+}
+
+.heroe-pruebas ul {
+  display: contents;
+}
+
+/* ── Burbujas de conversación ───────────────────────────────────────────── */
+
+.conversacion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border-radius: calc(var(--radius-lg) * 1.15);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.burbuja {
+  max-width: 82%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--r-md);
+  font-size: 15px;
+  animation: aparecer-burbuja 320ms ease both;
+}
+
+.burbuja-cliente {
+  align-self: flex-start;
+  border: 1px solid var(--color-divider);
+  border-bottom-left-radius: var(--radius-sm);
+  background: var(--color-bg);
+}
+
+.burbuja-asistente {
+  align-self: flex-end;
+  border-bottom-right-radius: var(--radius-sm);
+  background: var(--color-accent-100);
+}
+
+[data-tema="oscuro"] .burbuja-asistente {
+  background: var(--pizarra);
+}
+
+.burbuja-hora {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+@keyframes aparecer-burbuja {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Indicador «escribiendo…»: los tres puntos del logotipo. */
+.escribiendo {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+}
+
+.escribiendo span {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-pildora);
+  background: var(--color-accent-2);
+  animation: latido 1.2s infinite ease-in-out;
+}
+
+.escribiendo span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.escribiendo span:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+@keyframes latido {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ── Planes ─────────────────────────────────────────────────────────────── */
+
+.plan {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-6);
+  border: 1px solid var(--color-divider);
+  border-radius: calc(var(--radius-lg) * 1.15);
+  background: var(--color-surface);
+}
+
+.plan-destacado {
+  border-color: var(--color-accent-2);
+  box-shadow: var(--shadow-md);
+}
+
+.plan-nombre {
+  font-family: var(--font-heading);
+  font-size: 21px;
+  font-weight: var(--font-heading-weight);
+}
+
+.plan-precio {
+  font-family: var(--font-heading);
+  font-size: 40px;
+  font-weight: var(--font-heading-weight);
+  line-height: 1;
+}
+
+.plan-precio small {
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.plan-lista {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-lista li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding-block: 6px;
+  font-size: 15px;
+}
+
+.plan-lista li::before {
+  color: var(--verde-texto);
+  content: "·";
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* ── Acordeón (preguntas frecuentes) ────────────────────────────────────── */
+
+.acordeon {
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.acordeon summary {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--space-4);
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: var(--font-heading-weight);
+  cursor: pointer;
+  list-style: none;
+}
+
+.acordeon summary::-webkit-details-marker {
+  display: none;
+}
+
+.acordeon summary::after {
+  color: var(--color-accent);
+  content: "+";
+  font-size: 24px;
+  line-height: 1;
+}
+
+.acordeon[open] summary::after {
+  content: "−";
+}
+
+.acordeon-cuerpo {
+  max-width: var(--ancho-lectura);
+  padding-bottom: var(--space-4);
+  opacity: 0.85;
+}
+
+/* ── Chips (sugerencias del asistente) ──────────────────────────────────── */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1px solid var(--color-borde-control);
+  border-radius: var(--radius-pildora);
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+}
+
+/* ── Banda oscura (compromiso y CTA final) ──────────────────────────────── */
+
+.banda {
+  background: var(--banda);
+  color: var(--banda-texto);
+}
+
+/* Igual que en `.nav`: los botones conservan su propio par de colores. */
+.banda a:not(.btn) {
+  color: var(--cta-bg);
+}
+
+.banda .texto-apagado {
+  color: color-mix(in srgb, var(--banda-texto) 65%, transparent);
+}
+
+/* ── Aviso superior ─────────────────────────────────────────────────────── */
+
+.aviso {
+  padding-block: var(--space-2);
+  background: var(--color-accent-2-100);
+  color: var(--color-accent-2-900);
+  font-size: 14px;
+  text-align: center;
+}
+
+[data-tema="oscuro"] .aviso {
+  background: var(--color-accent-100);
+  color: var(--color-text);
+}
+
+/* ── Cabecera y pie ─────────────────────────────────────────────────────── */
+
+.cabecera {
+  position: sticky;
+  z-index: 40;
+  top: 0;
+  border-bottom: 2px solid var(--color-divider);
+  background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.pie {
+  padding-block: var(--space-16) var(--space-8);
+  border-top: 2px solid var(--color-divider);
+  background: var(--color-surface);
+}
+
+.pie-rejilla {
+  display: grid;
+  gap: var(--space-8);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.pie h2 {
+  margin-bottom: var(--space-3);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.82;
+}
+
+.pie ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pie li {
+  padding-block: 5px;
+}
+
+.pie-legal {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-divider);
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* ── Marco de captura ───────────────────────────────────────────────────── */
+
+.marco {
+  overflow: hidden;
+  border: 2px solid var(--color-text);
+  border-radius: var(--r-md);
+}
+
+/* ── Rótulo obligatorio del QR de demostración ──────────────────────────── */
+
+.qr-demo {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: center;
+  padding: var(--space-3);
+  border: 2px solid var(--color-text);
+  border-radius: var(--r-sm);
+  background: var(--color-surface);
+}
+
+.qr-demo-rotulo {
+  color: var(--color-error);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ── Banner de consentimiento ───────────────────────────────────────────── */
+
+.consentimiento {
+  position: fixed;
+  z-index: 70;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  left: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+  width: min(760px, calc(100% - var(--space-8)));
+  margin-inline: auto;
+  padding: var(--space-4) var(--space-6);
+  border: 1px solid var(--color-divider);
+  border-radius: calc(var(--radius-lg) * 1.15);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  font-size: 14px;
+}
+
+.consentimiento-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
