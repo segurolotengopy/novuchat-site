@@ -6,6 +6,8 @@ import Cabecera from '../components/Cabecera.astro';
 import Pie from '../components/Pie.astro';
 import Consentimiento from '../components/Consentimiento.astro';
 import DatosEstructurados from '../components/DatosEstructurados.astro';
+import Asistente from '../components/Asistente';
+import { sitio } from '../contenido/sitio.es';
 
 interface Props {
   titulo: string;
@@ -107,6 +109,12 @@ const antiDestello = `(function(){try{var t=localStorage.getItem('novuchat.tema'
       <slot />
     </main>
     <Pie />
+    {/*
+      `client:idle`: el asistente no compite con el primer pintado. Se carga
+      cuando el navegador no tiene nada mejor que hacer, que es exactamente la
+      prioridad que le corresponde a un chat en una página comercial.
+    */}
+    <Asistente client:idle whatsapp={sitio.contacto.whatsappEnlace} />
     <Consentimiento />
 
     <script>

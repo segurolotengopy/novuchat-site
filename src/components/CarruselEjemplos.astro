@@ -250,6 +250,12 @@ const { ejemplos } = Astro.props;
     // equivocada. El desplazamiento con el dedo la reconcilia más abajo.
     let indice = 0;
 
+    // Mientras una animación programada está en vuelo, el desplazamiento pasa
+    // POR ENCIMA de las diapositivas intermedias. Si el reconciliador leyera la
+    // posición en ese instante, el punto activo saltaría a una diapositiva por
+    // la que solo estamos pasando. Se ignora hasta que el movimiento termina.
+    let enVueloHasta = 0;
+
     const irA = (destino: number) => {
       const total = diapositivas.length;
       if (total === 0) return;
@@ -264,6 +270,7 @@ const { ejemplos } = Astro.props;
 
       indice = siguiente;
       marcarPunto(indice);
+      enVueloHasta = Date.now() + 800;
       pista.scrollTo({ left: objetivo, behavior: suave ? 'smooth' : 'auto' });
 
       // Salvaguarda: hay contextos donde el navegador descarta la animación
@@ -308,6 +315,7 @@ const { ejemplos } = Astro.props;
     pista.addEventListener('scroll', () => {
       window.clearTimeout(pendiente);
       pendiente = window.setTimeout(() => {
+        if (Date.now() < enVueloHasta) return;
         const ancho = pista.clientWidth || 1;
         const aproximado = pista.scrollLeft / ancho;
         const cercano = Math.round(aproximado);

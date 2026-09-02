@@ -1,9 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import FormularioLead from '../components/FormularioLead';
 import { sitio } from '../contenido/sitio.es';
+import { precios } from '../contenido/precios.es';
+import { verticales } from '../contenido/verticales.es';
 
-// Ver la nota de estado en /demo: el envío llega con la Function `lead`.
-const formularioActivo = false;
+const rubros = verticales.map((v) => ({ id: v.id, nombre: v.nombre }));
+const planes = precios.planes.map((p) => ({ id: p.id, nombre: p.nombre }));
 ---
 
 <Base
@@ -42,54 +45,14 @@ const formularioActivo = false;
         </p>
       </div>
 
-      <form class="card elev-md" data-formulario-contacto>
-        <h2 class="card-title">Envíanos un mensaje</h2>
-
-        <div class="field">
-          <label for="c-nombre">Tu nombre</label>
-          <input class="input" id="c-nombre" name="nombre" autocomplete="name" required />
-        </div>
-
-        <div class="field">
-          <label for="c-correo">Correo</label>
-          <input class="input" id="c-correo" name="correo" type="email" autocomplete="email" required />
-        </div>
-
-        <div class="field">
-          <label for="c-whatsapp">WhatsApp</label>
-          <input class="input" id="c-whatsapp" name="whatsapp" type="tel" value="+591 " autocomplete="tel" />
-        </div>
-
-        <div class="field">
-          <label for="c-mensaje">Mensaje</label>
-          <textarea class="input" id="c-mensaje" name="mensaje" rows="5" required></textarea>
-        </div>
-
-        <div class="trampa" aria-hidden="true">
-          <label for="c-empresa-web">No completar</label>
-          <input id="c-empresa-web" name="empresa-web" tabindex="-1" autocomplete="off" />
-        </div>
-
-        <label class="radio" style="align-items: flex-start; gap: 10px">
-          <input type="checkbox" name="privacidad" required style="position: static; width: auto; height: auto; opacity: 1" />
-          <span style="font-size: 14px">
-            He leído la <a href="/privacidad">política de privacidad</a>.
-          </span>
-        </label>
-
-        <button class="btn btn-cta btn-block btn-grande" type="submit" disabled={!formularioActivo}>
-          Enviar
-        </button>
-
-        {
-          !formularioActivo && (
-            <p class="field-pista" role="status">
-              Estamos terminando de conectar este formulario. Mientras tanto,
-              escríbenos por WhatsApp o al correo.
-            </p>
-          )
-        }
-      </form>
+      <FormularioLead
+        client:visible
+        variante="contacto"
+        whatsapp={sitio.contacto.whatsappEnlace}
+        correo={sitio.contacto.correo}
+        rubros={rubros}
+        planes={planes}
+      />
     </div>
   </section>
 </Base>

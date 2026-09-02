@@ -25,6 +25,17 @@ export default tseslint.config(
   ...astro.configs.recommended,
   ...astro.configs['jsx-a11y-recommended'],
   {
+    /**
+     * `saneo.ts` es una copia literal del módulo de la consola. Sus expresiones
+     * regulares contienen caracteres de control **a propósito**: barrerlos es
+     * justamente lo que hace el módulo. Se desactiva la regla aquí y no dentro
+     * del archivo para que la copia siga siendo byte a byte igual a la de
+     * `~/NovuChat/admin`, y sincronizarlas siga siendo trivial.
+     */
+    files: ['functions/src/saneo.ts'],
+    rules: { 'no-control-regex': 'off' },
+  },
+  {
     rules: {
       // Prohibición 2 de CLAUDE.md: nada de ejecución dinámica ni de HTML crudo.
       // El CI las repite con `pnpm prohibiciones`, que además cubre los .astro.

@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
 import { defineConfig } from 'vitest/config';
 
 /**
@@ -6,6 +8,30 @@ import { defineConfig } from 'vitest/config';
  * recogiera, fallaría al importar el `test` de Playwright.
  */
 export default defineConfig({
+  plugins: [
+    {
+      /**
+       * `functions/` compila con `moduleResolution: NodeNext`, que obliga a
+       * escribir las importaciones con extensión `.js` aunque el archivo sea
+       * `.ts`. Vite no hace esa correspondencia por su cuenta, así que se
+       * resuelve aquí en vez de degradar la configuración del backend, que es
+       * la correcta para Node.
+       */
+      name: 'resolver-js-a-ts-en-functions',
+      enforce: 'pre',
+      resolveId(fuente, importador) {
+        if (
+          !importador?.includes('/functions/src/') ||
+          !fuente.startsWith('.') ||
+          !fuente.endsWith('.js')
+        ) {
+          return null;
+        }
+        const candidato = resolve(dirname(importador), fuente.replace(/\.js$/, '.ts'));
+        return existsSync(candidato) ? candidato : null;
+      },
+    },
+  ],
   test: {
     include: ['pruebas/**/*.{test,spec}.ts'],
     exclude: ['pruebas/humo/**', 'node_modules/**', 'dist/**'],

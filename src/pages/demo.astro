@@ -1,16 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
+import FormularioLead from '../components/FormularioLead';
 import { sitio } from '../contenido/sitio.es';
 import { precios } from '../contenido/precios.es';
 import { verticales } from '../contenido/verticales.es';
 
-/**
- * NOTA DE ESTADO (Fase 1): el formulario está construido pero **desactivado**.
- * El envío depende de la Function `lead`, que llega en la Fase 2. Se prefiere
- * un botón deshabilitado con una alternativa que funciona, antes que un
- * formulario que parece enviar y pierde el mensaje de un prospecto.
- */
-const formularioActivo = false;
+// El plan puede venir preseleccionado desde /precios (?plan=crecimiento).
+const planInicial = Astro.url.searchParams.get('plan') ?? '';
+const rubros = verticales.map((v) => ({ id: v.id, nombre: v.nombre }));
+const planes = precios.planes.map((p) => ({ id: p.id, nombre: p.nombre }));
 ---
 
 <Base
@@ -56,109 +54,19 @@ const formularioActivo = false;
         </div>
       </div>
 
-      <form class="card elev-md" data-formulario-lead>
-        <h2 class="card-title">Cuéntanos de tu negocio</h2>
-
-        <div class="field">
-          <label for="nombre">Tu nombre</label>
-          <input class="input" id="nombre" name="nombre" autocomplete="name" required />
-        </div>
-
-        <div class="field">
-          <label for="negocio">Nombre del negocio</label>
-          <input class="input" id="negocio" name="negocio" autocomplete="organization" required />
-        </div>
-
-        <div class="field">
-          <label for="rubro">Rubro</label>
-          <select class="input" id="rubro" name="rubro" required>
-            {verticales.map((v) => <option value={v.id}>{v.nombre}</option>)}
-            <option value="otro">Otro</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="ciudad">Ciudad</label>
-          <input class="input" id="ciudad" name="ciudad" autocomplete="address-level2" />
-        </div>
-
-        <div class="field">
-          <label for="whatsapp">WhatsApp</label>
-          <input
-            class="input"
-            id="whatsapp"
-            name="whatsapp"
-            type="tel"
-            value="+591 "
-            autocomplete="tel"
-            required
-          />
-        </div>
-
-        <div class="field">
-          <label for="correo">Correo</label>
-          <input class="input" id="correo" name="correo" type="email" autocomplete="email" required />
-        </div>
-
-        <div class="field">
-          <label for="clientes">¿Cuántos clientes atiendes por día?</label>
-          <select class="input" id="clientes" name="clientes">
-            <option>1 a 10</option>
-            <option>10 a 30</option>
-            <option>30 a 100</option>
-            <option>más de 100</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="interes">¿Qué te interesa?</label>
-          <select class="input" id="interes" name="interes">
-            <option>Agenda de citas</option>
-            <option>Pedidos y cobros</option>
-            <option>Las dos cosas</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="plan">Plan que te interesa</label>
-          <select class="input" id="plan" name="plan">
-            <option value="">Todavía no sé</option>
-            {precios.planes.map((p) => <option value={p.id}>{p.nombre}</option>)}
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="mensaje">Algo que quieras contarnos</label>
-          <textarea class="input" id="mensaje" name="mensaje" rows="4"></textarea>
-        </div>
-
-        {/* Trampa para robots: una persona nunca la ve ni la puede completar. */}
-        <div class="trampa" aria-hidden="true">
-          <label for="empresa-web">No completar</label>
-          <input id="empresa-web" name="empresa-web" tabindex="-1" autocomplete="off" />
-        </div>
-
-        <label class="radio" style="align-items: flex-start; gap: 10px">
-          <input type="checkbox" name="privacidad" required style="position: static; width: auto; height: auto; opacity: 1" />
-          <span style="font-size: 14px">
-            He leído la <a href="/privacidad">política de privacidad</a> y acepto
-            que me contacten.
-          </span>
-        </label>
-
-        <button class="btn btn-cta btn-block btn-grande" type="submit" disabled={!formularioActivo}>
-          Pedir la demostración
-        </button>
-
-        {
-          !formularioActivo && (
-            <p class="field-pista" role="status">
-              Estamos terminando de conectar este formulario. Mientras tanto,
-              escríbenos por WhatsApp o al correo: contestamos igual de rápido.
-            </p>
-          )
-        }
-      </form>
+      {/*
+        `client:visible`: el paquete de la isla no se descarga hasta que el
+        formulario entra en pantalla. En un celular de gama media eso es la
+        diferencia entre una página que responde y una que se traba.
+      */}
+      <FormularioLead
+        client:visible
+        planInicial={planInicial}
+        whatsapp={sitio.contacto.whatsappEnlace}
+        correo={sitio.contacto.correo}
+        rubros={rubros}
+        planes={planes}
+      />
     </div>
   </section>
 </Base>
