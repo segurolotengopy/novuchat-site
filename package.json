@@ -1,0 +1,54 @@
+{
+  "name": "novuchat-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Sitio comercial de NovuChat: asistentes conversacionales de WhatsApp con IA para negocios de Bolivia.",
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "packageManager": "pnpm@11.24.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "emuladores": "firebase emulators:start --only functions,firestore --project novuchat-site",
+    "pruebas": "vitest run --passWithNoTests",
+    "humo": "playwright test",
+    "csp": "node scripts/probar-csp.mjs",
+    "prohibiciones": "node scripts/verificar-prohibiciones.mjs",
+    "verificar": "pnpm lint && pnpm typecheck && pnpm pruebas && pnpm prohibiciones && pnpm build",
+    "lint": "eslint . && stylelint \"src/**/*.css\" --allow-empty-input",
+    "typecheck": "astro check --minimumSeverity error",
+    "test": "vitest run --passWithNoTests",
+    "test:rules": "vitest run --passWithNoTests pruebas/reglas",
+    "rag:indexar": "node scripts/indexar-conocimiento.mjs"
+  },
+  "dependencies": {
+    "@astrojs/preact": "^6.0.5",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.2.10",
+    "firebase": "^12.18.0",
+    "preact": "^10.29.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.4.1",
+    "eslint": "^10.9.1",
+    "eslint-plugin-astro": "^3.1.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "globals": "^17.12.0",
+    "stylelint": "^17.14.1",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-declaration-strict-value": "^1.12.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.69.0",
+    "vitest": "^4.1.11"
+  },
+  "allowScripts": {
+    "esbuild": true
+  }
+}
