@@ -1,0 +1,35 @@
+{
+  "extends": "stylelint-config-standard",
+  "plugins": ["stylelint-declaration-strict-value"],
+  "ignoreFiles": ["dist/**", "node_modules/**", "docs/diseno/**"],
+  "rules": {
+    "scale-unlimited/declaration-strict-value": [
+      ["/color$/", "background-color", "border-color", "fill", "stroke", "box-shadow", "border-radius"],
+      {
+        "ignoreValues": [
+          "currentColor",
+          "inherit",
+          "transparent",
+          "none",
+          "initial",
+          "unset",
+          "revert"
+        ],
+        "disableFix": true,
+        "message": "Use un token de tokens.css. Ningún color ni radio literal fuera de src/estilos/tokens.css (doc 08 §7)."
+      }
+    ],
+    "custom-property-pattern": null,
+    "selector-class-pattern": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "no-descending-specificity": null
+  },
+  "overrides": [
+    {
+      "files": ["src/estilos/tokens.css"],
+      "rules": {
+        "scale-unlimited/declaration-strict-value": null
+      }
+    }
+  ]
+}

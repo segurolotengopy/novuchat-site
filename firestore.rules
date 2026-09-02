@@ -1,0 +1,25 @@
+rules_version = '2';
+
+// =============================================================================
+// REGLAS DE FIRESTORE — novuchat.site
+// =============================================================================
+// NEGACIÓN TOTAL desde el cliente. El navegador NUNCA lee ni escribe Firestore:
+// todo pasa por las Cloud Functions `lead` y `asistente`, que usan el SDK Admin
+// y por lo tanto no evalúan estas reglas.
+//
+// Riesgo que cubre: S-5 del doc 04 (lectura de datos de prospectos por
+// terceros). Colecciones afectadas: `leads`, `conversacionesAsistente`,
+// `limites`, `metricas`.
+//
+// La prueba (`pnpm test:rules`) debe ejecutar cada `assertFails` **con un
+// documento sembrado por el SDK Admin**: un `permission-denied` sobre un
+// documento inexistente pasa igual y no prueba nada (ver ~/NovuChat/admin/LEEME.md).
+// =============================================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,5 @@
+allowBuilds:
+  '@firebase/util': false   # postinstall innecesario para el SDK web (riesgo S-9)
+  esbuild: true
+  protobufjs: false         # postinstall innecesario para compilar (riesgo S-9)
+  sharp: true
