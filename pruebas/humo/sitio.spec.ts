@@ -150,7 +150,7 @@ test('el carrusel de ejemplos avanza, retrocede y da la vuelta', async ({ page }
 
   await carrusel.locator('[data-carrusel-siguiente]').click();
   await expect.poll(posicion).toBeGreaterThan(0);
-  expect(await activo()).toBe(1);
+  await expect.poll(activo).toBe(1);
 
   // Ir directo a la última con su punto, y comprobar que la vuelta funciona.
   await carrusel.locator('[data-carrusel-ir="3"]').click();
@@ -158,7 +158,9 @@ test('el carrusel de ejemplos avanza, retrocede y da la vuelta', async ({ page }
 
   await carrusel.locator('[data-carrusel-siguiente]').click();
   await expect.poll(posicion).toBe(0);
-  expect(await activo()).toBe(0);
+  // `poll` y no una lectura suelta: el punto se reconcilia cuando el
+  // desplazamiento se detiene, no en el instante del clic.
+  await expect.poll(activo).toBe(0);
 });
 
 test('el carrusel se puede recorrer con el teclado', async ({ page }) => {

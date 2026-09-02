@@ -848,6 +848,100 @@ textarea.input {
   text-transform: uppercase;
 }
 
+/* ── Asistente flotante ─────────────────────────────────────────────────── */
+
+.asistente-boton {
+  position: fixed;
+  z-index: 50;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  min-height: 56px;
+  padding: 0 var(--space-6) 0 var(--space-3);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-pildora);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: var(--font-heading-weight);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+}
+
+.asistente-boton:hover {
+  background: var(--color-bg);
+}
+
+.asistente {
+  position: fixed;
+  z-index: 50;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  left: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  max-height: min(560px, 80vh);
+  border: 1px solid var(--color-divider);
+  border-radius: calc(var(--radius-lg) * 1.15);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+@media (width >= 560px) {
+  .asistente {
+    left: auto;
+    width: 380px;
+  }
+}
+
+.asistente-cabecera {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 2px solid var(--color-divider);
+}
+
+.asistente-cuerpo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  overflow-y: auto;
+}
+
+.asistente-cuerpo .burbuja {
+  max-width: 90%;
+  font-size: 14.5px;
+}
+
+.asistente-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0 var(--space-4) var(--space-2);
+}
+
+.asistente-pie {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--color-divider);
+}
+
+.asistente-nota {
+  margin: 0;
+  padding: 0 var(--space-4) var(--space-3);
+  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+  font-size: 12.5px;
+}
+
 /* ── Banner de consentimiento ───────────────────────────────────────────── */
 
 .consentimiento {

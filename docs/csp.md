@@ -37,28 +37,35 @@
 | `worker-src`, `manifest-src` | `'self'` | Workers y manifiesto propios | — |
 | `upgrade-insecure-requests` | — | Fuerza HTTPS en subrecursos | Contenido mixto |
 
-## Scripts en línea
+## Scripts en línea: sellado automático
 
-El script anti-destello del tema (aplica `data-tema` **antes del primer
-pintado**, para evitar el salto claro→oscuro) es el único `<script>` en línea del
-sitio. Se autoriza por **hash SHA-256**, nunca con `'unsafe-inline'`.
+El sitio tiene cuatro `<script>` en línea que no se pueden externalizar: el
+anti-destello del tema y los arranques de hidratación que Astro genera para cada
+isla (`client:idle`, `client:visible`). Con `script-src 'self'` el navegador los
+bloquea, y el fallo es **mudo**: el formulario y el asistente dejan de responder
+sin un error visible. Lo detectó la prueba de humo, no el ojo.
 
-- **Hash vigente:** `sha256-9D8Iby2VzhAdvSMmJ+6wMz0Xz3M/3V6Jfl9QJOalgFU=`
-- Contenido exacto que lo produce (una sola línea, sin salto final), definido en
-  `src/layouts/Base.astro` como `antiDestello`:
+Las alternativas eran `'unsafe-inline'` —que anula la protección entera— o un
+`nonce`, que exige generar un valor por respuesta y Firebase Hosting sirve
+archivos estáticos. Queda el **hash**.
+
+**Los hashes no se mantienen a mano.** `scripts/sellar-csp.mjs` corre dentro de
+`pnpm build`: recorre `dist/`, calcula el SHA-256 de cada script en línea y
+reescribe `script-src` en `firebase.json`. `pnpm csp:verificar` —parte de
+`pnpm verificar`— falla si la política quedó vieja respecto del `dist/` actual.
+
+Los bloques `application/ld+json` se excluyen a propósito: el navegador no los
+ejecuta y la CSP no los mira.
+
+El anti-destello, por ser el único que escribimos nosotros, queda documentado
+aparte. Su contenido exacto (una sola línea, sin salto final) vive en
+`src/layouts/Base.astro` como `antiDestello`:
 
   ```js
   (function(){try{var t=localStorage.getItem('novuchat.tema');var o=t==='oscuro'||((!t||t==='sistema')&&matchMedia('(prefers-color-scheme: dark)').matches);var r=document.documentElement;if(o){r.dataset.tema='oscuro'}r.style.colorScheme=o?'dark':'light'}catch(e){}})();
   ```
 
-- Recalcular así:
-
-  ```bash
-  printf '%s' "$CONTENIDO" | openssl dgst -sha256 -binary | openssl base64
-  ```
-- Si el script cambia una sola letra, el hash cambia y el navegador lo bloquea
-  sin avisar. Procedimiento: modificar el script, recalcular el hash, actualizar
-  `firebase.json` y esta tabla, y verificar con `pnpm csp`.
+Si cambia una sola letra el hash cambia, y `pnpm build` lo recalcula solo.
 
 ## Cabeceras que acompañan a la CSP
 

@@ -1,0 +1,7 @@
+# Configuración local de `functions/`. Este paquete se instala con
+# `--ignore-workspace` a propósito: Firebase empaqueta este directorio por su
+# cuenta y no debe depender de enlaces al espacio de trabajo de la raíz.
+allowBuilds:
+  '@firebase/util': false      # postinstall innecesario (riesgo S-9)
+  '@google/genai': false       # idem
+  protobufjs: false            # idem

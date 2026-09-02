@@ -9,9 +9,10 @@
 
 ## 1. Dónde estamos
 
-**Fases 0 y 1 completas.** El sitio está construido: dieciocho rutas, sistema de
-diseño, contenido, logotipo y medición. Verifica solo y da 100 en las cuatro
-categorías de Lighthouse móvil. Falta el backend (Fase 2) y desplegar.
+**Fases 0, 1 y 2 construidas.** El sitio tiene sus dieciocho rutas y su sistema
+de diseño; el backend tiene las dos Functions, el RAG estricto y las islas que
+encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
+única pieza que necesita la clave de Gemini), crear los secretos y desplegar.
 
 | Pieza | Estado |
 |---|---|
@@ -29,8 +30,12 @@ categorías de Lighthouse móvil. Falta el backend (Fase 2) y desplegar.
 | Contenido y páginas | **18 rutas** (13 en español, 5 en inglés) + 404 |
 | Sistema de diseño | `tokens.css`, `base.css`, `componentes.css` con los tokens del prototipo |
 | Logotipo | `isotipo.svg`, `isotipo-claro.svg`, `favicon.svg`, `favicon.ico`, `og.png` |
-| Formularios de demo y contacto | maquetados y **desactivados** hasta la Fase 2 |
-| Functions `lead` y `asistente` | pendiente (Fase 2) |
+| Formularios de demo y contacto | isla Preact `FormularioLead`, conectada a la Function |
+| Asistente del sitio | isla Preact `Asistente`, con RAG estricto en el servidor |
+| Function `lead` | validación, trampa de robots, límite de tasa, deduplicación, Firestore y aviso por FormSubmit **desde el servidor** |
+| Function `asistente` | límite de tasa, filtro de términos, recuperación con umbral, verificación de la respuesta |
+| Índice del RAG | **pendiente**: necesita `GEMINI_API_KEY` para generarse |
+| Secretos en Secret Manager | **pendientes**: `GEMINI_API_KEY`, `FORMSUBMIT_ALIAS`, `SAL_HASH` |
 
 ---
 
@@ -58,6 +63,8 @@ categorías de Lighthouse móvil. Falta el backend (Fase 2) y desplegar.
 |---|---|
 | `pnpm verificar` | verde: lint, typecheck, pruebas, prohibiciones, build y humo |
 | `pnpm humo` | **66 pruebas en verde** (móvil y escritorio) |
+| `pnpm pruebas` | **61 pruebas de unidad**: saneo, verificación del RAG, corpus, inyección de prompt y aviso de leads |
+| `pnpm test:rules` | **28 pruebas de reglas** contra el emulador, cada una con documento sembrado |
 | Lighthouse móvil `/` | rendimiento 100 · accesibilidad 100 · buenas prácticas 100 · SEO 100 |
 | Lighthouse móvil `/precios` y `/demo` | 100 / 100 / 100 / 100 |
 | `axe` (wcag2a/aa, wcag21a/aa) | sin fallos graves ni críticos, en tema claro y oscuro |
@@ -114,6 +121,19 @@ categorías de Lighthouse móvil. Falta el backend (Fase 2) y desplegar.
     que una flecha nunca quede sin efecto.
 12. **`role="group"` sobre un `<article>` deja el árbol de accesibilidad mal
     formado.** Las diapositivas son `div`. Lo detectó Lighthouse.
+13. **Astro emite scripts en línea para hidratar las islas, y la CSP los
+    bloquea en silencio.** El formulario y el asistente no reaccionaban, sin
+    error visible. No se pueden externalizar ni usar `nonce` (Hosting sirve
+    archivos estáticos), así que `scripts/sellar-csp.mjs` calcula el SHA-256 de
+    cada uno dentro de `pnpm build` y los escribe en `firebase.json`.
+    `pnpm csp:verificar` falla si quedan viejos.
+14. **El punto activo del carrusel saltaba durante la vuelta.** Al animar de la
+    cuarta a la primera, el desplazamiento pasa *por encima* de las
+    intermedias; el reconciliador leía la posición en ese instante. Ahora se
+    ignora mientras el movimiento está en vuelo.
+15. **`functions/` se instala con `--ignore-workspace`.** Firebase empaqueta ese
+    directorio por su cuenta y no puede depender de enlaces al espacio de
+    trabajo de la raíz.
 
 ---
 
@@ -135,11 +155,12 @@ abierta en el 5245 y el proceso se cerró, el navegador da un error de conexión
 
 **De Claude Code:**
 
-1. Fase 2: `functions/` con `lead` (FormSubmit llamado desde el servidor) y
-   `asistente` (RAG estricto), islas Preact que activen los dos formularios,
-   pruebas de unidad, de reglas con documento sembrado y de inyección de prompt.
+1. Generar el índice del RAG en cuanto exista `GEMINI_API_KEY`, y calibrar el
+   umbral de similitud con un conjunto dorado de preguntas reales. Hoy el
+   umbral (0,62) es un valor de partida razonable, **no medido**.
 2. Capturas reales de la consola para la página `/consola`.
 3. Primer despliegue a un canal de vista previa de Hosting.
+4. Pruebas de humo del formulario y del asistente contra los emuladores.
 
 **De Andres:**
 
