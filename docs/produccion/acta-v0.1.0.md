@@ -2,7 +2,7 @@
 
 **Alcance:** primer despliegue de las Cloud Functions `lead` y `asistente`.
 **Commit candidato:** `chore/estandar-devsecops` (PR #1), **sin fusionar a `main`**.
-**Modo:** A (repositorio público).
+**Modo:** A (repositorio público). **Un solo ambiente** (decisión de Andres, 2026-09-03).
 **Preparado por:** Claude Code (habilidad `pase-a-produccion`).
 **Aprueba:** Andres Alberdi — **pendiente**.
 
@@ -68,7 +68,7 @@ Se propone **v0.1.0**, no v1.0.0, por dos razones:
 | PIP-02 | Acciones fijadas por SHA | **Verde** | Ninguna referencia `uses:` sin SHA de 40 caracteres |
 | PIP-05 | `seguridad-estatica` sin CRITICAL/HIGH | **Verde** | Run 33707636099: Gitleaks, Semgrep y SCA en verde. En local, `./security-local.sh` → `CRITICAL=0 HIGH=0 MEDIUM=7` |
 | PIP-06 | Cobertura ≥ 70 % | **Verde**, al límite | 70,19 % de sentencias · 70,83 % de líneas · 58,57 % de ramas |
-| PIP-09 | DAST y humo | **No verificado** | Depende de `desplegar-staging`, que nunca corrió |
+| PIP-09 | DAST y humo | **No verificado** | Ahora corre contra el canal de vista previa del PR; necesita los secretos de WIF para desplegarlo |
 | PIP-10 | Workflow `probar-identidad` en verde | **Rojo** | El archivo no existe en el repositorio |
 | PIP-11 | CodeQL activo | **Verde** | `codeql.yml` en verde en cada push de la rama |
 
@@ -92,7 +92,7 @@ Se propone **v0.1.0**, no v1.0.0, por dos razones:
 | CodeQL y secret scanning | **Verde** | ver arriba |
 | Environment `production` con revisor | **Verde** | creado con `segurolotengopy` como revisor |
 | Ruleset de `main` con `compuerta-pr` | **Verde** | ver REP-02 |
-| Secretos de despliegue | **Rojo** | `gh secret list` vacío: faltan `GCP_WIF_PROVIDER`, `GCP_SA_DEPLOY_STAGING`, `GCP_SA_DEPLOY_PROD` |
+| Secretos de despliegue | **Rojo** | `gh secret list` vacío: faltan `GCP_WIF_PROVIDER` y `GCP_SA_DEPLOY_PROD`. Con un solo ambiente ya no hace falta `GCP_SA_DEPLOY_STAGING` |
 
 ---
 
@@ -134,6 +134,32 @@ declaración.
 
 ---
 
+## 5bis. Simplificación a un solo ambiente (2026-09-03)
+
+La plantilla del estándar asume staging y producción en **proyectos distintos**.
+Aquí los dos apuntaban al mismo proyecto y al mismo sitio en vivo: «staging» no
+aislaba nada y hacía creer que sí, que es la peor combinación posible en un
+pipeline. Se retiró.
+
+| Antes | Ahora |
+|---|---|
+| `construir` en matriz staging + production | un solo artefacto `dist-production` |
+| `desplegar-staging` al fusionar a `main` | **fusionar no publica nada** |
+| DAST contra `STAGING_URL` (el sitio en vivo) | DAST contra el canal de vista previa del PR, **antes** de fusionar |
+| Dos cuentas de servicio y dos secretos | una cuenta y un secreto |
+| Entornos `staging` y `production` | solo `production`, con revisor |
+
+Lo que se gana: el mismo artefacto que se analiza es el que se despliega, y se
+analiza cuando el hallazgo todavía sale barato. Lo que se pierde: no hay una
+prueba de humo contra producción *antes* del tag; la cubre el health check de
+`post-despliegue`, con rollback automático al canal `previa`.
+
+También se corrigió `HEALTH_PATH`, que apuntaba a `/healthz`. El sitio es
+estático y no tiene esa ruta: el health check habría devuelto 404 y disparado un
+rollback en un despliegue correcto.
+
+---
+
 ## 6. Plan de rollback
 
 **No hay nada que revertir:** `gcloud run services list --project novuchat-site`
@@ -163,10 +189,11 @@ firebase hosting:clone novuchat-site:previa novuchat-site:live --project novucha
 
 1. **Identidad federada (WIF).** Sin esto no hay despliegue posible desde el
    pipeline y la alternativa —una clave JSON— está prohibida. Ejecutar
-   `~/SeguridadGeneral/03-scripts/setup-oidc-gcp.sh` y cargar
-   `GCP_WIF_PROVIDER`, `GCP_SA_DEPLOY_STAGING` y `GCP_SA_DEPLOY_PROD`.
-2. **Workflow `probar-identidad`** (plantilla del doc 02 del estándar) en verde
-   para `production`.
+   `~/SeguridadGeneral/03-scripts/setup-oidc-gcp.sh --ambiente prod` y cargar
+   `GCP_WIF_PROVIDER` y `GCP_SA_DEPLOY_PROD`. Con un solo ambiente basta una
+   cuenta de servicio.
+2. **`probar-identidad` en verde.** El workflow ya está en el repositorio; se
+   relanza la ejecución del PR una vez existan los secretos.
 3. **Fusionar la PR #1 a `main`** y que el pipeline complete un run verde ahí.
 4. **Razón social y NIT de NovuChat** en `src/contenido/pendientes.ts`, hasta que
    `pnpm listo` pase.
