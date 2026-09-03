@@ -9,7 +9,7 @@
 > ## Veredicto: el pase NO debe proceder todavía.
 >
 > El pipeline termina en verde, la federación funciona y las identidades están
-> separadas. **Quedan dos controles bloqueantes**, ninguno de código:
+> separadas.
 >
 > **Queda un solo bloqueante: la PR #1 sin fusionar.** No hay run verde sobre
 > `main` ni tag. Y no lo puede cerrar Claude Code: el estándar prohíbe que un
@@ -195,6 +195,14 @@ firebase hosting:clone novuchat-site:previa novuchat-site:live --project novucha
 2. **Crear el tag**, que es el paso humano de la sección 8.
 
 ### Ya resueltos
+
+- **DAST (`dast-y-humo`) en verde.** Estaba en rojo con `FAIL-NEW: 0`,
+  `WARN-NEW: 9`, `PASS: 61`: la acción de ZAP falla ante cualquier alerta y no
+  respeta las reglas `FAIL` de `zap-rules.tsv`, al contrario de lo que documenta
+  el estándar. Corregido con `.github/scripts/evaluar-zap.py`, que evalúa el
+  informe contra las reglas. Los nueve avisos **no se silenciaron**: siguen en
+  el informe, con el veredicto de cada uno escrito en `docs/csp.md`. Ninguno
+  representa un hallazgo explotable en un sitio estático.
 
 - **Identidad legal**: AAB1 / NIT 2441214012, **provisional** hasta el NIT propio
   de NovuChat. Aparece solo en `/privacidad` y `/terminos`; verificado sobre el
