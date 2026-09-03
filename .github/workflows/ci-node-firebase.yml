@@ -507,8 +507,26 @@ jobs:
           URL_PROD: ${{ vars.PROD_URL }}
         run: |
           set -euo pipefail
+
+          # `firebase deploy` PUEDE SALIR CON CÓDIGO 0 HABIENDO FALLADO.
+          # Rotula los fallos de Functions como avisos (⚠) y continúa; si además
+          # el despliegue de hosting no llega a publicarse, la versión se queda
+          # en estado CREATED y nunca pasa a FINALIZED, sin que nada lo diga.
+          #
+          # En el pase de v0.1.1 este paso dio verde con las DOS Functions sin
+          # desplegar y el sitio sin publicar. Lo destapó el health check
+          # posterior, con 404 — pero para entonces el registro ya decía
+          # «Producción desplegada». Un despliegue que miente es peor que uno
+          # que falla.
           firebase deploy --only "$SOLO" --project "$PROYECTO" --non-interactive \
-            --message "producción ${GITHUB_REF_NAME} (run ${GITHUB_RUN_ID})"
+            --message "producción ${GITHUB_REF_NAME} (run ${GITHUB_RUN_ID})" 2>&1 \
+            | tee /tmp/despliegue.log
+
+          if grep -qiE 'failed to create function|failed to update function|Build failed with status|Deploy failed|had HTTP Error' /tmp/despliegue.log; then
+            echo "::error::firebase deploy terminó con código 0 pero su registro contiene fallos: el despliegue NO está completo."
+            exit 1
+          fi
+
           echo "### Producción desplegada: $URL_PROD (${GITHUB_REF_NAME})" >> "$GITHUB_STEP_SUMMARY"
 
   # ---------------------------------------------------------------------------
