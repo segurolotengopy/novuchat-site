@@ -37,6 +37,9 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | Índice del RAG | ✔ generado: 34 fragmentos, 563 KB, con Vertex AI |
 | Umbral del RAG | ✔ **medido** en 0,64 (`pnpm rag:calibrar`), no elegido a ojo |
 | Proveedor de IA | **Vertex AI** con la cuenta de servicio: sin clave de API |
+| Identidad federada (WIF) | ✔ pool, proveedor y binding acotados al repositorio; `probar-identidad` en verde |
+| Identidades de despliegue | `deploy-previa` (solo Hosting, secreto del repositorio) y `deploy-production` (despliegue completo, **secreto del Environment**) |
+| Identidad legal | **provisional**: AAB1 / NIT 2441214012, solo en `/privacidad` y `/terminos` |
 | Secretos en Secret Manager | `SAL_HASH` ✔ · `FORMSUBMIT_ALIAS` con el marcador `sin-configurar`, que **falla el patrón a propósito** para que no se envíe nada hasta tener el alias real: el aviso por correo es opcional y el lead se guarda igual · `GEMINI_API_KEY` ya no se usa |
 | Índice compuesto de Firestore | ✔ declarado en `firestore.indexes.json` (la deduplicación lo exige en producción) |
 | Políticas TTL de Firestore | ✔ activas sobre `expira` en `turnos` y `limites`: se borran solos a los 90 días |
@@ -58,7 +61,9 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | 2026-09-02 | **RAG estricto** para el asistente | Reemplaza la inyección completa de la base de conocimiento del doc 03 §5.1 |
 | 2026-09-02 | Unidad comercial: **"conversaciones"** (todos los mensajes con un cliente en 24 h) | Unifica el vocabulario del diseño ("chats"), la presentación ("conversaciones") y la consola ("cierres/atenciones/interacciones") |
 | 2026-09-02 | Planes 250 / 450 / 850 Bs, setup 800 Bs, a medida desde 1.500 Bs, excedentes 50 Bs × 150 | Confirmados contra el diseño y `Presentación NovuChat2.html` |
-| 2026-09-02 | `staging` y `production` en el **mismo** proyecto Firebase | Staging es un canal de vista previa de Hosting; no hay presupuesto para dos proyectos |
+| 2026-09-03 | **Un solo ambiente**: se retira `staging` del pipeline | Apuntaba al mismo proyecto y al mismo sitio en vivo que producción: no aislaba nada y hacía creer que sí. Su papel lo cumple el canal de vista previa del PR |
+| 2026-09-03 | Dos identidades de despliegue con permisos distintos | Que un PR pueda impersonar la cuenta que despliega Functions y secretos anula la separación de producción. `deploy-previa` solo alcanza Hosting |
+| 2026-09-03 | Identidad legal **provisional** AAB1 / NIT 2441214012 | Solo en las páginas legales, que la exigen. El material comercial y el RAG siguen sin mencionar a AAB1: el motivo tributario no cambia porque el dato sea provisional |
 | 2026-09-02 | Ninguna dependencia ejecuta scripts de instalación (`allowBuilds: false`) | Riesgo S-9: los `postinstall` de terceros son superficie de cadena de suministro |
 | 2026-09-02 | **Vertex AI en vez de la API de AI Studio** | La API de AI Studio se paga con créditos de prepago que se agotan aparte; Vertex cobra a la cuenta de facturación del proyecto, que ya tiene presupuesto y alertas. Y no necesita clave: se autentica con la cuenta de servicio. Un secreto que no existe no se filtra |
 
@@ -211,14 +216,17 @@ que alguien lo reporte como una diferencia.
 
 **De Claude Code:**
 
-1. Capturas reales de la consola para la página `/consola`.
-2. Primer despliegue a un canal de vista previa de Hosting.
-3. Prueba de punta a punta del asistente contra Vertex real (en el emulador no
-   se ejercita la generación, para no gastar ni depender de credenciales).
+1. Prueba de punta a punta del asistente contra Vertex real: es la única pieza
+   que nunca se ejercitó con el modelo de verdad.
+2. Capturas reales de la consola para la página `/consola`.
 
 **De Andres:**
 
-1. Razón social y NIT de NovuChat para `/privacidad` y `/terminos` (en trámite).
+1. **Fusionar la PR #1.** Es el único bloqueante que queda para el pase, y no lo
+   puede hacer Claude Code: el estándar prohíbe que un agente apruebe o fusione
+   sus propios cambios. Fusionar ya no publica nada; solo habilita el tag.
+2. Reemplazar la identidad legal provisional por el NIT propio de NovuChat
+   cuando salga (`src/contenido/pendientes.ts`, dos valores).
 2. ID del píxel de Meta; confirmar zona horaria La Paz y moneda BOB en GA4.
 3. Casilla de correo para activar FormSubmit, y luego los MX y el SPF del dominio
    (se perdieron al reescribir el DNS en Namecheap).
