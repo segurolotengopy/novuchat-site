@@ -23,7 +23,8 @@
 # SA; en su lugar google-github-actions/auth (impersonación) + firebase-tools
 # fijado, que soporta ADC (external_account) desde 15.x.
 #
-# Secretos: GCP_WIF_PROVIDER, GCP_SA_DEPLOY_PROD
+# Secretos del repositorio: GCP_WIF_PROVIDER, GCP_SA_DEPLOY_PREVIA
+# Secreto del Environment `production`: GCP_SA_DEPLOY_PROD
 #           (+ GITLEAKS_LICENSE / SNYK_TOKEN opcionales)
 # Variables: MODO, APROBADORES_PROD, TAG_FIRMADO_REQUERIDO,
 #            GCP_PROJECT_ID_PROD, PROD_URL, HEALTH_PATH,
@@ -321,11 +322,16 @@ jobs:
           name: dist-production
           path: dist
 
-      - name: Autenticar en GCP (WIF + impersonación)
+      # Cuenta de MÍNIMO PRIVILEGIO, distinta de la de producción: solo puede
+      # publicar canales de Hosting. Un PR no debe poder impersonar la cuenta
+      # que despliega Functions y reglas; el secreto de producción vive en el
+      # Environment `production`, al que solo se llega tras la aprobación
+      # humana, y un job de PR no lo ve.
+      - name: Autenticar en GCP (WIF + impersonación, cuenta de vistas previas)
         uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
-          service_account: ${{ secrets.GCP_SA_DEPLOY_PROD }}
+          service_account: ${{ secrets.GCP_SA_DEPLOY_PREVIA }}
 
       - name: Desplegar canal de vista previa (expira en 7 días)
         id: canal
