@@ -11,9 +11,10 @@
 > El pipeline termina en verde, la federación funciona y las identidades están
 > separadas. **Quedan dos controles bloqueantes**, ninguno de código:
 >
-> 1. La PR #1 sigue **sin fusionar**: no hay run verde sobre `main` ni tag.
-> 2. Falta la **razón social y el NIT** de NovuChat, sin los cuales `/privacidad`
->    y `/terminos` no pueden publicarse y `pnpm listo` está en rojo.
+> **Queda un solo bloqueante: la PR #1 sin fusionar.** No hay run verde sobre
+> `main` ni tag. Y no lo puede cerrar Claude Code: el estándar prohíbe que un
+> agente apruebe o fusione sus propios cambios, y esa es justamente la
+> separación de funciones que da sentido a todos los demás controles.
 
 ---
 
@@ -190,11 +191,14 @@ firebase hosting:clone novuchat-site:previa novuchat-site:live --project novucha
 ## 7. Pendientes antes de aprobar
 
 1. **Fusionar la PR #1 a `main`** y que el pipeline complete un run verde ahí.
-2. **Razón social y NIT de NovuChat** en `src/contenido/pendientes.ts`, hasta que
-   `pnpm listo` pase.
-3. **Crear el tag**, que es el paso humano de la sección 8.
+   Con un solo ambiente, fusionar **no publica nada**: solo habilita el tag.
+2. **Crear el tag**, que es el paso humano de la sección 8.
 
 ### Ya resueltos
+
+- **Identidad legal**: AAB1 / NIT 2441214012, **provisional** hasta el NIT propio
+  de NovuChat. Aparece solo en `/privacidad` y `/terminos`; verificado sobre el
+  `dist` que ninguna otra página la contiene. `pnpm listo` en verde.
 
 - **Identidad federada**: pool `github`, proveedor con la condición
   `assertion.repository_owner == 'segurolotengopy'` y binding acotado a este
