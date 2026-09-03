@@ -34,6 +34,10 @@ export default defineConfig({
   ],
   test: {
     include: ['pruebas/**/*.{test,spec}.ts'],
+    // Aquí solo se excluye lo que Vitest NUNCA debe tocar. Las suites que
+    // necesitan un emulador levantado se excluyen en el script `pruebas` de
+    // package.json, no aquí: si se excluyeran en la configuración, sus propios
+    // comandos (`test:rules`, `test:backend`) no encontrarían nada que correr.
     exclude: ['pruebas/humo/**', 'node_modules/**', 'dist/**'],
     environment: 'node',
   },

@@ -1,4 +1,14 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "//": "La deduplicación de leads consulta por huella del correo Y por fecha. Firestore exige un índice compuesto para eso; el emulador no lo pide, producción sí, y sin él la Function fallaría con FAILED_PRECONDITION en el primer lead real.",
+      "collectionGroup": "leads",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "huellaCorreo", "order": "ASCENDING" },
+        { "fieldPath": "creado", "order": "ASCENDING" }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }
