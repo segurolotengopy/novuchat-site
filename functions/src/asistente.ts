@@ -44,6 +44,13 @@ const esquema = z.object({
 export const asistente = onCall(
   {
     region: 'us-east1',
+    // Orígenes permitidos. Sin esto, `onCall` refleja CUALQUIER origen: en
+    // producción devolvía `access-control-allow-origin` con el dominio del que
+    // preguntara, así que cualquier web podía llamar a esta función desde el
+    // navegador de un visitante —gastando presupuesto de Vertex en el caso del
+    // asistente, o metiendo leads en Firestore en el caso del formulario—.
+    // App Check todavía está en monitoreo, así que no compensaba nada.
+    cors: ['https://novuchat.site', 'https://www.novuchat.site', 'https://novuchat-site.web.app'],
     // Fase 1: monitoreo. Se pasa a `true` tras una semana sin falsos positivos
     // (doc 04 §4). El token igual se registra abajo.
     enforceAppCheck: false,
