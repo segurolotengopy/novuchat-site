@@ -32,9 +32,9 @@ updates:
     # repositorio (ver ESTADO.md, hallazgo 18).
     cooldown:
       default-days: 7
-      semver-major-days: 30
-      semver-minor-days: 7
-      semver-patch-days: 3
+      # Solo `default-days`: este ecosistema no versiona con semver,
+      # y Dependabot rechaza el archivo entero si se le pasan
+      # `semver-*-days` aquí.
     open-pull-requests-limit: 5
     labels: [dependencias, github-actions, seguridad]
     commit-message:
@@ -124,9 +124,9 @@ updates:
     # repositorio (ver ESTADO.md, hallazgo 18).
     cooldown:
       default-days: 7
-      semver-major-days: 30
-      semver-minor-days: 7
-      semver-patch-days: 3
+      # Solo `default-days`: este ecosistema no versiona con semver,
+      # y Dependabot rechaza el archivo entero si se le pasan
+      # `semver-*-days` aquí.
     open-pull-requests-limit: 3
     labels: [dependencias, docker, seguridad]
     commit-message:
@@ -147,9 +147,9 @@ updates:
     # repositorio (ver ESTADO.md, hallazgo 18).
     cooldown:
       default-days: 7
-      semver-major-days: 30
-      semver-minor-days: 7
-      semver-patch-days: 3
+      # Solo `default-days`: este ecosistema no versiona con semver,
+      # y Dependabot rechaza el archivo entero si se le pasan
+      # `semver-*-days` aquí.
     open-pull-requests-limit: 3
     labels: [dependencias, terraform]
     commit-message:
