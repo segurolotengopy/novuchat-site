@@ -155,3 +155,37 @@ Una lista de excepciones vacía no significa nada; la ausencia de la clave sí.
 
 **Recomendación para el estándar:** quitar el `[]` de la plantilla y validar
 `dependabot.yml` en el bootstrap contra el esquema de Dependabot.
+
+---
+
+## 6. `dependabot.yml` declara ecosistemas que el proyecto no tiene
+
+La plantilla trae los cinco ecosistemas —github-actions, npm, pip, docker,
+terraform— para cualquier repositorio. **Dependabot no ignora los que no
+aplican:** intenta actualizarlos, no encuentra manifiesto y falla.
+
+```
+ERROR Error during file fetching; aborting: No Dockerfiles nor Kubernetes YAML found in /
+```
+
+En este proyecto —que no tiene Dockerfile, ni `requirements.txt`, ni `/infra`—
+son tres runs en rojo por semana, indefinidamente. Se descubrió al fusionar la
+PR #1: en cuanto el archivo dejó de estar mal formado (defecto 5), Dependabot
+arrancó por primera vez y falló de inmediato.
+
+**Corrección aplicada:** dejar solo `github-actions` y `npm`, con una nota de por
+qué y cuándo volver a añadir los otros.
+
+**Recomendación para el estándar:** que `bootstrap-repo.sh` emita únicamente los
+ecosistemas cuyo manifiesto exista en el repositorio, o que comente los demás.
+
+---
+
+## Nota sobre el orden en que aparecieron
+
+Los defectos 3, 5 y 6 estaban encadenados y solo se ven de uno en uno: el
+`CODEOWNERS` sin rellenar bloqueaba la fusión, y hasta arreglarlo no se veía que
+`dependabot.yml` era inválido; hasta arreglar eso, Dependabot no llegaba a
+correr, y hasta que corrió no se supo que declaraba ecosistemas inexistentes.
+Merece la pena arreglarlos juntos en el estándar: por separado, cada uno esconde
+al siguiente.
