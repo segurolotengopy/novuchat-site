@@ -37,9 +37,11 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | Índice del RAG | ✔ generado: 34 fragmentos, 563 KB, con Vertex AI |
 | Umbral del RAG | ✔ **medido** en 0,64 (`pnpm rag:calibrar`), no elegido a ojo |
 | Proveedor de IA | **Vertex AI** con la cuenta de servicio: sin clave de API |
-| Secretos en Secret Manager | `SAL_HASH` ✔ · `FORMSUBMIT_ALIAS` pendiente, **pero ya no bloquea**: el aviso por correo es opcional y el lead se guarda igual · `GEMINI_API_KEY` ya no se usa |
+| Secretos en Secret Manager | `SAL_HASH` ✔ · `FORMSUBMIT_ALIAS` con el marcador `sin-configurar`, que **falla el patrón a propósito** para que no se envíe nada hasta tener el alias real: el aviso por correo es opcional y el lead se guarda igual · `GEMINI_API_KEY` ya no se usa |
 | Índice compuesto de Firestore | ✔ declarado en `firestore.indexes.json` (la deduplicación lo exige en producción) |
-| Políticas TTL de Firestore | **pendientes**: requieren dos comandos de Andres |
+| Políticas TTL de Firestore | ✔ activas sobre `expira` en `turnos` y `limites`: se borran solos a los 90 días |
+| Rol de Vertex para las Functions | ✔ `roles/aiplatform.user` sobre la cuenta de servicio por defecto |
+| Canal de vista previa | ✔ desplegado y verificado, expira el 2026-09-09 |
 
 ---
 
@@ -186,6 +188,24 @@ más probable de un «el preview da errores»:
 El segundo solo existe mientras el comando está corriendo: si la ventana quedó
 abierta en el 5245 y el proceso se cerró, el navegador da un error de conexión.
 `.claude/launch.json` deja el primero listo para arrancar desde el editor.
+
+## 3ter. Verificación en el canal de vista previa (2026-09-02)
+
+`https://novuchat-site--vista-previa-9w2vpn0d.web.app` — expira el 2026-09-09.
+
+| Comprobación | Resultado |
+|---|---|
+| Cabeceras reales de Hosting | CSP completa, HSTS, `X-Frame-Options: DENY`, `Referrer-Policy` |
+| `x-robots-tag` | `noindex`: los canales de vista previa no se indexan |
+| Rutas | `/`, `/precios`, `/demo`, `/soluciones/gastronomia`, `/en`, `/terminos` → 200; inexistente → 404 |
+| Consola del navegador | sin errores: **ninguna violación de CSP** con las cabeceras de Firebase |
+| Tipografía | Archivo cargada desde `/fuentes/`, no del sistema |
+| Islas | banner de consentimiento visible, carrusel con sus cuatro diapositivas, botón del asistente presente |
+| Imágenes | ninguna rota |
+
+Detalle menor: Firebase Hosting normaliza el `max-age` de HSTS a 31 556 926 en
+lugar del 31 536 000 declarado. No cambia nada, pero conviene saberlo antes de
+que alguien lo reporte como una diferencia.
 
 ## 4. Próximos pasos
 
