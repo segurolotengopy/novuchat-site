@@ -136,12 +136,19 @@ describe('corpus derivado del sitio', () => {
     ];
     for (const f of corpus) {
       const texto = f.texto.toLowerCase();
+      // Por palabra completa, no por subcadena: «oci» vive dentro de
+      // «negocio». Es exactamente el error que el filtro de términos del
+      // asistente evita, y la prueba no puede cometerlo.
+      //
+      // Se compara sobre texto normalizado en vez de construir una expresión
+      // regular a partir del término: escapar a mano lo que va dentro de una
+      // regex es una fuente clásica de sanitización incompleta, y CodeQL lo
+      // marcaba con razón. Además, así funcionan también los términos de varias
+      // palabras como «secret manager».
+      const normalizado = ` ${texto.replace(/[^a-z0-9]+/g, ' ').trim()} `;
       for (const p of prohibidos) {
-        // Por palabra completa, no por subcadena: «oci» vive dentro de
-        // «negocio». Es exactamente el error que el filtro de términos del
-        // asistente evita, y la prueba no puede cometerlo.
-        const patron = new RegExp(`(^|[^a-z0-9])${p.replace(/[-]/g, '\\-')}([^a-z0-9]|$)`);
-        expect(patron.test(texto), `${f.id} menciona "${p}"`).toBe(false);
+        const termino = ` ${p.replace(/[^a-z0-9]+/g, ' ').trim()} `;
+        expect(normalizado.includes(termino), `${f.id} menciona "${p}"`).toBe(false);
       }
     }
   });

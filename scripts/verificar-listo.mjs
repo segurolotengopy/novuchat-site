@@ -18,7 +18,12 @@ const RAIZ = resolve(new URL('..', import.meta.url).pathname);
 const ARCHIVO = join(RAIZ, 'src/contenido/pendientes.ts');
 
 const fuente = readFileSync(ARCHIVO, 'utf8');
-const bloque = fuente.match(/export const PENDIENTES:\s*Pendiente\[\]\s*=\s*\[([\s\S]*?)\n\];/);
+// Acepta las dos formas: la lista vacía en una línea (`= [];`) y la lista con
+// entradas repartidas en varias. Antes solo reconocía la segunda y, al quedar
+// vacía, el script se caía diciendo que no podía leer el archivo.
+const bloque =
+  fuente.match(/export const PENDIENTES:\s*Pendiente\[\]\s*=\s*\[([\s\S]*?)\n\];/) ??
+  fuente.match(/export const PENDIENTES:\s*Pendiente\[\]\s*=\s*\[(\s*)\];/);
 
 if (!bloque) {
   console.error(
