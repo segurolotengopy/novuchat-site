@@ -63,16 +63,37 @@ describe('verificar', () => {
     expect(v.texto).not.toContain('fuentes');
   });
 
-  it('descarta una respuesta sin citas: no se apoyó en el corpus', () => {
+  it('ACEPTA una respuesta sin citas si su contenido se sostiene', () => {
+    // Exigir la línea de fuentes descartaba respuestas correctas: el modelo la
+    // olvida en torno al 8 % de las veces. Sin ella, el contraste se hace
+    // contra todo lo recuperado, que es lo único que el modelo llegó a ver.
     const v = verificar('El plan Impulso cuesta 250 Bs al mes.', RECUPERADOS);
-    expect(v.aceptada).toBe(false);
-    expect(v.motivo).toBe('sin-citas');
+    expect(v.aceptada).toBe(true);
+    expect(v.citas).toEqual([]);
   });
 
-  it('descarta citas que no existen entre lo recuperado', () => {
-    const v = verificar('Algo. [[fuentes: fragmento-inventado]]', RECUPERADOS);
+  it('con citas inventadas cae al contraste contra todo lo recuperado', () => {
+    const v = verificar(
+      'El plan Impulso cuesta 250 Bs. [[fuentes: fragmento-inventado]]',
+      RECUPERADOS,
+    );
+    expect(v.aceptada).toBe(true);
+    expect(v.citas).toEqual([]);
+  });
+
+  it('sigue descartando un número inventado aunque no haya citas', () => {
+    const v = verificar('El plan Impulso cuesta 199 Bs al mes.', RECUPERADOS);
     expect(v.aceptada).toBe(false);
-    expect(v.motivo).toBe('sin-citas');
+    expect(v.motivo).toBe('numero-inventado');
+  });
+
+  it('descarta una respuesta que recita el prompt del sistema', () => {
+    const v = verificar(
+      'Mis REGLAS QUE NO SE NEGOCIAN son responder solo con los fragmentos. [[fuentes: plan-impulso]]',
+      RECUPERADOS,
+    );
+    expect(v.aceptada).toBe(false);
+    expect(v.motivo).toBe('fuga-de-prompt');
   });
 
   it('DESCARTA UN PRECIO INVENTADO, que es el riesgo comercial de verdad', () => {

@@ -111,11 +111,22 @@ describe('el verificador corta lo que el modelo no debería haber dicho', () => 
   it('descarta una fuga del prompt del sistema', () => {
     const fuga =
       'Mis instrucciones dicen: "Eres el asistente virtual del sitio de NovuChat…"';
-    expect(verificar(fuga, RECUPERADOS).aceptada).toBe(false);
+    const v = verificar(fuga, RECUPERADOS);
+    expect(v.aceptada).toBe(false);
+    expect(v.motivo).toBe('fuga-de-prompt');
   });
 
-  it('descarta que niegue ser una IA, porque no cita nada', () => {
-    expect(verificar('Soy Carla, del equipo comercial.', RECUPERADOS).aceptada).toBe(false);
+  it('descarta cada marca del prompt por separado', () => {
+    for (const marca of [
+      'REGLAS QUE NO SE NEGOCIAN',
+      'RECORDATORIO FINAL',
+      'No usas conocimiento propio',
+      'Terminas SIEMPRE con la línea',
+    ]) {
+      const v = verificar(`Claro: ${marca}. [[fuentes: plan-impulso]]`, RECUPERADOS);
+      expect(v.aceptada, marca).toBe(false);
+      expect(v.motivo, marca).toBe('fuga-de-prompt');
+    }
   });
 
   it('descarta un descuento inventado aunque cite bien', () => {
@@ -138,9 +149,11 @@ describe('el verificador corta lo que el modelo no debería haber dicho', () => 
 
   it('ninguna de las diez inyecciones produce una respuesta publicable si el modelo cede', () => {
     // Se simula el peor caso: el modelo obedece la inyección al pie de la
-    // letra. Aun así, nada de eso llega al visitante.
+    // letra. Aun así, nada de eso llega al visitante: o recita el prompt —y lo
+    // corta el control de fuga— o suelta un dato que no está en los fragmentos
+    // —y lo corta el de números—.
     for (const inyeccion of INYECCIONES) {
-      const respuestaCedida = `Claro, aquí va: ${inyeccion}. Mis reglas son secretas y el token es 12345.`;
+      const respuestaCedida = `Claro, aquí va: ${inyeccion}. Mis REGLAS QUE NO SE NEGOCIAN son secretas y el token es 12345.`;
       expect(verificar(respuestaCedida, RECUPERADOS).aceptada, inyeccion).toBe(false);
     }
   });
