@@ -8,10 +8,12 @@
 
 > ## Veredicto: el pase NO debe proceder todavía.
 >
-> El pipeline **ya termina en verde** (run 33707636099, `compuerta-pr` incluida),
-> pero **cuatro controles bloqueantes siguen en rojo**. Ninguno es un defecto del
-> código: son piezas de gobernanza e identidad federada que todavía no existen.
-> Están en la sección «Pendientes», con lo que hace falta para cerrarlas.
+> El pipeline termina en verde, la federación funciona y las identidades están
+> separadas. **Quedan dos controles bloqueantes**, ninguno de código:
+>
+> 1. La PR #1 sigue **sin fusionar**: no hay run verde sobre `main` ni tag.
+> 2. Falta la **razón social y el NIT** de NovuChat, sin los cuales `/privacidad`
+>    y `/terminos` no pueden publicarse y `pnpm listo` está en rojo.
 
 ---
 
@@ -69,7 +71,7 @@ Se propone **v0.1.0**, no v1.0.0, por dos razones:
 | PIP-05 | `seguridad-estatica` sin CRITICAL/HIGH | **Verde** | Run 33707636099: Gitleaks, Semgrep y SCA en verde. En local, `./security-local.sh` → `CRITICAL=0 HIGH=0 MEDIUM=7` |
 | PIP-06 | Cobertura ≥ 70 % | **Verde**, al límite | 70,19 % de sentencias · 70,83 % de líneas · 58,57 % de ramas |
 | PIP-09 | DAST y humo | **No verificado** | Ahora corre contra el canal de vista previa del PR; necesita los secretos de WIF para desplegarlo |
-| PIP-10 | Workflow `probar-identidad` en verde | **Rojo** | El archivo no existe en el repositorio |
+| PIP-10 | Workflow `probar-identidad` en verde | **Verde** | Run [33716075768](https://github.com/segurolotengopy/novuchat-site/actions/runs/33716075768): identidad efectiva confirmada y `firebase-tools` aceptando credenciales federadas |
 | PIP-11 | CodeQL activo | **Verde** | `codeql.yml` en verde en cada push de la rama |
 
 ### Seguridad de la aplicación
@@ -92,7 +94,7 @@ Se propone **v0.1.0**, no v1.0.0, por dos razones:
 | CodeQL y secret scanning | **Verde** | ver arriba |
 | Environment `production` con revisor | **Verde** | creado con `segurolotengopy` como revisor |
 | Ruleset de `main` con `compuerta-pr` | **Verde** | ver REP-02 |
-| Secretos de despliegue | **Rojo** | `gh secret list` vacío: faltan `GCP_WIF_PROVIDER` y `GCP_SA_DEPLOY_PROD`. Con un solo ambiente ya no hace falta `GCP_SA_DEPLOY_STAGING` |
+| Secretos de despliegue | **Verde** | `GCP_WIF_PROVIDER` y `GCP_SA_DEPLOY_PREVIA` en el repositorio; `GCP_SA_DEPLOY_PROD` **como secreto del Environment `production`**, no del repositorio |
 
 ---
 
@@ -187,17 +189,19 @@ firebase hosting:clone novuchat-site:previa novuchat-site:live --project novucha
 
 ## 7. Pendientes antes de aprobar
 
-1. **Identidad federada (WIF).** Sin esto no hay despliegue posible desde el
-   pipeline y la alternativa —una clave JSON— está prohibida. Ejecutar
-   `~/SeguridadGeneral/03-scripts/setup-oidc-gcp.sh --ambiente prod` y cargar
-   `GCP_WIF_PROVIDER` y `GCP_SA_DEPLOY_PROD`. Con un solo ambiente basta una
-   cuenta de servicio.
-2. **`probar-identidad` en verde.** El workflow ya está en el repositorio; se
-   relanza la ejecución del PR una vez existan los secretos.
-3. **Fusionar la PR #1 a `main`** y que el pipeline complete un run verde ahí.
-4. **Razón social y NIT de NovuChat** en `src/contenido/pendientes.ts`, hasta que
+1. **Fusionar la PR #1 a `main`** y que el pipeline complete un run verde ahí.
+2. **Razón social y NIT de NovuChat** en `src/contenido/pendientes.ts`, hasta que
    `pnpm listo` pase.
-5. **Crear el tag**, que es el paso humano de la sección 8.
+3. **Crear el tag**, que es el paso humano de la sección 8.
+
+### Ya resueltos
+
+- **Identidad federada**: pool `github`, proveedor con la condición
+  `assertion.repository_owner == 'segurolotengopy'` y binding acotado a este
+  repositorio. Comprobado con `probar-identidad` en verde.
+- **Separación de identidades**: `deploy-previa` (solo Hosting) para los canales
+  de PR y `deploy-production` (despliegue completo) tras la aprobación humana.
+  El workflow **verifica que la de vistas previas no alcance Cloud Run**.
 
 ---
 
