@@ -25,6 +25,16 @@ updates:
       day: monday
       time: "06:00"
       timezone: America/La_Paz
+    # Cooldown: no adoptar una versión el día que sale. Una release
+    # comprometida se detecta casi siempre en las primeras horas, que es
+    # justo cuando Dependabot la propondría. Mismo criterio que el
+    # `minimumReleaseAge` de pnpm, que ya frenó una instalación en este
+    # repositorio (ver ESTADO.md, hallazgo 18).
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 3
     open-pull-requests-limit: 5
     labels: [dependencias, github-actions, seguridad]
     commit-message:
@@ -41,6 +51,16 @@ updates:
       day: monday
       time: "06:00"
       timezone: America/La_Paz
+    # Cooldown: no adoptar una versión el día que sale. Una release
+    # comprometida se detecta casi siempre en las primeras horas, que es
+    # justo cuando Dependabot la propondría. Mismo criterio que el
+    # `minimumReleaseAge` de pnpm, que ya frenó una instalación en este
+    # repositorio (ver ESTADO.md, hallazgo 18).
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 3
     open-pull-requests-limit: 10
     labels: [dependencias, npm]
     commit-message:
@@ -68,6 +88,16 @@ updates:
       day: monday
       time: "06:00"
       timezone: America/La_Paz
+    # Cooldown: no adoptar una versión el día que sale. Una release
+    # comprometida se detecta casi siempre en las primeras horas, que es
+    # justo cuando Dependabot la propondría. Mismo criterio que el
+    # `minimumReleaseAge` de pnpm, que ya frenó una instalación en este
+    # repositorio (ver ESTADO.md, hallazgo 18).
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 3
     open-pull-requests-limit: 10
     labels: [dependencias, python]
     commit-message:
@@ -84,6 +114,16 @@ updates:
       day: monday
       time: "06:00"
       timezone: America/La_Paz
+    # Cooldown: no adoptar una versión el día que sale. Una release
+    # comprometida se detecta casi siempre en las primeras horas, que es
+    # justo cuando Dependabot la propondría. Mismo criterio que el
+    # `minimumReleaseAge` de pnpm, que ya frenó una instalación en este
+    # repositorio (ver ESTADO.md, hallazgo 18).
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 3
     open-pull-requests-limit: 3
     labels: [dependencias, docker, seguridad]
     commit-message:
@@ -97,6 +137,16 @@ updates:
       day: monday
       time: "06:00"
       timezone: America/La_Paz
+    # Cooldown: no adoptar una versión el día que sale. Una release
+    # comprometida se detecta casi siempre en las primeras horas, que es
+    # justo cuando Dependabot la propondría. Mismo criterio que el
+    # `minimumReleaseAge` de pnpm, que ya frenó una instalación en este
+    # repositorio (ver ESTADO.md, hallazgo 18).
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 3
     open-pull-requests-limit: 3
     labels: [dependencias, terraform]
     commit-message:
