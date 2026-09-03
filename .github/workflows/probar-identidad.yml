@@ -81,14 +81,28 @@ jobs:
       - name: Quién soy y qué veo
         env:
           PROYECTO: ${{ vars.GCP_PROJECT_ID_PROD }}
+          ES_PRODUCCION: ${{ github.event_name == 'workflow_dispatch' && inputs.ambiente == 'production' }}
         run: |
           set -euo pipefail
           echo "Identidad efectiva:"
           gcloud auth list --format 'value(account)'
           echo "Proyecto alcanzable:"
           gcloud projects describe "$PROYECTO" --format 'value(projectId)'
-          echo "Servicios de Cloud Run visibles (puede estar vacío):"
-          gcloud run services list --project "$PROYECTO" --format 'value(name)'
+
+          # Cada identidad se comprueba contra lo que DEBE poder hacer. Para la
+          # cuenta de vistas previas, no poder listar Cloud Run no es un fallo:
+          # es la comprobación de que el mínimo privilegio está puesto.
+          if [ "$ES_PRODUCCION" = "true" ]; then
+            echo "Cuenta de producción — servicios de Cloud Run (puede estar vacío):"
+            gcloud run services list --project "$PROYECTO" --format 'value(name)'
+          else
+            echo "Cuenta de vistas previas — se comprueba que NO alcanza Cloud Run:"
+            if gcloud run services list --project "$PROYECTO" --format 'value(name)' 2>/dev/null; then
+              echo "::error::La cuenta de vistas previas puede listar Cloud Run. Tiene más permisos de los que debería."
+              exit 1
+            fi
+            echo "  correcto: acceso denegado."
+          fi
 
       - name: firebase-tools acepta las credenciales federadas
         # Comprobación deliberada: firebase-tools consume ADC de tipo
