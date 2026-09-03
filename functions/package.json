@@ -15,6 +15,7 @@
     "test:rules": "firebase emulators:exec --only firestore --project novuchat-site-reglas \"./scripts/pruebas-emulador.sh pruebas/reglas\""
   },
   "dependencies": {
+    "@google-cloud/functions-framework": "^5.0.5",
     "firebase-admin": "^14.3.0",
     "firebase-functions": "^7.3.2",
     "google-auth-library": "^11.0.2",

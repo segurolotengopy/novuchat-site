@@ -234,3 +234,50 @@ Es esperable —no hay nada en `live` todavía— y el paso lleva
 **el primer pase a producción es el único sin vuelta atrás automática.** A
 partir del segundo, el canal `previa` ya tiene contenido. El paso de rollback de
 `post-despliegue` contempla el caso y no falla si el canal no existe.
+
+---
+
+## 8. `firebase deploy` sale con código 0 habiendo fallado, y el pipeline lo cree
+
+**Archivo del estándar:** `.github/workflows/ci-node-firebase.yml`, paso
+«Desplegar hosting + reglas (producción)».
+
+El paso confía en el código de salida de `firebase deploy`, protegido con
+`set -euo pipefail`. No basta: **firebase-tools rotula los fallos de Functions
+como avisos (`⚠`) y termina con código 0.**
+
+En el pase de `v0.1.1` el paso dio **verde** con este registro:
+
+```
+⚠  functions: ... had HTTP Error: 409, Could not create bucket gcf-v2-sources-...
+⚠  functions:  failed to create function projects/.../functions/asistente
+Build failed with status: FAILURE and message: This project is using pnpm but you
+have not included the Functions Framework in your dependencies.
+```
+
+Las dos Functions sin desplegar, la versión de hosting en estado `CREATED` y
+nunca `FINALIZED` —o sea, el sitio sin publicar, 404 en todas sus URL— y el
+resumen del job diciendo «Producción desplegada».
+
+Lo salvó el health check de `post-despliegue`, que devolvió 404 diez veces
+seguidas y disparó el rollback. Es decir: la defensa en profundidad funcionó,
+pero el control que debía detectarlo primero afirmó lo contrario. **Un
+despliegue que miente es peor que uno que falla**, porque el acta de producción
+se firma con lo que dice el pipeline.
+
+**Corrección aplicada:** guardar la salida del despliegue y fallar el paso si
+contiene marcas de fallo (`failed to create function`, `Build failed with
+status`, `had HTTP Error`, …), en vez de confiar solo en el código de salida.
+
+**Recomendación para el estándar:** aplicarlo en los cuatro proveedores, y
+considerar además una verificación por resultado —que el canal `live` tenga una
+publicación nueva y que las funciones existan— en lugar de leer el registro.
+
+### Hallazgos del proyecto en el mismo run
+
+- **`@google-cloud/functions-framework` era obligatorio y no estaba.** El
+  buildpack de Google lo exige explícitamente cuando el proyecto usa pnpm.
+  Añadido a `functions/package.json`.
+- **El 409 del bucket `gcf-v2-sources-…` fue una carrera**, no un permiso: las
+  dos Functions intentaron crearlo a la vez en el primer despliegue. El bucket
+  ya existe, así que no se repite.
