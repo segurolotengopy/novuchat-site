@@ -8,9 +8,10 @@
 
 > ## Veredicto: el pase NO debe proceder todavía.
 >
-> Cinco controles bloqueantes están en rojo. Ninguno es un defecto del código:
-> son piezas de gobernanza y de identidad federada que aún no existen. Están
-> listados en la sección «Pendientes», con lo que hace falta para cerrarlos.
+> El pipeline **ya termina en verde** (run 33707636099, `compuerta-pr` incluida),
+> pero **cuatro controles bloqueantes siguen en rojo**. Ninguno es un defecto del
+> código: son piezas de gobernanza e identidad federada que todavía no existen.
+> Están en la sección «Pendientes», con lo que hace falta para cerrarlas.
 
 ---
 
@@ -50,7 +51,7 @@ Se propone **v0.1.0**, no v1.0.0, por dos razones:
 
 | ID | Control | Estado | Evidencia |
 |---|---|---|---|
-| REP-01 | Manifiesto `.devsecops.yml` completo | **Verde** | `modo: A`, `cobertura_minima: 70`, 2 ambientes, 0 excepciones |
+| REP-01 | Manifiesto `.devsecops.yml` completo | **Verde** | `modo: A`, `cobertura_minima: 70`, 2 ambientes, 1 excepción vigente |
 | REP-02 | Ruleset de `main` con PR, historial lineal y check `compuerta-pr` | **Verde** | `proteger-main` activo: `deletion`, `non_fast_forward`, `required_linear_history`, `pull_request`, `required_status_checks → compuerta-pr` |
 | REP-03 | Revisores requeridos | **Verde** | Environment `production` con revisor `segurolotengopy` |
 | REP-04 | `CODEOWNERS` cubre rutas críticas | **Verde** | `.github/CODEOWNERS` versionado |
@@ -63,9 +64,9 @@ Se propone **v0.1.0**, no v1.0.0, por dos razones:
 
 | ID | Control | Estado | Evidencia |
 |---|---|---|---|
-| PIP-01 | Run completo en verde del workflow del stack | **Rojo** | El pipeline nunca ha corrido sobre `main`; la rama sigue sin fusionar |
+| PIP-01 | Run completo en verde del workflow del stack | **Ámbar** | Run [33707636099](https://github.com/segurolotengopy/novuchat-site/actions/runs/33707636099) **en verde de punta a punta**, incluida `compuerta-pr` — pero sobre la rama, no sobre `main`: la PR #1 sigue sin fusionar |
 | PIP-02 | Acciones fijadas por SHA | **Verde** | Ninguna referencia `uses:` sin SHA de 40 caracteres |
-| PIP-05 | `seguridad-estatica` sin CRITICAL/HIGH | **Verde** | `./security-local.sh`: `CRITICAL=0 HIGH=0 MEDIUM=8`, informe en `.security-reports/ultimo/resumen.md` |
+| PIP-05 | `seguridad-estatica` sin CRITICAL/HIGH | **Verde** | Run 33707636099: Gitleaks, Semgrep y SCA en verde. En local, `./security-local.sh` → `CRITICAL=0 HIGH=0 MEDIUM=7` |
 | PIP-06 | Cobertura ≥ 70 % | **Verde**, al límite | 70,19 % de sentencias · 70,83 % de líneas · 58,57 % de ramas |
 | PIP-09 | DAST y humo | **No verificado** | Depende de `desplegar-staging`, que nunca corrió |
 | PIP-10 | Workflow `probar-identidad` en verde | **Rojo** | El archivo no existe en el repositorio |
@@ -97,24 +98,38 @@ Se propone **v0.1.0**, no v1.0.0, por dos razones:
 
 ## 4. Riesgos aceptados
 
-Ninguna excepción registrada en `.devsecops.yml`. Se anota un hallazgo
-**no bloqueante** para seguimiento:
+| id | herramienta | vence | justificación |
+|---|---|---|---|
+| CVE-2026-41907 | trivy | 2026-12-01 | `uuid@9.0.1` llega por `firebase-admin > @google-cloud/storage > gaxios > uuid`. **No hay versión parcheada alcanzable**: gaxios 6.x fija `uuid ^9` y firebase-admin 14.3.0 es la última publicada. El impacto en este proyecto es nulo: las Functions no generan identificadores con uuid, solo lo usa el SDK internamente |
 
-| Hallazgo | Severidad | Estado |
-|---|---|---|
-| CVE-2026-41907 en `uuid@9.0.1`, transitiva de `firebase-admin` | MEDIA | Sin versión parcheada disponible aguas arriba. Se revisará cuando `firebase-admin` actualice `gaxios` |
+Vence dentro de los 90 días que exige el estándar y queda registrada en
+`.devsecops.yml`, no silenciada en la herramienta.
 
 ---
 
-## 5. Defecto del estándar detectado en esta preparación
+## 5. Defectos corregidos para llegar hasta aquí
 
-`.github/trivy.yaml` declaraba `severity: [CRITICAL, HIGH, MEDIUM]`, y el archivo
-de configuración de Trivy **tiene prioridad sobre el parámetro del workflow**.
-El efecto es que `bloquear_en: CRITICAL,HIGH` del manifiesto no significaba nada:
-cualquier hallazgo MEDIUM rompía el pipeline. Se corrigió en este repositorio
-quitando la declaración.
+El pipeline nunca había terminado en verde. Seis causas, todas reales:
 
-**Afecta a cualquier proyecto que use el estándar** y conviene llevarlo a
+| # | Causa | Corrección |
+|---|---|---|
+| 1 | Faltaba `@vitest/coverage-v8`: el job de cobertura no arrancaba | Dependencia agregada |
+| 2 | El build fallaba sin `PUBLIC_URL_CONSOLA`. Es el comportamiento correcto —el sitio prefiere romper la compilación antes que publicar un enlace fuera de la lista blanca— pero el runner no tenía de dónde leerlo | Los `PUBLIC_*` pasan a variables del repositorio y se inyectan en el job |
+| 3 | `secrets: inherit` entregaba **todos** los secretos al workflow reutilizable, que solo necesita dos. Semgrep lo marcaba y tenía razón | Se pasan uno por uno |
+| 4 | Cuatro falsos positivos `react-insecure-request` por las URL `http://127.0.0.1` de los emuladores | `nosemgrep` en la línea, con el motivo junto al código |
+| 5 | El emulador de Firestore exige JDK 21 y el runner traía uno anterior. Después, `test:rules` levantaba un **segundo** emulador sobre el que ya levanta el CI: «port taken» | `JAVA_HOME` al JDK 21 de la imagen; la suite se conecta al emulador que encuentre en vez de levantar el suyo |
+| 6 | CVE-2026-41907 en `uuid`: **el Trivy del CI la clasifica HIGH y el local, MEDIA**. Por eso `security-local.sh` salía limpio y el pipeline seguía rojo | Excepción registrada con vencimiento (sección 4) |
+
+### Defecto del estándar compartido
+
+Investigando el punto 6 apareció otro problema, que **no era la causa pero sí es
+un defecto**: `.github/trivy.yaml` declaraba `severity: [CRITICAL, HIGH, MEDIUM]`,
+y el archivo de configuración de Trivy **tiene prioridad sobre el parámetro del
+workflow**. Con eso, `bloquear_en: CRITICAL,HIGH` del manifiesto no significa
+nada y cualquier hallazgo MEDIUM rompe el pipeline. Se corrigió aquí quitando la
+declaración.
+
+**Afecta a cualquier proyecto que use el estándar.** Conviene llevarlo a
 `~/SeguridadGeneral/02-pipelines/`.
 
 ---
