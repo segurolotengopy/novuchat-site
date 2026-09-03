@@ -3,11 +3,19 @@
 #                        → Firebase Hosting + reglas de Firestore
 # Versión: 2.0 | Fecha: 2026-08-24
 # -----------------------------------------------------------------------------
+# ADAPTADO A ESTE PROYECTO (2026-09-03): UN SOLO AMBIENTE.
+# La plantilla del estándar asume staging y producción en proyectos distintos.
+# novuchat.site tiene un único proyecto de Firebase, así que «staging» apuntaba
+# al mismo sitio en vivo: no amortiguaba nada y hacía creer que sí. Se retiró.
+# Su papel lo cumple el canal de vista previa del PR, que es efímero, no se
+# indexa y sirve el MISMO artefacto que después se despliega.
+#
 # Flujo (ver 00-gobernanza/02-flujo-git-y-versionado.md):
-#   PR → main ............ preparar, calidad, seguridad-estatica, construir
-#   push main ............ + desplegar-staging → dast-y-humo
-#   push tag v* .......... + desplegar-produccion (Environment production)
-#                            → post-despliegue (health check + rollback)
+#   PR → main ............ preparar, calidad, seguridad-estatica, construir,
+#                          previsualizar (canal del PR) → dast-y-humo
+#   push main ............ nada se publica: fusionar no despliega
+#   push tag v* .......... desplegar-produccion (Environment production, con
+#                          revisor humano) → post-despliegue (salud + rollback)
 #   workflow_dispatch .... Modo B0: producción manual con confirmar=DESPLEGAR
 #
 # Identidad: Workload Identity Federation (sin JSON de service account).
@@ -15,10 +23,10 @@
 # SA; en su lugar google-github-actions/auth (impersonación) + firebase-tools
 # fijado, que soporta ADC (external_account) desde 15.x.
 #
-# Secretos: GCP_WIF_PROVIDER, GCP_SA_DEPLOY_STAGING, GCP_SA_DEPLOY_PROD
-#           (+ GITLEAKS_LICENSE / SNYK_TOKEN opcionales, heredados)
-# Variables: MODO, APROBADORES_PROD, TAG_FIRMADO_REQUERIDO, GCP_PROJECT_ID_STAGING,
-#            GCP_PROJECT_ID_PROD, STAGING_URL, PROD_URL, HEALTH_PATH,
+# Secretos: GCP_WIF_PROVIDER, GCP_SA_DEPLOY_PROD
+#           (+ GITLEAKS_LICENSE / SNYK_TOKEN opcionales)
+# Variables: MODO, APROBADORES_PROD, TAG_FIRMADO_REQUERIDO,
+#            GCP_PROJECT_ID_PROD, PROD_URL, HEALTH_PATH,
 #            NODE_VERSION (22), COVERAGE_MIN (70), GHAS_ENABLED, BLOQUEAR_EN,
 #            FIREBASE_DEPLOY_ONLY ('hosting,firestore:rules'),
 #            FIREBASE_SITE_ID, FIREBASE_PREVIEW ('true' para canales de PR)
@@ -224,9 +232,11 @@ jobs:
     timeout-minutes: 15
     strategy:
       matrix:
-        # Se construyen ambos ambientes en paralelo: el de producción solo
-        # se usa si el run es de tag/dispatch, pero cuesta ~1 min y simplifica.
-        ambiente: [staging, production]
+        # UN SOLO AMBIENTE. Este proyecto tiene un único proyecto de Firebase:
+        # mantener un «staging» que apunta al mismo sitio en vivo era una
+        # ficción, y una ficción en un pipeline es peor que no tenerla. Lo que
+        # antes hacía staging lo hace ahora el canal de vista previa del PR.
+        ambiente: [production]
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -292,6 +302,8 @@ jobs:
       && vars.FIREBASE_PREVIEW == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      url: ${{ steps.canal.outputs.url }}
     permissions:
       contents: read
       id-token: write
@@ -306,19 +318,19 @@ jobs:
       - name: Descargar dist/
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
-          name: dist-staging
+          name: dist-production
           path: dist
 
       - name: Autenticar en GCP (WIF + impersonación)
         uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
-          service_account: ${{ secrets.GCP_SA_DEPLOY_STAGING }}
+          service_account: ${{ secrets.GCP_SA_DEPLOY_PROD }}
 
       - name: Desplegar canal de vista previa (expira en 7 días)
         id: canal
         env:
-          PROYECTO: ${{ vars.GCP_PROJECT_ID_STAGING }}
+          PROYECTO: ${{ vars.GCP_PROJECT_ID_PROD }}
           CANAL: pr-${{ github.event.pull_request.number }}
         run: |
           set -euo pipefail
@@ -342,82 +354,22 @@ jobs:
             });
 
   # ---------------------------------------------------------------------------
-  # Fase 4 — desplegar-staging: automático en cada push a main.
-  # ---------------------------------------------------------------------------
-  desplegar-staging:
-    name: desplegar-staging
-    needs: [calidad, seguridad-estatica, construir]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    environment:
-      name: staging
-      url: ${{ vars.STAGING_URL }}
-    concurrency:
-      group: deploy-staging
-      cancel-in-progress: false
-    permissions:
-      contents: read
-      id-token: write # token OIDC para WIF
-    steps:
-      - name: Checkout (firebase.json, firestore.rules)
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          # En workflow_dispatch se analiza/despliega el tag aprobado (D3)
-          ref: ${{ inputs.tag || github.ref }}
-
-      - name: Descargar dist/
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
-        with:
-          name: dist-staging
-          path: dist
-
-      - name: Autenticar en GCP (WIF + impersonación de la SA de deploy)
-        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
-        with:
-          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
-          service_account: ${{ secrets.GCP_SA_DEPLOY_STAGING }}
-
-      - name: Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Conservar copia de la versión actual (canal "previa" para rollback)
-        # D7: antes de CADA deploy a live (staging y producción) se clona el
-        # contenido en vivo a un canal "previa". El rollback es clonar de vuelta.
-        continue-on-error: true
-        env:
-          PROYECTO: ${{ vars.GCP_PROJECT_ID_STAGING }}
-          SITIO: ${{ vars.GCP_PROJECT_ID_STAGING }}
-        run: |
-          npm i -g "firebase-tools@${FIREBASE_TOOLS_VERSION}"
-          firebase hosting:channel:create previa --project "$PROYECTO" --expires 30d \
-            --non-interactive >/dev/null 2>&1 || true
-          firebase hosting:clone "$SITIO:live" "$SITIO:previa" --project "$PROYECTO"
-
-      - name: Desplegar hosting + reglas (staging)
-        env:
-          PROYECTO: ${{ vars.GCP_PROJECT_ID_STAGING }}
-          SOLO: ${{ vars.FIREBASE_DEPLOY_ONLY || 'hosting,firestore:rules' }}
-          URL_STAGING: ${{ vars.STAGING_URL }}
-        run: |
-          set -euo pipefail
-          firebase deploy --only "$SOLO" --project "$PROYECTO" --non-interactive \
-            --message "staging ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})"
-          echo "### Staging desplegado: $URL_STAGING" >> "$GITHUB_STEP_SUMMARY"
-
-  # ---------------------------------------------------------------------------
-  # Fase 5 — dast-y-humo: contra staging recién desplegado.
+  # Fase 5 — dast-y-humo: contra el canal de vista previa del PR.
+  #
+  # Antes corría contra «staging», que en este proyecto era el sitio en vivo.
+  # Contra el canal del PR se analiza el MISMO artefacto que luego se despliega
+  # —el `dist-production` que produjo `construir`— y se analiza ANTES de
+  # fusionar, que es cuando el hallazgo todavía sale barato.
   # ---------------------------------------------------------------------------
   dast-y-humo:
     name: dast-y-humo
-    needs: desplegar-staging
+    needs: previsualizar
+    if: needs.previsualizar.result == 'success'
     permissions:
       contents: read
     uses: ./.github/workflows/_reusable-dast.yml
     with:
-      url_objetivo: ${{ vars.STAGING_URL }}
+      url_objetivo: ${{ needs.previsualizar.outputs.url }}
       reglas: .github/zap-rules.tsv
       escaneo_completo: false
       ruta_salud: ${{ vars.HEALTH_PATH || '/healthz' }}

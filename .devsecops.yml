@@ -9,11 +9,10 @@ componentes:
     ruta: ./
     stack: node
     proveedor: firebase
+    # UN SOLO AMBIENTE (2026-09-03). Había un `staging` que apuntaba al mismo
+    # proyecto y al mismo sitio en vivo que producción: no aislaba nada y hacía
+    # creer que sí. Su papel lo cumple el canal de vista previa del PR.
     ambientes:
-      staging:
-        proyecto: novuchat-site
-        url: https://novuchat-site.web.app
-        region: us-east1
       production:
         proyecto: novuchat-site
         url: https://novuchat.site
@@ -36,5 +35,5 @@ seguridad:
         internamente para trazas de peticiones. Se revisa cuando firebase-admin
         actualice gaxios.
       aprobado_por: Andres Alberdi
-      creado: 2026-09-02
-      vence: 2026-12-01
+      creado: '2026-09-02'
+      vence: '2026-12-01'
