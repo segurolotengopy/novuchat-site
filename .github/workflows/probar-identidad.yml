@@ -1,0 +1,94 @@
+# =============================================================================
+# probar-identidad — comprueba la federación SIN desplegar nada
+# =============================================================================
+# Plantilla de `01-seguridad/02-identidad-federada-oidc.md` §5 del estándar,
+# recortada a lo que este proyecto usa: solo GCP. Los jobs de AWS y OCI se
+# eliminaron porque no hay nada en esas nubes.
+#
+# Para qué sirve: demostrar que GCP reconoce al pipeline con la identidad
+# esperada, antes de que un despliegue real falle a mitad de camino. Es el
+# control PIP-10 del checklist de pase a producción.
+#
+# Cómo se ejecuta:
+#   gh workflow run probar-identidad.yml -f ambiente=production
+# =============================================================================
+name: probar-identidad
+
+on:
+  workflow_dispatch:
+    inputs:
+      ambiente:
+        description: Ambiente cuya identidad se comprueba
+        type: choice
+        options: [staging, production]
+        default: staging
+  pull_request:
+    paths: ['.github/workflows/**']
+
+permissions:
+  contents: read
+
+jobs:
+  claims:
+    name: claims del token
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      id-token: write
+    steps:
+      - name: Mostrar los claims del token (nunca el token)
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            const jwt = await core.getIDToken('inspeccion');
+            const payload = JSON.parse(
+              Buffer.from(jwt.split('.')[1], 'base64url').toString(),
+            );
+            const claves = [
+              'sub', 'aud', 'repository', 'repository_id', 'repository_owner',
+              'repository_owner_id', 'ref', 'ref_type', 'environment', 'actor',
+              'job_workflow_ref',
+            ];
+            core.summary.addHeading('Claims OIDC').addTable([
+              [{ data: 'Claim', header: true }, { data: 'Valor', header: true }],
+              ...claves.map((k) => [k, String(payload[k] ?? '')]),
+            ]);
+            await core.summary.write();
+
+  gcp:
+    name: identidad en GCP
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # Solo el dispatch declara Environment; en pull_request el job corre SIN
+    # environment —quedaría restringido a main y fallaría—: la identidad de PR
+    # la cubre el binding por `attribute.repository`.
+    environment: ${{ github.event_name == 'workflow_dispatch' && inputs.ambiente || '' }}
+    permissions:
+      id-token: write
+    steps:
+      - name: Autenticar por federación (sin claves)
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ inputs.ambiente == 'production' && secrets.GCP_SA_DEPLOY_PROD || secrets.GCP_SA_DEPLOY_STAGING }}
+
+      - uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3
+
+      - name: Quién soy y qué veo
+        env:
+          PROYECTO: ${{ inputs.ambiente == 'production' && vars.GCP_PROJECT_ID_PROD || vars.GCP_PROJECT_ID_STAGING }}
+        run: |
+          set -euo pipefail
+          echo "Identidad efectiva:"
+          gcloud auth list --format 'value(account)'
+          echo "Proyecto alcanzable:"
+          gcloud projects describe "$PROYECTO" --format 'value(projectId)'
+          echo "Servicios de Cloud Run visibles (puede estar vacío):"
+          gcloud run services list --project "$PROYECTO" --format 'value(name)'
+
+      - name: firebase-tools acepta las credenciales federadas
+        # Comprobación deliberada: firebase-tools consume ADC de tipo
+        # `external_account` desde la versión 15, y hubo una regresión en la
+        # 15.22.2. Que `projects:list` responda es lo que confirma que el
+        # despliegue real no se va a caer por la identidad.
+        run: npx --yes firebase-tools@15.28.1 projects:list
