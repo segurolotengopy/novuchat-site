@@ -30,20 +30,26 @@ export interface Pendiente {
  * Identidad legal que se declara en `/privacidad` y `/terminos`, y que Meta
  * exige para la verificación del negocio.
  *
- * Decisión de Andres (2026-09-02): el sitio **no menciona a AAB1**. NovuChat
- * facturará con NIT propio, en trámite. Hasta que exista, las páginas legales
- * muestran el aviso en vez de un dato falso.
+ * **VALOR PROVISIONAL** (Andres, 2026-09-03): se usa AAB1 hasta que salga el
+ * NIT propio de NovuChat, que está en trámite.
+ *
+ * DÓNDE APARECE Y DÓNDE NO. Solo en `/privacidad` y `/terminos`, porque una
+ * política de privacidad sin responsable identificable no sirve de nada y Meta
+ * la rechaza. **No** aparece en el pie de las demás páginas, ni en el JSON-LD,
+ * ni en el corpus del asistente: la decisión del 2026-09-02 de no presentar
+ * NovuChat como AAB1 en el material comercial sigue en pie, y su motivo
+ * —NovuChat facturará como comercio y AAB1 es desarrollador— no cambia porque
+ * el dato sea provisional.
+ *
+ * Al recibir el NIT propio, se reemplazan los dos valores y no hay nada más
+ * que tocar.
  */
-export const identidadLegal: { razonSocial: string; nit: string } | null = null;
+export const identidadLegal: { razonSocial: string; nit: string } | null = {
+  razonSocial: 'AAB1 — Javier Andres Alberdi Baptista',
+  nit: '2441214012',
+};
 
-export const PENDIENTES: Pendiente[] = [
-  {
-    id: 'identidad-legal',
-    descripcion: 'Razón social y NIT de NovuChat (en trámite).',
-    responsable: 'Andres',
-    afecta: '/privacidad, /terminos, línea legal del pie, JSON-LD Organization',
-  },
-];
+export const PENDIENTES: Pendiente[] = [];
 
 /** Verdadero si no queda ningún dato sin confirmar. */
 export const listoParaProduccion = PENDIENTES.length === 0;

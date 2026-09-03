@@ -1,6 +1,5 @@
 ---
 import { sitio, insigniaCanal } from '../contenido/sitio.es';
-import { identidadLegal } from '../contenido/pendientes';
 import { urlConsola } from '../lib/consola';
 
 const anio = new Date().getFullYear();
@@ -50,15 +49,14 @@ const anio = new Date().getFullYear();
     </div>
 
     <p class="pie-legal">
-      © {anio} {sitio.lineaLegal}
-      {
-        identidadLegal && (
-          <span>
-            {' '}· {identidadLegal.razonSocial} · NIT {identidadLegal.nit}
-          </span>
-        )
-      }
-      · <a href="/privacidad">Privacidad</a> · <a href="/terminos">Términos</a>
+      {/*
+        La identidad legal NO se repite aquí: vive en /privacidad y /terminos,
+        que es donde tiene que estar y donde la busca quien la necesita. El
+        material comercial no presenta a NovuChat como AAB1 (decisión del
+        2026-09-02, por motivo tributario).
+      */}
+      © {anio} {sitio.lineaLegal} · <a href="/privacidad">Privacidad</a> ·
+      <a href="/terminos">Términos</a>
     </p>
   </div>
 </footer>
