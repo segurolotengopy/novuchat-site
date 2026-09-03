@@ -179,8 +179,11 @@ jobs:
         run: |
           informe=$(find . -maxdepth 3 -name 'report_json.json' | head -1)
           if [[ -z "$informe" ]]; then
-            echo "::warning::ZAP no dejó report_json.json; no se puede evaluar el informe."
-            exit 0
+            # Falla en CERRADO a propósito. Un control que pasa solo porque no
+            # encontró qué evaluar no es un control: es el mismo agujero que
+            # este paso vino a tapar, con otra forma.
+            echo "::error::ZAP no dejó report_json.json. No se puede evaluar el informe, así que el resultado no vale."
+            exit 1
           fi
           python3 .github/scripts/evaluar-zap.py "$informe" "${REGLAS:-}"
 

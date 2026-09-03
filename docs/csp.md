@@ -100,8 +100,8 @@ agrega aquí con su justificación antes de tocar `firebase.json`.
 
 ## Avisos de OWASP ZAP relacionados con cabeceras (triaje, 2026-09-03)
 
-El escaneo pasivo del CI reporta nueve avisos con **cero fallos** (`FAIL-NEW: 0`,
-`PASS: 61`). Se documentan aquí porque tres de ellos tocan decisiones de esta
+El escaneo pasivo del CI reporta **cero fallos** (`FAIL-NEW: 0`, `PASS: 61`) y
+catorce avisos —el resumen los agrupa en nueve; el informe JSON los desglosa—. Se documentan aquí porque tres de ellos tocan decisiones de esta
 política y conviene que la próxima persona que los vea no los reabra desde cero.
 Ninguno se silenció con `IGNORE`: siguen apareciendo en cada informe.
 
@@ -113,7 +113,9 @@ Ninguno se silenció con `IGNORE`: siguen apareciendo en cada informe.
 | `10015`, `10049`, `10050` (caché) | No aplicable | Los activos con huella se sirven `immutable` **a propósito** (ver la sección de cabeceras). No hay respuestas con datos personales que cachear: el sitio no tiene sesión. |
 | `10024` Información sensible en la URL | Falso positivo | Lo dispara `?utm_*` del enlace de la campaña. No hay datos personales en ninguna URL. |
 | `10094` Divulgación de Base64 | Falso positivo | Son los hashes SHA-256 de la propia CSP y los `integrity` del build. |
-| `90005` Falta `Sec-Fetch-Dest` | Fuera de nuestro control | Es una cabecera de **petición** que pone el navegador; ZAP no la manda. Nada que corregir en el servidor. |
+| `90005` Faltan `Sec-Fetch-Dest`, `-Mode`, `-Site`, `-User` | Fuera de nuestro control | Son cabeceras de **petición** que pone el navegador; ZAP no las manda. Nada que corregir en el servidor. |
+| `120000` Información en `localStorage` | Sin datos personales | Solo hay dos claves, `novuchat.tema` y `novuchat.consentimiento`: la preferencia de tema y la decisión sobre la analítica. El sitio no tiene sesión ni guarda nada del visitante. |
+| `90004` Falta `Cross-Origin-Resource-Policy` | No aplicable | Misma regla que COEP. `CORP` protege recursos ante quien los incruste; aquí lo que se sirve es un sitio público pensado para verse. |
 
 Los tres primeros se revisan en cada release. Si algún día se deja de usar
 reCAPTCHA, `10055` y `90004` cambian de veredicto.
