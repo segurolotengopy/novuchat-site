@@ -28,7 +28,22 @@ import {
  * Se corre con el emulador:  pnpm test:rules
  */
 
-const PROYECTO = 'novuchat-site-reglas';
+/**
+ * El emulador puede venir de dos lados, y la suite tiene que servir para los
+ * dos sin cambiar una línea:
+ *
+ *  · En local, `pnpm test:rules:local` lo levanta y exporta
+ *    `FIRESTORE_EMULATOR_HOST`.
+ *  · En el CI, el propio workflow lo levanta antes de llamar a `npm run
+ *    test:rules`, con su proyecto y sus puertos. Si la suite volviera a
+ *    levantarlo, el segundo emulador falla con «port taken» —que es
+ *    exactamente lo que ocurrió— .
+ */
+const [HOST_EMULADOR, PUERTO_EMULADOR] = (
+  process.env['FIRESTORE_EMULATOR_HOST'] ?? '127.0.0.1:8241'
+).split(':');
+
+const PROYECTO = process.env['GCLOUD_PROJECT'] ?? 'novuchat-site-reglas';
 
 let entorno: RulesTestEnvironment;
 
@@ -37,8 +52,8 @@ beforeAll(async () => {
     projectId: PROYECTO,
     firestore: {
       rules: readFileSync('firestore.rules', 'utf8'),
-      host: '127.0.0.1',
-      port: 8241,
+      host: HOST_EMULADOR ?? '127.0.0.1',
+      port: Number(PUERTO_EMULADOR ?? 8241),
     },
   });
 });

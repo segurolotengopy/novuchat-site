@@ -22,14 +22,16 @@
     "lint": "eslint . && stylelint \"src/**/*.css\" --allow-empty-input",
     "typecheck": "astro check --minimumSeverity error",
     "test": "vitest run --passWithNoTests --exclude \"pruebas/humo/**\" --exclude \"pruebas/reglas/**\" --exclude \"pruebas/backend/**\" --exclude \"node_modules/**\"",
-    "test:rules": "firebase emulators:exec --only firestore --project novuchat-site-reglas \"./scripts/pruebas-emulador.sh pruebas/reglas\"",
+    "test:rules": "./scripts/pruebas-emulador.sh pruebas/reglas",
     "rag:indexar": "tsx scripts/indexar-conocimiento.ts",
     "listo": "node scripts/verificar-listo.mjs",
     "rag:verificar": "tsx scripts/indexar-conocimiento.ts --verificar",
     "funciones:build": "pnpm --dir functions run build",
     "csp:verificar": "node scripts/sellar-csp.mjs --verificar",
     "rag:calibrar": "tsx scripts/calibrar-umbral.ts",
-    "test:backend": "firebase emulators:exec --only functions,firestore --project novuchat-site \"./scripts/pruebas-emulador.sh pruebas/backend\""
+    "test:backend": "./scripts/pruebas-emulador.sh pruebas/backend",
+    "test:rules:local": "firebase emulators:exec --only firestore --project novuchat-site-reglas \"./scripts/pruebas-emulador.sh pruebas/reglas\"",
+    "test:backend:local": "firebase emulators:exec --only functions,firestore --project novuchat-site \"./scripts/pruebas-emulador.sh pruebas/backend\""
   },
   "dependencies": {
     "@astrojs/preact": "^6.0.5",
