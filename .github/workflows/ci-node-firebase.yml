@@ -468,6 +468,24 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Habilitar pnpm e instalar dependencias de las Functions
+        # `firebase deploy` incluye `functions` (vars.FIREBASE_DEPLOY_ONLY), y
+        # eso dispara el hook `predeploy` de firebase.json:
+        # `pnpm --dir functions run build`.
+        #
+        # Este job solo preparaba Node, no pnpm, así que el despliegue moría con
+        # «/bin/sh: 1: pnpm: not found» y exit 127 — y lo hacía DESPUÉS de pasar
+        # la compuerta de aprobación humana, que es el peor momento posible para
+        # enterarse. El job de calidad sí habilita corepack; este se quedó sin
+        # esa parte.
+        #
+        # `functions/` tiene su propio lockfile: no es un paquete del workspace.
+        run: |
+          set -euo pipefail
+          corepack enable
+          corepack prepare --activate
+          pnpm --dir functions install --frozen-lockfile
+
       - name: Conservar copia de la versión actual (canal "previa" para rollback)
         # Clona el contenido en vivo a un canal de vista previa de larga
         # duración. Si el health check posterior falla, post-despliegue lo

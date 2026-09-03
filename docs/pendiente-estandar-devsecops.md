@@ -189,3 +189,48 @@ Los defectos 3, 5 y 6 estaban encadenados y solo se ven de uno en uno: el
 correr, y hasta que corrió no se supo que declaraba ecosistemas inexistentes.
 Merece la pena arreglarlos juntos en el estándar: por separado, cada uno esconde
 al siguiente.
+
+---
+
+## 7. El job de producción no prepara pnpm, y las Functions no se pueden desplegar
+
+**Archivo del estándar:** `.github/workflows/ci-node-firebase.yml`, job
+`desplegar-produccion`.
+
+El job prepara Node pero no corepack, a diferencia del job `calidad`, que sí lo
+hace. Mientras el despliegue se limite a `hosting,firestore:rules` —el valor por
+defecto de `FIREBASE_DEPLOY_ONLY`— no se nota. En cuanto se añade `functions`,
+que es lo normal en un proyecto Firebase, `firebase deploy` ejecuta el hook
+`predeploy` de `firebase.json` y este falla:
+
+```
+/bin/sh: 1: pnpm: not found
+Error: functions predeploy error: Command terminated with non-zero exit code 127
+```
+
+**Lo peor es cuándo falla.** El job corre *después* de la compuerta de
+aprobación del Environment `production`. Es decir: la persona aprueba el pase a
+producción, y solo entonces se descubre que el despliegue no puede ni empezar.
+Un fallo así debería salir en `calidad`, no al otro lado de la puerta.
+
+**Corrección aplicada:** habilitar corepack e instalar las dependencias de
+`functions/` antes del despliegue.
+
+**Recomendación para el estándar:** preparar corepack en `desplegar-produccion`
+igual que en `calidad`, o validar en `preparar` que el hook `predeploy` de
+`firebase.json` se pueda ejecutar con las herramientas que el job de despliegue
+tendrá disponibles.
+
+### Nota aparte: el primer despliegue no tiene copia de rollback
+
+En el mismo run apareció, en el paso de la copia para rollback:
+
+```
+Error: Could not find a version on the channel live for site novuchat-site.
+```
+
+Es esperable —no hay nada en `live` todavía— y el paso lleva
+`continue-on-error: true`, así que no rompe nada. Vale la pena saberlo igual:
+**el primer pase a producción es el único sin vuelta atrás automática.** A
+partir del segundo, el canal `previa` ya tiene contenido. El paso de rollback de
+`post-despliegue` contempla el caso y no falla si el canal no existe.
