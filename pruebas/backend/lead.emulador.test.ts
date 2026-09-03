@@ -16,6 +16,10 @@ import { beforeAll, describe, expect, it } from 'vitest';
  * Se corre con:  pnpm test:backend
  */
 
+// Son los emuladores locales, que solo hablan HTTP y solo escuchan en el bucle
+// local. La regla busca peticiones inseguras de una aplicación real; aquí
+// suprimirla es correcto, y hacerlo con un comentario en la línea deja el
+// motivo junto al código en vez de esconderlo en una excepción global.
 const FUNCION = 'http://127.0.0.1:5241/novuchat-site/us-east1/lead';
 const FIRESTORE = 'http://127.0.0.1:8241';
 const PROYECTO = 'novuchat-site';
@@ -27,6 +31,7 @@ interface Respuesta {
 
 /** Invoca la Function con el protocolo de las llamables. */
 async function llamar(datos: unknown, ip = '203.0.113.10'): Promise<Respuesta> {
+  // nosemgrep: typescript.react.security.react-insecure-request.react-insecure-request
   const respuesta = await fetch(FUNCION, {
     method: 'POST',
     headers: {
@@ -50,6 +55,7 @@ async function llamar(datos: unknown, ip = '203.0.113.10'): Promise<Respuesta> {
 const COMO_PROPIETARIO = { Authorization: 'Bearer owner' };
 
 async function limpiarFirestore(): Promise<void> {
+  // nosemgrep: typescript.react.security.react-insecure-request.react-insecure-request
   await fetch(
     `${FIRESTORE}/emulator/v1/projects/${PROYECTO}/databases/(default)/documents`,
     { method: 'DELETE', headers: COMO_PROPIETARIO },
@@ -57,6 +63,7 @@ async function limpiarFirestore(): Promise<void> {
 }
 
 async function contarLeads(): Promise<number> {
+  // nosemgrep: typescript.react.security.react-insecure-request.react-insecure-request
   const respuesta = await fetch(
     `${FIRESTORE}/v1/projects/${PROYECTO}/databases/(default)/documents/leads`,
     { headers: COMO_PROPIETARIO },
@@ -66,6 +73,7 @@ async function contarLeads(): Promise<number> {
 }
 
 async function leerLeads(): Promise<Record<string, unknown>[]> {
+  // nosemgrep: typescript.react.security.react-insecure-request.react-insecure-request
   const respuesta = await fetch(
     `${FIRESTORE}/v1/projects/${PROYECTO}/databases/(default)/documents/leads`,
     { headers: COMO_PROPIETARIO },

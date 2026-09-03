@@ -175,7 +175,10 @@ jobs:
   # Fase 2 — seguridad-estatica: reusable OSS (todos los modos).
   # NOTA: en el repositorio del proyecto la ruta es local
   # (./.github/workflows/_reusable-security.yml); bootstrap-repo.sh copia el
-  # archivo. `secrets: inherit` pasa GITLEAKS_LICENSE y SNYK_TOKEN si existen.
+  # archivo. Los secretos se pasan UNO POR UNO y no con `secrets: inherit`:
+  # heredar entrega al workflow reutilizable todos los secretos del repositorio,
+  # incluidos los de despliegue, cuando solo necesita dos. Semgrep lo marca como
+  # hallazgo ERROR y tiene razón.
   # subir_sarif: solo cuando Code Scanning está disponible (público o GHAS).
   # ---------------------------------------------------------------------------
   seguridad-estatica:
@@ -195,7 +198,9 @@ jobs:
       bloquear_en: ${{ vars.BLOQUEAR_EN || 'CRITICAL,HIGH' }}
       subir_sarif: ${{ github.event.repository.visibility == 'public' || vars.GHAS_ENABLED == 'true' }}
       ref: ${{ inputs.tag || '' }}
-    secrets: inherit
+    secrets:
+      GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
   # ---------------------------------------------------------------------------
   # Fase 3 — construir: build de producción (Vite). APP_ENV selecciona el
@@ -232,10 +237,27 @@ jobs:
       - name: Instalar dependencias
         run: ${{ needs.preparar.outputs.instalar }}
 
+      # Los PUBLIC_* son identificadores públicos —viajan en el paquete del
+      # navegador—, pero la prohibición 1 de CLAUDE.md no admite matices: no van
+      # en un archivo versionado. Se guardan como VARIABLES del repositorio (no
+      # secretos) y se inyectan aquí. Sin ellos el build falla a propósito:
+      # `src/lib/consola.ts` valida la URL de la consola contra una lista blanca
+      # y prefiere romper la compilación antes que publicar un enlace erróneo.
       - name: Build (${{ matrix.ambiente }})
         env:
           APP_ENV: ${{ matrix.ambiente }}
           VITE_APP_VERSION: ${{ github.ref_name }}-${{ github.sha }}
+          PUBLIC_URL_CONSOLA: ${{ vars.PUBLIC_URL_CONSOLA }}
+          PUBLIC_RECAPTCHA_SITE_KEY: ${{ vars.PUBLIC_RECAPTCHA_SITE_KEY }}
+          PUBLIC_FIREBASE_API_KEY: ${{ vars.PUBLIC_FIREBASE_API_KEY }}
+          PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ vars.PUBLIC_FIREBASE_AUTH_DOMAIN }}
+          PUBLIC_FIREBASE_PROJECT_ID: ${{ vars.PUBLIC_FIREBASE_PROJECT_ID }}
+          PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ vars.PUBLIC_FIREBASE_STORAGE_BUCKET }}
+          PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
+          PUBLIC_FIREBASE_APP_ID: ${{ vars.PUBLIC_FIREBASE_APP_ID }}
+          PUBLIC_REGION_FUNCTIONS: ${{ vars.PUBLIC_REGION_FUNCTIONS }}
+          PUBLIC_META_PIXEL_ID: ${{ vars.PUBLIC_META_PIXEL_ID }}
+          PUBLIC_GA4_MEASUREMENT_ID: ${{ vars.PUBLIC_GA4_MEASUREMENT_ID }}
         run: npm run build -- --mode "$APP_ENV"
 
       - name: Guardar dist/
