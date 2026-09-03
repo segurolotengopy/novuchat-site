@@ -38,6 +38,18 @@
     u+1ea0-1ef9, u+20ab;
 }
 
+/* `hidden` tiene que ganar SIEMPRE.
+   El `[hidden] { display: none }` del navegador es una regla de agente de
+   usuario, y CUALQUIER `display` de autor le gana, sin importar la
+   especificidad. `.consentimiento { display: flex }` lo anulaba: el banner de
+   consentimiento guardaba la decisión y se quedaba en pantalla, y reaparecía en
+   cada página aunque el visitante ya hubiera elegido. Estuvo así en producción.
+   Es el mismo tipo de fallo que `.nav a` ganándole a `.btn-cta`, y por eso se
+   arregla de raíz y no en el componente. */
+[hidden] {
+  display: none !important;
+}
+
 *,
 *::before,
 *::after {
