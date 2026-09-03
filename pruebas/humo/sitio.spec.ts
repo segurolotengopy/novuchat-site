@@ -96,6 +96,25 @@ test('al aceptar el consentimiento se pide la medición', async ({ page }) => {
   ).toBe(true);
 });
 
+test('el banner de consentimiento SE VA al elegir, y no vuelve', async ({ page }) => {
+  // Esta prueba faltaba, y su ausencia dejó un fallo en producción: las otras
+  // dos comprueban qué se carga tras decidir, no que el banner desaparezca.
+  // `.consentimiento { display: flex }` anulaba el `[hidden]` del navegador
+  // —cualquier `display` de autor le gana—, así que el clic guardaba la
+  // decisión y el banner se quedaba ahí. Parecía que los botones no hacían
+  // nada, y reaparecía en cada página.
+  await page.goto('/');
+  const banner = page.locator('[data-consentimiento]');
+  await expect(banner).toBeVisible();
+
+  await page.getByRole('button', { name: 'Solo lo necesario' }).click();
+  await expect(banner).toBeHidden();
+
+  // Y al volver a entrar tampoco reaparece: la decisión ya está tomada.
+  await page.goto('/precios');
+  await expect(page.locator('[data-consentimiento]')).toBeHidden();
+});
+
 test('el conmutador de tema cambia y persiste', async ({ page }) => {
   await page.goto('/');
   const raiz = page.locator('html');

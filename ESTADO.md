@@ -214,6 +214,20 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     `access-control-allow-origin: https://sitio-atacante.example`. Con App Check
     en monitoreo, nada lo compensaba. Corregido fijando los tres orígenes del
     sitio.
+29. **`[hidden]` no oculta nada si el componente declara `display`.** El
+    `[hidden] { display: none }` del navegador es una regla de agente de
+    usuario, y **cualquier `display` de autor le gana**, sin importar la
+    especificidad. `.consentimiento { display: flex }` anulaba el atributo: el
+    banner guardaba la decisión y se quedaba en pantalla —parecía que los
+    botones no funcionaban— y reaparecía en cada página aunque el visitante ya
+    hubiera elegido. **Estuvo así en producción.** Arreglado de raíz en el
+    reinicio (`[hidden] { display: none !important }`), no en el componente,
+    porque es el mismo tipo de fallo que `.nav a` ganándole a `.btn-cta`.
+30. **Las tres pruebas de consentimiento pasaban con el banner roto.**
+    Comprobaban qué se carga tras decidir —que es el riesgo de privacidad— pero
+    ninguna comprobaba que el banner *desapareciera*. Una prueba puede cubrir la
+    consecuencia y dejar el gesto sin cubrir. Añadida la que faltaba, y falla
+    sin el arreglo.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
