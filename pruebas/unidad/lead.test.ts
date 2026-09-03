@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { construirAviso, type DatosLead } from '../../functions/src/lead';
+import { construirAviso, type DatosLead } from '../../functions/src/lead-logica';
 
 /**
  * Riesgo S-14 del doc 04: el aviso de un lead sale hacia un tercero

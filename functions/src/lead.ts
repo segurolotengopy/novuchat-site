@@ -6,13 +6,8 @@ import { createHash } from 'node:crypto';
 import { z } from 'zod';
 
 import { consumirCupo, identificar, VENTANAS_LEAD } from './limites.js';
-import {
-  ALIAS_VALIDO,
-  CAMPOS_RESERVADOS_FORMSUBMIT,
-  CORREO_VALIDO,
-  neutralizar,
-  neutralizarEncabezado,
-} from './saneo.js';
+import { ALIAS_VALIDO, CORREO_VALIDO } from './saneo.js';
+import { construirAviso, type DatosLead } from './lead-logica.js';
 
 const FORMSUBMIT_ALIAS = defineSecret('FORMSUBMIT_ALIAS');
 const SAL_HASH = defineSecret('SAL_HASH');
@@ -49,51 +44,11 @@ const esquema = z.object({
   empresaWeb: z.string().max(200).default(''),
 });
 
-export type DatosLead = z.infer<typeof esquema>;
-
-/**
- * Cuerpo del aviso por correo.
- *
- * NUNCA se vuelcan los campos del formulario tal cual en la petición
- * (riesgo S-14 del doc 04). FormSubmit interpreta como instrucciones los campos
- * que empiezan por guion bajo —`_cc`, `_replyto`, `_next`— así que un
- * `spread` del objeto recibido dejaría que quien rellena el formulario
- * redirigiera el aviso a su propia casilla. Se construye campo por campo, con
- * nombres fijos, y cada valor pasa por `neutralizar`.
- */
-export function construirAviso(datos: DatosLead): Record<string, string> {
-  const cuerpo: Record<string, string> = {
-    _subject: neutralizarEncabezado(
-      `Nuevo lead de NovuChat: ${datos.negocio}`,
-      120,
-    ),
-    // Sin plantilla HTML del tercero: el correo llega como tabla simple.
-    _template: 'table',
-    _captcha: 'false',
-    Nombre: neutralizar(datos.nombre, 80),
-    Negocio: neutralizar(datos.negocio, 120),
-    Correo: neutralizar(datos.correo, 160),
-    WhatsApp: neutralizar(datos.whatsapp, 20),
-    Rubro: neutralizar(datos.rubro, 20),
-    Ciudad: neutralizar(datos.ciudad, 80),
-    'Clientes por dia': neutralizar(datos.clientes, 40),
-    'Que le interesa': neutralizar(datos.interes, 60),
-    'Plan que mira': neutralizar(datos.plan, 20),
-    Mensaje: neutralizar(datos.mensaje, 2000),
-    'Pagina de origen': neutralizar(datos.origen.pagina, 120),
-    Idioma: neutralizar(datos.origen.idioma, 4),
-  };
-
-  // Doble red: si algún día alguien agrega un campo dinámico aquí arriba, este
-  // barrido impide que un nombre reservado se cuele.
-  for (const reservado of CAMPOS_RESERVADOS_FORMSUBMIT) {
-    if (reservado !== '_subject' && reservado !== '_template' && reservado !== '_captcha') {
-      delete cuerpo[reservado];
-    }
-  }
-
-  return cuerpo;
-}
+// El esquema de zod y la interfaz de `lead-logica.ts` describen lo mismo; esta
+// línea falla la compilación si se separan.
+type Comprobacion = z.infer<typeof esquema> extends DatosLead ? true : never;
+const _formaCompatible: Comprobacion = true;
+void _formaCompatible;
 
 /**
  * Aviso por correo al equipo. **Es opcional a propósito.**
