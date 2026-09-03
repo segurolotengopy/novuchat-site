@@ -11,12 +11,22 @@
 # Tiempo máximo por escaneo (imágenes grandes o monorepos)
 timeout: 10m
 
-# Severidades reportadas por defecto (los workflows bloquean en CRITICAL,HIGH;
-# MEDIUM se reporta en el informe para planificar su corrección)
-severity:
-  - CRITICAL
-  - HIGH
-  - MEDIUM
+# NO se fija `severity` aquí.
+#
+# DEFECTO DEL ESTÁNDAR, corregido en local (2026-09-02). El comentario de
+# arriba dice que «los workflows bloquean en CRITICAL,HIGH» y que MEDIUM solo
+# se reporta, pero el archivo de configuración de Trivy **tiene prioridad sobre
+# el parámetro del workflow**: con `severity` declarada aquí, cualquier hallazgo
+# MEDIUM hace fallar el pipeline y `bloquear_en` del manifiesto deja de
+# significar nada.
+#
+# Lo destapó CVE-2026-41907 (MEDIA) en `uuid@9.0.1`, dependencia transitiva de
+# firebase-admin sin versión parcheada disponible aguas arriba: bloqueaba todos
+# los runs sin que ningún control CRITICAL o HIGH estuviera en rojo.
+#
+# Al no declararla, manda el parámetro del workflow, que lee `bloquear_en` del
+# manifiesto. Esto conviene llevarlo a ~/SeguridadGeneral: afecta a cualquier
+# proyecto que use el estándar.
 
 # Código de salida cuando hay hallazgos de las severidades indicadas
 exit-code: 1
