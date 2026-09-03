@@ -177,6 +177,24 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 22. **La deduplicación necesita un índice compuesto** (`huellaCorreo` + `creado`).
     El emulador no lo pide y producción sí: sin él, el primer lead real habría
     fallado con `FAILED_PRECONDITION`. Está declarado en `firestore.indexes.json`.
+23. **El estándar DevSecOps trae dos controles que no hacen lo que dicen.**
+    Los dos se descubrieron con el pipeline en rojo y ningún hallazgo real
+    debajo, que es el patrón a reconocer:
+    - `.github/trivy.yaml` declaraba `severity`, y la configuración de Trivy
+      **manda sobre el parámetro del workflow**: cualquier MEDIUM rompía el
+      pipeline y `bloquear_en` del manifiesto no significaba nada.
+    - `zaproxy/action-baseline` con `fail_action: true` falla ante **cualquier**
+      alerta, WARN incluidas, aunque el workflow y `zap-rules.tsv` prometan que
+      solo bloquean las marcadas `FAIL`. Nueve avisos informativos tumbaban el
+      job con `FAIL-NEW: 0` y `PASS: 61`.
+    Los dos están corregidos en local y anotados en
+    `docs/pendiente-estandar-devsecops.md` para subirlos a `~/SeguridadGeneral`.
+24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
+    ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
+    informe, y entre ellos había tres que tocan decisiones de arquitectura
+    —`style-src unsafe-inline`, COEP, reflexión de parámetros—. Se dejaron
+    visibles y se escribió el veredicto de cada uno en `docs/csp.md`. Un aviso
+    que deja de verse deja de revisarse.
 
 ---
 
