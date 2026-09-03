@@ -14,17 +14,28 @@
 # Se nombra a @AndresAlberdi, no a @segurolotengopy: esta última es la cuenta
 # que abre las PR, y GitHub no acepta que el autor apruebe su propio cambio.
 # La separación de funciones del estándar se sostiene sobre esa distinción.
+#
+# LAS DOS CUENTAS SON PROPIETARIAS (2026-09-03). Al principio solo figuraba
+# @AndresAlberdi, con @segurolotengopy como autora de las PR. Funciona mientras
+# la cuenta activa no se mueva, pero basta un `gh auth switch` para abrir una PR
+# con la cuenta revisora y entonces NADIE puede aprobarla: GitHub no deja que el
+# autor apruebe, y `require_code_owner_review` exige que sea un propietario.
+# Pasó con la PR #8 y no tiene salida: hay que cerrarla y reabrirla.
+#
+# Con las dos cuentas como propietarias, la revisión la satisface siempre la que
+# no haya escrito la PR, sea cual sea. La separación de funciones se mantiene
+# —el autor sigue sin poder aprobarse—; lo que desaparece es el atasco.
 # =============================================================================
 
-*                           @AndresAlberdi
+*                           @AndresAlberdi @segurolotengopy
 
 # Rutas donde un descuido no se nota al mirar la página, y por eso conviene que
 # el aviso de revisión sea explícito aunque el propietario sea el mismo.
-/.github/                   @AndresAlberdi
-/.github/workflows/         @AndresAlberdi
-/.devsecops.yml             @AndresAlberdi
-/firestore.rules            @AndresAlberdi
-/firestore.indexes.json     @AndresAlberdi
-/firebase.json              @AndresAlberdi
-/functions/                 @AndresAlberdi
-/pnpm-lock.yaml             @AndresAlberdi
+/.github/                   @AndresAlberdi @segurolotengopy
+/.github/workflows/         @AndresAlberdi @segurolotengopy
+/.devsecops.yml             @AndresAlberdi @segurolotengopy
+/firestore.rules            @AndresAlberdi @segurolotengopy
+/firestore.indexes.json     @AndresAlberdi @segurolotengopy
+/firebase.json              @AndresAlberdi @segurolotengopy
+/functions/                 @AndresAlberdi @segurolotengopy
+/pnpm-lock.yaml             @AndresAlberdi @segurolotengopy
