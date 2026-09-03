@@ -31,7 +31,8 @@
     "rag:calibrar": "tsx scripts/calibrar-umbral.ts",
     "test:backend": "./scripts/pruebas-emulador.sh pruebas/backend",
     "test:rules:local": "firebase emulators:exec --only firestore --project novuchat-site-reglas \"./scripts/pruebas-emulador.sh pruebas/reglas\"",
-    "test:backend:local": "firebase emulators:exec --only functions,firestore --project novuchat-site \"./scripts/pruebas-emulador.sh pruebas/backend\""
+    "test:backend:local": "firebase emulators:exec --only functions,firestore --project novuchat-site \"./scripts/pruebas-emulador.sh pruebas/backend\"",
+    "asistente:probar": "tsx scripts/probar-asistente.ts"
   },
   "dependencies": {
     "@astrojs/preact": "^6.0.5",

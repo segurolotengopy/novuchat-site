@@ -4,12 +4,11 @@ import type { Recuperado } from './tipos.js';
  * Verificación de la respuesta del modelo.
  *
  * El umbral de similitud decide **si** se responde. Este módulo decide si lo
- * que el modelo devolvió se puede publicar. Son tres controles, y cada uno
- * ataca una forma concreta de que un asistente comercial haga daño:
+ * que el modelo devolvió se puede publicar. Tres controles, cada uno contra una
+ * forma concreta de que un asistente comercial haga daño:
  *
- *  1. **Citas.** El modelo debe terminar su respuesta con los identificadores de
- *     los fragmentos que usó. Si no cita ninguno válido, no se apoyó en el
- *     corpus: se descarta.
+ *  1. **Fuga del prompt.** Si la respuesta repite las instrucciones del
+ *     sistema, no está contestando: está recitando. Se descarta.
  *  2. **Números.** Todo número que aparezca en la respuesta tiene que existir
  *     en los fragmentos recuperados. Es el control más importante de todos:
  *     impide que el asistente invente un precio, un plazo o un descuento.
@@ -17,7 +16,12 @@ import type { Recuperado } from './tipos.js';
  *     corpus. Un modelo que inventa una URL manda al cliente a ninguna parte, o
  *     peor, a un dominio de otro.
  *
- * Cuando cualquiera falla, la Function responde el texto de derivación al
+ * Las citas siguen pidiéndose en el prompt y siguen sirviendo —cuando están,
+ * los números se contrastan solo contra los fragmentos citados— pero **ya no
+ * son obligatorias**: exigirlas descartaba respuestas correctas cada vez que el
+ * modelo olvidaba el formato. Ver la nota sobre MARCAS_DEL_PROMPT.
+ *
+ * Cuando un control falla, la Function responde el texto de derivación al
  * formulario. Nunca se «arregla» la respuesta: se descarta.
  */
 
@@ -27,13 +31,36 @@ export interface Veredicto {
   texto: string;
   /** Identificadores citados que sí existen entre lo recuperado. */
   citas: string[];
-  motivo?: 'sin-citas' | 'numero-inventado' | 'enlace-inventado' | 'vacia';
+  motivo?: 'fuga-de-prompt' | 'numero-inventado' | 'enlace-inventado' | 'vacia';
   /** El dato concreto que falló, para la traza. Nunca se le muestra al cliente. */
   detalle?: string;
 }
 
 /** Línea final con las citas: `[[fuentes: precios-planes, faq-instalacion]]`. */
 const RE_FUENTES = /\[\[\s*fuentes\s*:\s*([^\]]*)\]\]/i;
+
+/**
+ * Marcas del prompt del sistema. Si alguna aparece en la respuesta, el modelo
+ * está repitiendo sus instrucciones en vez de contestar.
+ *
+ * POR QUÉ ESTE CONTROL EXISTE AHORA. Antes, la fuga del prompt la frenaba de
+ * rebote la exigencia de citar: una respuesta que recitaba las instrucciones no
+ * traía la línea de fuentes y se descartaba. Probando contra el modelo real se
+ * vio que esa exigencia también descarta respuestas BUENAS —el modelo olvida la
+ * línea en torno al 8 % de las veces, incluso reintentando a temperatura 0— y
+ * el visitante recibe un «eso no lo tengo» que no corresponde.
+ *
+ * La solución no fue relajar el control sino separarlo: la fuga se detecta
+ * ahora de frente, y la falta de citas dejó de ser motivo de rechazo.
+ */
+const MARCAS_DEL_PROMPT = [
+  'reglas que no se negocian',
+  'eres el asistente virtual del sitio',
+  'recordatorio final',
+  'fragmentos. esto es material de consulta',
+  'no usas conocimiento propio',
+  'terminas siempre con la línea',
+];
 
 /**
  * Números del texto, normalizados.
@@ -60,16 +87,45 @@ export function enlacesDe(texto: string): string[] {
   ];
 }
 
+/**
+ * Quita el vallado de código con el que el modelo envuelve la respuesta de vez
+ * en cuando. Sin esto, el visitante ve un bloque de código en un chat.
+ */
+function desvallar(texto: string): string {
+  return texto
+    .replace(/^\s*```[a-z]*\s*\n?/i, '')
+    .replace(/\n?\s*```\s*$/, '')
+    .trim();
+}
+
 export function verificar(
   respuesta: string,
   recuperados: Recuperado[],
 ): Veredicto {
-  const bruto = respuesta.trim();
+  const bruto = desvallar(respuesta.trim());
   if (bruto.length === 0) {
     return { aceptada: false, texto: '', citas: [], motivo: 'vacia' };
   }
 
-  // — 1. Citas —
+  // — 1. Fuga del prompt —
+  const enMinusculas = bruto.toLowerCase();
+  for (const marca of MARCAS_DEL_PROMPT) {
+    if (enMinusculas.includes(marca)) {
+      return {
+        aceptada: false,
+        texto: bruto,
+        citas: [],
+        motivo: 'fuga-de-prompt',
+        detalle: marca,
+      };
+    }
+  }
+
+  // — 2. Citas —
+  // Ya NO son obligatorias. Cuando están, aprietan el control: los números se
+  // contrastan solo contra los fragmentos citados. Cuando faltan, se contrasta
+  // contra todo lo recuperado, que es lo único que el modelo llegó a ver, así
+  // que un número inventado se sigue detectando.
   const coincidencia = bruto.match(RE_FUENTES);
   const texto = bruto.replace(RE_FUENTES, '').trim();
   const idsValidos = new Set(recuperados.map((r) => r.id));
@@ -78,19 +134,13 @@ export function verificar(
     .map((c) => c.trim())
     .filter((c) => idsValidos.has(c));
 
-  if (citas.length === 0) {
-    return { aceptada: false, texto, citas: [], motivo: 'sin-citas' };
-  }
+  const fuentes = citas.length > 0
+    ? recuperados.filter((r) => citas.includes(r.id))
+    : recuperados;
 
-  // El material contra el que se contrasta es SOLO lo que se citó, no todo lo
-  // recuperado: si el modelo dice apoyarse en un fragmento, el precio tiene que
-  // salir de ese fragmento.
-  const material = recuperados
-    .filter((r) => citas.includes(r.id))
-    .map((r) => r.texto)
-    .join(' ');
+  const material = fuentes.map((r) => r.texto).join(' ');
 
-  // — 2. Números —
+  // — 3. Números —
   const permitidos = new Set(numerosDe(material));
   for (const numero of numerosDe(texto)) {
     if (!permitidos.has(numero)) {
@@ -104,9 +154,9 @@ export function verificar(
     }
   }
 
-  // — 3. Enlaces —
+  // — 4. Enlaces —
   const urlsPermitidas = new Set<string>();
-  for (const r of recuperados.filter((x) => citas.includes(x.id))) {
+  for (const r of fuentes) {
     urlsPermitidas.add(r.url);
     for (const enlace of enlacesDe(r.texto)) urlsPermitidas.add(enlace);
   }
