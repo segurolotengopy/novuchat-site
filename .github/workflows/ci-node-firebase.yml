@@ -165,11 +165,19 @@ jobs:
 
       - name: Pruebas de reglas de Firestore (emulador)
         if: needs.preparar.outputs.hay_test_rules == 'true'
-        # El emulador necesita Java (preinstalado en ubuntu-latest).
-        run: >-
-          npx --yes firebase-tools@${{ env.FIREBASE_TOOLS_VERSION }}
-          emulators:exec --only firestore --project demo-pruebas
-          "npm run test:rules"
+        # El emulador necesita Java. El JDK por defecto del runner es anterior
+        # al 21 y firebase-tools ya no lo admite («no longer supports Java
+        # version before 21»), así que se apunta al JDK 21 que la imagen de
+        # Ubuntu ya trae. Se prefiere eso a agregar una acción más que fijar
+        # por SHA y mantener.
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME_21_X64 }}
+        run: |
+          export PATH="$JAVA_HOME/bin:$PATH"
+          java -version
+          npx --yes firebase-tools@${{ env.FIREBASE_TOOLS_VERSION }} \
+            emulators:exec --only firestore --project demo-pruebas \
+            "npm run test:rules"
 
   # ---------------------------------------------------------------------------
   # Fase 2 — seguridad-estatica: reusable OSS (todos los modos).
