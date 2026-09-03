@@ -50,3 +50,6 @@ secrets.tfvars
 .trivy-cache/
 .trivyignore.yaml
 .gitleaksignore
+
+# Caché de Python (scripts del CI)
+__pycache__/

@@ -97,3 +97,23 @@ que alguien se entere.
 Cualquier dominio nuevo es una **decisión explícita**, no un ajuste de
 conveniencia: primero se busca la alternativa autoalojada. Si no la hay, se
 agrega aquí con su justificación antes de tocar `firebase.json`.
+
+## Avisos de OWASP ZAP relacionados con cabeceras (triaje, 2026-09-03)
+
+El escaneo pasivo del CI reporta nueve avisos con **cero fallos** (`FAIL-NEW: 0`,
+`PASS: 61`). Se documentan aquí porque tres de ellos tocan decisiones de esta
+política y conviene que la próxima persona que los vea no los reabra desde cero.
+Ninguno se silenció con `IGNORE`: siguen apareciendo en cada informe.
+
+| Aviso | Veredicto | Razón |
+|---|---|---|
+| `10055` CSP: `style-src unsafe-inline` | **Aceptado, ya documentado** | reCAPTCHA Enterprise inyecta estilos en línea y el sitio usa atributos `style`. Sin `unsafe-inline` el widget no se dibuja. El vector que preocupa —inyección de contenido— está cerrado por otro lado: `script-src` no lo lleva y el CI prohíbe `innerHTML`, `set:html`, `eval` y `new Function`. |
+| `10031` Atributo HTML controlable por el usuario (potencial XSS) | **No aplicable** | Es una heurística sobre reflexión de parámetros. El sitio es **estático**: la respuesta se construye en el build y no existe ningún camino por el que un parámetro de la petición llegue al HTML. La única escritura al DOM es de las islas, y ninguna usa `innerHTML` (verificado por `pnpm verificar`). |
+| `90004` Falta `Cross-Origin-Embedder-Policy` | **Decisión: no se añade** | `require-corp` obliga a que **todo** recurso de terceros mande `Cross-Origin-Resource-Policy`. reCAPTCHA, GA4 y el píxel de Meta no lo hacen: la cabecera rompería el formulario y la analítica. Lo que habilita —aislamiento de origen para `SharedArrayBuffer` y temporizadores de alta resolución— no se usa. `Cross-Origin-Opener-Policy` sí está puesta, que es la que aporta aislamiento sin romper nada. |
+| `10015`, `10049`, `10050` (caché) | No aplicable | Los activos con huella se sirven `immutable` **a propósito** (ver la sección de cabeceras). No hay respuestas con datos personales que cachear: el sitio no tiene sesión. |
+| `10024` Información sensible en la URL | Falso positivo | Lo dispara `?utm_*` del enlace de la campaña. No hay datos personales en ninguna URL. |
+| `10094` Divulgación de Base64 | Falso positivo | Son los hashes SHA-256 de la propia CSP y los `integrity` del build. |
+| `90005` Falta `Sec-Fetch-Dest` | Fuera de nuestro control | Es una cabecera de **petición** que pone el navegador; ZAP no la manda. Nada que corregir en el servidor. |
+
+Los tres primeros se revisan en cada release. Si algún día se deja de usar
+reCAPTCHA, `10055` y `90004` cambian de veredicto.
