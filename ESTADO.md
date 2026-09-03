@@ -189,6 +189,31 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
       job con `FAIL-NEW: 0` y `PASS: 61`.
     Los dos están corregidos en local y anotados en
     `docs/pendiente-estandar-devsecops.md` para subirlos a `~/SeguridadGeneral`.
+25. **El primer pase a producción costó cinco intentos, y ninguno falló por el
+    código del sitio.** Todos fueron condiciones del entorno o de la plantilla
+    del estándar, y cada uno tapaba al siguiente: `pnpm` ausente en el job de
+    despliegue → falta de `datastore.indexAdmin` → `cloudbilling` sin habilitar
+    → `@google-cloud/functions-framework` ausente → política de limpieza de
+    Artifact Registry sin definir. Lección: antes de un primer pase conviene
+    verificar por adelantado permisos, APIs y dependencias del *buildpack*, no
+    ir descubriéndolos de uno en uno al otro lado de la compuerta de aprobación.
+26. **`firebase deploy` puede salir con código 0 habiendo fallado.** Rotula los
+    fallos de Functions como avisos y continúa; la versión de hosting se queda
+    en `CREATED` y nunca pasa a `FINALIZED`. El paso dio verde con las dos
+    Functions caídas y el sitio en 404, diciendo «Producción desplegada». Lo
+    destapó el health check, no el despliegue. Corregido: ahora se revisa la
+    salida y se falla ante marcas de fallo.
+27. **Una función *creada* y una *actualizada* no quedan iguales.** Firebase le
+    pone el invocador público (`allUsers`) a la que crea, pero no lo reaplica al
+    actualizar. Como `lead` ya existía de un intento parcial, quedó devolviendo
+    403 del frontend de Google a todo el mundo —el formulario del sitio muerto—
+    mientras `asistente`, recién creada, funcionaba. El pipeline dio verde. Se
+    comprueba con `gcloud run services get-iam-policy`.
+28. **`onCall` no restringe orígenes por defecto.** Sin la opción `cors`, la
+    función refleja el origen que le pregunten: producción devolvía
+    `access-control-allow-origin: https://sitio-atacante.example`. Con App Check
+    en monitoreo, nada lo compensaba. Corregido fijando los tres orígenes del
+    sitio.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
