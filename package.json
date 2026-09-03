@@ -45,6 +45,7 @@
     "@firebase/rules-unit-testing": "^5.0.2",
     "@playwright/test": "^1.62.1",
     "@types/node": "^26.4.1",
+    "@vitest/coverage-v8": "^4.1.11",
     "axe-core": "^4.13.0",
     "eslint": "^10.9.1",
     "eslint-plugin-astro": "^3.1.0",
