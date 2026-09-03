@@ -120,3 +120,38 @@ bloquean la fusión**, así que el estándar se marca a sí mismo y se bloquea s
 
 Corregido añadiendo `cooldown` a los cinco ecosistemas (mayor 30 días, menor 7,
 parche 3). Conviene llevarlo a la plantilla.
+
+---
+
+## 5. `dependabot.yml` con `ignore` vacío: Dependabot rechaza el archivo entero
+
+La plantilla trae, en la entrada de npm:
+
+```yaml
+    ignore:
+      # Ejemplo de excepción con justificación (revisar cada trimestre):
+      # - dependency-name: "firebase"
+      #   update-types: ["version-update:semver-major"]
+      []
+```
+
+Ese `[]` hace fallar la validación de Dependabot:
+
+```
+The property '#/updates/1/ignore' did not contain a minimum number of items 1
+```
+
+**Y el archivo se rechaza entero**, así que **Dependabot no corre en absoluto**:
+ni actualizaciones de seguridad, ni de versiones, en ningún ecosistema. El
+repositorio parece tener gestión de dependencias y no la tiene.
+
+Es el más silencioso de los cinco. No rompe el pipeline —la validación de
+Dependabot no es un check obligatorio—, solo deja la PR en `UNSTABLE`, que es
+fácil confundir con «checks todavía corriendo». Se descubrió porque `UNSTABLE`
+persistía con todo lo demás en verde.
+
+**Corrección aplicada:** quitar la clave `ignore` y dejar el ejemplo comentado.
+Una lista de excepciones vacía no significa nada; la ausencia de la clave sí.
+
+**Recomendación para el estándar:** quitar el `[]` de la plantilla y validar
+`dependabot.yml` en el bootstrap contra el esquema de Dependabot.

@@ -74,11 +74,14 @@ updates:
       npm-desarrollo:
         dependency-type: development
         update-types: [minor, patch]
-    ignore:
-      # Ejemplo de excepción con justificación (revisar cada trimestre):
-      # - dependency-name: "firebase"
-      #   update-types: ["version-update:semver-major"]
-      []
+    # Sin excepciones por ahora. `ignore` NO puede quedar como lista vacía:
+    # Dependabot exige al menos un elemento y rechaza el archivo entero
+    # («did not contain a minimum number of items 1»). Si hace falta una,
+    # se descomenta el bloque y se revisa cada trimestre:
+    #
+    # ignore:
+    #   - dependency-name: "firebase"
+    #     update-types: ["version-update:semver-major"]
 
   # ---- pip (Python / FastAPI) --------------------------------------------------
   - package-ecosystem: pip
