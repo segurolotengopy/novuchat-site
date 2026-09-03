@@ -22,4 +22,19 @@ seguridad:
   dast: true
   zap_reglas: .github/zap-rules.tsv
   bloquear_en: [CRITICAL, HIGH]   # se puede endurecer (añadir MEDIUM), nunca relajar
-  excepciones: []                 # id, herramienta, componente, justificacion, aprobado_por, creado, vence
+  excepciones:                    # id, herramienta, componente, justificacion, aprobado_por, creado, vence
+    - id: CVE-2026-41907
+      herramienta: trivy
+      componente: novuchat-site
+      justificacion: >-
+        uuid@9.0.1 llega como dependencia transitiva de firebase-admin
+        (firebase-admin > @google-cloud/storage > gaxios > uuid) y no existe
+        versión parcheada alcanzable: gaxios 6.x fija uuid ^9, y firebase-admin
+        14.3.0 es la última publicada. No se puede forzar la versión sin salirse
+        del rango que declara gaxios. El impacto real es nulo en este proyecto:
+        las Functions no generan identificadores con uuid, solo lo hace el SDK
+        internamente para trazas de peticiones. Se revisa cuando firebase-admin
+        actualice gaxios.
+      aprobado_por: Andres Alberdi
+      creado: 2026-09-02
+      vence: 2026-12-01
