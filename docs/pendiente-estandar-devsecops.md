@@ -72,3 +72,51 @@ salen con código 0; los mismos nueve más una alerta `10020`
 Llevar las dos correcciones al estándar. La segunda incluye un archivo nuevo
 (`.github/scripts/evaluar-zap.py`), que el `bootstrap-repo.sh` tendría que
 copiar junto con `zap-rules.tsv`.
+
+---
+
+## 3. `CODEOWNERS` llega sin rellenar y bloquea el repositorio
+
+**Archivos del estándar:** `.github/CODEOWNERS`, `bootstrap-repo.sh`, ruleset
+`proteger-main`.
+
+La plantilla nombra equipos de marcador —`@ORG/desarrollo`, `@ORG/plataforma`,
+`@ORG/seguridad`— y `bootstrap-repo.sh` no los sustituye por nada. A la vez, el
+ruleset que crea el propio bootstrap activa `require_code_owner_review: true`.
+
+**El resultado es un bloqueo sin salida.** GitHub busca un propietario válido
+para las rutas tocadas, no encuentra ninguno porque esos equipos no existen, y
+entonces **ninguna aprobación satisface el requisito**. La PR queda en `BLOCKED`
+con una aprobación legítima ya registrada y sin ningún mensaje que explique por
+qué. Es especialmente confuso porque `reviewDecision` se queda en `null` en vez
+de decir `REVIEW_REQUIRED`.
+
+**Cómo se destapó.** PR #1 de `novuchat-site`: aprobada por `@AndresAlberdi`
+sobre el commit correcto, con los 20 checks en verde, y aun así sin poder
+fusionarse.
+
+**Corrección aplicada:** reescribir `CODEOWNERS` con la cuenta real y quitar las
+rutas que no existen en el proyecto (`/infra/`, `/Dockerfile`, `/.aws/`,
+`/src/auth/`, `/pyproject.toml`, etc.).
+
+**Recomendación para el estándar:** que `bootstrap-repo.sh` pregunte por los
+propietarios y falle si quedan marcadores `@ORG/`, o que no active
+`require_code_owner_review` mientras el archivo tenga marcadores sin sustituir.
+
+**Aviso de operación:** el ruleset trae también
+`dismiss_stale_reviews_on_push: true`, así que corregir `CODEOWNERS` invalida
+las aprobaciones existentes y hay que volver a aprobar. No hay forma de evitarlo:
+el arreglo es en sí mismo un push.
+
+---
+
+## 4. `dependabot.yml` sin `cooldown` (hallazgo de Semgrep, no defecto de diseño)
+
+La plantilla no declara `cooldown` en ninguno de sus cinco ecosistemas, y el
+propio SAST del estándar lo marca (`dependabot-missing-cooldown`), cinco veces,
+como hilos de revisión sin resolver. Con
+`required_review_thread_resolution: true` en el ruleset, esos hilos **también
+bloquean la fusión**, así que el estándar se marca a sí mismo y se bloquea solo.
+
+Corregido añadiendo `cooldown` a los cinco ecosistemas (mayor 30 días, menor 7,
+parche 3). Conviene llevarlo a la plantilla.

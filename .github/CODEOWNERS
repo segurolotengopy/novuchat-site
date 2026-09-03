@@ -1,51 +1,30 @@
 # =============================================================================
-# CODEOWNERS — Revisores obligatorios por ruta
-# Versión: 2.0 | Fecha: 2026-08-24 | Destino: .github/CODEOWNERS
+# CODEOWNERS — novuchat.site
 # -----------------------------------------------------------------------------
-# Con la rama main protegida y "Require review from Code Owners" activo
-# (ruleset), ningún cambio en estas rutas se fusiona sin la aprobación del
-# equipo dueño. En Modo B0 (privado Free) los rulesets básicos existen pero la
-# revisión de Code Owners NO se exige: el archivo sigue siendo útil para
-# asignar revisores automáticamente.
-# Reemplace @ORG/equipo por equipos reales (o @usuario en cuentas personales).
-# La última regla que coincide gana; el orden importa.
+# El ruleset `proteger-main` exige revisión de code owner
+# (`require_code_owner_review: true`). Este archivo dice quién es.
+#
+# POR QUÉ SE REESCRIBIÓ (2026-09-03). La plantilla del estándar DevSecOps llega
+# con equipos de marcador —@ORG/desarrollo, @ORG/plataforma, @ORG/seguridad— y
+# `bootstrap-repo.sh` no los sustituye. En un repositorio personal esos equipos
+# no existen, así que GitHub no encontraba ningún propietario válido y la
+# exigencia de revisión no se podía satisfacer con ninguna aprobación: la PR #1
+# quedó bloqueada sin motivo visible. Ver docs/pendiente-estandar-devsecops.md.
+#
+# Se nombra a @AndresAlberdi, no a @segurolotengopy: esta última es la cuenta
+# que abre las PR, y GitHub no acepta que el autor apruebe su propio cambio.
+# La separación de funciones del estándar se sostiene sobre esa distinción.
 # =============================================================================
 
-# Propietario por defecto de todo el repositorio
-*                                   @ORG/desarrollo
+*                           @AndresAlberdi
 
-# Pipeline, seguridad y configuración de CI: exige al equipo de plataforma
-/.github/                           @ORG/plataforma @ORG/seguridad
-/.github/workflows/                 @ORG/plataforma @ORG/seguridad
-/.github/CODEOWNERS                 @ORG/seguridad
-/.github/dependabot.yml             @ORG/plataforma
-/.github/gitleaks.toml              @ORG/seguridad
-/.pre-commit-config.yaml            @ORG/plataforma
-/.devsecops.yml                     @ORG/plataforma @ORG/seguridad
-
-# Reglas de acceso a datos: cualquier cambio requiere seguridad
-/firestore.rules                    @ORG/seguridad
-/storage.rules                      @ORG/seguridad
-/firebase.json                      @ORG/plataforma
-
-# Infraestructura como código y contenedores
-/infra/                             @ORG/plataforma
-/Dockerfile                         @ORG/plataforma
-/.aws/                              @ORG/plataforma
-/docker-compose*.yml                @ORG/plataforma
-
-# Dependencias (revisar cambios de lockfile en PRs no generados por Dependabot)
-/package.json                       @ORG/desarrollo @ORG/plataforma
-/package-lock.json                  @ORG/desarrollo
-/pnpm-lock.yaml                     @ORG/desarrollo
-/requirements*.txt                  @ORG/desarrollo @ORG/plataforma
-/pyproject.toml                     @ORG/desarrollo @ORG/plataforma
-
-# Autenticación, autorización y manejo de secretos en la aplicación
-/src/auth/                          @ORG/seguridad @ORG/desarrollo
-/src/**/seguridad/                  @ORG/seguridad
-/api/auth/                          @ORG/seguridad @ORG/desarrollo
-
-# Documentación del estándar y runbooks
-/docs/                              @ORG/desarrollo
-/CHANGELOG.md                       @ORG/plataforma
+# Rutas donde un descuido no se nota al mirar la página, y por eso conviene que
+# el aviso de revisión sea explícito aunque el propietario sea el mismo.
+/.github/                   @AndresAlberdi
+/.github/workflows/         @AndresAlberdi
+/.devsecops.yml             @AndresAlberdi
+/firestore.rules            @AndresAlberdi
+/firestore.indexes.json     @AndresAlberdi
+/firebase.json              @AndresAlberdi
+/functions/                 @AndresAlberdi
+/pnpm-lock.yaml             @AndresAlberdi
