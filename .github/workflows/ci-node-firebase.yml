@@ -170,9 +170,11 @@ jobs:
         # version before 21»), así que se apunta al JDK 21 que la imagen de
         # Ubuntu ya trae. Se prefiere eso a agregar una acción más que fijar
         # por SHA y mantener.
-        env:
-          JAVA_HOME: ${{ env.JAVA_HOME_21_X64 }}
         run: |
+          # JAVA_HOME_21_X64 la define el runner, así que NO está en el contexto
+          # `env` de las expresiones: hay que leerla dentro del shell. Con
+          # `${{ env.JAVA_HOME_21_X64 }}` llegaba vacía.
+          export JAVA_HOME="${JAVA_HOME_21_X64:-$JAVA_HOME}"
           export PATH="$JAVA_HOME/bin:$PATH"
           java -version
           npx --yes firebase-tools@${{ env.FIREBASE_TOOLS_VERSION }} \
