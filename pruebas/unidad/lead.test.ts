@@ -79,6 +79,13 @@ describe('construirAviso', () => {
     expect(aviso['Mensaje']?.length).toBeLessThanOrEqual(2000);
   });
 
+  it('el aviso se puede construir aunque no haya proveedor de correo', () => {
+    // El correo es una notificación, no el dato: el lead ya está en Firestore
+    // cuando se intenta avisar. Por eso el sistema despliega y funciona sin
+    // proveedor configurado, dejando el lead con `avisado: false`.
+    expect(() => construirAviso(BASE)).not.toThrow();
+  });
+
   it('no incluye la trampa de robots en el aviso', () => {
     const aviso = construirAviso({ ...BASE, empresaWeb: 'soy-un-robot' });
     expect(JSON.stringify(aviso)).not.toContain('soy-un-robot');

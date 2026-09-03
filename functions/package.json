@@ -9,7 +9,10 @@
   },
   "scripts": {
     "build": "tsc",
-    "serve": "pnpm build && firebase emulators:start --only functions,firestore"
+    "serve": "pnpm build && firebase emulators:start --only functions,firestore",
+    "test:backend": "firebase emulators:exec --only functions,firestore --project novuchat-site \"./scripts/pruebas-emulador.sh pruebas/backend\"",
+    "pruebas": "vitest run --passWithNoTests --exclude \"pruebas/reglas/**\" --exclude \"pruebas/backend/**\" --exclude \"pruebas/humo/**\" --exclude \"node_modules/**\"",
+    "test:rules": "firebase emulators:exec --only firestore --project novuchat-site-reglas \"./scripts/pruebas-emulador.sh pruebas/reglas\""
   },
   "dependencies": {
     "firebase-admin": "^14.3.0",

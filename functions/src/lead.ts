@@ -95,11 +95,37 @@ export function construirAviso(datos: DatosLead): Record<string, string> {
   return cuerpo;
 }
 
+/**
+ * Aviso por correo al equipo. **Es opcional a propósito.**
+ *
+ * El lead ya está guardado en Firestore cuando esto se ejecuta, así que el
+ * correo es una notificación, no el dato. Si no hay proveedor configurado, el
+ * lead no se pierde: queda con `avisado: false` y se puede revisar en la
+ * consola de Firebase o reintentar el aviso a mano.
+ *
+ * Esa decisión es la que permite desplegar hoy sin tener el correo resuelto.
+ * Mientras `FORMSUBMIT_ALIAS` no tenga un alias con forma válida, esta función
+ * no sale a internet y lo deja anotado.
+ */
 async function avisarPorCorreo(alias: string, datos: DatosLead): Promise<boolean> {
+  // En el emulador NO se sale a internet. Sin esto, cada prueba de humo
+  // mandaría un correo de verdad a la casilla del equipo, y bastaría con dejar
+  // una suite corriendo para inundarla.
+  if (process.env['FUNCTIONS_EMULATOR'] === 'true') {
+    logger.info('Emulador: se omite el aviso por correo.', {
+      asunto: construirAviso(datos)['_subject'],
+    });
+    return true;
+  }
+
   if (!ALIAS_VALIDO.test(alias)) {
-    // Un alias con `/`, `?` o `#` cambiaría la RUTA del punto final y mandaría
-    // los avisos a otro servicio.
-    logger.error('FORMSUBMIT_ALIAS con formato inválido; no se envía el aviso.');
+    // Dos casos con el mismo tratamiento: todavía no hay proveedor de correo
+    // configurado, o el alias tiene una forma peligrosa —con `/`, `?` o `#`
+    // cambiaría la RUTA del punto final y mandaría los avisos a otro servicio—.
+    logger.warn(
+      'Sin proveedor de correo configurado o con alias inválido: el lead queda ' +
+        'guardado con avisado=false y no se envía nada.',
+    );
     return false;
   }
 
@@ -179,9 +205,13 @@ export const lead = onCall(
     // Se guarda ANTES de avisar por correo: si el tercero falla, el lead no se
     // pierde. Es la corrección concreta a lo que hacía el sitio de referencia,
     // que mostraba éxito siempre y no guardaba nada.
+    // Se desestructura para dejar fuera la trampa de robots. `FieldValue.delete()`
+    // NO sirve aquí: solo vale en `update()` o en `set({merge:true})`, y en un
+    // `add()` lanza. Lo destapó la prueba contra el emulador.
+    const { empresaWeb: _trampa, ...paraGuardar } = lead;
+
     const documento = await db.collection('leads').add({
-      ...lead,
-      empresaWeb: FieldValue.delete(),
+      ...paraGuardar,
       huellaCorreo,
       estado: 'nuevo',
       avisado: false,

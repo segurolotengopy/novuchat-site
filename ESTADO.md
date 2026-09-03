@@ -37,7 +37,9 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | Índice del RAG | ✔ generado: 34 fragmentos, 563 KB, con Vertex AI |
 | Umbral del RAG | ✔ **medido** en 0,64 (`pnpm rag:calibrar`), no elegido a ojo |
 | Proveedor de IA | **Vertex AI** con la cuenta de servicio: sin clave de API |
-| Secretos en Secret Manager | `SAL_HASH` ✔ · `FORMSUBMIT_ALIAS` **pendiente** · `GEMINI_API_KEY` ya no se usa |
+| Secretos en Secret Manager | `SAL_HASH` ✔ · `FORMSUBMIT_ALIAS` pendiente, **pero ya no bloquea**: el aviso por correo es opcional y el lead se guarda igual · `GEMINI_API_KEY` ya no se usa |
+| Índice compuesto de Firestore | ✔ declarado en `firestore.indexes.json` (la deduplicación lo exige en producción) |
+| Políticas TTL de Firestore | **pendientes**: requieren dos comandos de Andres |
 
 ---
 
@@ -69,6 +71,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | `pnpm rag:calibrar` | recuperación **100 %** entre los cuatro primeros (28 preguntas); las preguntas ajenas al negocio quedan por debajo del umbral con 0,017 de margen |
 | `pnpm pruebas` | **61 pruebas de unidad**: saneo, verificación del RAG, corpus, inyección de prompt y aviso de leads |
 | `pnpm test:rules` | **28 pruebas de reglas** contra el emulador, cada una con documento sembrado |
+| `pnpm test:backend` | **11 pruebas de la Function `lead`** por HTTP contra el emulador: validación, trampa de robots, persistencia, deduplicación y límite de tasa |
 | Lighthouse móvil `/` | rendimiento 100 · accesibilidad 100 · buenas prácticas 100 · SEO 100 |
 | Lighthouse móvil `/precios` y `/demo` | 100 / 100 / 100 / 100 |
 | `axe` (wcag2a/aa, wcag21a/aa) | sin fallos graves ni críticos, en tema claro y oscuro |
@@ -153,6 +156,20 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     haberse publicado horas antes del cutoff de `minimumReleaseAge`. Al final
     se quitó la dependencia, pero conviene saber que ese control existe y que
     frena instalaciones de paquetes recién publicados.
+19. **`FieldValue.delete()` no vale en un `add()`.** Solo funciona en `update()`
+    o en `set({merge:true})`; en un `add()` lanza y la Function devolvía 500.
+    Se quitaba así la trampa de robots antes de guardar; ahora se desestructura.
+    **Lo destapó la prueba contra el emulador**, no la revisión del código.
+20. **`firebase emulators:exec` corre su script con el directorio de trabajo en
+    `functions/`**, no en la raíz, así que `vitest` no se encuentra y el error
+    es un 127 sin explicación. Por eso existe `scripts/pruebas-emulador.sh`.
+21. **El emulador de Firestore aplica las reglas también por REST.** Para leer
+    lo que escribió la Function hay que mandar `Authorization: Bearer owner`.
+    Sin esa cabecera devuelve `PERMISSION_DENIED`, que de paso es una
+    confirmación más de que las reglas cierran.
+22. **La deduplicación necesita un índice compuesto** (`huellaCorreo` + `creado`).
+    El emulador no lo pide y producción sí: sin él, el primer lead real habría
+    fallado con `FAILED_PRECONDITION`. Está declarado en `firestore.indexes.json`.
 
 ---
 
@@ -174,9 +191,10 @@ abierta en el 5245 y el proceso se cerró, el navegador da un error de conexión
 
 **De Claude Code:**
 
-1. Pruebas de humo del formulario y del asistente contra los emuladores.
-2. Capturas reales de la consola para la página `/consola`.
-3. Primer despliegue a un canal de vista previa de Hosting.
+1. Capturas reales de la consola para la página `/consola`.
+2. Primer despliegue a un canal de vista previa de Hosting.
+3. Prueba de punta a punta del asistente contra Vertex real (en el emulador no
+   se ejercita la generación, para no gastar ni depender de credenciales).
 
 **De Andres:**
 
