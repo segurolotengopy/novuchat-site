@@ -31,6 +31,11 @@ permissions:
 jobs:
   claims:
     name: claims del token
+    # Dependabot no recibe los secretos del repositorio (usa un almacén
+    # aparte), así que la autenticación federada no puede funcionar aquí y el
+    # job daría rojo en cada actualización de dependencias. Ver la nota del job
+    # `previsualizar` en ci-node-firebase.yml.
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -57,6 +62,7 @@ jobs:
 
   gcp:
     name: identidad en GCP
+    if: github.actor != 'dependabot[bot]'   # ver la nota del job `claims`
     runs-on: ubuntu-latest
     timeout-minutes: 5
     # Solo el dispatch declara Environment; en pull_request el job corre SIN

@@ -297,9 +297,18 @@ jobs:
   previsualizar:
     name: previsualizar (canal de PR)
     needs: [calidad, construir]
+    # `github.actor != 'dependabot[bot]'`: las PR de Dependabot corren con un
+    # almacén de secretos APARTE y no reciben los del repositorio, así que la
+    # federación con GCP se queda sin `workload_identity_provider` y el job
+    # falla siempre. No es un defecto que corregir: es la protección que evita
+    # que una PR de actualización de dependencias alcance la nube, y darle esos
+    # secretos sería abrir justo el vector de cadena de suministro que el
+    # `cooldown` viene a cerrar. Se salta, y la compuerta sigue exigiendo
+    # `calidad` y `seguridad-estatica`, que sí corren.
     if: >-
       github.event_name == 'pull_request'
       && github.event.pull_request.head.repo.full_name == github.repository
+      && github.actor != 'dependabot[bot]'
       && vars.FIREBASE_PREVIEW == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10

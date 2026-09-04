@@ -74,7 +74,23 @@ updates:
       npm-desarrollo:
         dependency-type: development
         update-types: [minor, patch]
-    # Sin excepciones por ahora. `ignore` NO puede quedar como lista vacía:
+    # TypeScript mayor, en espera (revisar 2026-12-01).
+    #
+    # `@astrojs/check@0.9.10` declara `peer typescript: ^5.0.0 || ^6.0.0`, pero
+    # el rango es optimista: con TS 6.0.3, `Astro.props` deja de resolverse y
+    # `astro check` saca nueve `ts(7006)` en `.astro` cuyos Props SÍ están
+    # tipados (`interface Props { preguntas: Pregunta[] }`).
+    #
+    # La tentación es anotar los nueve parámetros y seguir. Sería peor el
+    # remedio: los errores desaparecerían dejando el chequeo de tipos de TODOS
+    # los `.astro` apagado en silencio, porque el problema no son los
+    # parámetros sino que las Props resuelven a `any`. Se espera a que las
+    # herramientas de Astro admitan TS 6 de verdad.
+    ignore:
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
+
+    # Sin más excepciones. `ignore` NO puede quedar como lista vacía:
     # Dependabot exige al menos un elemento y rechaza el archivo entero
     # («did not contain a minimum number of items 1»). Si hace falta una,
     # se descomenta el bloque y se revisa cada trimestre:
