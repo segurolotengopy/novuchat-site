@@ -1,5 +1,6 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { defineSecret } from 'firebase-functions/params';
+import { CUENTA_EJECUCION } from './identidad.js';
 import { getFirestore, FieldValue, Timestamp } from 'firebase-admin/firestore';
 import { logger } from 'firebase-functions';
 import { z } from 'zod';
@@ -44,6 +45,9 @@ const esquema = z.object({
 export const asistente = onCall(
   {
     region: 'us-east1',
+    // Identidad de ejecución con permisos mínimos, en vez de la cuenta de
+    // cómputo por defecto, que lleva `roles/editor`. Ver identidad.ts.
+    serviceAccount: CUENTA_EJECUCION,
     // Orígenes permitidos. Sin esto, `onCall` refleja CUALQUIER origen: en
     // producción devolvía `access-control-allow-origin` con el dominio del que
     // preguntara, así que cualquier web podía llamar a esta función desde el
