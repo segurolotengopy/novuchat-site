@@ -34,7 +34,8 @@
     "test:backend:local": "firebase emulators:exec --only functions,firestore --project novuchat-site \"./scripts/pruebas-emulador.sh pruebas/backend\"",
     "asistente:probar": "tsx scripts/probar-asistente.ts",
     "rag:cotejar": "tsx scripts/cotejar-indice.ts",
-    "leads:pendientes": "tsx scripts/leads-pendientes.ts"
+    "leads:pendientes": "tsx scripts/leads-pendientes.ts",
+    "enlaces": "python3 scripts/verificar-enlaces.py"
   },
   "dependencies": {
     "@astrojs/preact": "^6.0.5",

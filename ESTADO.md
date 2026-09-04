@@ -249,6 +249,15 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     asistente cita otra, con la confianza de estar citando la fuente. `pnpm
     verificar` pasaba igual. Añadido `pnpm rag:cotejar`, que compara el corpus
     de hoy contra el índice sin llamar a Vertex, y ya forma parte de `verificar`.
+34. **El botón «Ingresar» lleva a un 404 en producción.** `PUBLIC_URL_CONSOLA`
+    apunta a `novuchat-admin-prod.web.app`, que está en la lista blanca y por
+    eso pasa la validación del build —pero la consola no está desplegada—.
+    Tampoco resuelve `consola.novuchat.site`. La validación comprobaba que la
+    URL fuera *permitida*, no que existiera. Lo destapó `pnpm enlaces` en su
+    primera ejecución: dieciocho páginas, diecisiete enlaces internos, y el
+    único roto era la llamada a la acción para clientes existentes.
+    **Pendiente de Andres**: la consola es otro proyecto y este repositorio no
+    la toca.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
