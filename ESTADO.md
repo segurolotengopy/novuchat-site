@@ -228,6 +228,15 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     ninguna comprobaba que el banner *desapareciera*. Una prueba puede cubrir la
     consecuencia y dejar el gesto sin cubrir. Añadida la que faltaba, y falla
     sin el arreglo.
+31. **Las Functions corrían con `roles/editor` sobre todo el proyecto.** Es el
+    permiso que trae la cuenta de cómputo por defecto, y gen2 la usa si no se
+    dice otra cosa. Desentonaba con el resto: las reglas de Firestore niegan
+    todo al cliente para que solo las Functions escriban, y luego esa identidad
+    podía desplegar, tocar IAM, leer cualquier secreto o borrar la base. Se pasa
+    a una cuenta dedicada con `datastore.user`, `aiplatform.user`,
+    `logging.logWriter`, `monitoring.metricWriter` y `secretAccessor` **por
+    secreto**, no en el proyecto. El `logWriter` es fácil de olvidar: sin él el
+    código funciona y los registros desaparecen.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
