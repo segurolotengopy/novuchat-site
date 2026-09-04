@@ -237,12 +237,43 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     `logging.logWriter`, `monitoring.metricWriter` y `secretAccessor` **por
     secreto**, no en el proyecto. El `logWriter` es fácil de olvidar: sin él el
     código funciona y los registros desaparecen.
+32. **La «semana de monitoreo» de App Check no registraba nada.** Un comentario
+    prometía que «el token igual se registra abajo», pero `peticion.app` solo se
+    usaba para la clave del límite de tasa. Al cumplirse la semana no habría
+    habido ningún dato con el que decidir, y pasar a `enforceAppCheck: true`
+    habría sido una apuesta. Monitorear exige registrar: ahora se anota si la
+    petición trajo token, y nada del visitante.
+33. **El índice del asistente puede desincronizarse sin que nada falle.** El
+    corpus se deriva de `src/contenido/`, pero el índice es un JSON válido: si
+    alguien cambia un precio y no reindexa, el sitio muestra una cifra y el
+    asistente cita otra, con la confianza de estar citando la fuente. `pnpm
+    verificar` pasaba igual. Añadido `pnpm rag:cotejar`, que compara el corpus
+    de hoy contra el índice sin llamar a Vertex, y ya forma parte de `verificar`.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
     —`style-src unsafe-inline`, COEP, reflexión de parámetros—. Se dejaron
     visibles y se escribió el veredicto de cada uno en `docs/csp.md`. Un aviso
     que deja de verse deja de revisarse.
+
+---
+
+## 2ter. Lighthouse sobre producción (2026-09-04)
+
+Medido con Lighthouse 12, móvil emulado, contra `https://novuchat.site` en vivo
+—no contra un build local—:
+
+| página | rendimiento | accesibilidad | buenas prácticas | SEO |
+|---|---|---|---|---|
+| `/` | 100 | 100 | 100 | 100 |
+| `/precios` | 100 | 100 | 100 | 100 |
+| `/demo` | 100 | 100 | 100 | 100 |
+
+FCP y LCP 1,8 s · TBT 0 ms · CLS 0.
+
+Cumple el mínimo de `CLAUDE.md` (≥ 90) con margen. Conviene repetirlo tras
+cualquier cambio que añada JavaScript o imágenes: el CLS 0 y el TBT 0 son fáciles
+de perder y nadie los echa de menos hasta que un cliente se queja.
 
 ---
 

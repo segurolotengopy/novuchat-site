@@ -133,6 +133,17 @@ export const lead = onCall(
       return { ok: true };
     }
 
+    // — Evidencia para decidir sobre App Check —
+    // `enforceAppCheck: false` es la fase de monitoreo, pero monitorear exige
+    // registrar algo: sin esto, al cumplirse la semana no habría dato con el
+    // que decidir y pasar a `true` sería una apuesta. Se anota solo si la
+    // petición traía token, nada del visitante.
+    //
+    //   gcloud logging read 'jsonPayload.message="App Check"' --project novuchat-site
+    //
+    // Si la proporción sin token es ~0, activar la exigencia no rompe a nadie.
+    logger.info('App Check', { conToken: peticion.app !== undefined });
+
     // — Límite de tasa —
     const clave = identificar(
       peticion.app?.appId,
