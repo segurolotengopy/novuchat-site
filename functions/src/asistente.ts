@@ -56,7 +56,8 @@ export const asistente = onCall(
     // App Check todavía está en monitoreo, así que no compensaba nada.
     cors: ['https://novuchat.site', 'https://www.novuchat.site', 'https://novuchat-site.web.app'],
     // Fase 1: monitoreo. Se pasa a `true` tras una semana sin falsos positivos
-    // (doc 04 §4). El token igual se registra abajo.
+    // (doc 04 §4). La presencia del token se registra abajo, que es lo que da
+    // la evidencia para esa decisión.
     enforceAppCheck: false,
     secrets: [SAL_HASH],
     timeoutSeconds: 30,
@@ -69,6 +70,17 @@ export const asistente = onCall(
       throw new HttpsError('invalid-argument', 'Mensaje no válido.');
     }
     const { mensaje, historial, idioma, pagina, sesion } = datos.data;
+
+    // — Evidencia para decidir sobre App Check —
+    // `enforceAppCheck: false` es la fase de monitoreo, pero monitorear exige
+    // registrar algo: sin esto, al cumplirse la semana no habría dato con el
+    // que decidir y pasar a `true` sería una apuesta. Se anota solo si la
+    // petición traía token, nada del visitante.
+    //
+    //   gcloud logging read 'jsonPayload.message="App Check"' --project novuchat-site
+    //
+    // Si la proporción sin token es ~0, activar la exigencia no rompe a nadie.
+    logger.info('App Check', { conToken: peticion.app !== undefined });
 
     // — Límite de tasa —
     const clave = identificar(

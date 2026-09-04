@@ -18,7 +18,7 @@
     "humo": "playwright test",
     "csp": "node scripts/probar-csp.mjs",
     "prohibiciones": "node scripts/verificar-prohibiciones.mjs",
-    "verificar": "pnpm lint && pnpm typecheck && pnpm funciones:build && pnpm pruebas && pnpm prohibiciones && pnpm build && pnpm csp:verificar && pnpm humo",
+    "verificar": "pnpm lint && pnpm typecheck && pnpm funciones:build && pnpm pruebas && pnpm prohibiciones && pnpm rag:cotejar && pnpm build && pnpm csp:verificar && pnpm humo",
     "lint": "eslint . && stylelint \"src/**/*.css\" --allow-empty-input",
     "typecheck": "astro check --minimumSeverity error",
     "test": "vitest run --passWithNoTests --exclude \"pruebas/humo/**\" --exclude \"pruebas/reglas/**\" --exclude \"pruebas/backend/**\" --exclude \"node_modules/**\"",
@@ -32,7 +32,9 @@
     "test:backend": "./scripts/pruebas-emulador.sh pruebas/backend",
     "test:rules:local": "firebase emulators:exec --only firestore --project novuchat-site-reglas \"./scripts/pruebas-emulador.sh pruebas/reglas\"",
     "test:backend:local": "firebase emulators:exec --only functions,firestore --project novuchat-site \"./scripts/pruebas-emulador.sh pruebas/backend\"",
-    "asistente:probar": "tsx scripts/probar-asistente.ts"
+    "asistente:probar": "tsx scripts/probar-asistente.ts",
+    "rag:cotejar": "tsx scripts/cotejar-indice.ts",
+    "leads:pendientes": "tsx scripts/leads-pendientes.ts"
   },
   "dependencies": {
     "@astrojs/preact": "^6.0.5",
