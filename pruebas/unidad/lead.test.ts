@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { construirAviso, type DatosLead } from '../../functions/src/lead-logica';
+import { CABECERAS_FORMSUBMIT, construirAviso, type DatosLead } from '../../functions/src/lead-logica';
 
 /**
  * Riesgo S-14 del doc 04: el aviso de un lead sale hacia un tercero
@@ -89,5 +89,22 @@ describe('construirAviso', () => {
   it('no incluye la trampa de robots en el aviso', () => {
     const aviso = construirAviso({ ...BASE, empresaWeb: 'soy-un-robot' });
     expect(JSON.stringify(aviso)).not.toContain('soy-un-robot');
+  });
+});
+
+describe('cabeceras del aviso a FormSubmit', () => {
+  it('incluye Referer, sin el cual FormSubmit rechaza el aviso', () => {
+    // Esto no es una preferencia de estilo. Sin `Referer`, FormSubmit responde
+    // `success: false` con «Make sure you open this page through a web server»
+    // —un mensaje que no menciona la cabecera y manda a buscar el fallo donde no
+    // está—. Antes de este arreglo, el primer lead real se habría guardado con
+    // `avisado: false` sin que nadie supiera por qué.
+    expect(CABECERAS_FORMSUBMIT.Referer).toBe('https://novuchat.site/');
+    expect(CABECERAS_FORMSUBMIT.Origin).toBe('https://novuchat.site');
+  });
+
+  it('pide y acepta JSON', () => {
+    expect(CABECERAS_FORMSUBMIT['Content-Type']).toBe('application/json');
+    expect(CABECERAS_FORMSUBMIT.Accept).toBe('application/json');
   });
 });

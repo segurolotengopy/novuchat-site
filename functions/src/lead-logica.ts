@@ -76,3 +76,23 @@ export function construirAviso(datos: DatosLead): Record<string, string> {
 
   return cuerpo;
 }
+
+/**
+ * Cabeceras del aviso a FormSubmit.
+ *
+ * `Referer` NO es decorativo: sin él, FormSubmit responde `success: false` con
+ * «Make sure you open this page through a web server», un mensaje que no dice
+ * nada de lo que ocurre y manda a buscar el problema donde no está. Se descubrió
+ * activando el punto final desde la terminal (2026-09-05); la Function mandaba
+ * exactamente las cabeceras que fallaban, así que habría fallado con el PRIMER
+ * lead real: guardado, `avisado: false`, y nadie sabiendo por qué.
+ *
+ * Vive aquí y no en `lead.ts` para que la prueba pueda comprobarlo sin arrastrar
+ * `firebase-functions`.
+ */
+export const CABECERAS_FORMSUBMIT: Record<string, string> = {
+  'Content-Type': 'application/json',
+  Accept: 'application/json',
+  Referer: 'https://novuchat.site/',
+  Origin: 'https://novuchat.site',
+};

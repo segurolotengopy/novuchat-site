@@ -8,7 +8,7 @@ import { z } from 'zod';
 
 import { consumirCupo, identificar, VENTANAS_LEAD } from './limites.js';
 import { ALIAS_VALIDO, CORREO_VALIDO } from './saneo.js';
-import { construirAviso, type DatosLead } from './lead-logica.js';
+import { CABECERAS_FORMSUBMIT, construirAviso, type DatosLead } from './lead-logica.js';
 
 const FORMSUBMIT_ALIAS = defineSecret('FORMSUBMIT_ALIAS');
 const SAL_HASH = defineSecret('SAL_HASH');
@@ -88,7 +88,7 @@ async function avisarPorCorreo(alias: string, datos: DatosLead): Promise<boolean
   try {
     const respuesta = await fetch(`https://formsubmit.co/ajax/${alias}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: CABECERAS_FORMSUBMIT,
       body: JSON.stringify(construirAviso(datos)),
       signal: AbortSignal.timeout(10_000),
     });
