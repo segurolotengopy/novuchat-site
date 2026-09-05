@@ -1,0 +1,16 @@
+# robots.txt de novuchat.site
+#
+# No existía: /robots.txt devolvía la página 404, que los buscadores
+# interpretan como «sin restricciones». Funcionaba, pero dejaba el sitemap sin
+# anunciar y no decía nada sobre los dominios por defecto de Firebase.
+#
+# Los duplicados de `novuchat-site.web.app` y `.firebaseapp.com` ya están
+# cubiertos por el `canonical` de cada página, que apunta a novuchat.site, y por
+# la redirección del `<head>`. Este archivo se sirve igual desde los tres
+# anfitriones, así que NO puede llevar un `Disallow` para el duplicado sin
+# bloquear también el sitio bueno.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://novuchat.site/sitemap-index.xml

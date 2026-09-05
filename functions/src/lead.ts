@@ -111,7 +111,11 @@ export const lead = onCall(
     // navegador de un visitante —gastando presupuesto de Vertex en el caso del
     // asistente, o metiendo leads en Firestore en el caso del formulario—.
     // App Check todavía está en monitoreo, así que no compensaba nada.
-    cors: ['https://novuchat.site', 'https://www.novuchat.site', 'https://novuchat-site.web.app'],
+    // Sin `novuchat-site.web.app`: el dominio por defecto de Firebase sirve el
+    // sitio entero y no se puede desactivar, así que el `<head>` redirige al
+    // dominio propio. Dejarlo aquí permitiría llamar a la Function desde una
+    // copia del sitio que nadie debería estar usando.
+    cors: ['https://novuchat.site', 'https://www.novuchat.site'],
     enforceAppCheck: false, // monitoreo la primera semana (doc 04 §4)
     secrets: [FORMSUBMIT_ALIAS, SAL_HASH],
     timeoutSeconds: 30,

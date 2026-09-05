@@ -277,6 +277,20 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     La comprobación de existencia solo se puede hacer contra el sitio publicado,
     y por eso vive en `pnpm enlaces`, no en el build. La consola pasó a
     `consola.novuchat.site` y la entrada muerta se retiró de la lista.
+38. **Los dominios por defecto de Firebase no se pueden desactivar.**
+    `novuchat-site.web.app` y `.firebaseapp.com` servían el sitio entero, y
+    Firebase Hosting no ofrece ningún ajuste para apagarlos. Lo que sí se puede
+    es no dejar que nadie se quede ahí: redirección al dominio propio en el
+    `<head>`, comparando los anfitriones EXACTOS —no `endsWith('.web.app')`,
+    porque los canales de vista previa son `novuchat-site--<canal>.web.app` y
+    redirigirlos rompería la prueba de humo y el DAST—. Se quitó además el
+    dominio por defecto de la lista CORS de las Functions.
+39. **El sitio no tenía `robots.txt`.** `/robots.txt` devolvía la página 404,
+    que los buscadores leen como «sin restricciones»: funcionaba de casualidad y
+    dejaba el sitemap sin anunciar. Ojo: ese archivo se sirve igual desde los
+    tres anfitriones, así que **no puede llevar un `Disallow` para el duplicado**
+    sin bloquear también el sitio bueno. De los duplicados se ocupan el
+    `canonical` —que ya estaba bien— y la redirección.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
