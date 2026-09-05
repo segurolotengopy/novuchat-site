@@ -7,10 +7,17 @@
  * lista blanca, y el build falla si no coincide. Es una comprobación barata
  * contra un fallo caro.
  */
-const LISTA_BLANCA = [
-  'https://consola.novuchat.site',
-  'https://novuchat-admin-prod.web.app',
-] as const;
+// Se quitó `novuchat-admin-prod.web.app` (2026-09-05). Era el dominio por
+// defecto del proyecto de la consola y devuelve 404: la consola vive en su
+// dominio propio. Mientras estuvo aquí, la variable apuntaba a él y el botón
+// «Ingresar» llevó a una página muerta en producción —la validación comprueba
+// que la URL esté PERMITIDA, no que exista—. Dejarlo en la lista solo servía
+// para que un error de configuración pudiera repetir el fallo en silencio.
+// Si algún día se publica algo ahí, se vuelve a añadir.
+//
+// Que la URL responda lo comprueba `pnpm enlaces` contra el sitio publicado,
+// que es donde se puede saber de verdad.
+const LISTA_BLANCA = ['https://consola.novuchat.site'] as const;
 
 function resolver(): string {
   const valor = import.meta.env['PUBLIC_URL_CONSOLA'];

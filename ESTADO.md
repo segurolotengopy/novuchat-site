@@ -270,6 +270,13 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     Añadir una versión nueva a Secret Manager **no** surte efecto: hace falta
     redesplegar. Se ve con `gcloud run services describe lead`. Vale para
     `FORMSUBMIT_ALIAS` y para `SAL_HASH`.
+37. **Validar que una URL esté PERMITIDA no es validar que exista.** La lista
+    blanca de `PUBLIC_URL_CONSOLA` cumplía su papel —evitar que el sitio mande a
+    sus clientes a un dominio ajeno— y aun así el botón «Ingresar» llevó a un
+    404 durante días: `novuchat-admin-prod.web.app` estaba permitido y muerto.
+    La comprobación de existencia solo se puede hacer contra el sitio publicado,
+    y por eso vive en `pnpm enlaces`, no en el build. La consola pasó a
+    `consola.novuchat.site` y la entrada muerta se retiró de la lista.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
