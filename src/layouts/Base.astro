@@ -45,6 +45,28 @@ const idioma = ruta.startsWith('/en') ? 'en' : 'es';
  *
  * Hash vigente: sha256-9D8Iby2VzhAdvSMmJ+6wMz0Xz3M/3V6Jfl9QJOalgFU=
  */
+/**
+ * Los dominios por defecto de Firebase sirven el sitio ENTERO, igual que
+ * `novuchat.site`. No se pueden desactivar: Firebase Hosting siempre publica
+ * `<proyecto>.web.app` y `<proyecto>.firebaseapp.com`, y no hay ajuste que lo
+ * impida. Lo que sí se puede es no dejar que nadie se quede ahí.
+ *
+ * Este script manda al dominio propio conservando la ruta y la consulta. Va en
+ * el `<head>`, antes de pintar nada, para que no se vea el sitio equivocado ni
+ * un instante.
+ *
+ * OJO CON LOS CANALES DE VISTA PREVIA. Se comparan los dos anfitriones EXACTOS,
+ * no `endsWith('.web.app')`: los canales de PR son
+ * `novuchat-site--<canal>.web.app`, y redirigirlos rompería la prueba de humo y
+ * el DAST, que corren justo contra ellos.
+ *
+ * El `canonical` ya apuntaba a `novuchat.site` desde el dominio por defecto, así
+ * que el buscador nunca los indexó como duplicados; esto es para las personas.
+ *
+ * Si se cambia, hay que resellar la CSP: `pnpm build` lo hace solo.
+ */
+const soloDominioPropio = `(function(){try{var h=location.hostname;if(h==='novuchat-site.web.app'||h==='novuchat-site.firebaseapp.com'){location.replace('https://novuchat.site'+location.pathname+location.search+location.hash)}}catch(e){}})();`;
+
 const antiDestello = `(function(){try{var t=localStorage.getItem('novuchat.tema');var o=t==='oscuro'||((!t||t==='sistema')&&matchMedia('(prefers-color-scheme: dark)').matches);var r=document.documentElement;if(o){r.dataset.tema='oscuro'}r.style.colorScheme=o?'dark':'light'}catch(e){}})();`;
 ---
 
@@ -53,6 +75,7 @@ const antiDestello = `(function(){try{var t=localStorage.getItem('novuchat.tema'
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline set:html={soloDominioPropio} />
     <script is:inline set:html={antiDestello} />
 
     <title>{titulo}</title>
