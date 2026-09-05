@@ -258,6 +258,18 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     único roto era la llamada a la acción para clientes existentes.
     **Pendiente de Andres**: la consola es otro proyecto y este repositorio no
     la toca.
+35. **FormSubmit exige `Referer` y la Function no lo mandaba.** Sin esa
+    cabecera responde `success: false` con «Make sure you open this page through
+    a web server», que no menciona la cabecera y manda a buscar el fallo donde
+    no está. `avisarPorCorreo` mandaba exactamente las cabeceras que fallan, así
+    que **habría fallado con el primer lead real**: guardado, `avisado: false`, y
+    nadie sabiendo por qué. Se descubrió activando el punto final desde la
+    terminal, no revisando el código. Las cabeceras viven ahora en
+    `lead-logica.ts` con su prueba.
+36. **Los secretos de las Functions están fijados a `versión 1`, no a `latest`.**
+    Añadir una versión nueva a Secret Manager **no** surte efecto: hace falta
+    redesplegar. Se ve con `gcloud run services describe lead`. Vale para
+    `FORMSUBMIT_ALIAS` y para `SAL_HASH`.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
