@@ -76,7 +76,11 @@ base; D1.
 **Requiere a Andres (en la consola de Google Cloud / Firebase, proyecto `novuchat-site`):**
 
 - Plan **Blaze** con presupuesto y alerta (sugerido: 10 USD).
-- Habilitar Firestore (modo nativo, región `southamerica-east1`) y Cloud Functions.
+- Habilitar Firestore (modo nativo, región `us-east1`) y Cloud Functions.
+  <!-- Corregido 2026-09-06. Decía `southamerica-east1`, superado por la decisión
+       de Andres del 2026-09-02 (ver CLAUDE.md). Dejarlo escrito no era inocuo:
+       `PUBLIC_REGION_FUNCTIONS` conservó ese valor y el asistente y el formulario
+       nunca funcionaron desde un navegador. Ver ESTADO.md, hallazgos 46-48. -->
 - Crear los secretos `GEMINI_API_KEY` y `RESEND_API_KEY` en Secret Manager (Claude Code
   prepara los comandos `firebase functions:secrets:set …`; Andres los ejecuta porque
   requieren su sesión y las claves).
