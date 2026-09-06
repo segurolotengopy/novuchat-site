@@ -325,6 +325,19 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     `updateTime` no avanzó, el código nuevo no está. El workflow ahora lo avisa
     en el resumen, y la única salida limpia es cambiar el código de
     `functions/` —`--force` está prohibido—.
+44. **Una promesa comercial no vive en una sola página.** Al corregir tres
+    frases de `/precios` que prometían funciones inexistentes, las mismas
+    aparecían en `precios.en.ts` y —más concretas, con ejemplos textuales— en
+    las tres páginas de rubro: «Sin cebolla, bien cocida» para variantes,
+    «Talla, color y disponibilidad real» para stock. Y como el corpus se deriva
+    de `src/contenido/`, **el asistente se lo decía a los prospectos**. Un
+    cliente de gastronomía lee su página de rubro, no la de precios: corregir
+    solo `/precios` habría dejado el problema donde más duele.
+45. **El rótulo «próximamente» llega hasta el asistente.** Al mover variantes y
+    zonas a ese bloque, el asistente pasó a responder «todavía no están
+    disponibles, pero es una función próxima» en vez de prometerlas. Lo que se
+    marca en el contenido se propaga solo; lo que se borra, se convierte en «eso
+    no lo tengo». Las dos salidas son honestas y no hizo falta tocar el prompt.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura

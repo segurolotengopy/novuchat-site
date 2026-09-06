@@ -11,13 +11,13 @@ export const verticales: Vertical[] = [
     nombre: 'Salud y Belleza',
     titulo: 'Asistente de WhatsApp para salones y consultorios',
     bajada:
-      'Agenda sola, recuerda las citas y libera a tu equipo del teléfono. Cada profesional con su propia agenda y sus especialidades.',
+      'Agenda sola, recuerda las citas y libera a tu equipo del teléfono. Cada profesional con su propia agenda, sin citas superpuestas.',
     negocioEjemplo: 'Salón Aurora',
     casos: [
       {
         titulo: 'Agenda sin que nadie intervenga',
         texto:
-          'El cliente pide turno, el asistente consulta la disponibilidad real de cada profesional y crea la cita en el calendario. Si el horario está ocupado, ofrece alternativas.',
+          'El cliente pide turno, el asistente consulta los horarios libres de cada profesional y crea la cita en su calendario. Si ese horario está ocupado, ofrece alternativas.',
       },
       {
         titulo: 'Recordatorio 24 horas antes',
@@ -59,18 +59,18 @@ export const verticales: Vertical[] = [
     nombre: 'Gastronomía',
     titulo: 'Asistente de WhatsApp para restaurantes y delivery',
     bajada:
-      'Toma el pedido con sus notas, calcula el envío por zona, manda el QR y avisa a la cocina.',
+      'Toma el pedido desde tu carta, calcula el total con el envío, manda el QR y avisa a la cocina.',
     negocioEjemplo: 'Parrilla El Fogón',
     casos: [
       {
-        titulo: 'Pedidos con notas y variantes',
+        titulo: 'El pedido, con su total',
         texto:
-          '«Sin cebolla», «bien cocida», «uno sin picante». El asistente lo registra y lo pasa tal cual a la cocina.',
+          'El asistente arma el pedido desde tu carta con los precios que cargaste, suma el envío y confirma el total con el cliente antes de pasarlo a la cocina.',
       },
       {
-        titulo: 'Envío calculado por zona',
+        titulo: 'El envío, ya sumado',
         texto:
-          'El cliente dice a dónde va y el total sale con el costo de envío ya sumado. Sin idas y vueltas.',
+          'El cliente dice a dónde va y el total sale con el costo de envío incluido. Sin idas y vueltas ni «te confirmo el precio».',
       },
       {
         titulo: 'Cobro por QR y comprobante',
@@ -105,13 +105,13 @@ export const verticales: Vertical[] = [
     nombre: 'Comercio y Retail',
     titulo: 'Asistente de WhatsApp para tiendas',
     bajada:
-      'Responde por talla, color y stock a cualquier hora, toma los datos de envío y cierra la venta con el QR.',
+      'Responde por tu catálogo a cualquier hora, toma los datos de envío y cierra la venta con el QR.',
     negocioEjemplo: 'Tienda Aurora',
     casos: [
       {
-        titulo: 'Catálogo con variantes',
+        titulo: 'Tu catálogo, con sus precios',
         texto:
-          'Talla, color y disponibilidad real. Si algo se acabó, ofrece la alternativa más parecida en vez de dejar al cliente sin respuesta.',
+          'El asistente responde con los productos y precios que cargaste, arma el pedido y calcula el total con el envío. No inventa nada que no esté en tu catálogo.',
       },
       {
         titulo: 'Datos de envío antes del cobro',
