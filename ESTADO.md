@@ -338,6 +338,24 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     disponibles, pero es una función próxima» en vez de prometerlas. Lo que se
     marca en el contenido se propaga solo; lo que se borra, se convierte en «eso
     no lo tengo». Las dos salidas son honestas y no hizo falta tocar el prompt.
+46. **El asistente y el formulario NUNCA funcionaron desde un navegador.**
+    `PUBLIC_REGION_FUNCTIONS` conservó `southamerica-east1` desde el arranque
+    del proyecto, cuando las Functions ya estaban en `us-east1`. El SDK
+    construía `https://southamerica-east1-…cloudfunctions.net/…`, una URL que no
+    existe, y la llamada moría en el navegador: **sin registro en la nube, sin
+    error 4xx, solo «No pudimos enviarlo» en pantalla**.
+47. **Probar la Function no es probar el camino del cliente.** El fallo anterior
+    duró toda la vida del proyecto porque cada verificación —incluida la del
+    correo en v0.1.5, la del asistente contra Vertex y el «13/13»— se hacía
+    contra la URL directa de `us-east1`, que **no pasa por la constante de
+    región**. La advertencia que se dejó escrita en el acta de v0.1.5 («no se
+    verificó el clic real desde el formulario») estaba tapando exactamente esto.
+    Una salvedad honesta en un acta no sustituye a la comprobación que nombra.
+48. **La ausencia de registros era el dato, no el ruido.** Al fallar el
+    navegador no aparecía nada en Cloud Logging, y eso se leyó como «no hubo
+    tráfico». Era al revés: significaba que las peticiones no llegaban. Y por lo
+    mismo el «no llegó el token de App Check» era una consecuencia, no una
+    causa: ese registro ocurre DENTRO de la función.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
