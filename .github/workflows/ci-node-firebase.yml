@@ -536,6 +536,28 @@ jobs:
             exit 1
           fi
 
+          # UNA COMPILACIÓN FALLIDA ENVENENA LA SIGUIENTE. Firebase registra la
+          # huella del código subido ANTES de compilarlo. Si la compilación
+          # falla y se relanza el despliegue, compara huellas, las ve iguales y
+          # SALTA las Functions: el pipeline da verde y en producción sigue
+          # corriendo el código anterior.
+          #
+          # Pasó en el pase v0.1.8 (2026-09-06): hosting se publicó, las
+          # Functions se saltaron, y el arreglo del asistente se quedó fuera sin
+          # que nada lo dijera.
+          #
+          # No falla el paso —saltar Functions es legítimo cuando de verdad no
+          # cambiaron— pero lo deja escrito donde se ve.
+          if grep -q 'Skipped (No changes detected)' /tmp/despliegue.log; then
+            echo "::warning::Alguna Function se saltó por huella idéntica. Si esta versión debía cambiarlas, NO se desplegaron: compruebe su updateTime en la nube."
+            {
+              echo "### ⚠️ Functions saltadas por huella idéntica"
+              grep 'Skipped (No changes detected)' /tmp/despliegue.log | sed 's/^/    /'
+              echo ""
+              echo "Si esta versión tocaba \`functions/\`, el código NO llegó a producción."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
           echo "### Producción desplegada: $URL_PROD (${GITHUB_REF_NAME})" >> "$GITHUB_STEP_SUMMARY"
 
   # ---------------------------------------------------------------------------

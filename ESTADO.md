@@ -307,6 +307,24 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     Ahora se mira el `finishReason`: si es `MAX_TOKENS`, se descarta antes de
     verificar. Se detectó midiendo, no leyendo: con la configuración vieja, 3 de
     5 preguntas salían truncadas y aun así el verificador aceptaba las 5.
+42. **Retirar `roles/editor` rompió la COMPILACIÓN, no la ejecución.** Las
+    Functions gen2 usan la cuenta de cómputo como cuenta de **compilación**
+    (`buildConfig.serviceAccount`), aunque la de ejecución sea otra. Al quitarle
+    `editor`, las Functions siguieron corriendo —por eso la verificación pasó—
+    pero el siguiente despliegue falló con «missing permission on the build
+    service account». Ese camino solo se ejercita al desplegar. Resuelto con
+    `roles/cloudbuild.builds.builder`, que es el rol mínimo de compilación: sin
+    Firestore, IAM, hosting ni secretos.
+43. **Una compilación fallida envenena el despliegue siguiente.** Firebase
+    registra la huella del código subido ANTES de compilarlo. Si la compilación
+    falla y se relanza, compara huellas, las ve iguales y **salta las
+    Functions** — con el pipeline en verde. En el pase v0.1.8 se publicó hosting
+    y el arreglo del asistente se quedó fuera: producción corría las Functions
+    de v0.1.7 con el sitio en v0.1.8, y nada lo decía. Se detecta con
+    `gcloud functions list --format="value(name,updateTime)"`: si el
+    `updateTime` no avanzó, el código nuevo no está. El workflow ahora lo avisa
+    en el resumen, y la única salida limpia es cambiar el código de
+    `functions/` —`--force` está prohibido—.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
