@@ -61,7 +61,7 @@ export const pricing: Precios = {
     bonificacion:
       'Setup waived for the first ten businesses that secure their first month during the Rueda de Negocios.',
     incluye: [
-      'Not even we can read your conversations: your data is kept separate from day one',
+      'Nobody at NovuChat reads your conversations unless you grant access',
       'Official verification of your number with Meta',
       'Your services, prices, hours and assistant tone loaded in',
       'Connection to your Google Calendar',

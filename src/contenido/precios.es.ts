@@ -67,7 +67,7 @@ export const precios: Precios = {
     bonificacion:
       'Instalación bonificada para los primeros diez negocios que aseguren su primer mes durante la Rueda de Negocios.',
     incluye: [
-      'Ni nosotros podemos leer tus conversaciones: tus datos quedan separados desde el alta',
+      'Nadie de NovuChat lee tus conversaciones sin que tú abras el acceso',
       'Verificación oficial de tu número ante Meta',
       'Carga de tus servicios, precios, horarios y el tono del asistente',
       'Conexión con tu Google Calendar',
