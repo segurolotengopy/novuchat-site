@@ -220,3 +220,60 @@ for (const ruta of ['/', '/precios', '/demo', '/preguntas-frecuentes']) {
     });
   }
 }
+
+test('el asistente flota y su logo tiene tamaño real', async ({ page }) => {
+  // El logo estuvo en producción con `width: 0px`: el SVG cargaba, el elemento
+  // existía y no se veía nada. Lo causaba `min-width: 0` en el contenedor —el
+  // reinicio global tiene `img { max-width: 100% }`, y ese 100 % pasó a valer
+  // cero—. Una revisión visual en pantalla ancha no lo detecta; una aserción de
+  // tamaño sí.
+  await page.goto('/');
+  // Primero se resuelve el consentimiento, como haría una persona: en móvil el
+  // banner ocupa el bajo de la pantalla y tapaba el botón del asistente, que
+  // quedaba inalcanzable. Ese solape lo cubre la prueba siguiente.
+  await page.getByRole('button', { name: 'Solo lo necesario' }).click();
+
+  const boton = page.getByRole('button', { name: 'Abrir el asistente virtual' });
+  await expect(boton).toBeVisible();
+  expect(await boton.evaluate((e) => getComputedStyle(e).position)).toBe('fixed');
+
+  await boton.click();
+  const panel = page.locator('.asistente');
+  await expect(panel).toBeVisible();
+  expect(await panel.evaluate((e) => getComputedStyle(e).position)).toBe('fixed');
+
+  const logo = panel.locator('.asistente-marca img');
+  await expect(logo).toBeVisible();
+  const caja = await logo.boundingBox();
+  expect(caja?.width ?? 0, 'el logo del asistente no puede tener ancho cero').toBeGreaterThan(10);
+  expect(caja?.height ?? 0).toBeGreaterThan(10);
+});
+
+test('el banner de consentimiento no deja inalcanzable al asistente', async ({ page }) => {
+  // En móvil los dos son `position: fixed` en el bajo de la pantalla, y el
+  // banner va por encima (z-index 70 contra 50). Sin esto, quien entra desde un
+  // teléfono no puede abrir el chat hasta aceptar o rechazar la medición.
+  await page.goto('/');
+  const banner = page.locator('[data-consentimiento]');
+  await expect(banner).toBeVisible();
+
+  // Por CSS y no por rol: `getByRole` ignora lo que está en `display: none`, y
+  // ese es justamente el estado correcto en móvil mientras el banner está a la
+  // vista. Aquí interesa el elemento exista o no se vea.
+  const boton = page.locator('.asistente-boton');
+  const caja = (await boton.isVisible()) ? await boton.boundingBox() : null;
+
+  if (caja) {
+    // Si el botón se muestra, tiene que ser accionable: nadie lo tapa.
+    const cubierto = await page.evaluate(({ x, y }) => {
+      const arriba = document.elementFromPoint(x, y);
+      return !!arriba?.closest('[data-consentimiento]');
+    }, { x: caja.x + caja.width / 2, y: caja.y + caja.height / 2 });
+    expect(cubierto, 'el banner tapa el botón del asistente').toBe(false);
+  }
+  // Si no se muestra (el caso de móvil), aparece al resolver el consentimiento.
+  await page.getByRole('button', { name: 'Solo lo necesario' }).click();
+  await expect(boton).toBeVisible();
+  const despues = await boton.boundingBox();
+  expect(despues?.width ?? 0, 'el botón debe ser accionable tras decidir').toBeGreaterThan(0);
+});

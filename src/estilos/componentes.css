@@ -871,6 +871,23 @@ textarea.input {
   box-shadow: var(--shadow-md);
 }
 
+/* En móvil el banner de consentimiento ocupa el bajo de la pantalla y TAPA el
+ * botón del asistente: es fijo, va en z-index 70 y el botón en 50, así que el
+ * visitante no puede abrir el chat hasta decidir sobre la medición. No es un
+ * detalle estético — el control queda inalcanzable.
+ *
+ * Se oculta el botón mientras el banner está a la vista. En cuanto el visitante
+ * elige, aparece. En pantallas anchas no se solapan y no hace falta.
+ *
+ * La alternativa era subir el botón por encima del banner, pero el banner no
+ * tiene altura fija y el botón acabaría flotando a media pantalla.
+ */
+@media (width < 560px) {
+  body:has(.consentimiento:not([hidden])) .asistente-boton {
+    display: none;
+  }
+}
+
 .asistente-boton:hover {
   background: var(--color-bg);
 }
@@ -907,17 +924,33 @@ textarea.input {
   border-bottom: 2px solid var(--color-divider);
 }
 
-/* La marca del panel: isotipo + título, alineados. El icono no se encoge
-   cuando el título ocupa más de lo previsto. */
+/* La marca del panel: isotipo + título, alineados.
+ *
+ * El `min-width: 0` va en el TEXTO, no en el contenedor. Puesto en el
+ * contenedor deja que colapse, y como el reinicio global tiene
+ * `img { max-width: 100% }`, ese 100 % pasa a valer cero y el logo desaparece
+ * con `width: 0px` aunque el SVG haya cargado. Ocurrió en producción y no en
+ * local, porque solo se nota cuando el panel queda estrecho.
+ *
+ * El icono lleva medidas explícitas y `max-width: none` para no depender del
+ * ancho del padre: es un icono de tamaño fijo, no una imagen fluida.
+ */
 .asistente-marca {
   display: flex;
   gap: var(--space-2);
   align-items: center;
-  min-width: 0;
 }
 
 .asistente-marca img {
   flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  max-width: none;
+}
+
+/* El título sí puede encogerse y recortarse antes que empujar al icono. */
+.asistente-marca > div {
+  min-width: 0;
 }
 
 .asistente-cuerpo {
