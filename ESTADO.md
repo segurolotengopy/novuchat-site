@@ -364,6 +364,21 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     intermediario—. Se vio de verdad al verificar v0.2.3:
     `/demo?nombre=…&whatsapp=%2B591…&correo=…`. Cerrado con `method="post"`,
     que no se usa nunca y por eso mismo hay que ponerlo.
+50. **`min-width: 0` en un contenedor flex puede borrar una imagen.** El
+    reinicio global tiene `img { max-width: 100% }`; si el contenedor colapsa,
+    ese 100 % vale cero y la imagen queda con `width: 0px` **aunque el SVG haya
+    cargado**. Pasó con el isotipo del asistente: elemento presente, `complete:
+    true`, natural 150×150, ancho computado 0. Se vio en producción y no en
+    local porque solo ocurre con el panel estrecho. El `min-width: 0` va en el
+    texto, no en el contenedor, y los iconos de tamaño fijo llevan medidas
+    explícitas con `max-width: none`.
+51. **El banner de consentimiento dejaba inalcanzable al asistente en móvil.**
+    Los dos son `position: fixed` en el bajo de la pantalla y el banner va por
+    encima (z-index 70 contra 50), así que en un teléfono no se podía abrir el
+    chat hasta decidir sobre la medición. **Lo encontró la prueba nueva, no una
+    revisión visual**: Playwright falló con «intercepts pointer events», que es
+    exactamente lo que le pasa a un dedo. Un elemento visible y tapado se ve
+    perfecto en una captura.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
