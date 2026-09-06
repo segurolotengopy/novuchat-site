@@ -32,6 +32,21 @@ const REGION = 'us-east1';
  */
 const PRESUPUESTO_RAZONAMIENTO = 256;
 
+/**
+ * Si cambia algo de este archivo y en producción no se nota, mire primero si el
+ * despliegue SALTÓ las Functions.
+ *
+ * Firebase registra la huella del código subido antes de compilarlo. Una
+ * compilación fallida deja esa huella grabada, así que al relanzar el
+ * despliegue compara, ve la misma huella y salta las Functions —con el pipeline
+ * en verde—. Ocurrió en el pase v0.1.8 (2026-09-06): hosting se publicó y el
+ * arreglo del truncado se quedó fuera.
+ *
+ * Se comprueba con `gcloud functions list --format="value(name,updateTime)"`:
+ * si el updateTime no avanzó, el código nuevo no está corriendo.
+ */
+
+
 const MODELO_GENERACION = 'gemini-2.5-flash';
 const MODELO_INCRUSTACIONES = 'gemini-embedding-001';
 
