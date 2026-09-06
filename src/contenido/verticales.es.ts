@@ -81,12 +81,12 @@ export const verticales: Vertical[] = [
     conversacion: [
       {
         de: 'cliente',
-        texto: 'Hola, quiero una hamburguesa doble, sin cebolla. Es para mandar a Calacoto.',
+        texto: 'Hola, quiero dos hamburguesas dobles. Es para mandar a domicilio.',
       },
       {
         de: 'asistente',
         texto:
-          'Hamburguesa doble sin cebolla registrada. El total con envío a Calacoto es 45 Bs. Aquí tienes el QR para el pago:',
+          'Dos hamburguesas dobles, 70 Bs. Con el envío, el total es 85 Bs. Aquí tienes el QR para el pago:',
         qrDemostracion: true,
       },
       { de: 'cliente', texto: 'Listo, ya pagué' },
@@ -125,10 +125,10 @@ export const verticales: Vertical[] = [
       },
     ],
     conversacion: [
-      { de: 'cliente', texto: '¿Tienen la casaca negra en talla M?' },
+      { de: 'cliente', texto: '¿Cuánto está la casaca negra?' },
       {
         de: 'asistente',
-        texto: 'Sí, quedan dos en talla M a 320 Bs. ¿La quieres con envío a domicilio?',
+        texto: 'La casaca negra está 320 Bs. ¿La quieres con envío a domicilio?',
       },
       { de: 'cliente', texto: 'Sí, a Sopocachi' },
       {
