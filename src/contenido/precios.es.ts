@@ -37,9 +37,10 @@ export const precios: Precios = {
       incluye: [
         { texto: 'Todo lo del plan Impulso' },
         { texto: '1.000 conversaciones al mes' },
-        { texto: 'Varios funcionarios, cada uno con su agenda y especialidades' },
-        { texto: 'Pedidos con variantes, notas y envío por zona' },
+        { texto: 'Varios funcionarios, cada uno con su agenda: nadie queda con dos citas a la vez' },
+        { texto: 'Pedidos desde tu catálogo, con el total y el envío ya calculados' },
         { texto: 'Recordatorio automático 24 horas antes de la cita' },
+        { texto: 'Variantes, notas por ítem y envío por zona', proximamente: true },
         { texto: 'El asistente escucha audios', proximamente: true },
         { texto: 'Integración con Google Sheets', proximamente: true },
       ],
@@ -66,7 +67,7 @@ export const precios: Precios = {
     bonificacion:
       'Instalación bonificada para los primeros diez negocios que aseguren su primer mes durante la Rueda de Negocios.',
     incluye: [
-      'Alta de tu negocio en servidores seguros y base de datos aislada',
+      'Ni nosotros podemos leer tus conversaciones: tus datos quedan separados desde el alta',
       'Verificación oficial de tu número ante Meta',
       'Carga de tus servicios, precios, horarios y el tono del asistente',
       'Conexión con tu Google Calendar',
@@ -92,7 +93,7 @@ export const precios: Precios = {
       {
         termino: 'Atención',
         definicion:
-          'Una persona distinta atendida en el período. Si el mismo cliente vuelve tres veces en el mes, son tres conversaciones y una sola atención.',
+          'Una persona distinta atendida en el período. Si el mismo cliente vuelve tres veces en el mes, son tres conversaciones y una sola atención. No se factura: es un dato para que sepas a cuánta gente distinta llegaste.',
       },
       {
         termino: 'Cierre',

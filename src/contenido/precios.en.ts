@@ -31,9 +31,10 @@ export const pricing: Precios = {
       incluye: [
         { texto: 'Everything in Impulso' },
         { texto: '1,000 conversations per month' },
-        { texto: 'Multiple staff members, each with their own calendar and specialties' },
-        { texto: 'Orders with variants, notes and delivery by zone' },
+        { texto: 'Multiple staff members, each with their own calendar: nobody ends up double-booked' },
+        { texto: 'Orders from your catalogue, with the total and delivery already calculated' },
         { texto: 'Automatic reminder 24 hours before the appointment' },
+        { texto: 'Variants, per-item notes and delivery by zone', proximamente: true },
         { texto: 'The assistant listens to voice notes', proximamente: true },
         { texto: 'Google Sheets integration', proximamente: true },
       ],
@@ -60,7 +61,7 @@ export const pricing: Precios = {
     bonificacion:
       'Setup waived for the first ten businesses that secure their first month during the Rueda de Negocios.',
     incluye: [
-      'Your business set up on secure servers with an isolated database',
+      'Not even we can read your conversations: your data is kept separate from day one',
       'Official verification of your number with Meta',
       'Your services, prices, hours and assistant tone loaded in',
       'Connection to your Google Calendar',
@@ -86,7 +87,7 @@ export const pricing: Precios = {
       {
         termino: 'Served customer',
         definicion:
-          'A distinct person attended in the period. The same customer coming back three times in a month is three conversations and one served customer.',
+          'A distinct person attended in the period. The same customer coming back three times in a month is three conversations and one served customer. It is not billed: it tells you how many different people you reached.',
       },
       {
         termino: 'Close',
