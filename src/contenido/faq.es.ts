@@ -54,6 +54,11 @@ export const preguntas: Pregunta[] = [
       'En la infraestructura de Google Cloud, en servidores de Estados Unidos, con la información de cada negocio aislada de la de los demás. Las reglas que garantizan ese aislamiento se prueban automáticamente en cada cambio.',
   },
   {
+    pregunta: '¿Ustedes pueden leer las conversaciones de mis clientes?',
+    respuesta:
+      'No, salvo que tú lo autorices. Ser dueños de NovuChat no nos da acceso: para entrar a dar soporte hace falta que un administrador de tu negocio abra un permiso, que dura entre una y veinticuatro horas, queda registrado y caduca solo. No podemos dárnoslo nosotros mismos. Las reglas que lo garantizan se prueban con más de doscientos casos automáticos en cada cambio.',
+  },
+  {
     pregunta: '¿Puedo cambiar de plan?',
     respuesta:
       'Sí, en cualquier momento. El cambio se aplica el mes siguiente, sin recalcular el mes en curso.',
