@@ -158,7 +158,11 @@ export const asistente = onCall(
         sistema: construirPrompt(utiles, idioma),
         historial: historial.map((t) => ({ rol: t.rol, texto: t.texto })),
         mensaje,
-        maximoTokens: 400,
+        // 400 no alcanzaba: el razonamiento del modelo se comía el
+        // presupuesto y la respuesta salía truncada. Con el tope de
+        // pensamiento en 256, esto deja ~944 tokens garantizados para
+        // contestar. Ver proveedores/vertex.ts.
+        maximoTokens: 1200,
         temperatura: 0.2,
         tiempoMaximo: 12_000,
       });
