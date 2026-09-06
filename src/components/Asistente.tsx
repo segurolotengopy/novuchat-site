@@ -124,11 +124,17 @@ export default function Asistente({ whatsapp }: Props): JSX.Element {
   return (
     <div class="asistente" role="dialog" aria-label="Asistente virtual de NovuChat">
       <header class="asistente-cabecera">
-        <div>
-          <strong>Asistente virtual</strong>
-          <span class="texto-apagado" style="display: block; font-size: 12px">
-            Es una inteligencia artificial
-          </span>
+        <div class="asistente-marca">
+          {/* Mismo isotipo que la cabecera, el pie y las burbujas de ejemplo:
+              cuando el panel se abre tapa el botón flotante, y sin la marca el
+              visitante pierde de vista con quién está hablando. */}
+          <img src="/isotipo.svg" alt="" width="26" height="26" />
+          <div>
+            <strong>Asistente virtual</strong>
+            <span class="texto-apagado" style="display: block; font-size: 12px">
+              Es una inteligencia artificial
+            </span>
+          </div>
         </div>
         <button
           type="button"
