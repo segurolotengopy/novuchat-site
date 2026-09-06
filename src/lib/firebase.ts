@@ -25,7 +25,40 @@ const config = {
   appId: import.meta.env['PUBLIC_FIREBASE_APP_ID'],
 };
 
-const REGION = import.meta.env['PUBLIC_REGION_FUNCTIONS'] ?? 'us-east1';
+/**
+ * Región de las Cloud Functions. **Se valida en build.**
+ *
+ * Tiene que coincidir con la que declaran las propias Functions
+ * (`region: 'us-east1'` en `functions/src/asistente.ts` y `lead.ts`). Si no
+ * coincide, el SDK construye una URL de un despliegue que no existe
+ * —`https://<region>-novuchat-site.cloudfunctions.net/…`— y la llamada muere en
+ * el navegador: sin registro en la nube, sin error 4xx, solo un «No pudimos
+ * enviarlo» en pantalla.
+ *
+ * Pasó de verdad. `PUBLIC_REGION_FUNCTIONS` conservó `southamerica-east1` desde
+ * el arranque del proyecto, cuando las Functions ya se habían movido a
+ * `us-east1`. **El asistente y el formulario nunca funcionaron desde un
+ * navegador**, y no se detectó porque las pruebas de la Function se hacían
+ * contra su URL directa, que no pasa por esta constante.
+ *
+ * Falla el build, como con `PUBLIC_URL_CONSOLA`: es una comprobación barata
+ * contra un fallo caro y silencioso.
+ */
+const REGION_FUNCTIONS = 'us-east1';
+
+function resolverRegion(): string {
+  const valor = import.meta.env['PUBLIC_REGION_FUNCTIONS'];
+  if (valor && valor !== REGION_FUNCTIONS) {
+    throw new Error(
+      `PUBLIC_REGION_FUNCTIONS="${valor}" no coincide con la región donde están ` +
+        `desplegadas las Functions ("${REGION_FUNCTIONS}"). El navegador llamaría a ` +
+        'una URL inexistente y el asistente y el formulario fallarían en silencio.',
+    );
+  }
+  return REGION_FUNCTIONS;
+}
+
+const REGION = resolverRegion();
 
 let app: FirebaseApp | undefined;
 let funciones: Functions | undefined;
