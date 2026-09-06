@@ -90,7 +90,7 @@ export const capacidades = [
   {
     titulo: 'Toma pedidos y cobra por QR',
     texto:
-      'Variantes, notas, envío por zona, total calculado y el QR de tu banco. Valida el comprobante que manda el cliente.',
+      'Pedido desde tu catálogo, total con el envío ya calculado y el QR de tu banco. Valida el comprobante que manda el cliente.',
   },
   {
     titulo: 'Recuerda las citas',
@@ -194,7 +194,7 @@ export const ejemplosDeUso: EjemploDeUso[] = [
   {
     rubro: 'Comercio y Retail',
     frase:
-      'Las preguntas por talla y stock se responden a medianoche, y en la mañana la venta ya está cerrada.',
+      'Las preguntas por precios y envíos se responden a medianoche, y en la mañana la venta ya está cerrada.',
     foto: { archivo: '/imagenes/pyme-retail.webp', alt: 'Tienda de ropa atendiendo a una clienta' },
   },
   {
