@@ -291,6 +291,22 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     tres anfitriones, así que **no puede llevar un `Disallow` para el duplicado**
     sin bloquear también el sitio bueno. De los duplicados se ocupan el
     `canonical` —que ya estaba bien— y la redirección.
+40. **`maxOutputTokens` incluye los tokens de razonamiento.** `gemini-2.5-flash`
+    piensa antes de responder, y ese presupuesto sale del MISMO tope. Con 400,
+    el modelo gastaba ~381 pensando y le quedaban 15 para contestar:
+    `finishReason: MAX_TOKENS` y la respuesta cortada a media frase —«El plan
+    Pro incluye todo lo del plan Crecimiento, 2.»—. El verificador la descartaba
+    por «numero-inventado: 2», haciendo bien: ese 2 era el principio de «2.500»
+    partido. **El asistente llevaba así desde el primer día**, devolviendo «eso
+    no lo tengo» a preguntas que el corpus sí cubre, y nadie lo vio porque las
+    preguntas simples caben en el presupuesto. Se acota el razonamiento
+    (`thinkingBudget: 256`) en vez de solo subir el techo, para que lo que queda
+    para la respuesta esté garantizado.
+41. **Una respuesta truncada que pasa el verificador es peor que una
+    rechazada.** El visitante recibe media frase sin saber que le falta algo.
+    Ahora se mira el `finishReason`: si es `MAX_TOKENS`, se descarta antes de
+    verificar. Se detectó midiendo, no leyendo: con la configuración vieja, 3 de
+    5 preguntas salían truncadas y aun así el verificador aceptaba las 5.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
