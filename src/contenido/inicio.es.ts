@@ -118,7 +118,7 @@ export const comparativa = {
       puntos: [
         'Se rompe si el cliente escribe distinto de lo previsto',
         'Obliga a elegir de un menú, aunque nada encaje',
-        'No entiende «mejor sin cebolla» ni «cámbiame a las seis»',
+        'No entiende «cámbiame a las seis» ni «cuánto sale con el envío»',
         'El cliente termina pidiendo hablar con una persona',
       ],
     },
