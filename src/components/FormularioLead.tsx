@@ -44,6 +44,13 @@ export default function FormularioLead({
   const [error, setError] = useState('');
 
   async function enviar(evento: JSX.TargetedEvent<HTMLFormElement>): Promise<void> {
+    // `preventDefault` es lo que evita el envío nativo del navegador. El
+    // `method="post"` del <form> es la red por si esto NO llega a ejecutarse:
+    // si la isla no se hidrata —error de JS, conexión lenta, navegador viejo—,
+    // un GET nativo metería nombre, correo y teléfono EN LA URL, que queda en el
+    // historial, en la cabecera `Referer` y en los registros de cualquier
+    // intermediario. Visto al verificar v0.2.3, con un envío que se adelantó a
+    // la hidratación: `/demo?nombre=…&whatsapp=%2B591…&correo=…`.
     evento.preventDefault();
     const formulario = evento.currentTarget;
     const campos = new FormData(formulario);
@@ -109,7 +116,7 @@ export default function FormularioLead({
   const cargando = estado === 'cargando';
 
   return (
-    <form class="card elev-md" onSubmit={enviar} noValidate={false}>
+    <form class="card elev-md" method="post" onSubmit={enviar} noValidate={false}>
       <h2 class="card-title">
         {completo ? 'Cuéntanos de tu negocio' : 'Envíanos un mensaje'}
       </h2>

@@ -356,6 +356,14 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     tráfico». Era al revés: significaba que las peticiones no llegaban. Y por lo
     mismo el «no llegó el token de App Check» era una consecuencia, no una
     causa: ese registro ocurre DENTRO de la función.
+49. **Un formulario sin hidratar filtra datos personales por la URL.** El
+    `onSubmit` de la isla llama a `preventDefault()`, pero si la isla no se ha
+    hidratado el navegador hace su envío nativo. Sin `method="post"`, ese envío
+    es un GET y nombre, correo y teléfono acaban en la barra de direcciones —y
+    en el historial, en la cabecera `Referer` y en los registros de cualquier
+    intermediario—. Se vio de verdad al verificar v0.2.3:
+    `/demo?nombre=…&whatsapp=%2B591…&correo=…`. Cerrado con `method="post"`,
+    que no se usa nunca y por eso mismo hay que ponerlo.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
