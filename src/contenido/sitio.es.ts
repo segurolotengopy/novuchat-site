@@ -13,7 +13,7 @@ export const sitio: Sitio = {
   lema: 'El primer empleado de tu negocio que nunca duerme.',
 
   contacto: {
-    correo: 'silvana@novuchat.site',
+    correo: 'novuchat@novuchat.site',
     whatsapp: '+591 70661250',
     whatsappEnlace: '59170661250',
     ciudad: 'La Paz',

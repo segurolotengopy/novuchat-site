@@ -907,6 +907,19 @@ textarea.input {
   border-bottom: 2px solid var(--color-divider);
 }
 
+/* La marca del panel: isotipo + título, alineados. El icono no se encoge
+   cuando el título ocupa más de lo previsto. */
+.asistente-marca {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  min-width: 0;
+}
+
+.asistente-marca img {
+  flex-shrink: 0;
+}
+
 .asistente-cuerpo {
   display: flex;
   flex: 1;
