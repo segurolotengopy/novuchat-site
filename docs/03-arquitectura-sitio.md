@@ -209,7 +209,7 @@ Notas:
 
 - `style-src 'unsafe-inline'` solo por reCAPTCHA; se retira si se usa el widget invisible
   sin estilos en línea. `'unsafe-inline'` **nunca** en `script-src`.
-- La región de las Functions (`us-central1` o `southamerica-east1`) determina el origen de
+- La región de las Functions —**`us-east1` en este proyecto**— determina el origen de
   `connect-src`; con `httpsCallable` el SDK llama a `https://<region>-<proyecto>.cloudfunctions.net`.
   Alternativa: rewrite `/api/**` → función y `connect-src 'self'` (más limpio; requiere
   `httpsCallableFromURL`).
