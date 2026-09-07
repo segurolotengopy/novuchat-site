@@ -150,24 +150,24 @@ for (const caso of CASOS) {
     } else {
       const sistema = construirPrompt(utiles, 'es');
       const bruta = await generar(sistema, caso.pregunta);
-      let veredicto = verificar(bruta, utiles);
+      const veredicto = verificar(bruta, utiles);
 
-      // Mismo reintento que hace la Function cuando el ÚNICO problema es que
-      // el modelo olvidó la línea de citas.
-      if (!veredicto.aceptada && veredicto.motivo === 'sin-citas') {
-        const segunda = await generar(
-          `${sistema}\n\nIMPORTANTE: tu respuesta anterior no incluyó la línea de fuentes. ` +
-            'Responde de nuevo y termina SIEMPRE con [[fuentes: id1, id2]].',
-          caso.pregunta,
-          0,
-        );
-        veredicto = verificar(segunda, utiles);
-        detalle += ' · reintento por falta de citas';
-      }
       if (veredicto.aceptada) {
-        resultado = 'responde';
-        salida = veredicto.texto;
-        detalle += ` · citó ${veredicto.citas.join(', ')}`;
+        // El modelo puede emitir ÉL MISMO la frase de derivación cuando los
+        // fragmentos recuperados no responden la pregunta. El verificador la
+        // acepta —es texto correcto— pero para el visitante es indistinguible
+        // de la derivación por umbral: ve exactamente lo mismo. Contarla como
+        // «responde» hacía fallar este script de forma permanente por una
+        // respuesta que era la correcta.
+        if (veredicto.texto.trim() === NO_LO_SE) {
+          resultado = 'deriva';
+          salida = NO_LO_SE;
+          detalle += ' · el propio modelo dijo que no lo sabe';
+        } else {
+          resultado = 'responde';
+          salida = veredicto.texto;
+          detalle += ` · citó ${veredicto.citas.join(', ') || '(nada)'}`;
+        }
       } else {
         resultado = 'deriva';
         salida = NO_LO_SE;
