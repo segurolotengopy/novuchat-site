@@ -117,7 +117,8 @@ Navegador ──► Firebase Hosting (Astro estático + CSP estricta)
 
 ```bash
 pnpm install
-pnpm dev                 # Astro + islas (SIN cabeceras CSP: no sirve para probar la política)
+pnpm dev                 # Astro + islas (SIN cabeceras CSP: no sirve para probar la política;
+                         #   el asistente y el formulario NO funcionan aquí — ver la nota de abajo)
 pnpm emuladores          # Functions + Firestore (puertos 5241/8241; distintos de la consola)
 pnpm pruebas             # unidad + reglas (emulador) + inyección de prompt
 pnpm humo                # Playwright contra emuladores
@@ -127,6 +128,28 @@ pnpm listo               # compuerta de producción: falla si queda un dato sin 
 pnpm rag:indexar         # regenera el índice del asistente desde el contenido del sitio
 pnpm rag:calibrar        # mide la recuperación y el umbral contra el índice real
 ```
+
+- **El asistente y el formulario no se pueden probar con `pnpm dev`.** Las islas
+  llaman siempre a las Functions de **producción** —el cliente no se conecta a los
+  emuladores— y desde `v0.2.2` el `cors` de ambas Functions solo admite
+  `novuchat.site` y `www`, así que una llamada desde `localhost:4321` muere en el
+  preflight con un 403. App Check exigido (`v0.2.6`) es un segundo muro detrás de
+  ese, no la causa.
+
+  Se deja así a propósito: **no tiene impacto en el sitio publicado ni en el CI**
+  —las pruebas de backend llaman a las Functions en el emulador por el servidor,
+  no por el navegador— y la alternativa cómoda (meter `localhost` en el `cors` de
+  producción) abriría las Functions al `localhost` de cualquiera.
+
+  *Recomendación, cuando haya que tocar esas dos islas:* conectar el cliente a
+  los emuladores bajo `import.meta.env.DEV` (`connectFunctionsEmulator`, puerto
+  5241), que además evita gastar cuota de Vertex y escribir leads reales en
+  desarrollo. Coste estimado: unas líneas en `src/lib/firebase.ts`.
+
+  *Riesgo residual mientras no se haga:* **el camino de llamada del cliente no se
+  ejercita en local**, y es exactamente donde vivía el fallo de región que
+  sobrevivió once pases (`v0.2.3`). Hoy lo cubre la guarda de build de la región
+  y las pruebas de humo; nada más.
 
 - **Si cambia el contenido del sitio hay que reindexar** (`pnpm rag:indexar`) y
   volver a calibrar: el corpus del asistente se deriva de `src/contenido/`, y un

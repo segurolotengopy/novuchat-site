@@ -457,22 +457,25 @@ que alguien lo reporte como una diferencia.
 
 **De Claude Code:**
 
-1. Prueba de punta a punta del asistente contra Vertex real: es la única pieza
-   que nunca se ejercitó con el modelo de verdad.
-2. Capturas reales de la consola para la página `/consola`.
+1. Capturas reales de la consola para la página `/consola`.
+2. *Recomendación, sin urgencia:* **conectar el cliente a los emuladores en
+   desarrollo.** Hoy `pnpm dev` llama a las Functions de producción y el `cors`
+   de `v0.2.2` lo rechaza desde `localhost`, así que el asistente y el
+   formulario no se pueden probar en local. No tiene impacto en el sitio
+   publicado ni en el CI —decisión de Andres, 2026-09-07, dejarlo así— pero
+   deja sin ejercitar el camino de llamada del cliente, que es donde vivía el
+   fallo de región de `v0.2.3`. Detalle y alternativas en `CLAUDE.md`.
 
 **De Andres:**
 
-1. **Fusionar la PR #1.** Es el único bloqueante que queda para el pase, y no lo
-   puede hacer Claude Code: el estándar prohíbe que un agente apruebe o fusione
-   sus propios cambios. Fusionar ya no publica nada; solo habilita el tag.
-2. Reemplazar la identidad legal provisional por el NIT propio de NovuChat
+1. Reemplazar la identidad legal provisional por el NIT propio de NovuChat
    cuando salga (`src/contenido/pendientes.ts`, dos valores).
 2. ID del píxel de Meta; confirmar zona horaria La Paz y moneda BOB en GA4.
-3. Casilla de correo para activar FormSubmit, y luego los MX y el SPF del dominio
-   (se perdieron al reescribir el DNS en Namecheap).
+3. Los MX y el SPF del dominio (se perdieron al reescribir el DNS en Namecheap).
+   El correo de leads ya llega por FormSubmit a `novuchat@novuchat.site`.
 4. Perfil de Empresa de Google para el SEO local.
-5. Workload Identity Federation y los secretos del repositorio
-   (`GCP_WIF_PROVIDER`, `GCP_SA_DEPLOY_STAGING`, `GCP_SA_DEPLOY_PROD`).
-6. Confirmar los nombres de los planes (Impulso/Crecimiento/Pro vs.
-   Base/Crecimiento/Corporativo del diseño).
+
+*Resueltos desde que se escribió esta lista:* PR #1 fusionada; WIF y los
+secretos del repositorio configurados; nombres de los planes confirmados
+(Impulso/Crecimiento/Pro); prueba del asistente contra Vertex real, hecha en
+cada verificación desde `v0.2.3`.
