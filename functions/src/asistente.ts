@@ -53,16 +53,31 @@ export const asistente = onCall(
     // preguntara, así que cualquier web podía llamar a esta función desde el
     // navegador de un visitante —gastando presupuesto de Vertex en el caso del
     // asistente, o metiendo leads en Firestore en el caso del formulario—.
-    // App Check todavía está en monitoreo, así que no compensaba nada.
+    // Sigue haciendo falta con App Check exigido: son controles distintos.
+    // `cors` acota qué páginas pueden llamar desde un navegador; App Check, que
+    // la llamada venga de esta app y no de un script.
     // Sin `novuchat-site.web.app`: el dominio por defecto de Firebase sirve el
     // sitio entero y no se puede desactivar, así que el `<head>` redirige al
     // dominio propio. Dejarlo aquí permitiría llamar a la Function desde una
     // copia del sitio que nadie debería estar usando.
     cors: ['https://novuchat.site', 'https://www.novuchat.site'],
-    // Fase 1: monitoreo. Se pasa a `true` tras una semana sin falsos positivos
-    // (doc 04 §4). La presencia del token se registra abajo, que es lo que da
-    // la evidencia para esa decisión.
-    enforceAppCheck: false,
+    // Fase 2: exigencia (doc 04 §4). La fase de monitoreo terminó con la
+    // evidencia que la justifica: desde que se corrigió la región en v0.2.3
+    // —antes de eso ningún navegador llegaba a llamar— TODAS las peticiones de
+    // navegador traen token, y las únicas sin token son las pruebas por `curl`
+    // desde terminal. Comprobado en dos navegadores independientes.
+    //
+    // Esto es lo que `cors` no puede dar: una petición con `curl` ignora CORS
+    // por completo, así que hasta ahora nada impedía a un script gastar el
+    // presupuesto de Vertex (S-1) o llenar `leads` (S-4).
+    //
+    // Riesgo asumido, S-15: si a un visitante legítimo le falla la atestación
+    // —reCAPTCHA bloqueado por una extensión, navegador muy viejo— la llamada
+    // se rechaza con `unauthenticated` antes de entrar aquí, así que este
+    // código no puede registrarlo. Se vigila en las métricas de App Check de
+    // la consola de Firebase y en los 401 de Cloud Run. Vuelta atrás: poner
+    // `false` aquí y en `lead.ts` y desplegar.
+    enforceAppCheck: true,
     secrets: [SAL_HASH],
     timeoutSeconds: 30,
     memory: '512MiB',
@@ -75,16 +90,17 @@ export const asistente = onCall(
     }
     const { mensaje, historial, idioma, pagina, sesion } = datos.data;
 
-    // — Evidencia para decidir sobre App Check —
-    // `enforceAppCheck: false` es la fase de monitoreo, pero monitorear exige
-    // registrar algo: sin esto, al cumplirse la semana no habría dato con el
-    // que decidir y pasar a `true` sería una apuesta. Se anota solo si la
-    // petición traía token, nada del visitante.
+    // El registro de `conToken` que sostuvo la fase de monitoreo se retira aquí:
+    // con `enforceAppCheck: true` una petición sin token no llega a este código,
+    // así que el dato sería siempre `true` y no diría nada. Lo que hay que
+    // vigilar ahora son los RECHAZOS, y esos no pasan por aquí:
     //
-    //   gcloud logging read 'jsonPayload.message="App Check"' --project novuchat-site
+    //   métricas de App Check en la consola de Firebase (peticiones no verificadas)
+    //   gcloud logging read 'resource.labels.service_name="asistente"
+    //     AND httpRequest.status=401' --project novuchat-site
     //
-    // Si la proporción sin token es ~0, activar la exigencia no rompe a nadie.
-    logger.info('App Check', { conToken: peticion.app !== undefined });
+    // Si aparecen 401 sin explicación, es S-15: la atestación fallando a gente
+    // real. La vuelta atrás es poner `enforceAppCheck: false` y desplegar.
 
     // — Límite de tasa —
     const clave = identificar(
