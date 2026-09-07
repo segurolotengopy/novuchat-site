@@ -15,6 +15,7 @@
  *   3. Marcas `<!-- CONFIRMAR -->` en el contenido. → prohibición 8
  *   4. Voseo en los textos públicos.               → CLAUDE.md, idioma y estilo
  *   5. `PUBLIC_URL_CONSOLA` fuera de la lista blanca. → riesgo S-13
+ *   6. Una Function llamable con `enforceAppCheck: false`. → prohibición 6
  *
  * Uso:  pnpm prohibiciones
  */
@@ -176,6 +177,26 @@ if (existsSync(rutaEnv)) {
       texto: valor,
     });
   }
+}
+
+// Prohibición 6: ninguna Function llamable sin App Check exigido.
+// La fase de monitoreo terminó en v0.2.6 con la evidencia en el acta. Volver a
+// `false` deja el asistente y el formulario abiertos a cualquier script: `cors`
+// no protege de una llamada con `curl`. Si hay que desactivarlo por un
+// incidente (S-15), quítese también esta comprobación, en el mismo commit y con
+// el motivo escrito: la vuelta atrás debe ser deliberada, no silenciosa.
+for (const rel of ['functions/src/asistente.ts', 'functions/src/lead.ts']) {
+  const ruta = join(RAIZ, rel);
+  if (!existsSync(ruta)) continue;
+  readFileSync(ruta, 'utf8').split('\n').forEach((linea, i) => {
+    if (/^\s*enforceAppCheck:\s*false/.test(linea)) {
+      hallazgos.push({
+        rel, linea: i + 1, regla: 'app-check',
+        prohibicion: 'CLAUDE.md 6 — la Function no puede atender sin App Check',
+        texto: linea.trim(),
+      });
+    }
+  });
 }
 
 if (hallazgos.length === 0) {

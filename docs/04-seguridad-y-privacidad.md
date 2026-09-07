@@ -49,7 +49,7 @@
 | S-12 | **Secretos en el historial de git** | Pre-commit con verificador de saneo (copiar `scripts/verificar-saneo.sh` y `.pre-commit-config.yaml` de `~/NovuChat`) | `pre-commit install` en cada clon |
 | S-13 | **Enlace a la consola apuntando a un dominio equivocado** (phishing por error de configuración) | `PUBLIC_URL_CONSOLA` validada en build contra una lista blanca (`consola.novuchat.site`, `novuchat-admin-prod.web.app`) | Prueba de build |
 | S-14 | **Tercero de correo con datos de prospectos** | Resend con clave en Secret Manager; o FormSubmit **declarado en privacidad**; nunca `spread` de campos del formulario al cuerpo de la petición (`_cc`, `_replyto` son instrucciones de FormSubmit) | Revisión de `lead.ts` |
-| S-15 | **reCAPTCHA Enterprise bloqueando usuarios legítimos** | App Check en modo monitoreo la primera semana; token de debug documentado para desarrollo | Métricas de App Check en la consola de Firebase |
+| S-15 | **reCAPTCHA Enterprise bloqueando usuarios legítimos** | App Check en modo monitoreo la primera semana; token de debug documentado para desarrollo. Con la exigencia activa el rechazo ocurre **antes** del código de la Function, así que no se puede registrar desde dentro | Métricas de App Check en la consola de Firebase; 401 de Cloud Run (`httpRequest.status=401`). Vuelta atrás: `enforceAppCheck: false` en ambas Functions |
 
 ---
 
@@ -72,6 +72,13 @@ La política completa está en `03-arquitectura-sitio.md` §6. Reglas de manteni
   puede usarse en varios dominios: `novuchat.site`, `www`, `localhost` para desarrollo).
 - Fase 1: modo **monitoreo** (las Functions con `enforceAppCheck: false` pero registrando
   `request.app`); Fase 2 (tras 7 días sin falsos positivos): `enforceAppCheck: true`.
+- **Estado: fase 2 desde `v0.2.6`.** Ambas Functions exigen App Check, y
+  `pnpm prohibiciones` falla si alguna vuelve a `false`. La evidencia que lo
+  sostiene está en `docs/produccion/acta-v0.2.6.md`. Advertencia sobre la fase 1
+  tal como se vivió aquí: durante casi toda ella **ningún navegador llegaba a
+  llamar** por el fallo de región de `v0.2.3`, así que los 7 días de calendario
+  se cumplieron sin producir señal. El plazo no es el criterio; el tráfico real
+  lo es.
 - Desarrollo: `self.FIREBASE_APPCHECK_DEBUG_TOKEN = true` y registrar el token en la
   consola (como documenta `AAB1-landing/README.md`).
 

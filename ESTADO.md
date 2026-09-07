@@ -22,7 +22,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | Proyecto Firebase `novuchat-site` (nº 50331646927) | plan Blaze, presupuesto de 10 USD con alertas al 50/90/100 % |
 | Firestore | `(default)` en **us-east1**, modo nativo, protección de borrado activa |
 | App web | `NovuChat sitio` — `1:50331646927:web:54f472bf096c63a0caf0ba` |
-| App Check | reCAPTCHA Enterprise registrado, TTL 3600 s, `minValidScore 0.5`, modo monitoreo |
+| App Check | reCAPTCHA Enterprise registrado, TTL 3600 s, `minValidScore 0.5`, **exigido** en ambas Functions desde `v0.2.6`; `pnpm prohibiciones` impide volver a `false` en silencio |
 | Dominios | `novuchat.site` y `www` → `OWNERSHIP_ACTIVE` + `HOST_ACTIVE`; certificado en emisión |
 | Píxel de Meta | `1058454173766291`, dominio verificado |
 | GA4 | `G-BDYVHDEH9R`, detrás del banner de consentimiento |
@@ -379,6 +379,20 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     revisión visual**: Playwright falló con «intercepts pointer events», que es
     exactamente lo que le pasa a un dedo. Un elemento visible y tapado se ve
     perfecto en una captura.
+52. **Un plazo de calendario no es evidencia.** La regla del doc 04 decía «7
+    días sin falsos positivos» para pasar App Check a exigencia. Los 7 días se
+    cumplieron, pero durante casi todos ellos **ningún navegador llegaba a
+    llamar** por el fallo de región del `v0.2.3`: las 25 peticiones registradas
+    eran pruebas por `curl`, todas sin token, y habrían hecho parecer peligroso
+    activar la exigencia. La evidencia útil apareció en cuatro horas de tráfico
+    real, no en una semana de reloj. Lo que hay que contar son las peticiones
+    del camino del usuario, no los días.
+53. **Con la exigencia activa, el fallo deja de ser observable desde dentro.**
+    Una petición sin token válido se rechaza **antes** del código de la
+    Function, así que el `logger.info` que sostuvo el monitoreo pasa a valer
+    siempre `true` y no dice nada. La vigilancia se muda a las métricas de App
+    Check y a los 401 de Cloud Run. Se retiró el registro en lugar de dejarlo
+    dando una falsa sensación de control.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura

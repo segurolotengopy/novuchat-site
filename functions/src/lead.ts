@@ -110,13 +110,15 @@ export const lead = onCall(
     // preguntara, así que cualquier web podía llamar a esta función desde el
     // navegador de un visitante —gastando presupuesto de Vertex en el caso del
     // asistente, o metiendo leads en Firestore en el caso del formulario—.
-    // App Check todavía está en monitoreo, así que no compensaba nada.
+    // Sigue haciendo falta con App Check exigido: son controles distintos.
+    // `cors` acota qué páginas pueden llamar desde un navegador; App Check, que
+    // la llamada venga de esta app y no de un script.
     // Sin `novuchat-site.web.app`: el dominio por defecto de Firebase sirve el
     // sitio entero y no se puede desactivar, así que el `<head>` redirige al
     // dominio propio. Dejarlo aquí permitiría llamar a la Function desde una
     // copia del sitio que nadie debería estar usando.
     cors: ['https://novuchat.site', 'https://www.novuchat.site'],
-    enforceAppCheck: false, // monitoreo la primera semana (doc 04 §4)
+    enforceAppCheck: true, // fase 2, exigido (doc 04 §4); el motivo, en asistente.ts
     secrets: [FORMSUBMIT_ALIAS, SAL_HASH],
     timeoutSeconds: 30,
     memory: '256MiB',
@@ -137,16 +139,17 @@ export const lead = onCall(
       return { ok: true };
     }
 
-    // — Evidencia para decidir sobre App Check —
-    // `enforceAppCheck: false` es la fase de monitoreo, pero monitorear exige
-    // registrar algo: sin esto, al cumplirse la semana no habría dato con el
-    // que decidir y pasar a `true` sería una apuesta. Se anota solo si la
-    // petición traía token, nada del visitante.
+    // El registro de `conToken` que sostuvo la fase de monitoreo se retira aquí:
+    // con `enforceAppCheck: true` una petición sin token no llega a este código,
+    // así que el dato sería siempre `true` y no diría nada. Lo que hay que
+    // vigilar ahora son los RECHAZOS, y esos no pasan por aquí:
     //
-    //   gcloud logging read 'jsonPayload.message="App Check"' --project novuchat-site
+    //   métricas de App Check en la consola de Firebase (peticiones no verificadas)
+    //   gcloud logging read 'resource.labels.service_name="lead"
+    //     AND httpRequest.status=401' --project novuchat-site
     //
-    // Si la proporción sin token es ~0, activar la exigencia no rompe a nadie.
-    logger.info('App Check', { conToken: peticion.app !== undefined });
+    // Si aparecen 401 sin explicación, es S-15: la atestación fallando a gente
+    // real. La vuelta atrás es poner `enforceAppCheck: false` y desplegar.
 
     // — Límite de tasa —
     const clave = identificar(
