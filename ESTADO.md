@@ -393,6 +393,17 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     siempre `true` y no dice nada. La vigilancia se muda a las métricas de App
     Check y a los 401 de Cloud Run. Se retiró el registro en lugar de dejarlo
     dando una falsa sensación de control.
+54. **Una comprobación que siempre falla es una comprobación que nadie mira.**
+    `pnpm asistente:probar` daba 12/13 de forma permanente por un caso que en
+    realidad se comportaba bien: ante «¿me pueden hacer una página web
+    también?» el modelo emite ÉL MISMO la frase de derivación, el verificador
+    la acepta —es texto correcto— y el script la contaba como «responde». Para
+    el visitante es indistinguible de la derivación por umbral: ve exactamente
+    lo mismo. De paso se retiró un reintento «por falta de citas» que decía
+    replicar a la Function y no replicaba nada: `sin-citas` dejó de ser motivo
+    de rechazo, así que la rama estaba muerta y su comentario describía un
+    comportamiento de producción que no existe. Un comentario falso es peor que
+    código muerto.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
