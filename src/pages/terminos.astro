@@ -34,24 +34,31 @@ const { instalacion, excedente, comoContamos } = precios;
 
       <h2>3. Cómo se cobra</h2>
       <p>
-        Los planes se facturan por mes adelantado, en bolivianos. Cada plan
-        incluye una cantidad de conversaciones.
+        Los planes se facturan por mes adelantado. Cada plan incluye una cantidad
+        de conversaciones.
+      </p>
+      <p>
+        Los precios se expresan en dólares estadounidenses. La facturación se
+        emite en bolivianos por el importe resultante de aplicar el Tipo de
+        Cambio Oficial publicado por el Banco Central de Bolivia correspondiente
+        al primer día hábil del mes facturado, que se mantiene durante todo ese
+        mes y se muestra en la consola del comercio.
       </p>
       <p>
         <strong>{comoContamos.parrafos[0]}</strong>
       </p>
       <p>
         Si superas lo incluido, cada bloque adicional de {excedente.conversaciones}
-        {' '}conversaciones cuesta {excedente.precioBs} Bs. Te avisamos al llegar
-        al 80 % de tu plan para que decidas antes de que ocurra. El consumo del
+        {' '}conversaciones cuesta USD {excedente.precioUsd} y no vence. Te
+        avisamos al llegar al 80 % de tu plan para que decidas antes de que
+        ocurra, y no se cobra ningún excedente sin tu aprobación. El consumo del
         modelo de inteligencia artificial y las conversaciones de WhatsApp están
         incluidos en el precio del plan.
       </p>
       <p>
-        La instalación se cobra una sola vez: {instalacion.estandar} Bs en su
-        modalidad estándar, y desde{' '}
-        {instalacion.aMedidaDesde.toLocaleString('es-BO')} Bs cuando requiere
-        integraciones a medida.
+        La instalación se cobra una sola vez: USD {instalacion.estandar} en su
+        modalidad estándar, y desde USD {instalacion.aMedidaDesde} cuando
+        requiere integraciones a medida.
       </p>
 
       <h2>4. Plazo de instalación</h2>

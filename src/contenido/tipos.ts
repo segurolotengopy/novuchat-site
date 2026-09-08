@@ -6,12 +6,22 @@
  * despliegue. Ese es todo el propósito de tipar el contenido.
  */
 
-/** Un plan comercial. Los precios son los confirmados el 2026-09-02. */
+/**
+ * Un plan comercial. Precios y volúmenes revisados el 2026-09-08.
+ *
+ * `precioUsd` está en dólares a propósito: desde esa revisión la tarifa se
+ * denomina en dólares y se cobra en bolivianos al Tipo de Cambio Oficial del
+ * Banco Central. El nombre del campo dice la moneda para que nadie imprima el
+ * número con «Bs» al lado, que es el error fácil.
+ */
 export interface Plan {
   id: 'impulso' | 'crecimiento' | 'pro';
   nombre: string;
-  precioBs: number;
-  /** Conversaciones incluidas al mes. Una conversación = 24 h con un cliente. */
+  precioUsd: number;
+  /**
+   * Conversaciones incluidas al mes. Una conversación = 24 h con un cliente,
+   * con hasta 25 respuestas del asistente dentro de ella.
+   */
   conversaciones: number;
   resumen: string;
   incluye: Caracteristica[];
@@ -28,7 +38,7 @@ export interface Caracteristica {
   proximamente?: boolean;
 }
 
-/** Costos de puesta en marcha, fuera de la mensualidad. */
+/** Costos de puesta en marcha, fuera de la mensualidad. En dólares. */
 export interface Instalacion {
   estandar: number;
   aMedidaDesde: number;
@@ -36,9 +46,9 @@ export interface Instalacion {
   bonificacion?: string;
 }
 
-/** Excedente por consumo sobre lo incluido en el plan. */
+/** Excedente por consumo sobre lo incluido en el plan. En dólares. */
 export interface Excedente {
-  precioBs: number;
+  precioUsd: number;
   conversaciones: number;
 }
 

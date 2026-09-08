@@ -61,8 +61,11 @@ const grafo: Record<string, unknown>[] = [
     offers: precios.planes.map((plan) => ({
       '@type': 'Offer',
       name: `Plan ${plan.nombre}`,
-      price: String(plan.precioBs),
-      priceCurrency: 'BOB',
+      // La moneda tiene que acompañar al número: es el dato que Google publica
+      // en el resultado de búsqueda. Con 'BOB' y el valor 20, un buscador
+      // anunciaría el plan a 20 bolivianos.
+      price: String(plan.precioUsd),
+      priceCurrency: 'USD',
       description: plan.resumen,
       url: `${base}/precios`,
     })),

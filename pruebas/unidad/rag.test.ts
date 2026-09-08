@@ -155,9 +155,19 @@ describe('corpus derivado del sitio', () => {
 
   it('no incluye costos internos', () => {
     // El estudio de costo por atención es información nuestra, no del cliente.
+    //
+    // Antes esta prueba prohibía la cadena «USD», porque el único sitio donde
+    // aparecían dólares era ese estudio. Desde la revisión de precios del
+    // 2026-09-08 la tarifa pública está EN dólares, así que la cadena dejó de
+    // distinguir lo interno de lo publicable y prohibirla habría bloqueado el
+    // precio de verdad. Se prohíben los términos del estudio, que es lo que la
+    // prueba quería proteger.
+    const internos = ['costo por atención', 'costo por conversación', 'margen', 'markup'];
     for (const f of corpus) {
-      expect(f.texto.toLowerCase(), f.id).not.toContain('costo por atención');
-      expect(f.texto, f.id).not.toContain('USD');
+      const texto = f.texto.toLowerCase();
+      for (const termino of internos) {
+        expect(texto, `${f.id} menciona "${termino}"`).not.toContain(termino);
+      }
     }
   });
 
