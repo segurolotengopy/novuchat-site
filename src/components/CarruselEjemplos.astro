@@ -70,6 +70,17 @@ const { ejemplos } = Astro.props;
               {e.rubro}
             </span>
             <p class="carrusel-frase">{e.frase}</p>
+            {
+              e.ruta && (
+                <a class="carrusel-enlace" href={e.ruta}>
+                  Ver soluciones para {e.rubro}
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none"
+                    stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              )
+            }
           </div>
         </div>
       ))
@@ -182,6 +193,19 @@ const { ejemplos } = Astro.props;
     text-wrap: pretty;
   }
 
+  /* El enlace lleva el subrayado propio: dentro de la diapositiva no hay más
+     texto enlazado con el que confundirlo, y el color solo no basta (WCAG
+     1.4.1). `:not(.btn)` no hace falta aquí porque no es un botón. */
+  .carrusel-enlace {
+    display: inline-flex;
+    align-self: flex-start;
+    gap: var(--space-2);
+    align-items: center;
+    margin-top: var(--space-2);
+    font-weight: 600;
+    color: var(--verde-texto);
+  }
+
   .carrusel-controles {
     display: flex;
     flex-wrap: wrap;
@@ -250,6 +274,28 @@ const { ejemplos } = Astro.props;
     // equivocada. El desplazamiento con el dedo la reconcilia más abajo.
     let indice = 0;
 
+    /**
+     * Fuerza la carga de la diapositiva pedida y de la siguiente.
+     *
+     * Las imágenes van con `loading="lazy"` para no pesar en el primer pintado
+     * —el carrusel está bajo el pliegue—, pero el disparador nativo NO se
+     * cumple de forma fiable para una imagen que entra en pantalla por un
+     * desplazamiento HORIZONTAL dentro de un contenedor: comprobado en
+     * Chromium, las diapositivas 3 y 4 quedaban en `complete: false` con la
+     * imagen totalmente visible, y forzarlas a `eager` las traía en 4 ms.
+     *
+     * Media diapositiva en blanco es peor que un kilobyte de más, así que se
+     * pide la imagen al llegar y la de al lado se adelanta. Sin JavaScript
+     * queda el comportamiento nativo, que en la mayoría de los navegadores
+     * funciona: esto es una red, no un reemplazo.
+     */
+    const asegurarImagen = (destino: number) => {
+      for (const i of [destino, destino + 1]) {
+        const img = diapositivas[i]?.querySelector('img');
+        if (img && img.loading === 'lazy') img.loading = 'eager';
+      }
+    };
+
     // Mientras una animación programada está en vuelo, el desplazamiento pasa
     // POR ENCIMA de las diapositivas intermedias. Si el reconciliador leyera la
     // posición en ese instante, el punto activo saltaría a una diapositiva por
@@ -270,6 +316,7 @@ const { ejemplos } = Astro.props;
 
       indice = siguiente;
       marcarPunto(indice);
+      asegurarImagen(indice);
       enVueloHasta = Date.now() + 800;
       pista.scrollTo({ left: objetivo, behavior: suave ? 'smooth' : 'auto' });
 
@@ -289,6 +336,8 @@ const { ejemplos } = Astro.props;
         else punto.removeAttribute('aria-current');
       });
     };
+
+    asegurarImagen(0);
 
     carrusel
       .querySelector('[data-carrusel-anterior]')
@@ -326,6 +375,7 @@ const { ejemplos } = Astro.props;
         if (Math.abs(aproximado - cercano) < 0.02) {
           indice = cercano;
           marcarPunto(indice);
+          asegurarImagen(indice);
         }
       }, 150);
     });

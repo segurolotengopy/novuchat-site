@@ -95,6 +95,12 @@ export interface EjemploDeUso {
   rubro: string;
   frase: string;
   foto: { archivo: string; alt: string };
+  /**
+   * Página del rubro, cuando existe. «Consultorios» no tiene una todavía, y por
+   * eso es opcional: la diapositiva se muestra igual, sin enlace, en vez de
+   * llevar a una página que no está.
+   */
+  ruta?: string;
 }
 
 export interface Contacto {

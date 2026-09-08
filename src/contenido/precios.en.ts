@@ -19,7 +19,6 @@ export const pricing: Precios = {
       incluye: [
         { texto: 'AI assistant that understands natural language, around the clock' },
         { texto: '120 conversations per month' },
-        { texto: 'Up to 25 assistant replies per conversation' },
         { texto: 'Booking connected to your Google Calendar' },
         { texto: 'Console to see everything from your phone' },
         { texto: 'Official WhatsApp Business channel' },
@@ -35,7 +34,6 @@ export const pricing: Precios = {
       incluye: [
         { texto: 'Everything in Impulso' },
         { texto: '200 conversations per month' },
-        { texto: 'Up to 25 assistant replies per conversation' },
         { texto: 'Multiple staff members, each with their own calendar: nobody ends up double-booked' },
         { texto: 'Orders from your catalogue, with the total and delivery already calculated' },
         { texto: 'Automatic reminder 24 hours before the appointment' },
@@ -53,7 +51,6 @@ export const pricing: Precios = {
       incluye: [
         { texto: 'Everything in Crecimiento' },
         { texto: '300 conversations per month' },
-        { texto: 'Up to 25 assistant replies per conversation' },
         { texto: 'Priority technical support' },
         { texto: 'Broadcast through approved templates', proximamente: true },
         { texto: 'Loyalty points programme', proximamente: true },

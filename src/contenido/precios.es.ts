@@ -27,7 +27,6 @@ export const precios: Precios = {
       incluye: [
         { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
         { texto: '120 conversaciones al mes' },
-        { texto: 'Hasta 25 respuestas del asistente por conversación' },
         { texto: 'Agenda conectada a tu Google Calendar' },
         { texto: 'Consola para ver todo desde el celular' },
         { texto: 'Canal oficial de WhatsApp Business' },
@@ -43,7 +42,6 @@ export const precios: Precios = {
       incluye: [
         { texto: 'Todo lo del plan Impulso' },
         { texto: '200 conversaciones al mes' },
-        { texto: 'Hasta 25 respuestas del asistente por conversación' },
         { texto: 'Varios funcionarios, cada uno con su agenda: nadie queda con dos citas a la vez' },
         { texto: 'Pedidos desde tu catálogo, con el total y el envío ya calculados' },
         { texto: 'Recordatorio automático 24 horas antes de la cita' },
@@ -61,7 +59,6 @@ export const precios: Precios = {
       incluye: [
         { texto: 'Todo lo del plan Crecimiento' },
         { texto: '300 conversaciones al mes' },
-        { texto: 'Hasta 25 respuestas del asistente por conversación' },
         { texto: 'Soporte técnico prioritario' },
         { texto: 'Difusión masiva por plantillas aprobadas', proximamente: true },
         { texto: 'Programa de fidelización con puntos', proximamente: true },
