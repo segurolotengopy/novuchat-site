@@ -90,7 +90,7 @@ export const capacidades = [
   {
     titulo: 'Toma pedidos y cobra por QR',
     texto:
-      'Pedido desde tu catálogo, total con el envío ya calculado y el QR de tu banco. Valida el comprobante que manda el cliente.',
+      'Pedido desde tu catálogo, total con el envío ya calculado y el QR de tu banco. El cliente manda el comprobante y tú lo validas.',
   },
   {
     titulo: 'Recuerda las citas',
