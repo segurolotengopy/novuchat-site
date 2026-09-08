@@ -1,8 +1,13 @@
 import type { Precios } from './tipos';
 
 /**
- * Planes y precios — confirmados por Andres el 2026-09-02 contra el diseño de
- * referencia y `Presentación NovuChat2.html`.
+ * Planes y precios — revisados por Andres el 2026-09-08 tras el análisis de
+ * costo por conversación y de la unidad de cobro.
+ *
+ * **Los importes están en dólares** y se cobran en bolivianos al Tipo de Cambio
+ * Oficial del Banco Central de Bolivia (primer día hábil del mes facturado).
+ * Por eso el campo se llama `precioUsd`: imprimirlo con «Bs» al lado sería un
+ * error de un orden de magnitud.
  *
  * Nombres: Impulso / Crecimiento / Pro (decisión de Andres, 2026-09-02).
  * Los precios de esta tabla alimentan también el JSON-LD `SoftwareApplication`,
@@ -16,12 +21,13 @@ export const precios: Precios = {
     {
       id: 'impulso',
       nombre: 'Impulso',
-      precioBs: 250,
-      conversaciones: 300,
+      precioUsd: 20,
+      conversaciones: 120,
       resumen: 'Para el negocio que empieza a perder mensajes por no dar abasto.',
       incluye: [
         { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
-        { texto: '300 conversaciones al mes' },
+        { texto: '120 conversaciones al mes' },
+        { texto: 'Hasta 25 respuestas del asistente por conversación' },
         { texto: 'Agenda conectada a tu Google Calendar' },
         { texto: 'Consola para ver todo desde el celular' },
         { texto: 'Canal oficial de WhatsApp Business' },
@@ -30,13 +36,14 @@ export const precios: Precios = {
     {
       id: 'crecimiento',
       nombre: 'Crecimiento',
-      precioBs: 450,
-      conversaciones: 1000,
+      precioUsd: 40,
+      conversaciones: 200,
       resumen: 'Para el negocio con varias personas atendiendo y agenda llena.',
       destacado: true,
       incluye: [
         { texto: 'Todo lo del plan Impulso' },
-        { texto: '1.000 conversaciones al mes' },
+        { texto: '200 conversaciones al mes' },
+        { texto: 'Hasta 25 respuestas del asistente por conversación' },
         { texto: 'Varios funcionarios, cada uno con su agenda: nadie queda con dos citas a la vez' },
         { texto: 'Pedidos desde tu catálogo, con el total y el envío ya calculados' },
         { texto: 'Recordatorio automático 24 horas antes de la cita' },
@@ -48,12 +55,13 @@ export const precios: Precios = {
     {
       id: 'pro',
       nombre: 'Pro',
-      precioBs: 850,
-      conversaciones: 2500,
+      precioUsd: 70,
+      conversaciones: 300,
       resumen: 'Para varias sucursales o un volumen alto de pedidos.',
       incluye: [
         { texto: 'Todo lo del plan Crecimiento' },
-        { texto: '2.500 conversaciones al mes' },
+        { texto: '300 conversaciones al mes' },
+        { texto: 'Hasta 25 respuestas del asistente por conversación' },
         { texto: 'Soporte técnico prioritario' },
         { texto: 'Difusión masiva por plantillas aprobadas', proximamente: true },
         { texto: 'Programa de fidelización con puntos', proximamente: true },
@@ -62,8 +70,8 @@ export const precios: Precios = {
   ],
 
   instalacion: {
-    estandar: 800,
-    aMedidaDesde: 1500,
+    estandar: 65,
+    aMedidaDesde: 125,
     bonificacion:
       'Instalación bonificada para los primeros diez negocios que aseguren su primer mes durante la Rueda de Negocios.',
     incluye: [
@@ -75,20 +83,20 @@ export const precios: Precios = {
     ],
   },
 
-  excedente: { precioBs: 50, conversaciones: 150 },
+  excedente: { precioUsd: 10, conversaciones: 25 },
 
   comoContamos: {
     titulo: 'Cómo contamos las conversaciones',
     parrafos: [
-      'Una conversación son todos los mensajes que intercambias con un mismo cliente durante 24 horas continuas, sin importar cuántos sean. Si alguien te escribe a las nueve de la mañana, sigue preguntando al mediodía y cierra su pedido a las seis de la tarde, eso es una sola conversación.',
-      'Lo hacemos así porque es la única medida que no te castiga por conversar. Cobrar por mensaje empuja a responder corto, y un asistente que responde corto vende menos.',
+      'Una conversación son todos los mensajes que intercambias con un mismo cliente durante 24 horas continuas. Si alguien te escribe a las nueve de la mañana, sigue preguntando al mediodía y cierra su pedido a las seis de la tarde, eso es una sola conversación. El asistente responde hasta 25 veces dentro de esa conversación; si hace falta más, te avisa para que la tome alguien de tu equipo.',
+      'Lo hacemos así porque no te castiga por conversar: una conversación de tres mensajes y una de veinte cuestan lo mismo. Cobrar por mensaje te obligaría a vigilar cuánto habla el asistente, y un asistente que responde corto vende menos.',
       'En tu consola ves el mismo número que facturamos, y además dos datos que sirven para decidir: cuántas personas distintas atendiste y cuántos cierres se lograron.',
     ],
     glosario: [
       {
         termino: 'Conversación',
         definicion:
-          'Todos los mensajes con un mismo cliente en 24 horas continuas. Es la unidad que se factura.',
+          'Todos los mensajes con un mismo cliente en 24 horas continuas, con hasta 25 respuestas del asistente. Es la unidad que se factura.',
       },
       {
         termino: 'Atención',
@@ -103,7 +111,7 @@ export const precios: Precios = {
       {
         termino: 'Excedente',
         definicion:
-          'Si superas las conversaciones de tu plan, cada bloque adicional de 150 conversaciones cuesta 50 Bs. No se corta el servicio ni se te cobra sorpresa: te avisamos al llegar al 80 %.',
+          'Si superas las conversaciones de tu plan, cada bloque adicional de 25 conversaciones cuesta USD 10 y no vence. Te avisamos al llegar al 80 % de tu plan, y nunca se te cobra sin que lo apruebes.',
       },
     ],
   },

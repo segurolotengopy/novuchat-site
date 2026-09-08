@@ -7,7 +7,7 @@ const { planes, instalacion, excedente, comoContamos } = precios;
 
 <Base
   titulo="Planes y precios de NovuChat"
-  descripcion="Planes desde 250 Bs al mes, con el consumo de la IA y de WhatsApp incluido. Instalación en 48 horas. Sin contratos largos."
+  descripcion="Planes desde USD 20 al mes, con el consumo de la IA y de WhatsApp incluido. Instalación en 48 horas. Sin contratos largos."
   rutaAlterna="/en/precios"
   migajas={[
     { nombre: 'Inicio', ruta: '/' },
@@ -34,7 +34,7 @@ const { planes, instalacion, excedente, comoContamos } = precios;
               )}
               <h2 class="plan-nombre">{plan.nombre}</h2>
               <p class="plan-precio">
-                {plan.precioBs} Bs <small>/ mes</small>
+                USD {plan.precioUsd} <small>/ mes</small>
               </p>
               <p class="card-body">{plan.resumen}</p>
               <p class="tag tag-neutral" style="align-self: flex-start">
@@ -63,6 +63,12 @@ const { planes, instalacion, excedente, comoContamos } = precios;
       </div>
 
       <p class="texto-apagado" style="margin-top: var(--space-6); font-size: 14px">
+        Los precios están expresados en dólares estadounidenses. El cobro se
+        realiza en bolivianos, al Tipo de Cambio Oficial que publica el Banco
+        Central de Bolivia.
+      </p>
+
+      <p class="texto-apagado" style="margin-top: var(--space-3); font-size: 14px">
         Las funciones marcadas como «Próximamente» todavía no están disponibles.
         Las anunciamos aquí para que sepas hacia dónde va el producto, no para
         cobrarlas antes de tiempo.
@@ -78,16 +84,16 @@ const { planes, instalacion, excedente, comoContamos } = precios;
           <h2 class="card-title">Si te pasas del plan</h2>
           <p class="card-body">
             Cada bloque adicional de {excedente.conversaciones} conversaciones
-            cuesta {excedente.precioBs} Bs. No se corta el servicio ni se te
-            cobra sin avisar: te escribimos cuando llegas al 80 % de tu plan,
-            para que decidas si conviene subir de nivel.
+            cuesta USD {excedente.precioUsd} y no vence. Te escribimos cuando
+            llegas al 80 % de tu plan para que decidas si conviene subir de
+            nivel, y nunca se te cobra sin que lo apruebes.
           </p>
         </article>
 
         <article class="card elev-sm">
           <h2 class="card-title">Instalación</h2>
           <p class="plan-precio" style="font-size: 30px">
-            {instalacion.estandar} Bs <small>/ una sola vez</small>
+            USD {instalacion.estandar} <small>/ una sola vez</small>
           </p>
           <ul class="plan-lista">
             {instalacion.incluye.map((i) => <li>{i}</li>)}
@@ -95,7 +101,7 @@ const { planes, instalacion, excedente, comoContamos } = precios;
           <p class="card-body">
             Para arquitecturas más complejas —conexión con un sistema propio,
             consultas a tu base de datos en tiempo real— la instalación a medida
-            arranca en {instalacion.aMedidaDesde.toLocaleString('es-BO')} Bs.
+            arranca en USD {instalacion.aMedidaDesde}.
           </p>
           {
             instalacion.bonificacion && (

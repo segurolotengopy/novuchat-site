@@ -80,7 +80,7 @@ const plan = precios.planes.find((p) => p.id === vertical.planRecomendado)!;
       <h2 class="seccion-titulo">Plan recomendado para este rubro</h2>
       <article class="plan plan-destacado" style="max-width: 420px">
         <h3 class="plan-nombre">{plan.nombre}</h3>
-        <p class="plan-precio">{plan.precioBs} Bs <small>/ mes</small></p>
+        <p class="plan-precio">USD {plan.precioUsd} <small>/ mes</small></p>
         <p class="card-body">{plan.resumen}</p>
         <a class="btn btn-primary btn-block" href={`/demo?plan=${plan.id}`}>
           Empezar con {plan.nombre}

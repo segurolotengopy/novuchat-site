@@ -34,7 +34,10 @@ export interface Fragmento {
   url: string;
 }
 
-const bs = (n: number) => `${n.toLocaleString('es-BO')} Bs`;
+// Los precios se denominan en dólares y se cobran en bolivianos al Tipo de
+// Cambio Oficial del BCB. El asistente tiene que decir la moneda siempre: un
+// número suelto lo leería cualquiera como bolivianos.
+const usd = (n: number) => `USD ${n}`;
 
 export function construirCorpus(): Fragmento[] {
   const fragmentos: Fragmento[] = [];
@@ -90,13 +93,15 @@ export function construirCorpus(): Fragmento[] {
     titulo: 'Cuánto cuesta NovuChat',
     url: '/precios',
     texto:
-      `¿Cuánto cuesta NovuChat? Hay tres planes mensuales en bolivianos: ` +
+      `¿Cuánto cuesta NovuChat? Hay tres planes mensuales, con los precios expresados en dólares: ` +
       precios.planes
-        .map((p) => `${p.nombre} a ${bs(p.precioBs)} al mes con ${p.conversaciones.toLocaleString('es-BO')} conversaciones`)
+        .map((p) => `${p.nombre} a ${usd(p.precioUsd)} al mes con ${p.conversaciones.toLocaleString('es-BO')} conversaciones`)
         .join(', ') +
-      `. El más económico es ${precios.planes[0]!.nombre}, desde ${bs(precios.planes[0]!.precioBs)} al mes. ` +
-      `Aparte se paga una única instalación de ${bs(precios.instalacion.estandar)}. ` +
-      `El precio incluye el consumo de la inteligencia artificial y las conversaciones de WhatsApp.`,
+      `. El más económico es ${precios.planes[0]!.nombre}, desde ${usd(precios.planes[0]!.precioUsd)} al mes. ` +
+      `Aparte se paga una única instalación de ${usd(precios.instalacion.estandar)}. ` +
+      `El precio incluye el consumo de la inteligencia artificial y las conversaciones de WhatsApp. ` +
+      `El cobro se hace en bolivianos, al Tipo de Cambio Oficial del Banco Central de Bolivia ` +
+      `del primer día hábil de cada mes, que se mantiene durante todo ese mes.`,
   });
 
   // — Planes, uno por plan para que la recuperación sea precisa —
@@ -106,7 +111,7 @@ export function construirCorpus(): Fragmento[] {
       titulo: `Plan ${plan.nombre}`,
       url: '/precios',
       texto:
-        `El plan ${plan.nombre} cuesta ${bs(plan.precioBs)} al mes e incluye ` +
+        `El plan ${plan.nombre} cuesta ${usd(plan.precioUsd)} al mes e incluye ` +
         `${plan.conversaciones.toLocaleString('es-BO')} conversaciones mensuales. ${plan.resumen} ` +
         `Incluye: ${plan.incluye
           .map((c) => (c.proximamente ? `${c.texto} (todavía no está disponible, es una función próxima)` : c.texto))
@@ -120,9 +125,9 @@ export function construirCorpus(): Fragmento[] {
     titulo: 'Cuánto cuesta la instalación',
     url: '/precios',
     texto:
-      `La instalación se paga una sola vez y cuesta ${bs(precios.instalacion.estandar)}. ` +
+      `La instalación se paga una sola vez y cuesta ${usd(precios.instalacion.estandar)}. ` +
       `Incluye: ${precios.instalacion.incluye.join('; ')}. ` +
-      `Si el negocio necesita integraciones a medida, la instalación arranca en ${bs(precios.instalacion.aMedidaDesde)}. ` +
+      `Si el negocio necesita integraciones a medida, la instalación arranca en ${usd(precios.instalacion.aMedidaDesde)}. ` +
       (precios.instalacion.bonificacion ?? ''),
   });
 
@@ -132,8 +137,8 @@ export function construirCorpus(): Fragmento[] {
     url: '/precios',
     texto:
       `Si se superan las conversaciones incluidas en el plan, cada bloque adicional de ` +
-      `${precios.excedente.conversaciones} conversaciones cuesta ${bs(precios.excedente.precioBs)}. ` +
-      `No se corta el servicio ni se cobra sin avisar: se avisa al llegar al 80 % del plan. ` +
+      `${precios.excedente.conversaciones} conversaciones cuesta ${usd(precios.excedente.precioUsd)}. ` +
+      `El bloque adicional no vence. Se avisa al llegar al 80 % del plan y no se cobra ningún excedente sin que el negocio lo apruebe. ` +
       `El consumo de la inteligencia artificial y las conversaciones de WhatsApp están incluidos en el precio del plan.`,
   });
 

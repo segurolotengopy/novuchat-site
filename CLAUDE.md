@@ -54,8 +54,10 @@ contradicción, **manda esta lista**.
 | **Correo de leads** | **FormSubmit**, llamado **desde la Function `lead`**, nunca desde el navegador. Resend queda para después | doc 06 D4 |
 | **Asistente** | **RAG estricto**: umbral **medido** en 0,64, y si no se alcanza no se llama al modelo | doc 03 §5.1 punto 4 |
 | **Proveedor de IA** | **Vertex AI** con la cuenta de servicio, sin clave de API. La API de AI Studio usa créditos de prepago que se agotan aparte | doc 03 §2 |
-| **Unidad comercial** | **«Conversaciones»** = todos los mensajes con un cliente en 24 h continuas. Definida en `/precios` y en `/terminos` | doc 02 §5 |
-| **Planes** | Impulso 250 / Crecimiento 450 / Pro 850 Bs. Instalación 800 Bs (a medida desde 1.500). Excedente 50 Bs por 150 conversaciones | doc 02 §5 |
+| **Unidad comercial** | **«Conversaciones»** = todos los mensajes con un cliente en 24 h continuas, **con hasta 25 respuestas del asistente**. Definida en `/precios` y en `/terminos` | doc 02 §5 |
+| **Moneda** | **Precios en dólares**, cobro en bolivianos al **Tipo de Cambio Oficial del BCB del primer día hábil** del mes facturado. El campo es `precioUsd` y el JSON-LD publica `priceCurrency: 'USD'` | doc 02 §5 |
+| **Planes** (rev. 2026-09-08) | Impulso **USD 20 / 120** conv. · Crecimiento **USD 40 / 200** · Pro **USD 70 / 300**. Instalación **USD 65** (a medida desde **USD 125**). Excedente **USD 10 por 25** conversaciones, y no vence | doc 02 §5 |
+| **Número de WhatsApp** | **Se entrega un número nuevo**, conseguido por NovuChat e incluido en la instalación. Conectar el número existente «hoy no se recomienda»: se pierde el uso desde el celular. No se cierra la puerta —cambia el día que NovuChat sea Tech Provider ante Meta— | docs 02 y 05 |
 | **Generador** | **Astro 7**, no 5 | doc 03 §2 |
 
 ## Arquitectura (resumen)

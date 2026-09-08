@@ -147,7 +147,7 @@ export const instalacion48 = {
     {
       titulo: 'Desarrollo',
       texto:
-        'Damos de alta tu negocio, cargamos tu configuración y conectamos tu número de WhatsApp, o te damos uno.',
+        'Damos de alta tu negocio, cargamos tu configuración y conseguimos el número nuevo de tu asistente.',
     },
     {
       titulo: 'Pruebas',
