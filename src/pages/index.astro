@@ -14,7 +14,7 @@ import {
   ejemplosDeUso,
   cierre,
 } from '../contenido/inicio.es';
-import { conversacionDemostracion, verticales } from '../contenido/verticales.es';
+import { conversacionDemostracion } from '../contenido/verticales.es';
 import { precios } from '../contenido/precios.es';
 import { preguntasDestacadas } from '../contenido/faq.es';
 import { sitio } from '../contenido/sitio.es';
@@ -146,31 +146,28 @@ import { urlConsola } from '../lib/consola';
   </section>
 
   <!-- ── Rubros ────────────────────────────────────────────────────────── -->
+  {/*
+    Un carrusel de los CUATRO rubros, no tres tarjetas. Consultorios faltaba, y
+    es de los que más se reconocen: la ausencia por sí sola decía que el
+    producto no era para ellos.
+
+    Antes había además una segunda sección más abajo —«Ejemplos de aplicación y
+    uso»— con estas mismas cuatro fotos. Dos carruseles con las mismas imágenes
+    en una página se leen como un error, así que se fundieron en este.
+  */}
   <section class="seccion">
     <div class="contenedor">
       <h2 class="seccion-titulo">Soluciones por rubro</h2>
       <p class="seccion-bajada">
-        Cada rubro vende distinto. El asistente se configura para el tuyo.
+        Cada rubro vende distinto. El asistente se configura para el tuyo: estas
+        son situaciones típicas de cada uno, redactadas por nosotros. No son
+        testimonios de clientes.
       </p>
-      <div class="rejilla">
-        {
-          verticales.map((v) => (
-            <a class="card elev-sm" href={`/soluciones/${v.id}`} style="color: inherit">
-              <img
-                class="marco"
-                src={v.foto.archivo}
-                alt={v.foto.alt}
-                width="900"
-                height="672"
-                loading="lazy"
-                style="aspect-ratio: 4 / 3; object-fit: cover"
-              />
-              <h3 class="card-title">{v.nombre}</h3>
-              <p class="card-body">{v.bajada}</p>
-            </a>
-          ))
-        }
-      </div>
+      <CarruselEjemplos ejemplos={ejemplosDeUso} />
+      <p class="texto-apagado" style="margin-top: var(--space-4); font-size: 13px">
+        Ejemplos ilustrativos. Las imágenes son referenciales y no corresponden a
+        clientes reales.
+      </p>
     </div>
   </section>
 
@@ -264,22 +261,6 @@ import { urlConsola } from '../lib/consola';
           ))
         }
       </ol>
-    </div>
-  </section>
-
-  <!-- ── Ejemplos de aplicación y uso ──────────────────────────────────── -->
-  <section class="seccion seccion-alterna">
-    <div class="contenedor">
-      <h2 class="seccion-titulo">Ejemplos de aplicación y uso</h2>
-      <p class="seccion-bajada">
-        Situaciones típicas de cada rubro, redactadas por nosotros para mostrar
-        qué cambia en el día a día. No son testimonios de clientes.
-      </p>
-      <CarruselEjemplos ejemplos={ejemplosDeUso} />
-      <p class="texto-apagado" style="margin-top: var(--space-4); font-size: 13px">
-        Ejemplos ilustrativos. Las imágenes son referenciales y no corresponden a
-        clientes reales.
-      </p>
     </div>
   </section>
 

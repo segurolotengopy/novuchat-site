@@ -184,18 +184,21 @@ export const ejemplosDeUso: EjemploDeUso[] = [
     frase:
       'Los turnos dejan de anotarse entre cliente y cliente: llegan ya agendados en el calendario del salón.',
     foto: { archivo: '/imagenes/pyme-belleza.webp', alt: 'Peluquería atendiendo a una clienta' },
+    ruta: '/soluciones/salud-belleza',
   },
   {
     rubro: 'Gastronomía',
     frase:
       'En la noche de más movimiento no se pierden pedidos: el asistente los toma, cobra y la cocina los ve.',
     foto: { archivo: '/imagenes/pyme-gastro.webp', alt: 'Restaurante preparando pedidos para llevar' },
+    ruta: '/soluciones/gastronomia',
   },
   {
     rubro: 'Comercio y Retail',
     frase:
       'Las preguntas por precios y envíos se responden a medianoche, y en la mañana la venta ya está cerrada.',
     foto: { archivo: '/imagenes/pyme-retail.webp', alt: 'Tienda de ropa atendiendo a una clienta' },
+    ruta: '/soluciones/comercio',
   },
   {
     rubro: 'Consultorios',

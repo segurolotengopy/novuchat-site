@@ -152,6 +152,41 @@ test('el conmutador de rubro cambia de rubro y marca el actual', async ({ page }
   );
 });
 
+test('las cuatro diapositivas del carrusel cargan su imagen y la cuarta es Consultorios', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const carrusel = page.locator('[data-carrusel]');
+  await carrusel.scrollIntoViewIfNeeded();
+
+  // Los cuatro rubros, con Consultorios incluido: faltaba, y es de los que más
+  // se reconocen.
+  await expect(carrusel.locator('[data-carrusel-diapositiva] .tag')).toHaveText([
+    'Salud y Belleza',
+    'Gastronomía',
+    'Comercio y Retail',
+    'Consultorios',
+  ]);
+
+  // Y que la imagen esté DE VERDAD, no solo la etiqueta <img>. El disparador
+  // nativo de `loading="lazy"` no se cumple de forma fiable cuando la imagen
+  // entra en pantalla por un desplazamiento horizontal dentro de un
+  // contenedor: comprobado en Chromium, las diapositivas 3 y 4 se quedaban en
+  // blanco con la imagen totalmente visible. Media diapositiva vacía se ve
+  // perfecta en el DOM y pésima en una demostración.
+  for (const destino of [1, 2, 3]) {
+    await carrusel.locator(`[data-carrusel-ir="${destino}"]`).click();
+    await expect
+      .poll(() =>
+        carrusel
+          .locator('[data-carrusel-diapositiva] img')
+          .nth(destino)
+          .evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0),
+      )
+      .toBe(true);
+  }
+});
+
 test('el carrusel de ejemplos avanza, retrocede y da la vuelta', async ({ page }) => {
   await page.goto('/');
   const carrusel = page.locator('[data-carrusel]');
