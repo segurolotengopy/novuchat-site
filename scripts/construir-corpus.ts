@@ -113,9 +113,16 @@ export function construirCorpus(): Fragmento[] {
       texto:
         `El plan ${plan.nombre} cuesta ${usd(plan.precioUsd)} al mes e incluye ` +
         `${plan.conversaciones.toLocaleString('es-BO')} conversaciones mensuales. ${plan.resumen} ` +
-        `Incluye: ${plan.incluye
+        `Incluye siempre: ${plan.incluye
           .map((c) => (c.proximamente ? `${c.texto} (todavía no está disponible, es una función próxima)` : c.texto))
-          .join('; ')}.`,
+          .join('; ')}. ` +
+        // El «o bien» tiene que estar EN el fragmento: si el asistente lista los
+        // dos caminos seguidos, el cliente entiende que trae los dos, que es
+        // exactamente el malentendido que la oferta nueva viene a evitar.
+        `Además el negocio ELIGE UNO de estos dos caminos, no los dos: ` +
+        plan.caminos.map((c) => `${c.titulo} — ${c.texto}`).join(' O BIEN ') +
+        ` Si un negocio necesita los dos caminos, contrata un plan para cada uno, ` +
+        `cada uno en su propio número de WhatsApp.`,
     });
   }
 
@@ -137,7 +144,7 @@ export function construirCorpus(): Fragmento[] {
     url: '/precios',
     texto:
       `Si se superan las conversaciones incluidas en el plan, cada bloque adicional de ` +
-      `${precios.excedente.conversaciones} conversaciones cuesta ${usd(precios.excedente.precioUsd)}. ` +
+      `hasta ${precios.excedente.conversaciones} conversaciones cuesta ${usd(precios.excedente.precioUsd)}. ` +
       `El bloque adicional no vence. Se avisa al llegar al 80 % del plan y no se cobra ningún excedente sin que el negocio lo apruebe. ` +
       `El consumo de la inteligencia artificial y las conversaciones de WhatsApp están incluidos en el precio del plan.`,
   });

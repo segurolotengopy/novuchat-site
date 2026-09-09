@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import CaminosDelPlan from '../components/CaminosDelPlan.astro';
 import { precios } from '../contenido/precios.es';
 
 const { planes, instalacion, excedente, comoContamos } = precios;
@@ -40,6 +41,11 @@ const { planes, instalacion, excedente, comoContamos } = precios;
               <p class="tag tag-neutral" style="align-self: flex-start">
                 {plan.conversaciones.toLocaleString('es-BO')} conversaciones al mes
               </p>
+              <CaminosDelPlan
+                caminos={plan.caminos}
+                titulo="Elige tu solución:"
+                separador="o bien"
+              />
               <ul class="plan-lista">
                 {plan.incluye.map((c) => (
                   <li>
@@ -84,7 +90,7 @@ const { planes, instalacion, excedente, comoContamos } = precios;
         <article class="card elev-sm">
           <h2 class="card-title">Si te pasas del plan</h2>
           <p class="card-body">
-            Cada bloque adicional de {excedente.conversaciones} conversaciones
+            Cada bloque adicional de hasta {excedente.conversaciones} conversaciones
             cuesta USD {excedente.precioUsd} y no vence. Te escribimos cuando
             llegas al 80 % de tu plan para que decidas si conviene subir de
             nivel, y nunca se te cobra sin que lo apruebes.
