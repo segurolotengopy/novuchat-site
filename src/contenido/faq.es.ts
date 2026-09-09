@@ -31,7 +31,7 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Cobra de verdad?',
     respuesta:
-      'Muestra el QR de tu banco y valida el comprobante que te envía el cliente; el dinero se acredita directamente en tu cuenta, nunca pasa por nosotros. En las demostraciones el QR está rotulado como simulado y no cobra nada.',
+      'Muestra el QR de tu banco y recibe el comprobante que envía el cliente; quien lo valida eres tú, y quien confirma que entró la plata es tu banco. El dinero se acredita directamente en tu cuenta, nunca pasa por nosotros. En las demostraciones el QR está rotulado como simulado y no cobra nada.',
   },
   {
     pregunta: '¿Cuánto tarda la instalación?',

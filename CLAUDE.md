@@ -56,7 +56,7 @@ contradicción, **manda esta lista**.
 | **Proveedor de IA** | **Vertex AI** con la cuenta de servicio, sin clave de API. La API de AI Studio usa créditos de prepago que se agotan aparte | doc 03 §2 |
 | **Unidad comercial** | **«Conversaciones»** = todos los mensajes con un cliente en 24 h continuas, **con hasta 25 respuestas del asistente**. Definida en `/precios` y en `/terminos` | doc 02 §5 |
 | **Moneda** | **Precios en dólares**, cobro en bolivianos al **Tipo de Cambio Oficial del BCB del primer día hábil** del mes facturado. El campo es `precioUsd` y el JSON-LD publica `priceCurrency: 'USD'` | doc 02 §5 |
-| **Planes** (rev. 2026-09-08) | Impulso **USD 20 / 120** conv. · Crecimiento **USD 40 / 200** · Pro **USD 70 / 300**. Instalación **USD 65** (a medida desde **USD 125**). Excedente **USD 10 por 25** conversaciones, y no vence | doc 02 §5 |
+| **Planes** (definitivos, 2026-09-08) | Impulso **USD 25 / 100** conv. · Crecimiento **USD 50 / 220** · Pro **USD 90 / 500**. Instalación **USD 65** (a medida desde **USD 125**). Excedente **USD 10 por 25** conversaciones, y no vence | doc 02 §5 |
 | **Número de WhatsApp** | **Se entrega un número nuevo**, conseguido por NovuChat e incluido en la instalación. Conectar el número existente «hoy no se recomienda»: se pierde el uso desde el celular. No se cierra la puerta —cambia el día que NovuChat sea Tech Provider ante Meta— | docs 02 y 05 |
 | **Generador** | **Astro 7**, no 5 | doc 03 §2 |
 
@@ -88,10 +88,15 @@ Navegador ──► Firebase Hosting (Astro estático + CSP estricta)
    real automático) sin rótulo "próximamente", ni cifras comerciales sin confirmar
    (marcadas ⚠️ en los docs) en producción: `pnpm verificar` falla si queda una marca
    `<!-- CONFIRMAR -->`.
-9. **Nunca** datos de clientes reales: capturas y ejemplos usan "Salón Aurora",
+9. **Nunca** el asistente confirma un pago. Dice que **recibió el comprobante** y
+   que los datos coinciden; quien confirma que entró la plata es el banco. Nada de
+   «pago confirmado», «acreditado» ni «verificado», tampoco en las conversaciones
+   de ejemplo. Y la difusión por plantillas **nunca va incluida en un plan**: cada
+   mensaje cuesta 0,89 Bs.
+10. **Nunca** datos de clientes reales: capturas y ejemplos usan "Salón Aurora",
    "Parrilla El Fogón" y teléfonos `5917000000x`.
-10. **Nunca** desplegar con `--force`, ni `git add .` + push automático desde un script.
-11. **Nunca** tocar el proyecto Firebase de la consola (`novuchat-admin-*`) ni el de los
+11. **Nunca** desplegar con `--force`, ni `git add .` + push automático desde un script.
+12. **Nunca** tocar el proyecto Firebase de la consola (`novuchat-admin-*`) ni el de los
     demos desde este repositorio.
 
 ## Reglas de diseño y contenido

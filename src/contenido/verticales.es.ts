@@ -75,7 +75,7 @@ export const verticales: Vertical[] = [
       {
         titulo: 'Cobro por QR y comprobante',
         texto:
-          'Manda el QR de tu banco, recibe el comprobante y confirma el pedido. En demostraciones el QR está rotulado como simulado.',
+          'Manda el QR de tu banco y recibe el comprobante; quien confirma que entró la plata es tu banco, no el asistente. En demostraciones el QR está rotulado como simulado.',
       },
     ],
     conversacion: [
@@ -93,7 +93,7 @@ export const verticales: Vertical[] = [
       {
         de: 'asistente',
         texto:
-          '¡Pago confirmado! Tu pedido ya se está preparando. Tiempo estimado: 25 minutos.',
+          'Recibí tu comprobante y los datos coinciden con el pedido. Lo paso a cocina: tiempo estimado, 25 minutos.',
       },
     ],
     planRecomendado: 'crecimiento',

@@ -1,8 +1,8 @@
 import type { Precios } from './tipos';
 
 /**
- * Planes y precios — revisados por Andres el 2026-09-08 tras el análisis de
- * costo por conversación y de la unidad de cobro.
+ * Planes y precios — cifras definitivas del 2026-09-08, tras la propuesta de
+ * Silvana analizada y adoptada. Impulso 25/100, Crecimiento 50/220, Pro 90/500.
  *
  * **Los importes están en dólares** y se cobran en bolivianos al Tipo de Cambio
  * Oficial del Banco Central de Bolivia (primer día hábil del mes facturado).
@@ -21,12 +21,12 @@ export const precios: Precios = {
     {
       id: 'impulso',
       nombre: 'Impulso',
-      precioUsd: 20,
-      conversaciones: 120,
+      precioUsd: 25,
+      conversaciones: 100,
       resumen: 'Para el negocio que empieza a perder mensajes por no dar abasto.',
       incluye: [
         { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
-        { texto: '120 conversaciones al mes' },
+        { texto: '100 conversaciones al mes' },
         { texto: 'Agenda conectada a tu Google Calendar' },
         { texto: 'Consola para ver todo desde el celular' },
         { texto: 'Canal oficial de WhatsApp Business' },
@@ -35,13 +35,13 @@ export const precios: Precios = {
     {
       id: 'crecimiento',
       nombre: 'Crecimiento',
-      precioUsd: 40,
-      conversaciones: 200,
+      precioUsd: 50,
+      conversaciones: 220,
       resumen: 'Para el negocio con varias personas atendiendo y agenda llena.',
       destacado: true,
       incluye: [
         { texto: 'Todo lo del plan Impulso' },
-        { texto: '200 conversaciones al mes' },
+        { texto: '220 conversaciones al mes' },
         { texto: 'Varios funcionarios, cada uno con su agenda: nadie queda con dos citas a la vez' },
         { texto: 'Pedidos desde tu catálogo, con el total y el envío ya calculados' },
         { texto: 'Recordatorio automático 24 horas antes de la cita' },
@@ -53,14 +53,14 @@ export const precios: Precios = {
     {
       id: 'pro',
       nombre: 'Pro',
-      precioUsd: 70,
-      conversaciones: 300,
+      precioUsd: 90,
+      conversaciones: 500,
       resumen: 'Para varias sucursales o un volumen alto de pedidos.',
       incluye: [
         { texto: 'Todo lo del plan Crecimiento' },
-        { texto: '300 conversaciones al mes' },
+        { texto: '500 conversaciones al mes' },
         { texto: 'Soporte técnico prioritario' },
-        { texto: 'Difusión masiva por plantillas aprobadas', proximamente: true },
+        { texto: 'Difusión por plantillas aprobadas, contratada aparte por paquete', proximamente: true },
         { texto: 'Programa de fidelización con puntos', proximamente: true },
       ],
     },
