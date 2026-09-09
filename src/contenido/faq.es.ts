@@ -69,6 +69,16 @@ export const preguntas: Pregunta[] = [
       'Sí. Cada número de WhatsApp es un asistente con su propia configuración, y todos se administran desde la misma consola.',
   },
   {
+    pregunta: '¿Puedo tener citas y ventas a la vez?',
+    respuesta:
+      'Sí. Cada camino vive en su propio número de WhatsApp, así que se contrata un plan para cada uno y los dos se administran desde la misma consola. Escríbenos y lo armamos contigo: no hace falta que elijas hoy y te arrepientas después, se puede sumar el segundo cuando quieras.',
+  },
+  {
+    pregunta: '¿Por qué tengo que elegir entre citas y ventas?',
+    respuesta:
+      'Porque son dos formas distintas de atender y cada una necesita su propia configuración: la de citas mira tu calendario, la de ventas mira tu catálogo. Un plan trae una de las dos, con el tamaño que corresponde a su nivel. Si tu negocio necesita las dos, se contratan las dos.',
+  },
+  {
     pregunta: '¿En qué moneda pago?',
     respuesta:
       'Los precios están en dólares y el cobro se hace en bolivianos, al Tipo de Cambio Oficial del Banco Central de Bolivia. Tomamos el del primer día hábil de cada mes y lo mantenemos todo ese mes, así que sabes exactamente cuánto vas a pagar antes de hacerlo, y puedes verificarlo en la página del Banco Central.',

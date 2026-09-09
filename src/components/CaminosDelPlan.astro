@@ -1,0 +1,84 @@
+---
+import type { Camino } from '../contenido/tipos';
+
+interface Props {
+  caminos: Camino[];
+  titulo: string;
+  /** «o bien», «or», según el idioma. */
+  separador: string;
+}
+
+const { caminos, titulo, separador } = Astro.props;
+
+/**
+ * Los dos caminos de un plan, con el «o bien» en el medio.
+ *
+ * Existe como componente y no como marcado repetido porque el punto de este
+ * bloque es que **no se lea como una suma**: si mañana alguien lo copia a otra
+ * página y se le olvida el separador, la tarjeta vuelve a prometer las dos
+ * cosas por el mismo precio, que es justo el malentendido que la oferta nueva
+ * quiere evitar.
+ */
+---
+
+<div class="caminos">
+  <p class="caminos-titulo">{titulo}</p>
+  {
+    caminos.map((c, i) => (
+      <>
+        {i > 0 && <p class="caminos-separador">— {separador} —</p>}
+        <div class="camino">
+          <p class="camino-titulo">
+            <span aria-hidden="true">{c.icono}</span> {c.titulo}
+          </p>
+          <p class="camino-texto">{c.texto}</p>
+        </div>
+      </>
+    ))
+  }
+</div>
+
+<style>
+  .caminos {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-text) 4%, transparent);
+  }
+
+  .caminos-titulo {
+    margin: 0;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .caminos-separador {
+    margin: 0;
+    /* Mismo 72 % que `.texto-apagado`: por debajo no llega a 4,5:1, y un color
+       fijo del gris neutro queda gris sobre gris en tema oscuro. Lo marcó axe. */
+    color: color-mix(in srgb, var(--color-text) 72%, transparent);
+    font-size: 13px;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .camino {
+    display: grid;
+    gap: 2px;
+  }
+
+  .camino-titulo {
+    margin: 0;
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .camino-texto {
+    margin: 0;
+    color: color-mix(in srgb, var(--color-text) 72%, transparent);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+</style>

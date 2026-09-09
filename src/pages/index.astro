@@ -216,8 +216,8 @@ import { urlConsola } from '../lib/consola';
     <div class="contenedor">
       <h2 class="seccion-titulo">Planes y precios</h2>
       <p class="seccion-bajada">
-        Todo en bolivianos, sin contratos largos. El consumo de la inteligencia
-        artificial y de WhatsApp está incluido.
+        Sin contratos largos. Cada plan lleva un camino —citas o ventas— y el
+        consumo de la inteligencia artificial y de WhatsApp está incluido.
       </p>
       <div class="rejilla">
         {
@@ -231,6 +231,9 @@ import { urlConsola } from '../lib/consola';
               <p class="card-body">{plan.resumen}</p>
               <p class="tag tag-neutral" style="align-self: flex-start">
                 {plan.conversaciones.toLocaleString('es-BO')} conversaciones al mes
+              </p>
+              <p class="card-body" style="font-size: 14px">
+                Eliges uno: {plan.caminos.map((c) => c.titulo).join(' o ')}.
               </p>
               <a class="btn btn-primary btn-block" href={`/demo?plan=${plan.id}`}>
                 Empezar con {plan.nombre}

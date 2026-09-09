@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import CaminosDelPlan from '../../components/CaminosDelPlan.astro';
 import { pricing } from '../../contenido/precios.en';
 
 const { planes, instalacion, excedente, comoContamos } = pricing;
@@ -35,6 +36,11 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
               <p class="tag tag-neutral" style="align-self: flex-start">
                 {plan.conversaciones.toLocaleString('en-US')} conversations per month
               </p>
+              <CaminosDelPlan
+                caminos={plan.caminos}
+                titulo="Choose your solution:"
+                separador="or"
+              />
               <ul class="plan-lista">
                 {plan.incluye.map((c) => (
                   <li>
@@ -75,7 +81,7 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
         <article class="card elev-sm">
           <h2 class="card-title">If you go over your plan</h2>
           <p class="card-body">
-            Each additional block of {excedente.conversaciones} conversations
+            Each additional block of up to {excedente.conversaciones} conversations
             costs USD {excedente.precioUsd} and never expires. We write to you at
             80 % of your plan, and nothing is ever billed without your approval.
           </p>

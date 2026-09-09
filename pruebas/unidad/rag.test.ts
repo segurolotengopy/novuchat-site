@@ -6,6 +6,7 @@ import {
 } from '../../functions/src/rag/recuperador';
 import type { Incrustador, Indice } from '../../functions/src/rag/tipos';
 import { construirCorpus } from '../../scripts/construir-corpus';
+import { precios } from '../../src/contenido/precios.es';
 
 /**
  * Pruebas del RAG estricto.
@@ -172,9 +173,35 @@ describe('corpus derivado del sitio', () => {
   });
 
   it('rotula como próximas las funciones que no existen todavía', () => {
-    const planes = corpus.filter((f) => f.id.startsWith('plan-'));
-    const conProximas = planes.filter((f) => f.texto.includes('todavía no está disponible'));
-    expect(conProximas.length).toBeGreaterThan(0);
+    // Se comprueba la REGLA, no la presencia: que cada prestación marcada
+    // `proximamente` en el contenido llegue al corpus con su advertencia.
+    //
+    // Antes esta prueba exigía que hubiera AL MENOS UNA función próxima en
+    // algún plan, y el 2026-09-09 empezó a fallar porque no quedó ninguna: los
+    // planes se rehicieron con el esquema «elige tu camino» y se retiró lo que
+    // la presentación ya no ofrece. Exigir que exista una promesa a futuro es
+    // lo contrario de lo que la prohibición 8 quiere: cero es el mejor número.
+    for (const plan of precios.planes) {
+      const fragmento = corpus.find((f) => f.id === `plan-${plan.id}`);
+      expect(fragmento, `falta el fragmento del plan ${plan.id}`).toBeDefined();
+      for (const c of plan.incluye.filter((x) => x.proximamente)) {
+        expect(
+          fragmento!.texto,
+          `${plan.id}: «${c.texto}» va sin la advertencia de que no está disponible`,
+        ).toContain(`${c.texto} (todavía no está disponible`);
+      }
+    }
+  });
+
+  it('el corpus dice que los caminos son excluyentes', () => {
+    // El malentendido que la oferta nueva viene a evitar es creer que un plan
+    // trae agenda Y catálogo. Si el asistente los lista seguidos, lo reintroduce
+    // él solo, y el asistente es lo que más gente va a leer.
+    for (const plan of precios.planes) {
+      const fragmento = corpus.find((f) => f.id === `plan-${plan.id}`)!;
+      expect(fragmento.texto, `${plan.id} no dice que se elige uno`).toContain('ELIGE UNO');
+      expect(fragmento.texto, `${plan.id} no separa los caminos`).toContain('O BIEN');
+    }
   });
 
   it('cada fragmento apunta a una página real del sitio', () => {

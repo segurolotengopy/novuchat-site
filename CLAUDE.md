@@ -56,7 +56,8 @@ contradicción, **manda esta lista**.
 | **Proveedor de IA** | **Vertex AI** con la cuenta de servicio, sin clave de API. La API de AI Studio usa créditos de prepago que se agotan aparte | doc 03 §2 |
 | **Unidad comercial** | **«Conversaciones»** = todos los mensajes con un cliente en 24 h continuas, **con hasta 25 respuestas del asistente**. Definida en `/precios` y en `/terminos` | doc 02 §5 |
 | **Moneda** | **Precios en dólares**, cobro en bolivianos al **Tipo de Cambio Oficial del BCB del primer día hábil** del mes facturado. El campo es `precioUsd` y el JSON-LD publica `priceCurrency: 'USD'` | doc 02 §5 |
-| **Planes** (definitivos, 2026-09-08) | Impulso **USD 25 / 100** conv. · Crecimiento **USD 50 / 220** · Pro **USD 90 / 500**. Instalación **USD 65** (a medida desde **USD 125**). Excedente **USD 10 por 25** conversaciones, y no vence | doc 02 §5 |
+| **Planes** (definitivos, 2026-09-09) | Impulso **USD 25 / 100** conv. · Crecimiento **USD 50 / 220** · Pro **USD 90 / 500**. Instalación **USD 65** (a medida desde **USD 125**). Excedente **USD 10 por hasta 30** conversaciones, y no vence | doc 02 §5 |
+| **«Elige tu camino»** | Cada plan trae **un solo camino**: **Citas** (1 / 5 / 10 agendas, con recordatorio 24 h) **o** **Ventas** (catálogo de 20 / 100 / 500 productos). **Nunca los dos**: un plan no es la suma del anterior. Quien necesita ambos contrata un plan por camino, cada uno en su propio número | presentación 7 |
 | **Número de WhatsApp** | **Se entrega un número nuevo**, conseguido por NovuChat e incluido en la instalación. Conectar el número existente «hoy no se recomienda»: se pierde el uso desde el celular. No se cierra la puerta —cambia el día que NovuChat sea Tech Provider ante Meta— | docs 02 y 05 |
 | **Generador** | **Astro 7**, no 5 | doc 03 §2 |
 

@@ -24,10 +24,21 @@ export const precios: Precios = {
       precioUsd: 25,
       conversaciones: 100,
       resumen: 'Para el negocio que empieza a perder mensajes por no dar abasto.',
+      caminos: [
+        {
+          icono: '📅',
+          titulo: 'Citas',
+          texto: 'Una agenda conectada a tu Google Calendar, con recordatorio automático 24 horas antes.',
+        },
+        {
+          icono: '🛒',
+          titulo: 'Ventas',
+          texto: 'Catálogo de hasta 20 productos, con el total y el envío ya calculados.',
+        },
+      ],
       incluye: [
         { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
         { texto: '100 conversaciones al mes' },
-        { texto: 'Agenda conectada a tu Google Calendar' },
         { texto: 'Consola para ver todo desde el celular' },
         { texto: 'Canal oficial de WhatsApp Business' },
       ],
@@ -39,15 +50,23 @@ export const precios: Precios = {
       conversaciones: 220,
       resumen: 'Para el negocio con varias personas atendiendo y agenda llena.',
       destacado: true,
+      caminos: [
+        {
+          icono: '📅',
+          titulo: 'Citas',
+          texto: 'Hasta 5 agendas, una por persona: nadie queda con dos citas a la vez. Con recordatorio automático 24 horas antes.',
+        },
+        {
+          icono: '🛒',
+          titulo: 'Ventas',
+          texto: 'Catálogo de hasta 100 productos, con el total y el envío ya calculados.',
+        },
+      ],
       incluye: [
-        { texto: 'Todo lo del plan Impulso' },
+        { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
         { texto: '220 conversaciones al mes' },
-        { texto: 'Varios funcionarios, cada uno con su agenda: nadie queda con dos citas a la vez' },
-        { texto: 'Pedidos desde tu catálogo, con el total y el envío ya calculados' },
-        { texto: 'Recordatorio automático 24 horas antes de la cita' },
-        { texto: 'Variantes, notas por ítem y envío por zona', proximamente: true },
-        { texto: 'El asistente escucha audios', proximamente: true },
-        { texto: 'Integración con Google Sheets', proximamente: true },
+        { texto: 'Consola para ver todo desde el celular' },
+        { texto: 'Canal oficial de WhatsApp Business' },
       ],
     },
     {
@@ -56,12 +75,24 @@ export const precios: Precios = {
       precioUsd: 90,
       conversaciones: 500,
       resumen: 'Para varias sucursales o un volumen alto de pedidos.',
+      caminos: [
+        {
+          icono: '📅',
+          titulo: 'Citas',
+          texto: 'Hasta 10 agendas, una por persona o por sucursal. Con recordatorio automático 24 horas antes.',
+        },
+        {
+          icono: '🛒',
+          titulo: 'Ventas',
+          texto: 'Catálogo de hasta 500 productos, con el total y el envío ya calculados.',
+        },
+      ],
       incluye: [
-        { texto: 'Todo lo del plan Crecimiento' },
+        { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
         { texto: '500 conversaciones al mes' },
+        { texto: 'Consola para ver todo desde el celular' },
+        { texto: 'Canal oficial de WhatsApp Business' },
         { texto: 'Soporte técnico prioritario' },
-        { texto: 'Difusión por plantillas aprobadas, contratada aparte por paquete', proximamente: true },
-        { texto: 'Programa de fidelización con puntos', proximamente: true },
       ],
     },
   ],
@@ -80,7 +111,7 @@ export const precios: Precios = {
     ],
   },
 
-  excedente: { precioUsd: 10, conversaciones: 25 },
+  excedente: { precioUsd: 10, conversaciones: 30 },
 
   comoContamos: {
     titulo: 'Cómo contamos las conversaciones',
@@ -108,7 +139,7 @@ export const precios: Precios = {
       {
         termino: 'Excedente',
         definicion:
-          'Si superas las conversaciones de tu plan, cada bloque adicional de 25 conversaciones cuesta USD 10 y no vence. Te avisamos al llegar al 80 % de tu plan, y nunca se te cobra sin que lo apruebes.',
+          'Si superas las conversaciones de tu plan, cada bloque adicional de hasta 30 conversaciones cuesta USD 10 y no vence. Te avisamos al llegar al 80 % de tu plan, y nunca se te cobra sin que lo apruebes.',
       },
     ],
   },

@@ -16,10 +16,21 @@ export const pricing: Precios = {
       precioUsd: 25,
       conversaciones: 100,
       resumen: 'For the business that is starting to miss messages.',
+      caminos: [
+        {
+          icono: '📅',
+          titulo: 'Bookings',
+          texto: 'One calendar connected to your Google Calendar, with an automatic reminder 24 hours ahead.',
+        },
+        {
+          icono: '🛒',
+          titulo: 'Sales',
+          texto: 'A catalogue of up to 20 products, with the total and delivery already calculated.',
+        },
+      ],
       incluye: [
         { texto: 'AI assistant that understands natural language, around the clock' },
         { texto: '100 conversations per month' },
-        { texto: 'Booking connected to your Google Calendar' },
         { texto: 'Console to see everything from your phone' },
         { texto: 'Official WhatsApp Business channel' },
       ],
@@ -31,15 +42,23 @@ export const pricing: Precios = {
       conversaciones: 220,
       resumen: 'For a busy schedule and several people attending customers.',
       destacado: true,
+      caminos: [
+        {
+          icono: '📅',
+          titulo: 'Bookings',
+          texto: 'Up to 5 calendars, one per person: nobody ends up double-booked. With an automatic reminder 24 hours ahead.',
+        },
+        {
+          icono: '🛒',
+          titulo: 'Sales',
+          texto: 'A catalogue of up to 100 products, with the total and delivery already calculated.',
+        },
+      ],
       incluye: [
-        { texto: 'Everything in Impulso' },
+        { texto: 'AI assistant that understands natural language, around the clock' },
         { texto: '220 conversations per month' },
-        { texto: 'Multiple staff members, each with their own calendar: nobody ends up double-booked' },
-        { texto: 'Orders from your catalogue, with the total and delivery already calculated' },
-        { texto: 'Automatic reminder 24 hours before the appointment' },
-        { texto: 'Variants, per-item notes and delivery by zone', proximamente: true },
-        { texto: 'The assistant listens to voice notes', proximamente: true },
-        { texto: 'Google Sheets integration', proximamente: true },
+        { texto: 'Console to see everything from your phone' },
+        { texto: 'Official WhatsApp Business channel' },
       ],
     },
     {
@@ -48,12 +67,24 @@ export const pricing: Precios = {
       precioUsd: 90,
       conversaciones: 500,
       resumen: 'For several branches or a high volume of orders.',
+      caminos: [
+        {
+          icono: '📅',
+          titulo: 'Bookings',
+          texto: 'Up to 10 calendars, one per person or per branch. With an automatic reminder 24 hours ahead.',
+        },
+        {
+          icono: '🛒',
+          titulo: 'Sales',
+          texto: 'A catalogue of up to 500 products, with the total and delivery already calculated.',
+        },
+      ],
       incluye: [
-        { texto: 'Everything in Crecimiento' },
+        { texto: 'AI assistant that understands natural language, around the clock' },
         { texto: '500 conversations per month' },
+        { texto: 'Console to see everything from your phone' },
+        { texto: 'Official WhatsApp Business channel' },
         { texto: 'Priority technical support' },
-        { texto: 'Broadcast through approved templates, purchased separately by pack', proximamente: true },
-        { texto: 'Loyalty points programme', proximamente: true },
       ],
     },
   ],
@@ -72,7 +103,7 @@ export const pricing: Precios = {
     ],
   },
 
-  excedente: { precioUsd: 10, conversaciones: 25 },
+  excedente: { precioUsd: 10, conversaciones: 30 },
 
   comoContamos: {
     titulo: 'How we count conversations',
@@ -100,7 +131,7 @@ export const pricing: Precios = {
       {
         termino: 'Overage',
         definicion:
-          'Beyond your plan, each additional block of 25 conversations costs USD 10 and never expires. We warn you at 80 % of your plan, and nothing is ever billed without your approval.',
+          'Beyond your plan, each additional block of up to 30 conversations costs USD 10 and never expires. We warn you at 80 % of your plan, and nothing is ever billed without your approval.',
       },
     ],
   },

@@ -24,8 +24,24 @@ export interface Plan {
    */
   conversaciones: number;
   resumen: string;
+  /**
+   * Los dos caminos del plan. El negocio **elige uno**, no se suman: un plan no
+   * trae agenda Y catálogo. Se separó de `incluye` justamente para que la
+   * tarjeta no pueda volver a leerse como una suma de prestaciones, que es lo
+   * que hacía creer que por USD 50 iban dos negocios en un solo número.
+   */
+  caminos: Camino[];
+  /** Lo que va en el plan sea cual sea el camino. */
   incluye: Caracteristica[];
   destacado?: boolean;
+}
+
+/** Uno de los dos caminos entre los que se elige. */
+export interface Camino {
+  /** Emoji que lo identifica de un vistazo, como en la presentación. */
+  icono: string;
+  titulo: string;
+  texto: string;
 }
 
 /**
