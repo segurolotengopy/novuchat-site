@@ -19,9 +19,9 @@ const { planes, instalacion, excedente, comoContamos } = precios;
     <div class="contenedor">
       <h1>Planes y precios</h1>
       <p class="seccion-bajada" style="font-size: 18px">
-        Todo en bolivianos. El consumo del modelo de inteligencia artificial y
-        las conversaciones de WhatsApp están incluidos en el precio: no hay
-        cargos sorpresa a fin de mes.
+        Servicio prepago mensual. El consumo del modelo de inteligencia
+        artificial y las conversaciones de WhatsApp están incluidos en el
+        precio: no hay cargos sorpresa a fin de mes.
       </p>
 
       <div class="rejilla">
@@ -69,7 +69,8 @@ const { planes, instalacion, excedente, comoContamos } = precios;
       </div>
 
       <p class="texto-apagado" style="margin-top: var(--space-6); font-size: 14px">
-        Una conversación son 24 horas continuas con un mismo cliente, con hasta
+        Modalidad prepago: cada mes del plan se paga por adelantado. Una
+        conversación son 24 horas continuas con un mismo cliente, con hasta
         25 respuestas del asistente. Los precios están expresados en dólares
         estadounidenses; el cobro se realiza en bolivianos, al Tipo de Cambio
         Oficial que publica el Banco Central de Bolivia.
@@ -100,7 +101,10 @@ const { planes, instalacion, excedente, comoContamos } = precios;
         <article class="card elev-sm">
           <h2 class="card-title">Instalación</h2>
           <p class="plan-precio" style="font-size: 30px">
-            USD {instalacion.estandar} <small>/ una sola vez</small>
+            USD {instalacion.estandar} <small>/ pago único</small>
+          </p>
+          <p class="card-body">
+            Se paga por adelantado, al inicio del servicio.
           </p>
           <ul class="plan-lista">
             {instalacion.incluye.map((i) => <li>{i}</li>)}

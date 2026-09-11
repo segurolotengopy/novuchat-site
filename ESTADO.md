@@ -65,6 +65,8 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | 2026-09-03 | Dos identidades de despliegue con permisos distintos | Que un PR pueda impersonar la cuenta que despliega Functions y secretos anula la separación de producción. `deploy-previa` solo alcanza Hosting |
 | 2026-09-03 | Identidad legal **provisional** AAB1 / NIT 2441214012 | Solo en las páginas legales, que la exigen. El material comercial y el RAG siguen sin mencionar a AAB1: el motivo tributario no cambia porque el dato sea provisional |
 | 2026-09-02 | Ninguna dependencia ejecuta scripts de instalación (`allowBuilds: false`) | Riesgo S-9: los `postinstall` de terceros son superficie de cadena de suministro |
+| 2026-09-11 | **Presentación 8**: fin de la instalación bonificada; instalación = pago único **por adelantado al inicio del servicio**, llave en mano; planes **prepago mensual**. Se quita la barra de la Rueda de Negocios | Cambio de Silvana. La barra con `hasta` se evalúa al compilar: seguía en el sitio publicado después de la feria |
+| 2026-09-11 | `pnpm rag:calibrar` sobre 39 fragmentos: los grupos se solapan (peor del corpus 0,657 < mejor ajena 0,689) y sugiere **0,70**; el umbral sigue en 0,64 | **Pendiente de decisión**: subirlo da más «no lo sé» y menos invención. No se cambió junto con el contenido |
 | 2026-09-02 | **Vertex AI en vez de la API de AI Studio** | La API de AI Studio se paga con créditos de prepago que se agotan aparte; Vertex cobra a la cuenta de facturación del proyecto, que ya tiene presupuesto y alertas. Y no necesita clave: se autentica con la cuenta de servicio. Un secreto que no existe no se filtra |
 
 ---
@@ -404,6 +406,20 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     de rechazo, así que la rama estaba muerta y su comentario describía un
     comportamiento de producción que no existe. Un comentario falso es peor que
     código muerto.
+55. **En un sitio estático, «se retira sola» significa «se retira al desplegar».**
+    La barra de la Rueda tenía `hasta: '2026-09-11'` y un comentario que decía
+    que desaparecía sin desplegar. La comparación corre en el build, así que el
+    11 de septiembre seguía publicada, con la «instalación bonificada» incluida.
+    Y al revisarla aparecieron dos restos de `v0.3.0` que nadie había visto:
+    `/nosotros` decía «Sin tarifas en dólares que suben solas» con los planes ya
+    en dólares, y la portada en inglés, «In bolivianos». El cambio de moneda se
+    buscó en `src/contenido/`; esos dos textos vivían en `src/pages/`.
+56. **El verificador compara cifras, no palabras.** La fuente decía «Una
+    agenda»; el modelo escribió «1 agenda» y la respuesta a «¿cuánto cuesta?»
+    —la pregunta más frecuente— se descartó como `numero-inventado: 1`. El
+    control hizo bien su trabajo; el defecto estaba en el contenido. Las
+    cantidades del corpus van en cifra. Era intermitente: `v0.3.1` había pasado
+    13/13 con el mismo texto.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura

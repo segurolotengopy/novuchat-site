@@ -20,7 +20,7 @@ export const pricing: Precios = {
         {
           icono: '📅',
           titulo: 'Bookings',
-          texto: 'One calendar connected to your Google Calendar, with an automatic reminder 24 hours ahead.',
+          texto: '1 calendar connected to your Google Calendar, with an automatic reminder 24 hours ahead.',
         },
         {
           icono: '🛒',
@@ -92,9 +92,8 @@ export const pricing: Precios = {
   instalacion: {
     estandar: 65,
     aMedidaDesde: 125,
-    bonificacion:
-      'Setup waived for the first ten businesses that secure their first month during the Rueda de Negocios.',
     incluye: [
+      'Turnkey initial setup: your assistant arrives ready to serve customers',
       'Nobody at NovuChat reads your conversations unless you grant access',
       'Official verification of your number with Meta',
       'Your services, prices, hours and assistant tone loaded in',

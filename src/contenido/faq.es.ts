@@ -84,6 +84,11 @@ export const preguntas: Pregunta[] = [
       'Los precios están en dólares y el cobro se hace en bolivianos, al Tipo de Cambio Oficial del Banco Central de Bolivia. Tomamos el del primer día hábil de cada mes y lo mantenemos todo ese mes, así que sabes exactamente cuánto vas a pagar antes de hacerlo, y puedes verificarlo en la página del Banco Central.',
   },
   {
+    pregunta: '¿Cuándo se paga?',
+    respuesta:
+      'Todo es prepago. Cada mes del plan se paga por adelantado, y la instalación es un pago único que también se hace por adelantado, al inicio del servicio. No hay contratos largos ni permanencia.',
+  },
+  {
     pregunta: '¿Qué pasa si una conversación se hace muy larga?',
     respuesta:
       'El asistente responde hasta 25 veces por conversación. Si una consulta necesita más que eso, casi siempre es porque se trabó: te avisamos al número que nos des y la toma alguien de tu equipo, con todo el contexto de lo que ya se habló.',

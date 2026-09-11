@@ -132,7 +132,11 @@ export interface Sitio {
   nombre: string;
   lema: string;
   contacto: Contacto;
-  /** Texto de la barra superior. `hasta` la retira sola, sin desplegar. */
+  /**
+   * Texto de la barra superior. `hasta` se compara con la fecha DEL BUILD, no
+   * con la del visitante: la barra no desaparece del sitio publicado hasta que
+   * se vuelve a desplegar después de esa fecha.
+   */
   aviso: { texto: string; hasta: string } | null;
   navegacion: { texto: string; ruta: string }[];
   pie: { titulo: string; enlaces: { texto: string; ruta: string; externo?: boolean }[] }[];

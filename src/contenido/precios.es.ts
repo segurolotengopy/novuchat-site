@@ -28,7 +28,11 @@ export const precios: Precios = {
         {
           icono: '📅',
           titulo: 'Citas',
-          texto: 'Una agenda conectada a tu Google Calendar, con recordatorio automático 24 horas antes.',
+          // En cifra, no «Una»: el verificador del asistente compara números, y
+          // si el modelo escribe «1 agenda» contra una fuente que dice «Una
+          // agenda», descarta la respuesta como inventada (pasó con «¿cuánto
+          // cuesta?», 2026-09-11). Además es como lo dice la presentación.
+          texto: '1 agenda conectada a tu Google Calendar, con recordatorio automático 24 horas antes.',
         },
         {
           icono: '🛒',
@@ -97,12 +101,14 @@ export const precios: Precios = {
     },
   ],
 
+  // Presentación 8 (Silvana, 2026-09-11): terminó la Rueda de Negocios y la
+  // instalación deja de estar bonificada. Se paga por adelantado, al inicio
+  // del servicio, y se entrega «llave en mano».
   instalacion: {
     estandar: 65,
     aMedidaDesde: 125,
-    bonificacion:
-      'Instalación bonificada para los primeros diez negocios que aseguren su primer mes durante la Rueda de Negocios.',
     incluye: [
+      'Configuración inicial llave en mano: recibes el asistente listo para atender',
       'Nadie de NovuChat lee tus conversaciones sin que tú abras el acceso',
       'Verificación oficial de tu número ante Meta',
       'Carga de tus servicios, precios, horarios y el tono del asistente',

@@ -16,6 +16,7 @@
  *   4. Voseo en los textos públicos.               → CLAUDE.md, idioma y estilo
  *   5. `PUBLIC_URL_CONSOLA` fuera de la lista blanca. → riesgo S-13
  *   6. Una Function llamable con `enforceAppCheck: false`. → prohibición 6
+ *   7. «Pago confirmado» y parientes en los textos públicos. → prohibición 9
  *
  * Uso:  pnpm prohibiciones
  */
@@ -105,6 +106,15 @@ const REGLAS = [
     id: 'confirmar',
     prohibicion: 'CLAUDE.md 8 — no publicar datos sin confirmar',
     patron: /<!--\s*CONFIRMAR\s*-->/g,
+    aplicaA: (ruta) => ruta.startsWith('src/'),
+  },
+  {
+    // La frase vuelve con cada presentación nueva (7 y 8 la trajeron de vuelta).
+    // Solo `src/`: de ahí salen las páginas Y el corpus del asistente. Las
+    // pruebas sí pueden nombrarla, para comprobar que se rechaza.
+    id: 'pago-confirmado',
+    prohibicion: 'CLAUDE.md 9 — el asistente recibe el comprobante; quien confirma el pago es el banco',
+    patron: /pago\s+(fue\s+|est[áa]\s+|ha\s+sido\s+)?(confirmado|acreditado|verificado)|asegurar\s+el\s+pago|pago\s+exitoso|transferencia\s+exitosa|payment\s+(is\s+|was\s+|has\s+been\s+)?(confirmed|verified|credited)/gi,
     aplicaA: (ruta) => ruta.startsWith('src/'),
   },
 ];
