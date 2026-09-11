@@ -406,6 +406,20 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     de rechazo, así que la rama estaba muerta y su comentario describía un
     comportamiento de producción que no existe. Un comentario falso es peor que
     código muerto.
+55. **En un sitio estático, «se retira sola» significa «se retira al desplegar».**
+    La barra de la Rueda tenía `hasta: '2026-09-11'` y un comentario que decía
+    que desaparecía sin desplegar. La comparación corre en el build, así que el
+    11 de septiembre seguía publicada, con la «instalación bonificada» incluida.
+    Y al revisarla aparecieron dos restos de `v0.3.0` que nadie había visto:
+    `/nosotros` decía «Sin tarifas en dólares que suben solas» con los planes ya
+    en dólares, y la portada en inglés, «In bolivianos». El cambio de moneda se
+    buscó en `src/contenido/`; esos dos textos vivían en `src/pages/`.
+56. **El verificador compara cifras, no palabras.** La fuente decía «Una
+    agenda»; el modelo escribió «1 agenda» y la respuesta a «¿cuánto cuesta?»
+    —la pregunta más frecuente— se descartó como `numero-inventado: 1`. El
+    control hizo bien su trabajo; el defecto estaba en el contenido. Las
+    cantidades del corpus van en cifra. Era intermitente: `v0.3.1` había pasado
+    13/13 con el mismo texto.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
