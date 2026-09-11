@@ -20,13 +20,11 @@ export const sitio: Sitio = {
     pais: 'Bolivia',
   },
 
-  // La barra se retira sola el 11 de septiembre: la fecha vive en el contenido,
-  // no en un despliegue que haya que recordar hacer.
-  aviso: {
-    texto:
-      'Estamos en la Rueda de Negocios el 9 y 10 de septiembre — instalación bonificada para los primeros diez negocios.',
-    hasta: '2026-09-11',
-  },
+  // Sin barra. La de la Rueda de Negocios (9 y 10 de septiembre) tenía
+  // `hasta: '2026-09-11'`, pero esa fecha se evalúa AL COMPILAR: en un sitio
+  // estático la barra seguía publicada después de la feria, hasta el siguiente
+  // despliegue. Una barra con fecha hay que quitarla desplegando.
+  aviso: null,
 
   navegacion: [
     { texto: 'Cómo funciona', ruta: '/como-funciona' },

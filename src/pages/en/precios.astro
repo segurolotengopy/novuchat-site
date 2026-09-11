@@ -15,8 +15,8 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
     <div class="contenedor">
       <h1>Plans and pricing</h1>
       <p class="seccion-bajada" style="font-size: 18px">
-        In bolivianos. AI usage and WhatsApp conversations are included in the
-        price: no surprise charges at the end of the month.
+        Prepaid monthly service. AI usage and WhatsApp conversations are
+        included in the price: no surprise charges at the end of the month.
       </p>
 
       <div class="rejilla">
@@ -62,7 +62,8 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
       </div>
 
       <p class="texto-apagado" style="margin-top: var(--space-6); font-size: 14px">
-        A conversation is 24 continuous hours with the same customer, with up to
+        Prepaid: each month of the plan is paid in advance. A conversation is
+        24 continuous hours with the same customer, with up to
         25 assistant replies. Prices are in US dollars; billing is issued in
         bolivianos at the official exchange rate published by the Central Bank of
         Bolivia.
@@ -90,7 +91,10 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
         <article class="card elev-sm">
           <h2 class="card-title">Setup</h2>
           <p class="plan-precio" style="font-size: 30px">
-            USD {instalacion.estandar} <small>/ one time</small>
+            USD {instalacion.estandar} <small>/ one-time payment</small>
+          </p>
+          <p class="card-body">
+            Paid in advance, when the service starts.
           </p>
           <ul class="plan-lista">
             {instalacion.incluye.map((i) => <li>{i}</li>)}

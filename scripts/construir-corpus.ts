@@ -111,7 +111,8 @@ export function construirCorpus(): Fragmento[] {
       titulo: `Plan ${plan.nombre}`,
       url: '/precios',
       texto:
-        `El plan ${plan.nombre} cuesta ${usd(plan.precioUsd)} al mes e incluye ` +
+        `El plan ${plan.nombre} cuesta ${usd(plan.precioUsd)} al mes, en modalidad prepago ` +
+        `(cada mes se paga por adelantado), e incluye ` +
         `${plan.conversaciones.toLocaleString('es-BO')} conversaciones mensuales. ${plan.resumen} ` +
         `Incluye siempre: ${plan.incluye
           .map((c) => (c.proximamente ? `${c.texto} (todavía no está disponible, es una función próxima)` : c.texto))
@@ -132,7 +133,7 @@ export function construirCorpus(): Fragmento[] {
     titulo: 'Cuánto cuesta la instalación',
     url: '/precios',
     texto:
-      `La instalación se paga una sola vez y cuesta ${usd(precios.instalacion.estandar)}. ` +
+      `La instalación es un pago único, por adelantado al inicio del servicio, y cuesta ${usd(precios.instalacion.estandar)}. ` +
       `Incluye: ${precios.instalacion.incluye.join('; ')}. ` +
       `Si el negocio necesita integraciones a medida, la instalación arranca en ${usd(precios.instalacion.aMedidaDesde)}. ` +
       (precios.instalacion.bonificacion ?? ''),

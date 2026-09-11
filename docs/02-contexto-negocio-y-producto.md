@@ -77,17 +77,21 @@ Regla común: **límite de 3 rechazos y derivación a un humano**; horario y zon
 
 ---
 
-## 5. Planes y precios (⚠️ **Andres definirá los planes definitivos; lo siguiente es lo que dice el pitch y se reemplaza íntegro**)
+## 5. Planes y precios (vigentes desde la presentación 8, 2026-09-11)
 
-| Plan | Precio | Incluye |
-|---|---|---|
-| **Impulso** | 150 Bs/mes | Hasta 50 pedidos/citas |
-| **Crecimiento** | 250 Bs/mes | Hasta 150 pedidos/citas |
-| **Pro** | 350 Bs/mes | Hasta 400 pedidos/citas + módulo de fidelización |
+La fuente de verdad es `src/contenido/precios.es.ts`; esta tabla es un resumen.
 
-- Excedentes: **35 Bs por cada 50 pedidos adicionales**.
-- Instalación regular: **350 Bs**; **oferta Rueda de Negocios: 0 Bs** (100 % bonificada)
-  para los primeros 10 comercios que aseguren su primer mes.
+| Plan | Precio | Conversaciones | Camino (se elige uno) |
+|---|---|---|---|
+| **Impulso** | USD 25/mes | 100 | Citas: 1 agenda · o Ventas: 20 productos |
+| **Crecimiento** | USD 50/mes | 220 | Citas: 5 agendas · o Ventas: 100 productos |
+| **Pro** | USD 90/mes | 500 | Citas: 10 agendas · o Ventas: 500 productos · soporte prioritario |
+
+- **Servicio prepago mensual.** Precios en dólares, cobro en bolivianos al TCO del BCB.
+- Paquete extra: **USD 10 por hasta 30 conversaciones**, que no vence.
+- Instalación: **USD 65**, pago único **por adelantado al inicio del servicio**,
+  configuración llave en mano. A medida **desde USD 125**, cotizada caso por caso.
+- La oferta de la Rueda de Negocios (instalación bonificada) **terminó** el 10/09/2026.
 - Unidad de facturación real (ESTADO.md, 2026-09-01): la consola cuenta **cierres**
   (citas o pedidos confirmados), **atenciones** (personas únicas por período) e
   **interacciones** (respuestas del asistente, a partir de la segunda por conversación).

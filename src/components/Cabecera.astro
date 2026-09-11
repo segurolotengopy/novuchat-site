@@ -9,8 +9,9 @@ interface Props {
 
 const { ruta } = Astro.props;
 
-// El aviso se retira solo en la fecha indicada en el contenido, sin que nadie
-// tenga que acordarse de desplegar ese día.
+// OJO: esto corre AL COMPILAR, no en el navegador. La barra desaparece del
+// sitio publicado recién con el primer despliegue posterior a `hasta`; sin ese
+// despliegue sigue ahí. Pasó con la de la Rueda de Negocios (2026-09-11).
 const aviso = sitio.aviso;
 const mostrarAviso = aviso !== null && new Date() < new Date(aviso.hasta);
 ---
