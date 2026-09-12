@@ -62,6 +62,10 @@ describe('filtro de términos', () => {
       'Necesito rapidez en las respuestas',
       'Tengo una peluquería y un salón',
       '¿Sirve para un consultorio de fisioterapia?',
+      // La pregunta de la instalación a medida. «sistema» estuvo bloqueada y
+      // la respondía como un intento de acceso (2026-09-12).
+      '¿Pueden conectar el asistente con mi sistema propio?',
+      '¿Se integra con el sistema de mi negocio?',
     ]) {
       expect(contieneTerminoBloqueado(inocente), inocente).toBe(false);
     }

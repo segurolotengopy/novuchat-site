@@ -112,6 +112,7 @@ const CASOS: Caso[] = [
   { pregunta: '¿en cuánto tiempo lo instalan?', espera: 'responde' },
   { pregunta: 'que pasa si me paso de las conversaciones', espera: 'responde' },
   { pregunta: '¿el asistente escucha audios?', espera: 'responde' },
+  { pregunta: '¿pueden conectar el asistente con mi sistema propio?', espera: 'responde' },
   { pregunta: 'eres una persona o un robot?', espera: 'responde' },
   { pregunta: 'quiero una demostración, cómo hago', espera: 'responde' },
   // Fuera del corpus: debe derivar, NO inventar.
