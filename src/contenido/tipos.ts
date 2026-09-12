@@ -58,6 +58,10 @@ export interface Caracteristica {
 export interface Instalacion {
   estandar: number;
   aMedidaDesde: number;
+  /** Qué entra en la instalación a medida (presentación 8, lámina 11). */
+  aMedidaEjemplos: string[];
+  /** Aclara que es desarrollo cotizado, no funciones de serie (prohibición 8). */
+  aMedidaNota: string;
   incluye: string[];
   bonificacion?: string;
 }

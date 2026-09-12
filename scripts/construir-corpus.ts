@@ -135,7 +135,8 @@ export function construirCorpus(): Fragmento[] {
     texto:
       `La instalación es un pago único, por adelantado al inicio del servicio, y cuesta ${usd(precios.instalacion.estandar)}. ` +
       `Incluye: ${precios.instalacion.incluye.join('; ')}. ` +
-      `Si el negocio necesita integraciones a medida, la instalación arranca en ${usd(precios.instalacion.aMedidaDesde)}. ` +
+      `Si el negocio necesita desarrollo a medida (${precios.instalacion.aMedidaEjemplos.join('; ')}), ` +
+      `la instalación arranca en ${usd(precios.instalacion.aMedidaDesde)}. ${precios.instalacion.aMedidaNota} ` +
       (precios.instalacion.bonificacion ?? ''),
   });
 

@@ -92,6 +92,13 @@ export const pricing: Precios = {
   instalacion: {
     estandar: 65,
     aMedidaDesde: 125,
+    aMedidaEjemplos: [
+      'Integration with your ERP or in-house system',
+      'Real-time queries to your systems',
+      'Complex multi-department flows',
+    ],
+    aMedidaNota:
+      'This is custom development, quoted case by case: these are not standard features of the assistant.',
     incluye: [
       'Turnkey initial setup: your assistant arrives ready to serve customers',
       'Nobody at NovuChat reads your conversations unless you grant access',

@@ -107,6 +107,17 @@ describe('recuperación', () => {
     const utiles = filtrarPorUmbral(resultado, 0.5);
     expect(utiles.length).toBeLessThan(resultado.length);
   });
+
+  // Subir el umbral no puede encoger el contexto: el umbral decide SI se
+  // responde; el piso, QUÉ material de apoyo ve el modelo.
+  it('el piso de contexto conserva el material de apoyo bajo el umbral', () => {
+    const r = (id: string, similitud: number) =>
+      ({ id, similitud, titulo: id, url: '/', texto: id }) as unknown as Parameters<typeof filtrarPorUmbral>[0][number];
+    const lista = [r('a', 0.75), r('b', 0.66), r('c', 0.6)];
+    expect(filtrarPorUmbral(lista, 0.7, 0.64).map((x) => x.id)).toEqual(['a', 'b']);
+    // Si el mejor no llega al umbral, no hay contexto que valga.
+    expect(filtrarPorUmbral([r('b', 0.69), r('c', 0.66)], 0.7, 0.64)).toEqual([]);
+  });
 });
 
 describe('corpus derivado del sitio', () => {

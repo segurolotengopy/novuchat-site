@@ -52,7 +52,7 @@ contradicción, **manda esta lista**.
 | **Identidad** | **Ninguna referencia a AAB1** en el sitio ni en el RAG. NovuChat factura como comercio con NIT propio, en trámite | docs 02 §9, 04 §5, 05 §0 y §7 |
 | **Analítica** | **GA4 + píxel de Meta**, ambos detrás de un banner de consentimiento y declarados en `/privacidad` | doc 06 D5 (decía «ninguna») |
 | **Correo de leads** | **FormSubmit**, llamado **desde la Function `lead`**, nunca desde el navegador. Resend queda para después | doc 06 D4 |
-| **Asistente** | **RAG estricto**: umbral **medido** en 0,64, y si no se alcanza no se llama al modelo | doc 03 §5.1 punto 4 |
+| **Asistente** | **RAG estricto**: umbral **0,70** (2026-09-12; era 0,64): con 40 fragmentos los grupos se solapan y se prioriza no inventar. Si no se alcanza no se llama al modelo | doc 03 §5.1 punto 4 |
 | **Proveedor de IA** | **Vertex AI** con la cuenta de servicio, sin clave de API. La API de AI Studio usa créditos de prepago que se agotan aparte | doc 03 §2 |
 | **Unidad comercial** | **«Conversaciones»** = todos los mensajes con un cliente en 24 h continuas, **con hasta 25 respuestas del asistente**. Definida en `/precios` y en `/terminos` | doc 02 §5 |
 | **Moneda** | **Precios en dólares**, cobro en bolivianos al **Tipo de Cambio Oficial del BCB del primer día hábil** del mes facturado. El campo es `precioUsd` y el JSON-LD publica `priceCurrency: 'USD'` | doc 02 §5 |

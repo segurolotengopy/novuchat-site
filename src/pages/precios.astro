@@ -110,9 +110,13 @@ const { planes, instalacion, excedente, comoContamos } = precios;
             {instalacion.incluye.map((i) => <li>{i}</li>)}
           </ul>
           <p class="card-body">
-            Para arquitecturas más complejas —conexión con un sistema propio,
-            consultas a tu base de datos en tiempo real— la instalación a medida
-            arranca en USD {instalacion.aMedidaDesde}.
+            <strong>A medida, desde USD {instalacion.aMedidaDesde}</strong>
+          </p>
+          <ul class="plan-lista">
+            {instalacion.aMedidaEjemplos.map((e) => <li>{e}</li>)}
+          </ul>
+          <p class="card-body" style="font-size: 14px">
+            {instalacion.aMedidaNota}
           </p>
           {
             instalacion.bonificacion && (

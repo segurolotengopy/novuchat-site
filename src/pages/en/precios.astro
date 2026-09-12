@@ -100,7 +100,13 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
             {instalacion.incluye.map((i) => <li>{i}</li>)}
           </ul>
           <p class="card-body">
-            Custom integrations start at USD {instalacion.aMedidaDesde}.
+            <strong>Custom, from USD {instalacion.aMedidaDesde}</strong>
+          </p>
+          <ul class="plan-lista">
+            {instalacion.aMedidaEjemplos.map((e) => <li>{e}</li>)}
+          </ul>
+          <p class="card-body" style="font-size: 14px">
+            {instalacion.aMedidaNota}
           </p>
         </article>
       </div>
