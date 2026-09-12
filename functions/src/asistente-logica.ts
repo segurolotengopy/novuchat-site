@@ -65,7 +65,11 @@ export const TERMINOS_BLOQUEADOS = [
   'credencial', 'credenciales', 'apikey', 'api', 'firestore', 'firebase',
   'servidor', 'servidores', 'infraestructura', 'prompt', 'prompts',
   'jailbreak', 'admin', 'superadmin', 'root', 'sudo', 'instrucciones',
-  'system', 'sistema',
+  'system',
+  // «sistema» salió el 2026-09-12: bloqueaba «¿pueden conectar el asistente
+  // con mi sistema propio?», que es la pregunta de la instalación a medida, y
+  // respondía «sobre accesos no puedo ayudarte». Ninguna inyección de la
+  // prueba dependía solo de ella: «prompt», «instrucciones» y «system» siguen.
 ];
 
 /** Quita tildes y baja a minúsculas, para comparar por palabra completa. */

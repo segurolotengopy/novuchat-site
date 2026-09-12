@@ -423,6 +423,20 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     control hizo bien su trabajo; el defecto estaba en el contenido. Las
     cantidades del corpus van en cifra. Era intermitente: `v0.3.1` había pasado
     13/13 con el mismo texto.
+57. **Un control con umbral cambia dos cosas si un solo número decide dos
+    preguntas.** Subir el umbral a 0,70 también encogió el contexto del
+    modelo, porque `filtrarPorUmbral` usaba el mismo corte para «¿respondo?»
+    y para «¿qué le muestro?». Y dejó sin respuesta a «¿eres una persona?»
+    (0,687), que es una prohibición dura y no puede depender de una distancia
+    entre vectores. Lo destapó `pnpm asistente:probar`, no las pruebas de
+    unidad: ellas usan un índice sintético.
+58. **El filtro de términos bloqueaba la venta que acabábamos de publicar.**
+    «sistema» estaba en la lista contra la inyección de prompt; al publicar la
+    instalación a medida («integración con tu sistema propio»), el asistente
+    respondía a «¿pueden conectarlo con mi sistema?» con «sobre accesos no
+    puedo ayudarte». Solo apareció preguntándole al asistente publicado con
+    las palabras de un cliente. Cada vez que el contenido nombra algo nuevo,
+    hay que preguntarlo como lo preguntaría quien lo va a comprar.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
