@@ -13,9 +13,11 @@ import type { Indice, Recuperado } from './rag/tipos.js';
 import {
   NO_HABLO_DE_ESO,
   NO_LO_SE,
+  SOY_UNA_IA,
   SUGERENCIAS,
   construirPrompt,
   contieneTerminoBloqueado,
+  preguntaPorIdentidad,
 } from './asistente-logica.js';
 import indiceCrudo from './rag/indice.json' with { type: 'json' };
 
@@ -153,6 +155,13 @@ export const asistente = onCall(
     if (contieneTerminoBloqueado(mensaje)) {
       await registrar(NO_HABLO_DE_ESO, 'termino-bloqueado', [], Date.now() - arranque);
       return { respuesta: NO_HABLO_DE_ESO, sugerencias: SUGERENCIAS };
+    }
+
+    // — Identidad (prohibición 7) — antes del RAG y sin modelo: la respuesta
+    // no puede depender del umbral. Ver SOY_UNA_IA.
+    if (preguntaPorIdentidad(mensaje)) {
+      await registrar(SOY_UNA_IA, 'identidad', [], Date.now() - arranque);
+      return { respuesta: SOY_UNA_IA, sugerencias: SUGERENCIAS };
     }
 
     // — Recuperación —

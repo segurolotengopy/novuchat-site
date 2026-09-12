@@ -30,6 +30,29 @@ export const NO_HABLO_DE_ESO =
   'soporte con tu cuenta, escríbenos por el formulario y te atiende una persona.';
 
 /**
+ * Respuesta a «¿eres una persona?». Fija, del repositorio: la prohibición 7
+ * (nunca presentarse como persona) no puede depender de que la pregunta quede
+ * cerca de un fragmento en el espacio de vectores. Con el umbral en 0,70,
+ * «eres una persona o un robot?» quedaba en 0,687 y recibía «Eso no lo tengo».
+ */
+export const SOY_UNA_IA =
+  'Soy el asistente virtual de NovuChat, una inteligencia artificial: no soy ' +
+  'una persona. Si prefieres hablar con alguien del equipo, escríbenos por WhatsApp.';
+
+// Solo en SEGUNDA persona (o «esto/este chat»): «¿el plan es para una
+// persona?» no pregunta por el asistente y no puede recibir «soy una IA».
+// «real» va aparte y pegado a «eres»: suelto, «un cliente real» disparaba.
+const RE_IDENTIDAD_ES =
+  /\b(eres|sos|seras|estoy hablando con|hablo con|me (atiende|responde|escribe)|quien (me )?(atiende|responde|escribe)|esto es|este chat es)\b.{0,30}\b(persona|humano|humana|robot|bot|maquina|ia|inteligencia artificial)\b|\b(eres|sos) (real|de verdad)\b/;
+const RE_IDENTIDAD_EN =
+  /\b(are you|am i (talking|speaking|chatting) (to|with)|is this)\b.{0,30}\b(human|person|robot|bot|ai|real)\b/;
+
+export function preguntaPorIdentidad(texto: string): boolean {
+  const t = normalizar(texto);
+  return RE_IDENTIDAD_ES.test(t) || RE_IDENTIDAD_EN.test(t);
+}
+
+/**
  * Términos que no se responden aunque el corpus tuviera algo parecido.
  *
  * Se comparan por **palabra completa** sobre el texto normalizado, no por

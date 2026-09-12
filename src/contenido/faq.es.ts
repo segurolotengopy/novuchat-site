@@ -16,7 +16,7 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Qué pasa si el cliente manda un audio o una foto?',
     respuesta:
-      'Hoy el asistente responde con cortesía pidiendo que lo escriba, o deriva la conversación a una persona de tu equipo. Escuchar audios es una función que estamos construyendo; cuando esté lista te avisamos.',
+      'Hoy el asistente responde con cortesía pidiendo que lo escriba, o deriva la conversación a una persona de tu equipo.',
   },
   {
     pregunta: '¿Puede equivocarse?',

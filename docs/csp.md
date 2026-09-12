@@ -21,6 +21,7 @@
 | `img-src` | `'self' data:` | Imágenes propias y SVG en línea | Se pierden logotipo, capturas y el QR de demostración |
 | | `https://www.gstatic.com` | Recursos gráficos de reCAPTCHA | Widget incompleto |
 | | `https://www.google-analytics.com`, `https://www.facebook.com` | Balizas de medición por imagen de GA4 y del píxel | Se pierden eventos de medición |
+| | `https://www.googletagmanager.com` | Baliza por imagen que la etiqueta de Google carga desde su propio dominio | Google Analytics avisa «recursos de etiqueta bloqueados» (2026-09-12) y se pierde parte de la medición. Lo exige la guía oficial: developers.google.com/tag-platform/security/guides/csp |
 | `font-src` | `'self'` | Archivo servida desde `/fuentes/` | Se cae a la tipografía del sistema |
 | `connect-src` | `'self'` | Peticiones al propio origen | — |
 | | `https://firebaseappcheck.googleapis.com`, `https://content-firebaseappcheck.googleapis.com` | Canje del token de App Check | Ni el formulario ni el asistente funcionan |

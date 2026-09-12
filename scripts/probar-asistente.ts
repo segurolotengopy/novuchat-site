@@ -24,8 +24,10 @@ import { resolve } from 'node:path';
 
 import {
   NO_LO_SE,
+  SOY_UNA_IA,
   construirPrompt,
   contieneTerminoBloqueado,
+  preguntaPorIdentidad,
 } from '../functions/src/asistente-logica';
 import { filtrarPorUmbral, similitudCoseno } from '../functions/src/rag/recuperador';
 import { verificar } from '../functions/src/rag/verificacion';
@@ -138,6 +140,11 @@ for (const caso of CASOS) {
   if (contieneTerminoBloqueado(caso.pregunta)) {
     resultado = 'corta';
     salida = '(filtro de términos, sin llamar al modelo)';
+  } else if (preguntaPorIdentidad(caso.pregunta)) {
+    // Mismo orden que la Function: identidad antes del RAG, sin modelo.
+    resultado = 'responde';
+    salida = SOY_UNA_IA;
+    detalle = 'respuesta fija de identidad (prohibición 7), sin RAG ni modelo';
   } else {
     const recuperados = await recuperar(caso.pregunta);
     const utiles = filtrarPorUmbral(recuperados);

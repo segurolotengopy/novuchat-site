@@ -107,6 +107,13 @@ export const precios: Precios = {
   instalacion: {
     estandar: 65,
     aMedidaDesde: 125,
+    aMedidaEjemplos: [
+      'Integración con tu ERP o tu sistema propio',
+      'Consultas a tus sistemas en tiempo real',
+      'Flujos complejos entre varios departamentos',
+    ],
+    aMedidaNota:
+      'Es desarrollo a medida, cotizado caso por caso: no son funciones que el asistente traiga de serie.',
     incluye: [
       'Configuración inicial llave en mano: recibes el asistente listo para atender',
       'Nadie de NovuChat lee tus conversaciones sin que tú abras el acceso',

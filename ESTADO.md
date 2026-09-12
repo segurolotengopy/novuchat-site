@@ -34,8 +34,8 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | Asistente del sitio | isla Preact `Asistente`, con RAG estricto en el servidor |
 | Function `lead` | validación, trampa de robots, límite de tasa, deduplicación, Firestore y aviso por FormSubmit **desde el servidor** |
 | Function `asistente` | límite de tasa, filtro de términos, recuperación con umbral, verificación de la respuesta |
-| Índice del RAG | ✔ generado: 34 fragmentos, 563 KB, con Vertex AI |
-| Umbral del RAG | ✔ **medido** en 0,64 (`pnpm rag:calibrar`), no elegido a ojo |
+| Índice del RAG | ✔ generado: 40 fragmentos, 665 KB, con Vertex AI |
+| Umbral del RAG | ✔ **0,70** desde 2026-09-12 (era 0,64): medido con `pnpm rag:calibrar`; los grupos se solapan y se prioriza no inventar |
 | Proveedor de IA | **Vertex AI** con la cuenta de servicio: sin clave de API |
 | Identidad federada (WIF) | ✔ pool, proveedor y binding acotados al repositorio; `probar-identidad` en verde |
 | Identidades de despliegue | `deploy-previa` (solo Hosting, secreto del repositorio) y `deploy-production` (despliegue completo, **secreto del Environment**) |
@@ -66,7 +66,10 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | 2026-09-03 | Identidad legal **provisional** AAB1 / NIT 2441214012 | Solo en las páginas legales, que la exigen. El material comercial y el RAG siguen sin mencionar a AAB1: el motivo tributario no cambia porque el dato sea provisional |
 | 2026-09-02 | Ninguna dependencia ejecuta scripts de instalación (`allowBuilds: false`) | Riesgo S-9: los `postinstall` de terceros son superficie de cadena de suministro |
 | 2026-09-11 | **Presentación 8**: fin de la instalación bonificada; instalación = pago único **por adelantado al inicio del servicio**, llave en mano; planes **prepago mensual**. Se quita la barra de la Rueda de Negocios | Cambio de Silvana. La barra con `hasta` se evalúa al compilar: seguía en el sitio publicado después de la feria |
-| 2026-09-11 | `pnpm rag:calibrar` sobre 39 fragmentos: los grupos se solapan (peor del corpus 0,657 < mejor ajena 0,689) y sugiere **0,70**; el umbral sigue en 0,64 | **Pendiente de decisión**: subirlo da más «no lo sé» y menos invención. No se cambió junto con el contenido |
+| 2026-09-11 | `pnpm rag:calibrar` sobre 39 fragmentos: los grupos se solapan (peor del corpus 0,657 < mejor ajena 0,689) y sugiere **0,70**; el umbral sigue en 0,64 | Resuelto el 2026-09-12 (fila siguiente) |
+| 2026-09-12 | **Umbral del RAG a 0,70.** Recalibrado sobre 40 fragmentos: corpus min 0,657 · ajenas max 0,689 | Decisión de Andres. Con 0,70 ninguna pregunta ajena llega al modelo; el costo es algún «no lo sé» de más, que deriva a una persona. Una respuesta inventada sobre precios no se deshace |
+| 2026-09-12 | `img-src` admite `https://www.googletagmanager.com` | Google Analytics avisó «recursos de etiqueta bloqueados»: la etiqueta de Google carga una baliza por imagen desde ese dominio, y la CSP solo lo permitía en `script-src` |
+| 2026-09-12 | Instalación a medida con sus tres ejemplos y la nota «cotizado caso por caso, no son funciones de serie» | Lámina 11 de la presentación 8. Sin la nota, nombrar integraciones con ERP rozaba la prohibición 8 |
 | 2026-09-02 | **Vertex AI en vez de la API de AI Studio** | La API de AI Studio se paga con créditos de prepago que se agotan aparte; Vertex cobra a la cuenta de facturación del proyecto, que ya tiene presupuesto y alertas. Y no necesita clave: se autentica con la cuenta de servicio. Un secreto que no existe no se filtra |
 
 ---
