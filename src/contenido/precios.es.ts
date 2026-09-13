@@ -129,15 +129,15 @@ export const precios: Precios = {
   comoContamos: {
     titulo: 'Cómo contamos las conversaciones',
     parrafos: [
-      'Una conversación son todos los mensajes que intercambias con un mismo cliente durante 24 horas continuas. Si alguien te escribe a las nueve de la mañana, sigue preguntando al mediodía y cierra su pedido a las seis de la tarde, eso es una sola conversación. El asistente responde hasta 25 veces dentro de esa conversación; si hace falta más, te avisa para que la tome alguien de tu equipo.',
-      'Lo hacemos así porque no te castiga por conversar: una conversación de tres mensajes y una de veinte cuestan lo mismo. Cobrar por mensaje te obligaría a vigilar cuánto habla el asistente, y un asistente que responde corto vende menos.',
+      'Una conversación son hasta 25 respuestas del asistente a un mismo cliente dentro de 24 horas continuas. Si alguien te escribe a las nueve de la mañana, sigue preguntando al mediodía y cierra su pedido a las seis de la tarde, eso es una sola conversación. Si un mismo cliente necesita más de 25 respuestas en el día, el asistente sigue atendiéndolo y a partir de la respuesta 26 se cuenta una conversación nueva. Pasadas las 24 horas desde su primer mensaje, la cuenta vuelve a empezar.',
+      'Lo hacemos así porque no te castiga por conversar: una conversación de tres mensajes y una de veinte cuestan lo mismo. Cobrar por mensaje te obligaría a vigilar cuánto habla el asistente, y un asistente que responde corto vende menos. Y el asistente nunca deja a un cliente a medias por haber hablado mucho.',
       'En tu consola ves el mismo número que facturamos, y además dos datos que sirven para decidir: cuántas personas distintas atendiste y cuántos cierres se lograron.',
     ],
     glosario: [
       {
         termino: 'Conversación',
         definicion:
-          'Todos los mensajes con un mismo cliente en 24 horas continuas, con hasta 25 respuestas del asistente. Es la unidad que se factura.',
+          'Hasta 25 respuestas del asistente a un mismo cliente en 24 horas continuas. A partir de la respuesta 26 en el mismo día se cuenta otra; a las 24 horas la cuenta vuelve a cero. Es la unidad que se factura.',
       },
       {
         termino: 'Atención',
