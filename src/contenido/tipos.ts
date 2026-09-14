@@ -19,8 +19,9 @@ export interface Plan {
   nombre: string;
   precioUsd: number;
   /**
-   * Conversaciones incluidas al mes. Una conversación = 24 h con un cliente,
-   * con hasta 25 respuestas del asistente dentro de ella.
+   * Conversaciones incluidas al mes. Una conversación = un bloque de hasta 25
+   * respuestas del asistente a un cliente dentro de 24 h; la respuesta 26 en
+   * el mismo día abre otra, y a las 24 h la cuenta vuelve a cero.
    */
   conversaciones: number;
   resumen: string;
