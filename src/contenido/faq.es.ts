@@ -91,7 +91,7 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Qué pasa si una conversación se hace muy larga?',
     respuesta:
-      'Una conversación son hasta 25 respuestas del asistente a un mismo cliente en el día. Si un cliente necesita más, el asistente sigue atendiéndolo y desde la respuesta 26 se cuenta una conversación nueva. Como una charla tan larga casi siempre es porque algo se trabó, además te avisamos al número que nos des para que alguien de tu equipo la mire, con todo el contexto de lo que ya se habló. En tu consola ves cuántas conversaciones del mes se contaron por este motivo.',
+      'Una conversación son hasta 25 respuestas del asistente a un mismo cliente dentro de 24 horas continuas. Si un cliente necesita más, el asistente sigue atendiéndolo y desde la respuesta 26 se cuenta una conversación nueva. Como una charla tan larga casi siempre es porque algo se trabó, además te avisamos al número que nos des para que alguien de tu equipo la mire, con todo el contexto de lo que ya se habló. En tu consola ves cuántas conversaciones del mes se contaron por este motivo.',
   },
   {
     pregunta: '¿Qué necesitan de mí para empezar?',
