@@ -34,7 +34,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | Asistente del sitio | isla Preact `Asistente`, con RAG estricto en el servidor |
 | Function `lead` | validación, trampa de robots, límite de tasa, deduplicación, Firestore y aviso por FormSubmit **desde el servidor** |
 | Function `asistente` | límite de tasa, filtro de términos, recuperación con umbral, verificación de la respuesta |
-| Índice del RAG | ✔ generado: 40 fragmentos, 665 KB, con Vertex AI |
+| Índice del RAG | ✔ generado: **41 fragmentos**, 682 KB, con Vertex AI (huella `f912bb8c…`, 2026-09-15). Los fragmentos de plan llevan las cantidades en cifras |
 | Umbral del RAG | ✔ **0,70** desde 2026-09-12 (era 0,64): medido con `pnpm rag:calibrar`; los grupos se solapan y se prioriza no inventar |
 | Proveedor de IA | **Vertex AI** con la cuenta de servicio: sin clave de API |
 | Identidad federada (WIF) | ✔ pool, proveedor y binding acotados al repositorio; `probar-identidad` en verde |
@@ -72,6 +72,8 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | 2026-09-12 | Instalación a medida con sus tres ejemplos y la nota «cotizado caso por caso, no son funciones de serie» | Lámina 11 de la presentación 8. Sin la nota, nombrar integraciones con ERP rozaba la prohibición 8 |
 | 2026-09-13 | **Conversación = bloque de hasta 25 respuestas en 24 h**; la 26 abre otra y el asistente sigue | Decisión de Andres (`NovuChat/Analisis/27`). Reemplaza al tope con corte del 08/09. Los umbrales 50 / 100 de la plataforma no se publican (`NovuChat/CLAUDE.md` §2) |
 | 2026-09-15 | Sitio alineado con la plataforma: EN al modelo de bloques, «24 horas continuas» también en la FAQ, sin «nunca deja a medias» (lo contradice el umbral de bloqueo), «soporte técnico prioritario» en `/terminos`, índice regenerado | Revisión contra los cambios de `~/NovuChat` del 13 al 15/09. La captación de WhatsApp copia este corpus: su huella cambió |
+| 2026-09-15 | **El precio de instalación junto al precio de cada plan** («+ USD 65 de instalación, pago único»), en la nota bajo los planes y en una FAQ propia | Reclamo de un prospecto: estaba solo en la tarjeta de `/precios`, dos pantallas por debajo (cuatro en celular). Quien entra por la portada o un rubro veía «USD 25 / mes» y descubría los USD 65 en la propuesta |
+| 2026-09-15 | **`v0.4.0` en producción** (Cloud Run `00017`): la definición de bloques (#46), el inglés, la instalación y el índice al día (#49). Acta en `docs/produccion/acta-v0.4.0.md` | Autorización de Andres en el chat. La prueba de humo del CI falló por un 404 transitorio del canal de previa y se reejecutó |
 | 2026-09-02 | **Vertex AI en vez de la API de AI Studio** | La API de AI Studio se paga con créditos de prepago que se agotan aparte; Vertex cobra a la cuenta de facturación del proyecto, que ya tiene presupuesto y alertas. Y no necesita clave: se autentica con la cuenta de servicio. Un secreto que no existe no se filtra |
 
 ---
