@@ -130,7 +130,7 @@ export const precios: Precios = {
     titulo: 'Cómo contamos las conversaciones',
     parrafos: [
       'Una conversación son hasta 25 respuestas del asistente a un mismo cliente dentro de 24 horas continuas. Si alguien te escribe a las nueve de la mañana, sigue preguntando al mediodía y cierra su pedido a las seis de la tarde, eso es una sola conversación. Si un mismo cliente necesita más de 25 respuestas en el día, el asistente sigue atendiéndolo y a partir de la respuesta 26 se cuenta una conversación nueva. Pasadas las 24 horas desde su primer mensaje, la cuenta vuelve a empezar.',
-      'Lo hacemos así porque no te castiga por conversar: una conversación de tres mensajes y una de veinte cuestan lo mismo. Cobrar por mensaje te obligaría a vigilar cuánto habla el asistente, y un asistente que responde corto vende menos. Y el asistente nunca deja a un cliente a medias por haber hablado mucho.',
+      'Lo hacemos así porque no te castiga por conversar: una conversación de tres mensajes y una de veinte cuestan lo mismo. Cobrar por mensaje te obligaría a vigilar cuánto habla el asistente, y un asistente que responde corto vende menos. Y el asistente no deja a un cliente a medias por pasar de 25 respuestas.',
       'En tu consola ves el mismo número que facturamos, y además dos datos que sirven para decidir: cuántas personas distintas atendiste y cuántos cierres se lograron.',
     ],
     glosario: [

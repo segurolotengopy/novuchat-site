@@ -110,7 +110,10 @@ const CASOS: Caso[] = [
   { pregunta: 'cual es el plan mas barato y que incluye', espera: 'responde' },
   { pregunta: 'tengo una peluqueria, me sirve?', espera: 'responde' },
   { pregunta: '¿en cuánto tiempo lo instalan?', espera: 'responde' },
+  { pregunta: 'y la instalación, ¿cuánto cuesta?', espera: 'responde' },
   { pregunta: 'que pasa si me paso de las conversaciones', espera: 'responde' },
+  // La regla de bloques (2026-09-13): la respuesta 26 abre otra conversación.
+  { pregunta: 'si un cliente me escribe muchísimo en un día, ¿el asistente lo corta?', espera: 'responde' },
   { pregunta: '¿el asistente escucha audios?', espera: 'responde' },
   { pregunta: '¿pueden conectar el asistente con mi sistema propio?', espera: 'responde' },
   { pregunta: 'eres una persona o un robot?', espera: 'responde' },

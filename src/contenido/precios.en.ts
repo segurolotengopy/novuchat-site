@@ -114,15 +114,15 @@ export const pricing: Precios = {
   comoContamos: {
     titulo: 'How we count conversations',
     parrafos: [
-      'A conversation is every message exchanged with the same customer over 24 continuous hours. Someone who writes at nine, asks again at noon and closes the order at six is one conversation. The assistant replies up to 25 times within that conversation; if more is needed, we let you know so someone on your team can take over.',
-      'We do it this way because it does not punish you for talking: a three-message conversation and a twenty-message one cost the same. Charging per message would force you to watch how much the assistant says, and a curt assistant sells less.',
+      'A conversation is up to 25 assistant replies to the same customer within 24 continuous hours. Someone who writes at nine, asks again at noon and closes the order at six is one conversation. If the same customer needs more than 25 replies within those 24 hours, the assistant keeps helping them and from reply 26 a new conversation is counted. Once 24 hours have passed since their first message, the count starts over.',
+      'We do it this way because it does not punish you for talking: a three-message conversation and a twenty-message one cost the same. Charging per message would force you to watch how much the assistant says, and a curt assistant sells less. And the assistant does not leave a customer halfway for going past 25 replies.',
       'Your console shows the same number we invoice, plus two figures worth watching: how many distinct people you served and how many closes were achieved.',
     ],
     glosario: [
       {
         termino: 'Conversation',
         definicion:
-          'Every message with the same customer within 24 continuous hours, with up to 25 assistant replies. This is the billing unit.',
+          'Up to 25 assistant replies to the same customer within 24 continuous hours. From reply 26 within those 24 hours another one is counted; after 24 hours the count resets. This is the billing unit.',
       },
       {
         termino: 'Served customer',

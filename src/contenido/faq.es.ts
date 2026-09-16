@@ -34,6 +34,11 @@ export const preguntas: Pregunta[] = [
       'Muestra el QR de tu banco y recibe el comprobante que envía el cliente; quien lo valida eres tú, y quien confirma que entró la plata es tu banco. El dinero se acredita directamente en tu cuenta, nunca pasa por nosotros. En las demostraciones el QR está rotulado como simulado y no cobra nada.',
   },
   {
+    pregunta: '¿Cuánto cuesta la instalación?',
+    respuesta:
+      'USD 65, un pago único que se hace por adelantado, al inicio del servicio y aparte de la mensualidad del plan. Es llave en mano: la verificación de tu número ante Meta, la carga de tus servicios, precios, horarios y el tono del asistente, la conexión con tu Google Calendar y las pruebas con casos reales. Si tu negocio necesita desarrollo a medida, como integrarlo con tu sistema propio, la instalación arranca en USD 125 y se cotiza caso por caso.',
+  },
+  {
     pregunta: '¿Cuánto tarda la instalación?',
     respuesta:
       '48 horas desde que tenemos tu información: servicios o productos con precios, horarios y tu calendario. Lo que puede tardar más es el trámite de verificación de tu negocio ante Meta, que no depende de nosotros.',
@@ -91,7 +96,7 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Qué pasa si una conversación se hace muy larga?',
     respuesta:
-      'Una conversación son hasta 25 respuestas del asistente a un mismo cliente en el día. Si un cliente necesita más, el asistente sigue atendiéndolo y desde la respuesta 26 se cuenta una conversación nueva. Como una charla tan larga casi siempre es porque algo se trabó, además te avisamos al número que nos des para que alguien de tu equipo la mire, con todo el contexto de lo que ya se habló. En tu consola ves cuántas conversaciones del mes se contaron por este motivo.',
+      'Una conversación son hasta 25 respuestas del asistente a un mismo cliente dentro de 24 horas continuas. Si un cliente necesita más, el asistente sigue atendiéndolo y desde la respuesta 26 se cuenta una conversación nueva. Como una charla tan larga casi siempre es porque algo se trabó, además te avisamos al número que nos des para que alguien de tu equipo la mire, con todo el contexto de lo que ya se habló. En tu consola ves cuántas conversaciones del mes se contaron por este motivo.',
   },
   {
     pregunta: '¿Qué necesitan de mí para empezar?',

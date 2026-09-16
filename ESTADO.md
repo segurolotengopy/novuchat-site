@@ -70,6 +70,8 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | 2026-09-12 | **Umbral del RAG a 0,70.** Recalibrado sobre 40 fragmentos: corpus min 0,657 · ajenas max 0,689 | Decisión de Andres. Con 0,70 ninguna pregunta ajena llega al modelo; el costo es algún «no lo sé» de más, que deriva a una persona. Una respuesta inventada sobre precios no se deshace |
 | 2026-09-12 | `img-src` admite `https://www.googletagmanager.com` | Google Analytics avisó «recursos de etiqueta bloqueados»: la etiqueta de Google carga una baliza por imagen desde ese dominio, y la CSP solo lo permitía en `script-src` |
 | 2026-09-12 | Instalación a medida con sus tres ejemplos y la nota «cotizado caso por caso, no son funciones de serie» | Lámina 11 de la presentación 8. Sin la nota, nombrar integraciones con ERP rozaba la prohibición 8 |
+| 2026-09-13 | **Conversación = bloque de hasta 25 respuestas en 24 h**; la 26 abre otra y el asistente sigue | Decisión de Andres (`NovuChat/Analisis/27`). Reemplaza al tope con corte del 08/09. Los umbrales 50 / 100 de la plataforma no se publican (`NovuChat/CLAUDE.md` §2) |
+| 2026-09-15 | Sitio alineado con la plataforma: EN al modelo de bloques, «24 horas continuas» también en la FAQ, sin «nunca deja a medias» (lo contradice el umbral de bloqueo), «soporte técnico prioritario» en `/terminos`, índice regenerado | Revisión contra los cambios de `~/NovuChat` del 13 al 15/09. La captación de WhatsApp copia este corpus: su huella cambió |
 | 2026-09-02 | **Vertex AI en vez de la API de AI Studio** | La API de AI Studio se paga con créditos de prepago que se agotan aparte; Vertex cobra a la cuenta de facturación del proyecto, que ya tiene presupuesto y alertas. Y no necesita clave: se autentica con la cuenta de servicio. Un secreto que no existe no se filtra |
 
 ---
@@ -437,6 +439,16 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     puedo ayudarte». Solo apareció preguntándole al asistente publicado con
     las palabras de un cliente. Cada vez que el contenido nombra algo nuevo,
     hay que preguntarlo como lo preguntaría quien lo va a comprar.
+59. **Una guarda que no corre no guarda.** `be15f34` cambió la definición de
+    conversación y se asentó con «prohibiciones, pruebas y build»: tres de
+    los nueve pasos de `pnpm verificar`. Justo quedó afuera `rag:cotejar`,
+    y la rama nunca abrió PR, así que el CI tampoco lo corrió. Durante dos
+    días el asistente siguió diciendo «responde hasta 25 veces, si hace falta
+    más te avisa» mientras la página decía que sigue atendiendo. Y la
+    captación de WhatsApp copia este corpus. Lo encontró la sesión de la
+    plataforma (`NovuChat/CLIENTES/NOVUCHAT/03`), no una prueba. Un cambio
+    de contenido se da por terminado con `pnpm verificar` completo, no con
+    una parte.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
@@ -509,6 +521,15 @@ que alguien lo reporte como una diferencia.
    publicado ni en el CI —decisión de Andres, 2026-09-07, dejarlo así— pero
    deja sin ejercitar el camino de llamada del cliente, que es donde vivía el
    fallo de región de `v0.2.3`. Detalle y alternativas en `CLAUDE.md`.
+
+3. **Pedidos de la plataforma** (`~/NovuChat/CLIENTES/NOVUCHAT/`), pendientes:
+   - `02`: Functions `conocimiento` (corpus sin vectores para n8n) y
+     `leadWhatsapp` (prospectos de la captación en `leads`). Sin la segunda,
+     el prospecto de WhatsApp no se guarda.
+   - `03`: rubro **Educación** en `verticales.es.ts`. Espera la decisión de
+     Andres y una foto propia.
+   - Después de cada reindexado, avisar la huella nueva a la sesión de la
+     plataforma: `Flujos/novuchat-onboarding.json` lleva una copia del corpus.
 
 **De Andres:**
 

@@ -210,7 +210,9 @@ describe('corpus derivado del sitio', () => {
     // él solo, y el asistente es lo que más gente va a leer.
     for (const plan of precios.planes) {
       const fragmento = corpus.find((f) => f.id === `plan-${plan.id}`)!;
-      expect(fragmento.texto, `${plan.id} no dice que se elige uno`).toContain('ELIGE UNO');
+      // En cifras («1 SOLO … 2 caminos»): el verificador descartaba el «2» que
+      // el modelo escribía cuando la fuente decía «dos» (2026-09-15).
+      expect(fragmento.texto, `${plan.id} no dice que se elige uno`).toContain('ELIGE 1 SOLO');
       expect(fragmento.texto, `${plan.id} no separa los caminos`).toContain('O BIEN');
     }
   });
