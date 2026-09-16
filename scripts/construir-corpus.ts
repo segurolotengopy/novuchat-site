@@ -120,7 +120,9 @@ export function construirCorpus(): Fragmento[] {
         // El «o bien» tiene que estar EN el fragmento: si el asistente lista los
         // dos caminos seguidos, el cliente entiende que trae los dos, que es
         // exactamente el malentendido que la oferta nueva viene a evitar.
-        `Además el negocio ELIGE UNO de estos dos caminos, no los dos: ` +
+        // Cifras, no palabras: el verificador descarta un «2» del modelo si la
+        // fuente solo dice «dos» (hallazgo 56; falló el 2026-09-15 con «2 caminos»).
+        `Además el negocio ELIGE 1 SOLO de estos 2 caminos, no los 2: ` +
         plan.caminos.map((c) => `${c.titulo} — ${c.texto}`).join(' O BIEN ') +
         ` Si un negocio necesita los dos caminos, contrata un plan para cada uno, ` +
         `cada uno en su propio número de WhatsApp.`,

@@ -81,6 +81,9 @@ const plan = precios.planes.find((p) => p.id === vertical.planRecomendado)!;
       <article class="plan plan-destacado" style="max-width: 420px">
         <h3 class="plan-nombre">{plan.nombre}</h3>
         <p class="plan-precio">USD {plan.precioUsd} <small>/ mes</small></p>
+        <p class="plan-instalacion">
+          + USD {precios.instalacion.estandar} de instalación, pago único
+        </p>
         <p class="card-body">{plan.resumen}</p>
         <p class="card-body" style="font-size: 14px">
           Eliges uno: {plan.caminos.map((c) => c.titulo).join(' o ')}.

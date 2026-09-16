@@ -32,6 +32,9 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
               <p class="plan-precio">
                 USD {plan.precioUsd} <small>/ month</small>
               </p>
+              <p class="plan-instalacion">
+                + USD {instalacion.estandar} one-time setup
+              </p>
               <p class="card-body">{plan.resumen}</p>
               <p class="tag tag-neutral" style="align-self: flex-start">
                 {plan.conversaciones.toLocaleString('en-US')} conversations per month
@@ -62,7 +65,8 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
       </div>
 
       <p class="texto-apagado" style="margin-top: var(--space-6); font-size: 14px">
-        Prepaid: each month of the plan is paid in advance. A conversation is
+        Prepaid: each month of the plan is paid in advance. Setup is a one-time
+        payment of USD {instalacion.estandar}, on top of the monthly fee. A conversation is
         up to 25 assistant replies to the same customer within 24 continuous
         hours; from reply 26 another one is counted. Prices are in US dollars; billing is issued in
         bolivianos at the official exchange rate published by the Central Bank of

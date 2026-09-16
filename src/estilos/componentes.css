@@ -655,6 +655,15 @@ textarea.input {
   opacity: 0.7;
 }
 
+/* La instalación, pegada al precio: quien mira «USD 25 / mes» tiene que ver
+   en la misma tarjeta que hay un pago único aparte. Estaba solo dos pantallas
+   más abajo en /precios y hubo reclamos de que «no hay precio de instalación». */
+.plan-instalacion {
+  margin-top: calc(-1 * var(--space-2));
+  font-size: 14px;
+  opacity: 0.8;
+}
+
 .plan-lista {
   flex: 1;
   margin: 0;
