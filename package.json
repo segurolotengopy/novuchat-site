@@ -40,8 +40,8 @@
   "dependencies": {
     "@astrojs/preact": "^6.0.5",
     "@astrojs/sitemap": "^3.7.4",
-    "astro": "^7.2.10",
-    "firebase": "^12.18.0",
+    "astro": "^7.3.2",
+    "firebase": "^12.19.0",
     "preact": "^10.29.8"
   },
   "devDependencies": {
