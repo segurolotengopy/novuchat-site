@@ -5,8 +5,11 @@
 # Dependabot es gratuito en todos los planes y visibilidades. Aquí se configura:
 #   - Un ecosistema por stack (elimine los que no apliquen al proyecto).
 #   - Frecuencia semanal (lunes temprano, zona horaria de La Paz/CDMX).
-#   - Agrupación de minor+patch en un solo PR para reducir ruido; los major
-#     llegan en PR individuales para revisarlos con cuidado.
+#   - Agrupación de minor+patch en un solo PR para reducir ruido.
+#   - Versiones mayores: en npm quedan EXCLUIDAS (`ignore`) y se revisan una
+#     vez al mes, a mano, como fija la política (SeguridadGeneral
+#     01-seguridad/04 §7.2). En github-actions siguen llegando en PR
+#     individuales para revisarlos con cuidado.
 #   - Límite de PRs abiertos por ecosistema.
 #   - `github-actions`: mantiene los pines por SHA de los workflows y actualiza
 #     el comentario `# vX` automáticamente (Dependabot entiende el formato
@@ -87,17 +90,22 @@ updates:
     # parámetros sino que las Props resuelven a `any`. Se espera a que las
     # herramientas de Astro admitan TS 6 de verdad.
     ignore:
+      # Versiones mayores de npm: fuera de la automatización, como fija la
+      # política (SeguridadGeneral 01-seguridad/04 §7.2). Se revisan una vez al
+      # mes, a mano, con las notas de cambio. OJO: este ignore también frena las
+      # actualizaciones de SEGURIDAD que exijan una mayor; la alerta sigue
+      # apareciendo, pero el PR se abre a mano dentro de las 72 h de la política.
+      - dependency-name: "*"
+        update-types: ['version-update:semver-major']
+      # TypeScript queda además con su motivo propio (ver arriba), para no
+      # perder la fecha de revisión aunque la entrada general lo cubra.
       - dependency-name: typescript
         update-types: ['version-update:semver-major']
 
-    # Sin más excepciones. `ignore` NO puede quedar como lista vacía:
-    # Dependabot exige al menos un elemento y rechaza el archivo entero
-    # («did not contain a minimum number of items 1»). Si hace falta una,
-    # se descomenta el bloque y se revisa cada trimestre:
-    #
-    # ignore:
-    #   - dependency-name: "firebase"
-    #     update-types: ["version-update:semver-major"]
+    # `ignore` NO puede quedar como lista vacía: Dependabot exige al menos un
+    # elemento y rechaza el archivo entero («did not contain a minimum number
+    # of items 1»). Para una excepción puntual, agregue otra entrada arriba,
+    # justifíquela y revísela cada trimestre.
 
 # Este repositorio NO declara ecosistemas pip, docker ni terraform.
 #
