@@ -466,7 +466,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     (c) El mismo job avisa por su nombre que Checkov **descarta
     `ci-node-firebase.yml`** (6 de 7 analizados): una expresión en
     `concurrency.cancel-in-progress` no cumple su esquema y lo salta sin error.
-    Pendiente de decisión de Andres (ver «Próximos pasos»).
+    Resuelto en el PR #64 (ver «Próximos pasos»): `concurrency` con `run_id`.
     Además: **un job pendiente no es un job verde** —el PR figuraba `UNSTABLE`
     con ZAP corriendo— y **un reusable no puede tener más permisos que los
     que concede el llamador**: sin `pull-requests: read` en `seguridad-estatica`
@@ -536,13 +536,15 @@ que alguien lo reporte como una diferencia.
 
 **De Claude Code:**
 
-- *Pendiente de decisión de Andres (2026-10-01):* adoptar en
-   `ci-node-firebase.yml` la `concurrency` del estándar 2.6
-   (`group: ci-${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.sha }}`
-   y `cancel-in-progress: true`) para que Checkov analice ese workflow, hoy
-   descartado. Medido en una copia: 7 de 7 workflows analizados y 0 fallos.
-   Cambia el cancelado de corridas en `push` de rama (cada push tiene su grupo);
-   el despliegue a producción sigue con su `concurrency` propia en el job.
+- *Decidido por Andres (2026-10-01), en el PR #64:* `ci-node-firebase.yml`
+   pasa su condición de cancelado de `cancel-in-progress` a `group`, para que
+   Checkov lo analice (antes lo descartaba en silencio: 6 de 7 workflows). Se
+   usa `github.run_id` y no `github.sha`, que es lo que trae el estándar 2.6:
+   con `sha`, un tag y un `workflow_dispatch` sobre el mismo commit compartirían
+   grupo, y como `cancel-in-progress: true` cancela a nivel de workflow,
+   matarían un despliegue a producción en curso (la `concurrency` del job no lo
+   evita). Con `run_id`, solo un PR cancela su corrida anterior. Medido:
+   7 de 7 analizados y 0 fallos.
    Otros hallazgos previos, sin tocar: `functions/` no la cubre `pnpm audit`
    (el CI llama al reusable con `ruta: '.'`; solo Trivy fs) ni Dependabot npm
    (solo vigila `/`); la prueba de backend con emulador
