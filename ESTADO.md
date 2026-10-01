@@ -3,7 +3,7 @@
 > Bitácora viva del proyecto. Se actualiza al cerrar cada sesión de trabajo.
 > **Nunca** contiene secretos: claves, tokens ni valores de `.env`.
 
-Última actualización: **2026-09-02**
+Última actualización: **2026-10-01** (estándar DevSecOps 2.7; el resto del documento, 2026-09-02)
 
 ---
 
@@ -17,7 +17,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | Pieza | Estado |
 |---|---|
 | Repositorio `github.com/segurolotengopy/novuchat-site` | público, rama `main`, remoto por SSH con la clave `id_ed25519_segurolotengo` |
-| Estándar DevSecOps v2 | aplicado (stack `node-firebase`, modo A); pre-commit instalado |
+| Estándar DevSecOps v2 | **reusable 2.7** (stack `node-firebase`, modo A); pre-commit instalado. Llegó el 2026-10-01 por #59 (2.6), #60 (dependencias) y #62 (2.7). Run que lo prueba en `main`: [36827889514](https://github.com/segurolotengopy/novuchat-site/actions/runs/36827889514), `head_sha` `bb9dcce85a81ffa38b7c0c1daddee0d00963fecf`, todo verde |
 | Astro 7 + Preact + sitemap | instalado; `pnpm verificar` en verde |
 | Proyecto Firebase `novuchat-site` (nº 50331646927) | plan Blaze, presupuesto de 10 USD con alertas al 50/90/100 % |
 | Firestore | `(default)` en **us-east1**, modo nativo, protección de borrado activa |
@@ -451,6 +451,27 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     plataforma (`NovuChat/CLIENTES/NOVUCHAT/03`), no una prueba. Un cambio
     de contenido se da por terminado con `pnpm verificar` completo, no con
     una parte.
+60. **Actualizar el estándar destapó tres cosas que el estándar no causa.**
+    (a) `main` ya arrastraba 13 HIGH de dependencias con parche (undici,
+    fast-uri, brace-expansion, grpc-js; raíz y `functions/`), publicados
+    *después* de las últimas PR verdes: las PR #53, #56 y #57 estaban en verde
+    con una base de CVE anterior, y el SCA de cualquier PR nueva salía en rojo.
+    Se corrigieron en el #60, sin excepciones; `@grpc/grpc-js` necesitó un
+    `overrides` en `pnpm-workspace.yaml` porque `@firebase/firestore` lo fija
+    en `~1.9.0` incluso en su última versión (quitarlo cuando suba su rango).
+    (b) El job `workflows` del 2.7 (Checkov sobre `.github/workflows`, antes
+    solo con IaC y aquí no hay) marca `CKV_GHA_7` en `release.yml` y
+    `probar-identidad.yml`; se exceptuó en `.devsecops.yml` con motivo
+    revisado (ningún `inputs.*` llega a un `run:`), vence **2026-12-30**.
+    (c) El mismo job avisa por su nombre que Checkov **descarta
+    `ci-node-firebase.yml`** (6 de 7 analizados): una expresión en
+    `concurrency.cancel-in-progress` no cumple su esquema y lo salta sin error.
+    Pendiente de decisión de Andres (ver «Próximos pasos»).
+    Además: **un job pendiente no es un job verde** —el PR figuraba `UNSTABLE`
+    con ZAP corriendo— y **un reusable no puede tener más permisos que los
+    que concede el llamador**: sin `pull-requests: read` en `seguridad-estatica`
+    el job `secretos` del 2.6 falla en repositorios privados (medido con
+    `permisos_reusable.py`).
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
@@ -515,6 +536,18 @@ que alguien lo reporte como una diferencia.
 
 **De Claude Code:**
 
+- *Pendiente de decisión de Andres (2026-10-01):* adoptar en
+   `ci-node-firebase.yml` la `concurrency` del estándar 2.6
+   (`group: ci-${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.sha }}`
+   y `cancel-in-progress: true`) para que Checkov analice ese workflow, hoy
+   descartado. Medido en una copia: 7 de 7 workflows analizados y 0 fallos.
+   Cambia el cancelado de corridas en `push` de rama (cada push tiene su grupo);
+   el despliegue a producción sigue con su `concurrency` propia en el job.
+   Otros hallazgos previos, sin tocar: `functions/` no la cubre `pnpm audit`
+   (el CI llama al reusable con `ruta: '.'`; solo Trivy fs) ni Dependabot npm
+   (solo vigila `/`); la prueba de backend con emulador
+   (`pruebas/backend`) falla igual en `main` por App Check exigido (401) y no
+   está en `pnpm verificar` ni en el CI.
 1. Capturas reales de la consola para la página `/consola`.
 2. *Recomendación, sin urgencia:* **conectar el cliente a los emuladores en
    desarrollo.** Hoy `pnpm dev` llama a las Functions de producción y el `cors`
