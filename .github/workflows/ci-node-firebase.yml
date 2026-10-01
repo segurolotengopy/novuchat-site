@@ -210,6 +210,9 @@ jobs:
       # escáneres no comentan en el PR.
       security-events: write
       actions: read
+      # El job `secretos` del reusable lo pide (gitleaks-action lista los commits del PR):
+      # un reusable no puede tener más permisos que los que concede quien lo llama.
+      pull-requests: read
     uses: ./.github/workflows/_reusable-security.yml
     with:
       ruta: '.'

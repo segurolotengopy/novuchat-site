@@ -34,6 +34,7 @@ que no corrió no es una validación limpia.
 
 Pruebas: 02-pipelines/pruebas-workflows/validacion_manifiesto.py
 """
+
 import argparse
 import datetime as dt
 import json
@@ -48,8 +49,12 @@ def main() -> int:
     p = argparse.ArgumentParser(add_help=True, description=__doc__.splitlines()[0])
     p.add_argument("--manifiesto", default=MANIFIESTO_DEFECTO)
     p.add_argument("--esquema", default=ESQUEMA_DEFECTO)
-    p.add_argument("--formato", choices=("github", "texto"), default="texto",
-                   help="github: anotaciones ::error/::warning file=…  · texto: legible en terminal")
+    p.add_argument(
+        "--formato",
+        choices=("github", "texto"),
+        default="texto",
+        help="github: anotaciones ::error/::warning file=…  · texto: legible en terminal",
+    )
     args = p.parse_args()
 
     gh = args.formato == "github"
@@ -73,12 +78,16 @@ def main() -> int:
     try:
         from jsonschema import Draft202012Validator
     except ImportError:
-        aviso("jsonschema no instalado: no se valida el manifiesto (pip install jsonschema).")
+        aviso(
+            "jsonschema no instalado: no se valida el manifiesto (pip install jsonschema)."
+        )
         return 2
 
     if not pathlib.Path(args.esquema).is_file():
-        aviso(f"Hay {archivo} pero falta {args.esquema}; no se valida. "
-              "Ejecute bootstrap-repo.sh para copiarlo.")
+        aviso(
+            f"Hay {archivo} pero falta {args.esquema}; no se valida. "
+            "Ejecute bootstrap-repo.sh para copiarlo."
+        )
         return 2
 
     try:
@@ -90,8 +99,10 @@ def main() -> int:
     with open(args.esquema, encoding="utf-8") as f:
         esquema = json.load(f)
 
-    errores = sorted(Draft202012Validator(esquema).iter_errors(manifiesto),
-                     key=lambda e: list(e.absolute_path))
+    errores = sorted(
+        Draft202012Validator(esquema).iter_errors(manifiesto),
+        key=lambda e: list(e.absolute_path),
+    )
     # Los fallos propios (posteriores al esquema) se cuentan aparte: mezclar
     # dicts del manifiesto dentro de `errores`, que contiene objetos
     # ValidationError, funcionaba solo porque después nadie lo recorre.
@@ -103,8 +114,10 @@ def main() -> int:
         # ("is not of type 'string'") no dice cómo arreglarlo.
         if isinstance(e.instance, dt.date):
             campo = e.path[-1] if e.path else "campo"
-            error(f'{ruta}: entrecomille la fecha (`{campo}: "{e.instance}"`); '
-                  "YAML convierte una fecha sin comillas en un objeto date.")
+            error(
+                f'{ruta}: entrecomille la fecha (`{campo}: "{e.instance}"`); '
+                "YAML convierte una fecha sin comillas en un objeto date."
+            )
 
     excepciones = (manifiesto.get("seguridad", {}) or {}).get("excepciones", []) or []
     declarados = {c.get("nombre") for c in (manifiesto.get("componentes") or [])}
@@ -113,9 +126,11 @@ def main() -> int:
     for e in excepciones:
         comp = e.get("componente")
         if comp and comp not in declarados:
-            error(f"Excepción {e.get('id')}: componente '{comp}' no está declarado en "
-                  f"`componentes[].nombre` ({', '.join(sorted(n for n in declarados if n)) or 'ninguno'}). "
-                  "La excepción se descartaría sin aviso; use un nombre declarado o quite el campo.")
+            error(
+                f"Excepción {e.get('id')}: componente '{comp}' no está declarado en "
+                f"`componentes[].nombre` ({', '.join(sorted(n for n in declarados if n)) or 'ninguno'}). "
+                "La excepción se descartaría sin aviso; use un nombre declarado o quite el campo."
+            )
             fallos_propios += 1
 
     for e in excepciones:
@@ -123,23 +138,31 @@ def main() -> int:
             creado = dt.date.fromisoformat(str(e["creado"]))
             vence = dt.date.fromisoformat(str(e["vence"]))
         except (KeyError, ValueError, TypeError):
-            continue   # el esquema ya reportó lo que falte o esté mal formado
+            continue  # el esquema ya reportó lo que falte o esté mal formado
         dias = (vence - creado).days
         if dias > 180:
-            error(f"Excepción {e.get('id')}: {dias} días de vigencia; "
-                  "el máximo es 90 (CRITICAL/HIGH) o 180 (MEDIUM).")
+            error(
+                f"Excepción {e.get('id')}: {dias} días de vigencia; "
+                "el máximo es 90 (CRITICAL/HIGH) o 180 (MEDIUM)."
+            )
             fallos_propios += 1
         elif dias > 90:
             avisos += 1
-            aviso(f"Excepción {e.get('id')}: {dias} días de vigencia; "
-                  "solo admisible si el hallazgo es MEDIUM (CRITICAL/HIGH: máximo 90).")
+            aviso(
+                f"Excepción {e.get('id')}: {dias} días de vigencia; "
+                "solo admisible si el hallazgo es MEDIUM (CRITICAL/HIGH: máximo 90)."
+            )
 
     if errores or fallos_propios:
         return 1
     if avisos:
-        print(f"✓ {archivo} valida contra el esquema, con {avisos} aviso(s) de vigencia.")
+        print(
+            f"✓ {archivo} valida contra el esquema, con {avisos} aviso(s) de vigencia."
+        )
     else:
-        print(f"✓ {archivo} valida contra el esquema y las vigencias están dentro de límite.")
+        print(
+            f"✓ {archivo} valida contra el esquema y las vigencias están dentro de límite."
+        )
     return 0
 
 
