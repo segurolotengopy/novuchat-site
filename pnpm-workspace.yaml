@@ -3,3 +3,10 @@ allowBuilds:
   esbuild: true
   protobufjs: false         # postinstall innecesario para compilar (riesgo S-9)
   sharp: true
+
+# CVE-2026-101916 (HIGH) en @grpc/grpc-js. @firebase/firestore lo fija en `~1.9.0`, incluso en
+# su última versión, y el parche solo existe desde 1.13.6 / 1.14.5: sin este override no hay
+# forma de salir del rango. Solo lo usa Firestore en Node (pruebas de reglas); el sitio en el
+# navegador no lo empaqueta. Quitar cuando @firebase/firestore suba su rango.
+overrides:
+  '@grpc/grpc-js': 1.14.5
