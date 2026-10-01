@@ -55,11 +55,17 @@ on:
 permissions:
   contents: read
 
-# Un solo run activo por rama/tag. En producción NO se cancela un despliegue
-# en curso (concurrency propia en el job).
+# Un PR cancela su corrida anterior (misma ref); cualquier otra corrida (push de rama
+# o tag, workflow_dispatch) tiene su propio grupo, el de su run_id, y nunca se cancela:
+# cancelar a nivel de workflow mataría también un despliegue a producción en curso.
+# La condición va en `group` y NO en `cancel-in-progress`: Checkov descarta en silencio,
+# sin error ni aviso, todo workflow cuyo `cancel-in-progress` sea una expresión, y este
+# (el que despliega) quedaba sin analizar. Difiere del estándar 2.6, que usa
+# `github.sha`: con él, un tag y un workflow_dispatch sobre el mismo commit compartirían
+# grupo y uno cancelaría al otro.
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ci-${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: true
 
 env:
   NODE_VERSION: ${{ vars.NODE_VERSION || '22' }}
