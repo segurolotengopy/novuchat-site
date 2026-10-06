@@ -3,7 +3,7 @@
 > Bitácora viva del proyecto. Se actualiza al cerrar cada sesión de trabajo.
 > **Nunca** contiene secretos: claves, tokens ni valores de `.env`.
 
-Última actualización: **2026-10-06** (oferta con cuenta propia, en la rama `feat/oferta-cuenta-propia`, sin fusionar; el resto del documento, 2026-10-01 y antes)
+Última actualización: **2026-10-06** (oferta con cuenta propia, con siete `PENDIENTES` abiertos que impiden desplegar; el resto del documento, 2026-10-01 y antes)
 
 ---
 
@@ -34,7 +34,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | Asistente del sitio | isla Preact `Asistente`, con RAG estricto en el servidor |
 | Function `lead` | validación, trampa de robots, límite de tasa, deduplicación, Firestore y aviso por FormSubmit **desde el servidor** |
 | Function `asistente` | límite de tasa, filtro de términos, recuperación con umbral, verificación de la respuesta |
-| Índice del RAG | ✔ generado: **47 fragmentos**, 786 KB, con Vertex AI (huella `e64bf0b1…`, 2026-10-06, en la rama de la oferta con cuenta propia; `main` sigue con 41 y la huella `f912bb8c…`). Los fragmentos de plan llevan las cantidades en cifras |
+| Índice del RAG | ✔ generado: **46 fragmentos**, 768 KB, con Vertex AI (huella `c6085c6c…`, 2026-10-06, con la oferta con cuenta propia; el índice de `v0.4.0` tenía 41 fragmentos y la huella `f912bb8c…`). Los fragmentos de plan llevan las cantidades en cifras |
 | Umbral del RAG | ✔ **0,70** desde 2026-09-12 (era 0,64): medido con `pnpm rag:calibrar`; los grupos se solapan y se prioriza no inventar |
 | Proveedor de IA | **Vertex AI** con la cuenta de servicio: sin clave de API |
 | Identidad federada (WIF) | ✔ pool, proveedor y binding acotados al repositorio; `probar-identidad` en verde |
@@ -74,7 +74,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | 2026-09-15 | Sitio alineado con la plataforma: EN al modelo de bloques, «24 horas continuas» también en la FAQ, sin «nunca deja a medias» (lo contradice el umbral de bloqueo), «soporte técnico prioritario» en `/terminos`, índice regenerado | Revisión contra los cambios de `~/NovuChat` del 13 al 15/09. La captación de WhatsApp copia este corpus: su huella cambió |
 | 2026-09-15 | **El precio de instalación junto al precio de cada plan** («+ USD 65 de instalación, pago único»), en la nota bajo los planes y en una FAQ propia | Reclamo de un prospecto: estaba solo en la tarjeta de `/precios`, dos pantallas por debajo (cuatro en celular). Quien entra por la portada o un rubro veía «USD 25 / mes» y descubría los USD 65 en la propuesta |
 | 2026-09-15 | **`v0.4.0` en producción** (Cloud Run `00017`): la definición de bloques (#46), el inglés, la instalación y el índice al día (#49). Acta en `docs/produccion/acta-v0.4.0.md` | Autorización de Andres en el chat. La prueba de humo del CI falló por un 404 transitorio del canal de previa y se reejecutó |
-| 2026-10-06 | **Oferta con la cuenta propia de WhatsApp Business del cliente** (rama `feat/oferta-cuenta-propia`, **NO fusionar ni desplegar**): topes de **200 / 500 / 1.000** conversaciones (Impulso / Crecimiento / Pro, mismos precios USD 25 / 50 / 90), **bolsas** de 50 por USD 10, 100 por USD 20 y 300 por USD 40, mensajería de WhatsApp pagada por el cliente directamente a Meta (nota junto a cada precio y pie oficial), la opción con Meta incluido (100 / 220 / 500, bolsa de 30 por USD 10) **colapsada al final de `/precios`**, nunca en la portada, y contactos separados: +591 70661250 = persona, +591 76988663 = asistente de IA | Decisión de Andres. Siete entradas de `PENDIENTES` hacen fallar `pnpm listo` a propósito (la plataforma aún no aplica los topes ni las bolsas; frase de Meta; reparto de números; revisión legal de `/terminos`; privacidad; alcance de la instalación; número en la aplicación del celular). La línea del prompt del asistente sobre «cuentas» se reformuló y queda para revisión de `seguridad` |
+| 2026-10-06 | **Oferta con la cuenta propia de WhatsApp Business del cliente** (**no desplegar mientras `pnpm listo` liste PENDIENTES**): topes de **200 / 500 / 1.000** conversaciones (Impulso / Crecimiento / Pro, mismos precios USD 25 / 50 / 90), **bolsas** de 50 por USD 10, 100 por USD 20 y 300 por USD 40, mensajería de WhatsApp pagada por el cliente directamente a Meta (nota junto a cada precio y pie oficial), la opción con Meta incluido (100 / 220 / 500, bolsa de 30 por USD 10) **colapsada al final de `/precios`**, también en `/terminos` §3 y en el corpus del asistente, nunca en la portada, las tarjetas, la FAQ ni el JSON-LD, y contactos separados: +591 70661250 = persona, +591 76988663 = asistente de IA | Decisión de Andres. Siete entradas de `PENDIENTES` hacen fallar `pnpm listo` a propósito (la plataforma aún no aplica los topes ni las bolsas; frase de Meta; reparto de números; revisión legal de `/terminos`; privacidad; alcance de la instalación; número en la aplicación del celular). La línea del prompt del asistente sobre «cuentas» se reformuló y queda para revisión de `seguridad` |
 | 2026-09-02 | **Vertex AI en vez de la API de AI Studio** | La API de AI Studio se paga con créditos de prepago que se agotan aparte; Vertex cobra a la cuenta de facturación del proyecto, que ya tiene presupuesto y alertas. Y no necesita clave: se autentica con la cuenta de servicio. Un secreto que no existe no se filtra |
 
 ---
@@ -485,8 +485,11 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     compara cifras, no a qué se refieren (`functions/src/rag/verificacion.ts`),
     así que no detectaría que el modelo mezcle las dos cosas. Otro efecto
     colateral de la oferta: la regla del prompt «no hablas de … cuentas»
-    habría impedido explicarla; se cambió a «accesos ni credenciales» más una
-    frase que permite explicar la cuenta de WhatsApp Business del negocio.
+    habría impedido explicarla; la ronda 2 la reescribió: se prohíbe hablar de
+    accesos, credenciales, identificadores y configuración técnica de cualquier
+    cuenta, se permite solo lo que dicen los fragmentos (el negocio usa su
+    propia cuenta, a su nombre, y lo que paga a Meta) y lo demás se deriva con
+    la respuesta fija `NO_HABLO_DE_ESO`.
     Y la opción excepcional (100 / 220 / 500) comparte el «500» con el tope de
     Crecimiento: la prueba del corpus compara el resumen solo contra los topes
     excepcionales que no coinciden con uno principal.
@@ -554,13 +557,28 @@ que alguien lo reporte como una diferencia.
 
 **De Claude Code:**
 
-- *Oferta con cuenta propia (`feat/oferta-cuenta-propia`, sin fusionar):* la
-  plataforma tiene que aplicar los topes 200 / 500 / 1.000 y las bolsas
-  50 / 100 / 300 antes de publicar; resolver los 7 `PENDIENTES` (`pnpm listo`
-  los lista) y, con Andres, abrir el PR y etiquetar `v0.5.0`. El pase
-  redespliega las Functions (índice y prompt viajan dentro de `functions/`).
-  **Al fusionar, avisar la huella nueva del índice (`e64bf0b1…`) a la sesión
-  de la plataforma**: la captación de WhatsApp copia el corpus.
+- *Oferta con cuenta propia:* la plataforma tiene que aplicar los topes
+  200 / 500 / 1.000 y las bolsas 50 / 100 / 300 antes de publicar; resolver
+  los 7 `PENDIENTES` (`pnpm listo` los lista) y, con Andres, abrir el PR y
+  etiquetar `v0.5.0`. El pase redespliega las Functions (índice y prompt
+  viajan dentro de `functions/`). **Al fusionar, avisar la huella del índice
+  vigente (`c6085c6c…` si no se reindexa antes) a la sesión de la
+  plataforma**: la captación de WhatsApp copia el corpus.
+- *Dependencias heredadas de `main` (`fix(deps)` previo a cualquier PR):*
+  `proxy-addr` 2.0.7 (CRITICAL, en `functions/`), `devalue` 5.9.2,
+  `source-map-js` 1.2.1, `sharp` 0.35.4, y excepciones documentadas para
+  `http-cache-semantics` y `braces`. Bloquean `compuerta-pr` de cualquier PR,
+  no solo de este.
+- *`pnpm listo` no corre en el CI de despliegue:* hoy depende de que alguien
+  lo ejecute a mano antes de etiquetar. Pasarlo al flujo del pase para que los
+  `PENDIENTES` bloqueen de verdad.
+- *Seguridad (LOW), seguimiento aparte:* control determinista de términos
+  sensibles en la prosa del verificador (`functions/src/rag/verificacion.ts`) y
+  filtro del historial que llega del cliente. Hoy la contención de «cuentas» es
+  solo la regla del prompt.
+- *Plataforma:* confirmar con la sesión de la plataforma el flujo real de
+  conexión del número antes de prometer «nunca te pedimos tu contraseña de
+  Meta» (hoy el sitio no lo promete).
 
 - *Decidido por Andres (2026-10-01), en el PR #64:* `ci-node-firebase.yml`
    pasa su condición de cancelado de `cancel-in-progress` a `group`, para que
@@ -596,6 +614,11 @@ que alguien lo reporte como una diferencia.
 
 **De Andres:**
 
+0. *Oferta con cuenta propia, dos decisiones sin PENDIENTE nuevo:* (a) la
+   prohibición 9 de `CLAUDE.md` («cada mensaje cuesta 0,89 Bs») ya no aplica
+   igual con cuenta propia, porque la mensajería la paga el negocio a Meta:
+   decidir si se reescribe o se acota a la opción excepcional; (b) la opción
+   excepcional en inglés (`/en/precios`): confirmar si se mantiene.
 1. Reemplazar la identidad legal provisional por el NIT propio de NovuChat
    cuando salga (`src/contenido/pendientes.ts`, dos valores).
 2. ID del píxel de Meta; confirmar zona horaria La Paz y moneda BOB en GA4.
