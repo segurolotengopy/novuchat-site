@@ -3,7 +3,7 @@
 > Bitácora viva del proyecto. Se actualiza al cerrar cada sesión de trabajo.
 > **Nunca** contiene secretos: claves, tokens ni valores de `.env`.
 
-Última actualización: **2026-10-01** (estándar DevSecOps 2.7; el resto del documento, 2026-09-02)
+Última actualización: **2026-10-06** (oferta con cuenta propia, en la rama `feat/oferta-cuenta-propia`, sin fusionar; el resto del documento, 2026-10-01 y antes)
 
 ---
 
@@ -34,7 +34,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | Asistente del sitio | isla Preact `Asistente`, con RAG estricto en el servidor |
 | Function `lead` | validación, trampa de robots, límite de tasa, deduplicación, Firestore y aviso por FormSubmit **desde el servidor** |
 | Function `asistente` | límite de tasa, filtro de términos, recuperación con umbral, verificación de la respuesta |
-| Índice del RAG | ✔ generado: **41 fragmentos**, 682 KB, con Vertex AI (huella `f912bb8c…`, 2026-09-15). Los fragmentos de plan llevan las cantidades en cifras |
+| Índice del RAG | ✔ generado: **47 fragmentos**, 786 KB, con Vertex AI (huella `e64bf0b1…`, 2026-10-06, en la rama de la oferta con cuenta propia; `main` sigue con 41 y la huella `f912bb8c…`). Los fragmentos de plan llevan las cantidades en cifras |
 | Umbral del RAG | ✔ **0,70** desde 2026-09-12 (era 0,64): medido con `pnpm rag:calibrar`; los grupos se solapan y se prioriza no inventar |
 | Proveedor de IA | **Vertex AI** con la cuenta de servicio: sin clave de API |
 | Identidad federada (WIF) | ✔ pool, proveedor y binding acotados al repositorio; `probar-identidad` en verde |
@@ -74,6 +74,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | 2026-09-15 | Sitio alineado con la plataforma: EN al modelo de bloques, «24 horas continuas» también en la FAQ, sin «nunca deja a medias» (lo contradice el umbral de bloqueo), «soporte técnico prioritario» en `/terminos`, índice regenerado | Revisión contra los cambios de `~/NovuChat` del 13 al 15/09. La captación de WhatsApp copia este corpus: su huella cambió |
 | 2026-09-15 | **El precio de instalación junto al precio de cada plan** («+ USD 65 de instalación, pago único»), en la nota bajo los planes y en una FAQ propia | Reclamo de un prospecto: estaba solo en la tarjeta de `/precios`, dos pantallas por debajo (cuatro en celular). Quien entra por la portada o un rubro veía «USD 25 / mes» y descubría los USD 65 en la propuesta |
 | 2026-09-15 | **`v0.4.0` en producción** (Cloud Run `00017`): la definición de bloques (#46), el inglés, la instalación y el índice al día (#49). Acta en `docs/produccion/acta-v0.4.0.md` | Autorización de Andres en el chat. La prueba de humo del CI falló por un 404 transitorio del canal de previa y se reejecutó |
+| 2026-10-06 | **Oferta con la cuenta propia de WhatsApp Business del cliente** (rama `feat/oferta-cuenta-propia`, **NO fusionar ni desplegar**): topes de **200 / 500 / 1.000** conversaciones (Impulso / Crecimiento / Pro, mismos precios USD 25 / 50 / 90), **bolsas** de 50 por USD 10, 100 por USD 20 y 300 por USD 40, mensajería de WhatsApp pagada por el cliente directamente a Meta (nota junto a cada precio y pie oficial), la opción con Meta incluido (100 / 220 / 500, bolsa de 30 por USD 10) **colapsada al final de `/precios`**, nunca en la portada, y contactos separados: +591 70661250 = persona, +591 76988663 = asistente de IA | Decisión de Andres. Siete entradas de `PENDIENTES` hacen fallar `pnpm listo` a propósito (la plataforma aún no aplica los topes ni las bolsas; frase de Meta; reparto de números; revisión legal de `/terminos`; privacidad; alcance de la instalación; número en la aplicación del celular). La línea del prompt del asistente sobre «cuentas» se reformuló y queda para revisión de `seguridad` |
 | 2026-09-02 | **Vertex AI en vez de la API de AI Studio** | La API de AI Studio se paga con créditos de prepago que se agotan aparte; Vertex cobra a la cuenta de facturación del proyecto, que ya tiene presupuesto y alertas. Y no necesita clave: se autentica con la cuenta de servicio. Un secreto que no existe no se filtra |
 
 ---
@@ -472,6 +473,23 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
     que concede el llamador**: sin `pull-requests: read` en `seguridad-estatica`
     el job `secretos` del 2.6 falla en repositorios privados (medido con
     `permisos_reusable.py`).
+61. **La frase sobre lo que cobra Meta no se pudo fijar: las fuentes discrepan.**
+    Se pidió publicar «Meta ofrece hoy 1.000 mensajes gratis por número al
+    mes». Las tarifas de la plataforma de NovuChat vigentes desde el
+    01/10/2026 y la página pública de Meta que consultó el planificador no
+    coinciden en qué es gratis ni en cuánto. No se publica ninguna cifra ni
+    gratuidad: la única frase del sitio es `precios.mensajeriaMeta` («Meta
+    cobra la mensajería por mensaje, según su tarifa vigente…»), y queda el
+    PENDIENTE `frase-mensajeria-meta` hasta que Andres elija. Además el
+    «1.000» **colisiona con el tope del plan Pro**: el verificador del asistente
+    compara cifras, no a qué se refieren (`functions/src/rag/verificacion.ts`),
+    así que no detectaría que el modelo mezcle las dos cosas. Otro efecto
+    colateral de la oferta: la regla del prompt «no hablas de … cuentas»
+    habría impedido explicarla; se cambió a «accesos ni credenciales» más una
+    frase que permite explicar la cuenta de WhatsApp Business del negocio.
+    Y la opción excepcional (100 / 220 / 500) comparte el «500» con el tope de
+    Crecimiento: la prueba del corpus compara el resumen solo contra los topes
+    excepcionales que no coinciden con uno principal.
 24. **Silenciar un aviso no es lo mismo que resolverlo.** La salida cómoda para
     ZAP era marcar los nueve `IGNORE`. Habría dado verde borrándolos del
     informe, y entre ellos había tres que tocan decisiones de arquitectura
@@ -535,6 +553,14 @@ que alguien lo reporte como una diferencia.
 ## 4. Próximos pasos
 
 **De Claude Code:**
+
+- *Oferta con cuenta propia (`feat/oferta-cuenta-propia`, sin fusionar):* la
+  plataforma tiene que aplicar los topes 200 / 500 / 1.000 y las bolsas
+  50 / 100 / 300 antes de publicar; resolver los 7 `PENDIENTES` (`pnpm listo`
+  los lista) y, con Andres, abrir el PR y etiquetar `v0.5.0`. El pase
+  redespliega las Functions (índice y prompt viajan dentro de `functions/`).
+  **Al fusionar, avisar la huella nueva del índice (`e64bf0b1…`) a la sesión
+  de la plataforma**: la captación de WhatsApp copia el corpus.
 
 - *Decidido por Andres (2026-10-01), en el PR #64:* `ci-node-firebase.yml`
    pasa su condición de cancelado de `cancel-in-progress` a `group`, para que
