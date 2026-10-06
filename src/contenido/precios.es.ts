@@ -34,7 +34,7 @@ const bolsasResumen = bolsas
   .join(', ')
   .replace(/, ([^,]+)$/, ' o $1');
 
-// Variante sin gratuidades ni cifras (enmienda E1 del 2026-10-06). PENDIENTE
+// Variante sin gratuidades ni cifras (decisión de Andres 2026-10-06, ver ESTADO hallazgo 61). PENDIENTE
 // `frase-mensajeria-meta`: las fuentes sobre la tarifa de Meta discrepan y
 // Andres elige. Es la ÚNICA frase del sitio sobre lo que cobra Meta.
 const mensajeriaMeta =
@@ -86,7 +86,6 @@ export const precios: Precios = {
       ],
       incluye: [
         { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
-        { texto: 'Tu propia cuenta de WhatsApp Business, conectada al canal oficial de Meta' },
         { texto: 'Consola para ver todo desde el celular' },
       ],
     },
@@ -111,7 +110,6 @@ export const precios: Precios = {
       ],
       incluye: [
         { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
-        { texto: 'Tu propia cuenta de WhatsApp Business, conectada al canal oficial de Meta' },
         { texto: 'Consola para ver todo desde el celular' },
       ],
     },
@@ -135,7 +133,6 @@ export const precios: Precios = {
       ],
       incluye: [
         { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
-        { texto: 'Tu propia cuenta de WhatsApp Business, conectada al canal oficial de Meta' },
         { texto: 'Consola para ver todo desde el celular' },
         { texto: 'Soporte técnico prioritario' },
       ],
@@ -159,7 +156,7 @@ export const precios: Precios = {
       },
       {
         aQuien: 'A Meta, según lo que uses',
-        que: `La mensajería de WhatsApp. La pagas directamente a Meta, con tu tarjeta y en tu propia cuenta: NovuChat no la cobra. Depende de cuántos mensajes se envían y de qué tipo son, así que varía con tu volumen y con el tráfico de tu negocio. ${mensajeriaMeta}`,
+        que: `La mensajería de WhatsApp. La pagas directamente a Meta, con tu tarjeta y en tu propia cuenta: NovuChat no la cobra. ${mensajeriaMeta}`,
       },
       {
         aQuien: 'A NovuChat, solo si la apruebas',

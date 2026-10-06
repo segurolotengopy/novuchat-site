@@ -16,7 +16,7 @@ export const sitio: Sitio = {
     correo: 'novuchat@novuchat.site',
     whatsapp: '+591 70661250',
     whatsappEnlace: '59170661250',
-    // WhatsApp del asistente de IA (decisión 8, 2026-10-06). PENDIENTE `numeros-de-whatsapp`.
+    // WhatsApp del asistente de IA (decisión de Andres 2026-10-06, ver ESTADO hallazgo 61). PENDIENTE `numeros-de-whatsapp`.
     whatsappAsistente: '+591 76988663',
     whatsappAsistenteEnlace: '59176988663',
     ciudad: 'La Paz',

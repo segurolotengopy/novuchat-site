@@ -31,7 +31,7 @@ const bolsasResumen = bolsas
   .join(', ')
   .replace(/, ([^,]+)$/, ' or $1');
 
-// Variant without free allowances or figures (amendment E1, 2026-10-06). PENDING
+// Variant without free allowances or figures (decisión de Andres 2026-10-06, ver ESTADO hallazgo 61). PENDING
 // `frase-mensajeria-meta`. It is the ONLY sentence on the site about what Meta charges.
 const mensajeriaMeta =
   "Meta charges for messaging per message, under its current rates. The amount depends on how many messages are sent and of which type; you can check the current rates on Meta's website.";
@@ -69,7 +69,6 @@ export const pricing: Precios = {
       ],
       incluye: [
         { texto: 'AI assistant that understands natural language, around the clock' },
-        { texto: "Your own WhatsApp Business account, connected to Meta's official channel" },
         { texto: 'Console to see everything from your phone' },
       ],
     },
@@ -94,7 +93,6 @@ export const pricing: Precios = {
       ],
       incluye: [
         { texto: 'AI assistant that understands natural language, around the clock' },
-        { texto: "Your own WhatsApp Business account, connected to Meta's official channel" },
         { texto: 'Console to see everything from your phone' },
       ],
     },
@@ -118,7 +116,6 @@ export const pricing: Precios = {
       ],
       incluye: [
         { texto: 'AI assistant that understands natural language, around the clock' },
-        { texto: "Your own WhatsApp Business account, connected to Meta's official channel" },
         { texto: 'Console to see everything from your phone' },
         { texto: 'Priority technical support' },
       ],
@@ -142,7 +139,7 @@ export const pricing: Precios = {
       },
       {
         aQuien: 'To Meta, depending on usage',
-        que: `WhatsApp messaging. You pay it directly to Meta, with your card and in your own account: NovuChat does not charge it. It depends on how many messages are sent and of which type, so it varies with your volume and your traffic. ${mensajeriaMeta}`,
+        que: `WhatsApp messaging. You pay it directly to Meta, with your card and in your own account: NovuChat does not charge it. ${mensajeriaMeta}`,
       },
       {
         aQuien: 'To NovuChat, only if you approve it',

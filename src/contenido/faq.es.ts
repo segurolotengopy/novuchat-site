@@ -17,7 +17,7 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Los costos de WhatsApp y de la inteligencia artificial son aparte?',
     respuesta:
-      `La inteligencia artificial sí está incluida en tu plan. La mensajería de WhatsApp no: la pagas directamente a Meta, con tu tarjeta y en tu propia cuenta, y NovuChat no la cobra. Cuánto le pagas a Meta depende de cuántos mensajes se envían y de qué tipo son, así que depende de tu volumen y del tráfico de tu negocio. ${precios.mensajeriaMeta} A nosotros nos pagas la mensualidad del plan, la instalación y, solo si las apruebas, las bolsas de conversaciones.`,
+      `La inteligencia artificial sí está incluida en tu plan. La mensajería de WhatsApp no: la pagas directamente a Meta, con tu tarjeta y en tu propia cuenta, y NovuChat no la cobra. ${precios.mensajeriaMeta} A nosotros nos pagas la mensualidad del plan, la instalación y, solo si las apruebas, las bolsas de conversaciones.`,
   },
   {
     pregunta: '¿Qué pasa si el cliente manda un audio o una foto?',
@@ -113,11 +113,6 @@ export const preguntas: Pregunta[] = [
     pregunta: '¿Qué necesitan de mí para empezar?',
     respuesta:
       'Tu cuenta de WhatsApp Business en Meta, a nombre de tu negocio, con el número que va a usar el asistente y una tarjeta registrada para pagar la mensajería; la lista de servicios o productos con precios; tus horarios y quién atiende cada servicio; tu calendario de Google y el tono con el que quieres que hable el asistente. Tú no programas nada.',
-  },
-  {
-    pregunta: '¿Hay un plan con la mensajería de Meta incluida?',
-    respuesta:
-      `De forma excepcional, sí. Para el negocio que no tiene ni quiere gestionar una cuenta de Meta, hay una modalidad en la que las conversaciones de WhatsApp van incluidas en el precio y el número nuevo lo conseguimos nosotros. Los precios son los mismos, con menos conversaciones: ${precios.planes.map((p) => `${p.nombre}, USD ${p.precioUsd} al mes con hasta ${precios.excepcional.conversaciones[p.id].toLocaleString('es-BO')}`).join('; ')}. La instalación cuesta USD ${precios.excepcional.instalacionUsd} e incluye la verificación del número ante Meta, y la bolsa adicional es de ${precios.excepcional.bolsa.conversaciones} conversaciones por USD ${precios.excepcional.bolsa.precioUsd}. No es la oferta habitual: se ofrece caso por caso, así que escríbenos y lo vemos.`,
   },
 ];
 

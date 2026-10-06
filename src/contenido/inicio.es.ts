@@ -138,7 +138,7 @@ export const comparativa = {
 export const instalacion48 = {
   titulo: 'Lo instalamos en 48 horas desde que tu cuenta está lista',
   bajada:
-    'Las 48 horas corren desde que tengas tu cuenta de WhatsApp Business lista y nos entregues tu información. Tú no programas nada: conectamos tu número al canal oficial de WhatsApp Business de Meta y la cuenta queda a tu nombre.',
+    'Las 48 horas corren desde que tengas tu cuenta de WhatsApp Business lista y nos entregues tu información. Tú no programas nada: conectamos tu número al canal oficial de WhatsApp Business de Meta; la cuenta queda a tu nombre.',
   pasos: [
     {
       titulo: 'Análisis',
