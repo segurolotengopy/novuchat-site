@@ -93,15 +93,17 @@ export function construirCorpus(): Fragmento[] {
     titulo: 'Cuánto cuesta NovuChat',
     url: '/precios',
     texto:
-      `¿Cuánto cuesta NovuChat? Hay tres planes mensuales, con los precios expresados en dólares: ` +
+      `¿Cuánto cuesta NovuChat? Hay ${precios.planes.length} planes mensuales, con los precios expresados en dólares, ` +
+      `que funcionan con la propia cuenta de WhatsApp Business del negocio: ` +
       precios.planes
-        .map((p) => `${p.nombre} a ${usd(p.precioUsd)} al mes con ${p.conversaciones.toLocaleString('es-BO')} conversaciones`)
+        .map((p) => `${p.nombre} a ${usd(p.precioUsd)} al mes con hasta ${p.conversaciones.toLocaleString('es-BO')} conversaciones`)
         .join(', ') +
       `. El más económico es ${precios.planes[0]!.nombre}, desde ${usd(precios.planes[0]!.precioUsd)} al mes. ` +
       `Aparte se paga una única instalación de ${usd(precios.instalacion.estandar)}. ` +
-      `El precio incluye el consumo de la inteligencia artificial y las conversaciones de WhatsApp. ` +
+      `El precio incluye el consumo de la inteligencia artificial. La mensajería de WhatsApp no está incluida: ` +
+      `el negocio la paga directamente a Meta, en su propia cuenta, y depende de su volumen. ` +
       `El cobro se hace en bolivianos, al Tipo de Cambio Oficial del Banco Central de Bolivia ` +
-      `del primer día hábil de cada mes, que se mantiene durante todo ese mes.`,
+      `del primer día hábil de cada mes, que se mantiene durante todo ese mes. Estos son los planes habituales.`,
   });
 
   // — Planes, uno por plan para que la recuperación sea precisa —
@@ -112,8 +114,10 @@ export function construirCorpus(): Fragmento[] {
       url: '/precios',
       texto:
         `El plan ${plan.nombre} cuesta ${usd(plan.precioUsd)} al mes, en modalidad prepago ` +
-        `(cada mes se paga por adelantado), e incluye ` +
-        `${plan.conversaciones.toLocaleString('es-BO')} conversaciones mensuales. ${plan.resumen} ` +
+        `(cada mes se paga por adelantado), e incluye hasta ` +
+        `${plan.conversaciones.toLocaleString('es-BO')} conversaciones mensuales. ` +
+        `Funciona con la propia cuenta de WhatsApp Business del negocio: la mensajería de WhatsApp no la cobra NovuChat, ` +
+        `el negocio la paga directamente a Meta. ${plan.resumen} ` +
         `Incluye siempre: ${plan.incluye
           .map((c) => (c.proximamente ? `${c.texto} (todavía no está disponible, es una función próxima)` : c.texto))
           .join('; ')}. ` +
@@ -124,7 +128,7 @@ export function construirCorpus(): Fragmento[] {
         // fuente solo dice «dos» (hallazgo 56; falló el 2026-09-15 con «2 caminos»).
         `Además el negocio ELIGE 1 SOLO de estos 2 caminos, no los 2: ` +
         plan.caminos.map((c) => `${c.titulo} — ${c.texto}`).join(' O BIEN ') +
-        ` Si un negocio necesita los dos caminos, contrata un plan para cada uno, ` +
+        ` Si un negocio necesita los 2 caminos, contrata un plan para cada uno, ` +
         `cada uno en su propio número de WhatsApp.`,
     });
   }
@@ -143,14 +147,45 @@ export function construirCorpus(): Fragmento[] {
   });
 
   fragmentos.push({
-    id: 'excedentes',
-    titulo: 'Qué pasa si me paso del plan',
+    id: 'que-pagas',
+    titulo: precios.quePagas.titulo,
     url: '/precios',
     texto:
-      `Si se superan las conversaciones incluidas en el plan, cada bloque adicional de ` +
-      `hasta ${precios.excedente.conversaciones} conversaciones cuesta ${usd(precios.excedente.precioUsd)}. ` +
-      `El bloque adicional no vence. Se avisa al llegar al 80 % del plan y no se cobra ningún excedente sin que el negocio lo apruebe. ` +
-      `El consumo de la inteligencia artificial y las conversaciones de WhatsApp están incluidos en el precio del plan.`,
+      `${precios.quePagas.titulo}. ` +
+      precios.quePagas.items.map((i) => `${i.aQuien}: ${i.que}`).join(' ') +
+      ` ${precios.pie}`,
+  });
+
+  fragmentos.push({
+    id: 'que-necesitamos',
+    titulo: precios.queNecesitamos.titulo,
+    url: '/como-funciona',
+    texto: `${precios.queNecesitamos.titulo} para empezar: ${precios.queNecesitamos.items.join('; ')}. Tú no programas nada.`,
+  });
+
+  fragmentos.push({
+    id: 'excedentes',
+    titulo: `${precios.bolsasTexto.titulo}: qué pasa si me paso del plan`,
+    url: '/precios',
+    texto:
+      `${precios.bolsasTexto.titulo}. ${precios.bolsasTexto.texto} Las bolsas disponibles son: ${precios.bolsasResumen}. ` +
+      `La mensajería de WhatsApp de esas conversaciones la sigue pagando el negocio directamente a Meta.`,
+  });
+
+  const ex = precios.excepcional;
+  fragmentos.push({
+    id: 'opcion-excepcional',
+    titulo: ex.titulo,
+    url: '/precios',
+    texto:
+      `OPCIÓN EXCEPCIONAL, que no es la oferta habitual y se consulta caso por caso. ${ex.paraQuien} ` +
+      `Tiene los mismos precios que los planes habituales, con menos conversaciones: ` +
+      precios.planes
+        .map((p) => `${p.nombre} a ${usd(p.precioUsd)} al mes con hasta ${ex.conversaciones[p.id].toLocaleString('es-BO')} conversaciones`)
+        .join(', ') +
+      '. ' +
+      `${ex.diferencias.join('. ')}. La instalación cuesta ${usd(ex.instalacionUsd)}, pago único por adelantado. ` +
+      `En esta opción la bolsa adicional es de ${ex.bolsa.conversaciones} conversaciones por ${usd(ex.bolsa.precioUsd)} y no vence. ${ex.nota}`,
   });
 
   // — Cómo se cuenta —
@@ -201,6 +236,7 @@ export function construirCorpus(): Fragmento[] {
     url: '/contacto',
     texto:
       `Para hablar con una persona: WhatsApp ${sitio.contacto.whatsapp} o correo ${sitio.contacto.correo}. ` +
+      `También puedes escribirle por WhatsApp al asistente virtual de NovuChat, que es una inteligencia artificial: ${sitio.contacto.whatsappAsistente}. ` +
       `Estamos en ${sitio.contacto.ciudad}, ${sitio.contacto.pais}. ` +
       `Para una demostración conviene dejar los datos en el formulario de la página de demostración; ` +
       `respondemos por WhatsApp en menos de 24 horas hábiles.`,

@@ -217,6 +217,76 @@ describe('corpus derivado del sitio', () => {
     }
   });
 
+  it('cada plan dice su tope de conversaciones y que la mensajería la paga el negocio a Meta', () => {
+    for (const plan of precios.planes) {
+      const f = corpus.find((x) => x.id === `plan-${plan.id}`)!;
+      expect(f.texto, `${plan.id} sin su tope`).toContain(
+        `hasta ${plan.conversaciones.toLocaleString('es-BO')} conversaciones`,
+      );
+      expect(f.texto, `${plan.id} no dice quién paga la mensajería`).toContain('directamente a Meta');
+    }
+  });
+
+  it('las cifras de la opción excepcional no se mezclan con las de la oferta principal', () => {
+    // Cada plan: su fragmento no cita el tope que ESE plan tiene en la opción excepcional.
+    for (const plan of precios.planes) {
+      const f = corpus.find((x) => x.id === `plan-${plan.id}`)!;
+      expect(f.texto, `plan-${plan.id} cita su tope excepcional`).not.toContain(
+        `hasta ${precios.excepcional.conversaciones[plan.id]} conversaciones`,
+      );
+      expect(f.texto, `plan-${plan.id} contiene 220`).not.toContain('220');
+    }
+    // El resumen reúne los 3 planes: se descartan los topes excepcionales que no
+    // coinciden con ningún tope principal (el 500 del plan Pro excepcional es,
+    // además, el tope principal de Crecimiento, y ahí es legítimo).
+    const principales = new Set(precios.planes.map((p) => p.conversaciones));
+    const resumen = corpus.find((x) => x.id === 'precios-resumen')!;
+    for (const tope of Object.values(precios.excepcional.conversaciones)) {
+      if (principales.has(tope)) continue;
+      expect(resumen.texto, `precios-resumen cita el tope excepcional ${tope}`).not.toContain(
+        `hasta ${tope} conversaciones`,
+      );
+    }
+    expect(resumen.texto).not.toContain('220');
+  });
+
+  it('la opción excepcional existe, se rotula como tal y se consulta caso por caso', () => {
+    const f = corpus.find((x) => x.id === 'opcion-excepcional');
+    expect(f, 'falta el fragmento opcion-excepcional').toBeDefined();
+    expect(f!.texto).toContain('caso por caso');
+    expect(f!.texto).toContain('EXCEPCIONAL');
+  });
+
+  it('el fragmento de bolsas cita cada bolsa y no mezcla la de la opción excepcional', () => {
+    const f = corpus.find((x) => x.id === 'excedentes')!;
+    for (const b of precios.bolsas) {
+      expect(f.texto).toContain(`${b.conversaciones}`);
+      expect(f.texto).toContain(`USD ${b.precioUsd}`);
+    }
+    expect(f.texto).not.toContain('30 conversaciones');
+  });
+
+  it('ningún fragmento usa el vocabulario que el sitio no publica', () => {
+    for (const f of corpus) {
+      expect(f.texto, f.id).not.toMatch(/\bbyoc\b|tech provider|centavo/i);
+    }
+  });
+
+  it('solo la opción excepcional dice que las conversaciones de WhatsApp van incluidas', () => {
+    const dicenIncluidas = corpus
+      .filter((f) => /(conversaciones|mensajer[ií]a) de WhatsApp (est[aá]n|van|va|est[aá]) incluid/i.test(f.texto))
+      .map((f) => f.id)
+      .sort();
+    expect(dicenIncluidas).toEqual(['faq-hay-un-plan-con-la', 'opcion-excepcional']);
+  });
+
+  it('las cantidades de la oferta van en cifras, no en letras (hallazgo 56)', () => {
+    const ids = ['precios-resumen', 'que-pagas', 'que-necesitamos', 'excedentes', 'opcion-excepcional'];
+    for (const f of corpus.filter((x) => ids.includes(x.id) || x.id.startsWith('plan-'))) {
+      expect(f.texto, f.id).not.toMatch(/\b(dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|cien|mil)\b/i);
+    }
+  });
+
   it('cada fragmento apunta a una página real del sitio', () => {
     const rutas = new Set([
       '/', '/precios', '/como-funciona', '/consola', '/demo', '/nosotros',

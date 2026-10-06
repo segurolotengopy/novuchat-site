@@ -109,6 +109,11 @@ describe('prompt del sistema', () => {
   it('incluye el texto exacto de la respuesta de derivación', () => {
     expect(prompt).toContain(NO_LO_SE);
   });
+
+  it('permite explicar la cuenta de WhatsApp Business del negocio, no las credenciales', () => {
+    expect(prompt).toContain('cuenta de WhatsApp Business del negocio');
+    expect(prompt).toContain('credenciales');
+  });
 });
 
 describe('el verificador corta lo que el modelo no debería haber dicho', () => {
