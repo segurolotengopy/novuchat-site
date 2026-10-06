@@ -31,7 +31,7 @@ const bolsasResumen = bolsas
   .join(', ')
   .replace(/, ([^,]+)$/, ' or $1');
 
-// Variant without free allowances or figures (decisión de Andres 2026-10-06, ver ESTADO hallazgo 61). PENDING
+// Variant without free allowances or figures (Andres's decision, 2026-10-06; see ESTADO finding 61). PENDING
 // `frase-mensajeria-meta`. It is the ONLY sentence on the site about what Meta charges.
 const mensajeriaMeta =
   "Meta charges for messaging per message, under its current rates. The amount depends on how many messages are sent and of which type; you can check the current rates on Meta's website.";
