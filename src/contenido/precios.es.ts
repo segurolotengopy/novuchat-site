@@ -51,8 +51,10 @@ const mensajeriaMeta =
  * error de un orden de magnitud.
  *
  * Nombres: Impulso / Crecimiento / Pro (decisión de Andres, 2026-09-02).
- * Los precios de esta tabla alimentan también el JSON-LD `SoftwareApplication`,
- * así que no se duplican en ningún otro lugar del sitio.
+ * Los precios de esta tabla alimentan también el JSON-LD `SoftwareApplication`.
+ * Ojo: `precios.en.ts` copia a mano las cifras (planes, bolsas, opción
+ * excepcional, instalación); `pruebas/unidad/paridad-precios.test.ts` falla si
+ * alguna deja de coincidir con esta tabla.
  *
  * `proximamente: true` en todo lo que la plataforma aún no hace. Quitarlo exige
  * que la función esté construida (prohibición 8 de CLAUDE.md).

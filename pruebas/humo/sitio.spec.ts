@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { precios } from '../../src/contenido/precios.es';
 
 /**
  * Humo del sitio estático.
@@ -291,7 +292,7 @@ for (const tema of ['claro', 'oscuro'] as const) {
 test('la portada no ofrece la opción excepcional', async ({ page }) => {
   // `page.content()` incluye el JSON-LD: cubre también lo que ve un buscador.
   await page.goto('/');
-  expect(await page.content()).not.toContain('mensajería de Meta incluida');
+  expect(await page.content()).not.toContain(precios.excepcional.titulo);
 });
 
 test('/precios muestra las 3 bolsas', async ({ page }) => {

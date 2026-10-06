@@ -120,6 +120,12 @@ describe('recuperación', () => {
   });
 });
 
+/** Formas de decir que lo que paga Meta va incluido en el precio. */
+const DICE_INCLUIDAS = [
+  /(conversaciones|mensajer[ií]a) de WhatsApp (est[aá]n|van|va|est[aá]) incluid/i,
+  /inclu(ye|ido|idas?)\b[^.]*\b(conversaciones|mensajer[ií]a) de WhatsApp/i,
+];
+
 describe('corpus derivado del sitio', () => {
   const corpus = construirCorpus();
 
@@ -227,6 +233,17 @@ describe('corpus derivado del sitio', () => {
     }
   });
 
+  it('los literales de la decisión de Andres (2026-10-06) no cambian sin que la prueba lo note', () => {
+    expect(precios.planes.map((p) => p.conversaciones)).toEqual([200, 500, 1000]);
+    expect(precios.bolsas.map((b) => ({ conversaciones: b.conversaciones, precioUsd: b.precioUsd }))).toEqual([
+      { conversaciones: 50, precioUsd: 10 },
+      { conversaciones: 100, precioUsd: 20 },
+      { conversaciones: 300, precioUsd: 40 },
+    ]);
+    expect(Object.values(precios.excepcional.conversaciones)).toEqual([100, 220, 500]);
+    expect(precios.excepcional.bolsa).toEqual({ conversaciones: 30, precioUsd: 10 });
+  });
+
   it('las cifras de la opción excepcional no se mezclan con las de la oferta principal', () => {
     // Cada plan: su fragmento no cita el tope que ESE plan tiene en la opción excepcional.
     for (const plan of precios.planes) {
@@ -236,15 +253,19 @@ describe('corpus derivado del sitio', () => {
       );
       expect(f.texto, `plan-${plan.id} contiene 220`).not.toContain('220');
     }
-    // El resumen reúne los 3 planes: se descartan los topes excepcionales que no
-    // coinciden con ningún tope principal (el 500 del plan Pro excepcional es,
-    // además, el tope principal de Crecimiento, y ahí es legítimo).
-    const principales = new Set(precios.planes.map((p) => p.conversaciones));
+    // El resumen reúne los 3 planes y se comprueba POR PAR (plan + precio +
+    // tope). El «500» del plan Pro excepcional es, además, el tope principal de
+    // Crecimiento: una comparación suelta de topes tendría que exceptuarlo y
+    // dejaría pasar «Pro a USD 90 con hasta 500». Por par no hay excepción.
     const resumen = corpus.find((x) => x.id === 'precios-resumen')!;
-    for (const tope of Object.values(precios.excepcional.conversaciones)) {
-      if (principales.has(tope)) continue;
-      expect(resumen.texto, `precios-resumen cita el tope excepcional ${tope}`).not.toContain(
-        `hasta ${tope} conversaciones`,
+    for (const plan of precios.planes) {
+      const par = (tope: number) =>
+        `${plan.nombre} a USD ${plan.precioUsd} al mes con hasta ${tope.toLocaleString('es-BO')}`;
+      expect(resumen.texto, `precios-resumen no trae el par principal de ${plan.nombre}`).toContain(
+        par(plan.conversaciones),
+      );
+      expect(resumen.texto, `precios-resumen mezcla el par excepcional de ${plan.nombre}`).not.toContain(
+        par(precios.excepcional.conversaciones[plan.id]),
       );
     }
     expect(resumen.texto).not.toContain('220');
@@ -259,11 +280,18 @@ describe('corpus derivado del sitio', () => {
 
   it('el fragmento de bolsas cita cada bolsa y no mezcla la de la opción excepcional', () => {
     const f = corpus.find((x) => x.id === 'excedentes')!;
+    expect(f.texto).toContain('50 conversaciones por USD 10');
+    expect(f.texto).toContain('100 por USD 20');
+    expect(f.texto).toContain('300 por USD 40');
     for (const b of precios.bolsas) {
-      expect(f.texto).toContain(`${b.conversaciones}`);
       expect(f.texto).toContain(`USD ${b.precioUsd}`);
     }
-    expect(f.texto).not.toContain('30 conversaciones');
+    // La bolsa de la opción excepcional (30 por USD 10) vive SOLO en su fragmento.
+    const bolsaExcepcional = `${precios.excepcional.bolsa.conversaciones} conversaciones por USD ${precios.excepcional.bolsa.precioUsd}`;
+    expect(bolsaExcepcional).toBe('30 conversaciones por USD 10');
+    for (const otro of corpus.filter((x) => x.id !== 'opcion-excepcional')) {
+      expect(otro.texto, `${otro.id} cita la bolsa excepcional`).not.toContain(bolsaExcepcional);
+    }
   });
 
   it('ningún fragmento usa el vocabulario que el sitio no publica', () => {
@@ -273,17 +301,25 @@ describe('corpus derivado del sitio', () => {
   });
 
   it('solo la opción excepcional dice que las conversaciones de WhatsApp van incluidas', () => {
-    const dicenIncluidas = corpus
-      .filter((f) => /(conversaciones|mensajer[ií]a) de WhatsApp (est[aá]n|van|va|est[aá]) incluid/i.test(f.texto))
-      .map((f) => f.id)
-      .sort();
-    expect(dicenIncluidas).toEqual(['faq-hay-un-plan-con-la', 'opcion-excepcional']);
+    const dicenIncluidas = corpus.filter((f) => DICE_INCLUIDAS.some((r) => r.test(f.texto))).map((f) => f.id);
+    expect(dicenIncluidas.sort()).toEqual(['opcion-excepcional']);
+  });
+
+  it('la regla de «incluidas» detecta la formulación vieja del resumen (la guarda no está muda)', () => {
+    // Texto del resumen ANTES de la oferta con cuenta propia. Si la regla no lo
+    // detecta, la prueba anterior pasaría aunque alguien reintrodujera esa frase.
+    const viejo = 'El precio incluye el consumo de la inteligencia artificial y las conversaciones de WhatsApp.';
+    expect(DICE_INCLUIDAS.some((r) => r.test(viejo))).toBe(true);
+    // Y no se dispara con la formulación vigente, que separa las dos ideas.
+    const vigente =
+      'El precio incluye el consumo de la inteligencia artificial. La mensajería de WhatsApp no está incluida: el negocio la paga a Meta.';
+    expect(DICE_INCLUIDAS.some((r) => r.test(vigente))).toBe(false);
   });
 
   it('las cantidades de la oferta van en cifras, no en letras (hallazgo 56)', () => {
     const ids = ['precios-resumen', 'que-pagas', 'que-necesitamos', 'excedentes', 'opcion-excepcional'];
     for (const f of corpus.filter((x) => ids.includes(x.id) || x.id.startsWith('plan-'))) {
-      expect(f.texto, f.id).not.toMatch(/\b(dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|cien|mil)\b/i);
+      expect(f.texto, f.id).not.toMatch(/\b(dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|veinte|treinta|cuarenta|cincuenta|cien|doscientos|trescientos|quinientos|mil)\b/i);
     }
   });
 

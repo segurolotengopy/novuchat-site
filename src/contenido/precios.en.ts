@@ -39,7 +39,9 @@ const mensajeriaMeta =
 /**
  * English mirror of `precios.es.ts`. Typed against the same interface, so the
  * compiler complains if a key is missing on either side. Prices, plan ids and
- * limits are the same objects of the same business: only the wording changes.
+ * limits are the same business data, but they are COPIED BY HAND from
+ * `precios.es.ts`: only the wording should change.
+ * `pruebas/unidad/paridad-precios.test.ts` fails if any figure drifts apart.
  *
  * Amounts are in US dollars (see `precioUsd`); billing is issued in bolivianos
  * at the Bolivian Central Bank official rate.
