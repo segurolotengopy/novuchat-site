@@ -1,4 +1,5 @@
 import type { Pregunta } from './tipos';
+import { precios } from './precios.es';
 
 /**
  * Preguntas frecuentes. Alimentan la página `/preguntas-frecuentes`, el bloque
@@ -11,7 +12,12 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Necesito un número nuevo de WhatsApp?',
     respuesta:
-      'Sí, y lo conseguimos nosotros: un número nuevo a tu nombre, dedicado al asistente, incluido en la instalación. Tu WhatsApp de siempre sigue igual y es donde te avisamos cuando una conversación necesita a una persona. Conectar tu número actual es posible, pero entonces dejarías de poder responder desde el celular con ese número, así que hoy no lo recomendamos.',
+      'No es obligatorio. El asistente atiende en un número a tu nombre, registrado en tu propia cuenta de WhatsApp Business: puede ser el que ya tienes o uno nuevo que consigas para el asistente. Lo que conviene saber es que, mientras un número está conectado al asistente, ya no puedes responder con ese número desde la aplicación de WhatsApp de tu celular. Por eso, si hoy atiendes con tu número desde la aplicación y quieres seguir haciéndolo, te recomendamos un número nuevo para el asistente.',
+  },
+  {
+    pregunta: '¿Los costos de WhatsApp y de la inteligencia artificial son aparte?',
+    respuesta:
+      `La inteligencia artificial sí está incluida en tu plan. La mensajería de WhatsApp no: la pagas directamente a Meta, con tu tarjeta y en tu propia cuenta, y NovuChat no la cobra. Cuánto le pagas a Meta depende de cuántos mensajes se envían y de qué tipo son, así que depende de tu volumen y del tráfico de tu negocio. ${precios.mensajeriaMeta} A nosotros nos pagas la mensualidad del plan, la instalación y, solo si las apruebas, las bolsas de conversaciones.`,
   },
   {
     pregunta: '¿Qué pasa si el cliente manda un audio o una foto?',
@@ -34,24 +40,29 @@ export const preguntas: Pregunta[] = [
       'Muestra el QR de tu banco y recibe el comprobante que envía el cliente; quien lo valida eres tú, y quien confirma que entró la plata es tu banco. El dinero se acredita directamente en tu cuenta, nunca pasa por nosotros. En las demostraciones el QR está rotulado como simulado y no cobra nada.',
   },
   {
+    pregunta: '¿Puedo usar mi número actual?',
+    respuesta:
+      'Sí, siempre que esté a tu nombre y lo registres en tu cuenta de WhatsApp Business. Ten en cuenta que, mientras esté conectado al asistente, ya no puedes responder con ese número desde la aplicación de WhatsApp de tu celular. Si eso te complica, usa un número nuevo para el asistente y deja el de siempre en tu celular. Lo revisamos contigo antes de conectar.',
+  },
+  {
     pregunta: '¿Cuánto cuesta la instalación?',
     respuesta:
-      'USD 65, un pago único que se hace por adelantado, al inicio del servicio y aparte de la mensualidad del plan. Es llave en mano: la verificación de tu número ante Meta, la carga de tus servicios, precios, horarios y el tono del asistente, la conexión con tu Google Calendar y las pruebas con casos reales. Si tu negocio necesita desarrollo a medida, como integrarlo con tu sistema propio, la instalación arranca en USD 125 y se cotiza caso por caso.',
+      `USD ${precios.instalacion.estandar}, un pago único que se hace por adelantado, al inicio del servicio y aparte de la mensualidad del plan. Es llave en mano: conectamos tu número al canal oficial de WhatsApp Business de Meta, con la cuenta a tu nombre, cargamos tus servicios, precios, horarios y el tono del asistente, lo conectamos con tu Google Calendar y lo probamos con casos reales. Si tu negocio necesita desarrollo a medida, como integrarlo con tu sistema propio, la instalación arranca en USD ${precios.instalacion.aMedidaDesde} y se cotiza caso por caso.`,
   },
   {
     pregunta: '¿Cuánto tarda la instalación?',
     respuesta:
-      '48 horas desde que tenemos tu información: servicios o productos con precios, horarios y tu calendario. Lo que puede tardar más es el trámite de verificación de tu negocio ante Meta, que no depende de nosotros.',
+      '48 horas desde que tengas tu cuenta de WhatsApp Business lista y nos entregues tu información: servicios o productos con precios, horarios y tu calendario. La cuenta y la verificación de tu negocio ante Meta se hacen en tu cuenta de Meta, así que ese tiempo no depende de nosotros; te acompañamos en el trámite.',
   },
   {
     pregunta: '¿Qué pasa si no pago un mes?',
     respuesta:
-      'Se suspende el asistente, pero conservas tus datos y el acceso a la consola en modo lectura. A tus clientes les llega un mensaje neutro: nunca se enteran de que hubo un problema de pago.',
+      'Si no pagas la mensualidad, se suspende el asistente, pero conservas tus datos y el acceso a la consola en modo lectura. A tus clientes les llega un mensaje neutro: nunca se enteran de que hubo un problema de pago. Lo que pagas a Meta va por separado: si ese pago falla, se resuelve en tu cuenta de Meta, y lo que Meta decida sobre tus mensajes no depende de nosotros.',
   },
   {
-    pregunta: '¿Los costos de WhatsApp y de la inteligencia artificial son aparte?',
+    pregunta: '¿Qué es una bolsa de conversaciones?',
     respuesta:
-      'No. El consumo del modelo de inteligencia artificial y las conversaciones de WhatsApp están incluidos en tu plan. Lo único que se cobra aparte son los excedentes, si superas las conversaciones incluidas, y te avisamos antes de llegar. Tampoco te cobramos por cada mensaje que responde el asistente, aunque a nosotros WhatsApp nos los cobre.',
+      `Es un paquete de conversaciones adicionales para cuando superas las de tu plan: ${precios.bolsasResumen}. Las bolsas no vencen. Te avisamos al llegar al 80 % de tu plan para que decidas si te conviene una bolsa o subir de nivel, y nunca se cobra una bolsa sin que la apruebes. La mensajería de esas conversaciones la sigues pagando directamente a Meta.`,
   },
   {
     pregunta: '¿Dónde están mis datos?',
@@ -76,7 +87,7 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Puedo tener citas y ventas a la vez?',
     respuesta:
-      'Sí. Cada camino vive en su propio número de WhatsApp, así que se contrata un plan para cada uno y los dos se administran desde la misma consola. Escríbenos y lo armamos contigo: no hace falta que elijas hoy y te arrepientas después, se puede sumar el segundo cuando quieras.',
+      'Sí. Cada camino vive en su propio número de WhatsApp, así que se contrata un plan para cada uno, cada número en tu cuenta de WhatsApp Business, y los 2 se administran desde la misma consola. Escríbenos y lo armamos contigo: no hace falta que elijas hoy y te arrepientas después, se puede sumar el segundo cuando quieras.',
   },
   {
     pregunta: '¿Por qué tengo que elegir entre citas y ventas?',
@@ -86,12 +97,12 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿En qué moneda pago?',
     respuesta:
-      'Los precios están en dólares y el cobro se hace en bolivianos, al Tipo de Cambio Oficial del Banco Central de Bolivia. Tomamos el del primer día hábil de cada mes y lo mantenemos todo ese mes, así que sabes exactamente cuánto vas a pagar antes de hacerlo, y puedes verificarlo en la página del Banco Central.',
+      'Los precios están en dólares y el cobro se hace en bolivianos, al Tipo de Cambio Oficial del Banco Central de Bolivia. Tomamos el del primer día hábil de cada mes y lo mantenemos todo ese mes, así que sabes exactamente cuánto vas a pagar antes de hacerlo, y puedes verificarlo en la página del Banco Central. Lo que pagas a Meta por la mensajería no pasa por nosotros: lo cobra Meta en tu cuenta, según su tarifa vigente.',
   },
   {
     pregunta: '¿Cuándo se paga?',
     respuesta:
-      'Todo es prepago. Cada mes del plan se paga por adelantado, y la instalación es un pago único que también se hace por adelantado, al inicio del servicio. No hay contratos largos ni permanencia.',
+      'Todo es prepago. Cada mes del plan se paga por adelantado, y la instalación es un pago único que también se hace por adelantado, al inicio del servicio. No hay contratos largos ni permanencia. La mensajería de WhatsApp la cobra Meta en tu cuenta, aparte.',
   },
   {
     pregunta: '¿Qué pasa si una conversación se hace muy larga?',
@@ -101,7 +112,12 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Qué necesitan de mí para empezar?',
     respuesta:
-      'Un número nuevo, que conseguimos nosotros; la lista de servicios o productos con precios; tus horarios y quién atiende cada servicio; tu calendario de Google y el tono con el que quieres que hable el asistente. Nada más: tú no programas nada.',
+      'Tu cuenta de WhatsApp Business en Meta, a nombre de tu negocio, con el número que va a usar el asistente y una tarjeta registrada para pagar la mensajería; la lista de servicios o productos con precios; tus horarios y quién atiende cada servicio; tu calendario de Google y el tono con el que quieres que hable el asistente. Tú no programas nada.',
+  },
+  {
+    pregunta: '¿Hay un plan con la mensajería de Meta incluida?',
+    respuesta:
+      `De forma excepcional, sí. Para el negocio que no tiene ni quiere gestionar una cuenta de Meta, hay una modalidad en la que las conversaciones de WhatsApp van incluidas en el precio y el número nuevo lo conseguimos nosotros. Los precios son los mismos, con menos conversaciones: ${precios.planes.map((p) => `${p.nombre}, USD ${p.precioUsd} al mes con hasta ${precios.excepcional.conversaciones[p.id].toLocaleString('es-BO')}`).join('; ')}. La instalación cuesta USD ${precios.excepcional.instalacionUsd} e incluye la verificación del número ante Meta, y la bolsa adicional es de ${precios.excepcional.bolsa.conversaciones} conversaciones por USD ${precios.excepcional.bolsa.precioUsd}. No es la oferta habitual: se ofrece caso por caso, así que escríbenos y lo vemos.`,
   },
 ];
 

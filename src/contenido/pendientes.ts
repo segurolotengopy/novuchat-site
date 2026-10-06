@@ -49,7 +49,57 @@ export const identidadLegal: { razonSocial: string; nit: string } | null = {
   nit: '2441214012',
 };
 
-export const PENDIENTES: Pendiente[] = [];
+export const PENDIENTES: Pendiente[] = [
+  {
+    id: 'plataforma-limites-y-bolsas',
+    descripcion:
+      'La plataforma todavía no aplica los topes 200 / 500 / 1.000 ni las bolsas 50 / 100 / 300 de la oferta con cuenta propia',
+    responsable: 'Andres (sesión de la plataforma)',
+    afecta: '/precios, portada, /terminos, FAQ y corpus del asistente',
+  },
+  {
+    id: 'frase-mensajeria-meta',
+    descripcion:
+      'Elegir la frase sobre lo que cobra Meta: las fuentes discrepan (tarifas de la plataforma vigentes desde el 01/10/2026 frente a la página pública de Meta); se publicó una variante sin gratuidades ni cifras',
+    responsable: 'Andres',
+    afecta: 'precios.mensajeriaMeta: /precios, FAQ de costos y corpus',
+  },
+  {
+    id: 'numeros-de-whatsapp',
+    descripcion:
+      'Confirmar el reparto: +591 70661250 donde se promete una persona y +591 76988663 (asistente de IA) en portada, FAQ y contacto',
+    responsable: 'Andres',
+    afecta: 'sitio.contacto, portada, /preguntas-frecuentes, /contacto, corpus',
+  },
+  {
+    id: 'terminos-revision-legal',
+    descripcion:
+      'Revisar las secciones 2, 3, 4 y 5 de /terminos reescritas para la oferta con cuenta propia',
+    responsable: 'Andres',
+    afecta: '/terminos',
+  },
+  {
+    id: 'privacidad-whatsapp-asistente',
+    descripcion:
+      'Decidir si /privacidad debe declarar los datos de quien escribe al WhatsApp del asistente de NovuChat, al que ahora enlaza el sitio',
+    responsable: 'Andres',
+    afecta: '/privacidad (sin cambios en este PR)',
+  },
+  {
+    id: 'alcance-instalacion',
+    descripcion:
+      'Confirmar qué incluye la instalación con cuenta propia (conexión del número, acompañamiento en la verificación ante Meta) y si la opción excepcional cuesta USD 65',
+    responsable: 'Andres',
+    afecta: 'precios.instalacion, precios.excepcional, FAQ de instalación, /terminos 4',
+  },
+  {
+    id: 'numero-actual-aplicacion',
+    descripcion:
+      'Confirmar con la plataforma que un número conectado al asistente deja de poder usarse desde la aplicación de WhatsApp del celular',
+    responsable: 'Andres (sesión de la plataforma)',
+    afecta: 'FAQ del número nuevo y del número actual',
+  },
+];
 
 /** Verdadero si no queda ningún dato sin confirmar. */
 export const listoParaProduccion = PENDIENTES.length === 0;

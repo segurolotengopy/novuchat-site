@@ -1,4 +1,40 @@
-import type { Precios } from './tipos';
+import type { Bolsa, Instalacion, Precios } from './tipos';
+
+const instalacion: Instalacion = {
+  estandar: 65,
+  aMedidaDesde: 125,
+  aMedidaEjemplos: [
+    'Integration with your ERP or in-house system',
+    'Real-time queries to your systems',
+    'Complex multi-department flows',
+  ],
+  aMedidaNota:
+    'This is custom development, quoted case by case: these are not standard features of the assistant.',
+  incluye: [
+    'Turnkey initial setup: your assistant arrives ready to serve customers',
+    'Nobody at NovuChat reads your conversations unless you grant access',
+    "We connect your number to Meta's official WhatsApp Business channel; the account stays in your name",
+    'Your services, prices, hours and assistant tone loaded in',
+    'Connection to your Google Calendar',
+    'Testing with real cases before going live',
+  ],
+};
+
+const bolsas: Bolsa[] = [
+  { conversaciones: 50, precioUsd: 10 },
+  { conversaciones: 100, precioUsd: 20 },
+  { conversaciones: 300, precioUsd: 40 },
+];
+
+const bolsasResumen = bolsas
+  .map((b, i) => `${b.conversaciones}${i === 0 ? ' conversations' : ''} for USD ${b.precioUsd}`)
+  .join(', ')
+  .replace(/, ([^,]+)$/, ' or $1');
+
+// Variant without free allowances or figures (amendment E1, 2026-10-06). PENDING
+// `frase-mensajeria-meta`. It is the ONLY sentence on the site about what Meta charges.
+const mensajeriaMeta =
+  "Meta charges for messaging per message, under its current rates. The amount depends on how many messages are sent and of which type; you can check the current rates on Meta's website.";
 
 /**
  * English mirror of `precios.es.ts`. Typed against the same interface, so the
@@ -9,12 +45,15 @@ import type { Precios } from './tipos';
  * at the Bolivian Central Bank official rate.
  */
 export const pricing: Precios = {
+  bajada:
+    'Prepaid monthly service, on your own WhatsApp Business account. You pay NovuChat the monthly fee and the setup; WhatsApp messaging you pay directly to Meta, in your account. Below we explain what you pay, to whom, and what we need from you.',
+
   planes: [
     {
       id: 'impulso',
       nombre: 'Impulso',
       precioUsd: 25,
-      conversaciones: 100,
+      conversaciones: 200,
       resumen: 'For the business that is starting to miss messages.',
       caminos: [
         {
@@ -30,16 +69,15 @@ export const pricing: Precios = {
       ],
       incluye: [
         { texto: 'AI assistant that understands natural language, around the clock' },
-        { texto: '100 conversations per month' },
+        { texto: "Your own WhatsApp Business account, connected to Meta's official channel" },
         { texto: 'Console to see everything from your phone' },
-        { texto: 'Official WhatsApp Business channel' },
       ],
     },
     {
       id: 'crecimiento',
       nombre: 'Crecimiento',
       precioUsd: 50,
-      conversaciones: 220,
+      conversaciones: 500,
       resumen: 'For a busy schedule and several people attending customers.',
       destacado: true,
       caminos: [
@@ -56,16 +94,15 @@ export const pricing: Precios = {
       ],
       incluye: [
         { texto: 'AI assistant that understands natural language, around the clock' },
-        { texto: '220 conversations per month' },
+        { texto: "Your own WhatsApp Business account, connected to Meta's official channel" },
         { texto: 'Console to see everything from your phone' },
-        { texto: 'Official WhatsApp Business channel' },
       ],
     },
     {
       id: 'pro',
       nombre: 'Pro',
       precioUsd: 90,
-      conversaciones: 500,
+      conversaciones: 1000,
       resumen: 'For several branches or a high volume of orders.',
       caminos: [
         {
@@ -81,35 +118,76 @@ export const pricing: Precios = {
       ],
       incluye: [
         { texto: 'AI assistant that understands natural language, around the clock' },
-        { texto: '500 conversations per month' },
+        { texto: "Your own WhatsApp Business account, connected to Meta's official channel" },
         { texto: 'Console to see everything from your phone' },
-        { texto: 'Official WhatsApp Business channel' },
         { texto: 'Priority technical support' },
       ],
     },
   ],
 
-  instalacion: {
-    estandar: 65,
-    aMedidaDesde: 125,
-    aMedidaEjemplos: [
-      'Integration with your ERP or in-house system',
-      'Real-time queries to your systems',
-      'Complex multi-department flows',
-    ],
-    aMedidaNota:
-      'This is custom development, quoted case by case: these are not standard features of the assistant.',
-    incluye: [
-      'Turnkey initial setup: your assistant arrives ready to serve customers',
-      'Nobody at NovuChat reads your conversations unless you grant access',
-      'Official verification of your number with Meta',
-      'Your services, prices, hours and assistant tone loaded in',
-      'Connection to your Google Calendar',
-      'Testing with real cases before going live',
+  notaMeta: '+ WhatsApp messaging, paid directly to Meta',
+  pie: 'Prepaid monthly service. Prices in USD, charged in Bs at the Official Exchange Rate of the Central Bank of Bolivia. The customer pays Meta directly for messaging costs.',
+  mensajeriaMeta,
+
+  quePagas: {
+    titulo: 'What you pay, and to whom',
+    items: [
+      {
+        aQuien: 'To NovuChat, every month',
+        que: 'Your monthly plan fee, in advance. It is set in dollars and charged in bolivianos at the Central Bank of Bolivia official exchange rate of the first business day of the month. It includes the assistant, the AI and the console.',
+      },
+      {
+        aQuien: 'To NovuChat, once',
+        que: `The setup: USD ${instalacion.estandar}, a one-time payment made in advance, when the service starts.`,
+      },
+      {
+        aQuien: 'To Meta, depending on usage',
+        que: `WhatsApp messaging. You pay it directly to Meta, with your card and in your own account: NovuChat does not charge it. It depends on how many messages are sent and of which type, so it varies with your volume and your traffic. ${mensajeriaMeta}`,
+      },
+      {
+        aQuien: 'To NovuChat, only if you approve it',
+        que: `A conversation bundle, if you go over your plan: ${bolsasResumen}.`,
+      },
     ],
   },
 
-  excedente: { precioUsd: 10, conversaciones: 30 },
+  queNecesitamos: {
+    titulo: 'What we need from you',
+    items: [
+      'Your WhatsApp Business account at Meta, in your business name, and the number the assistant will use',
+      'A card registered in your Meta account, for messaging',
+      'Your services or products with their prices',
+      'Your opening hours, and who handles each service if there are several people',
+      'Your Google Calendar, if you take bookings',
+      'The tone you want the assistant to speak in',
+    ],
+  },
+
+  instalacion,
+
+  bolsas,
+  bolsasResumen,
+
+  bolsasTexto: {
+    titulo: 'Conversation bundles',
+    texto:
+      'If you go over the conversations in your plan, you can add a bundle. Bundles never expire. We write to you at 80 % of your plan so you can choose between a bundle and moving up a plan, and no bundle is ever billed without your approval.',
+  },
+
+  excepcional: {
+    titulo: 'Exceptional option: with Meta messaging included',
+    paraQuien:
+      'For a business that does not have, and does not want to manage, a Meta account. In this option WhatsApp conversations are included in the price and we get the new number. It is not our standard offer: it is offered case by case.',
+    conversaciones: { impulso: 100, crecimiento: 220, pro: 500 },
+    diferencias: [
+      'WhatsApp conversations with your customers are included in the price: you do not pay Meta for them',
+      'We get the new number, and it is included in the setup',
+      'The setup includes the verification of the number with Meta',
+    ],
+    instalacionUsd: instalacion.estandar,
+    bolsa: { conversaciones: 30, precioUsd: 10 },
+    nota: 'Offered case by case. If this is your situation, write to us and we will look at it with you.',
+  },
 
   comoContamos: {
     titulo: 'How we count conversations',
@@ -135,9 +213,8 @@ export const pricing: Precios = {
           'A booked appointment or a confirmed order. It measures whether the assistant is selling, not just replying.',
       },
       {
-        termino: 'Overage',
-        definicion:
-          'Beyond your plan, each additional block of up to 30 conversations costs USD 10 and never expires. We warn you at 80 % of your plan, and nothing is ever billed without your approval.',
+        termino: 'Bundle',
+        definicion: `Additional conversations for when you go over your plan: ${bolsasResumen}. They never expire. We warn you at 80 % of your plan, and no bundle is ever billed without your approval.`,
       },
     ],
   },

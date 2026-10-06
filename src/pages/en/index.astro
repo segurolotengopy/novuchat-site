@@ -32,7 +32,7 @@ const capacidades = [
 
 <Base
   titulo="NovuChat — AI WhatsApp assistant for your business in Bolivia"
-  descripcion="Answers 24/7, books appointments, takes orders and charges by QR. Live in 48 hours, managed from your phone."
+  descripcion="Answers 24/7, books appointments, takes orders and charges by QR, on your own WhatsApp Business account. Live in 48 hours once your account is ready and you hand us your information."
   rutaAlterna="/"
 >
   <section class="heroe">
@@ -45,7 +45,8 @@ const capacidades = [
         <p class="heroe-bajada">
           NovuChat answers your customers on WhatsApp around the clock: it replies,
           books appointments in your calendar, takes orders and charges by QR. We
-          set it up in 48 hours and you run it from your phone.
+          set it up in 48 hours from the moment your WhatsApp Business account is
+          ready and you hand us your information, and you run it from your phone.
         </p>
         <div class="heroe-acciones">
           <a class="btn btn-cta btn-grande" href="/demo">Request a demo</a>
@@ -53,7 +54,7 @@ const capacidades = [
         </div>
         <ul class="heroe-pruebas">
           <li>· Official Meta channel</li>
-          <li>· Live in 48 hours</li>
+          <li>· Live in 48 hours once your account and information are ready</li>
           <li>· Replies in under a minute</li>
           <li>· You see everything in the console</li>
         </ul>
@@ -80,6 +81,9 @@ const capacidades = [
           ))
         }
       </div>
+      <p class="texto-apagado" style="margin-top: var(--space-4); font-size: 14px">
+        {pricing.pie}
+      </p>
     </div>
   </section>
 
@@ -87,8 +91,8 @@ const capacidades = [
     <div class="contenedor">
       <h2 class="seccion-titulo">Plans</h2>
       <p class="seccion-bajada">
-        Prepaid monthly, no long contracts. AI usage and WhatsApp conversations
-        are included in the price.
+        Prepaid monthly, no long contracts, on your own WhatsApp Business account.
+        AI usage is included; WhatsApp messaging is paid directly to Meta.
       </p>
       <div class="rejilla">
         {
@@ -101,9 +105,10 @@ const capacidades = [
               <p class="plan-instalacion">
                 + USD {pricing.instalacion.estandar} one-time setup
               </p>
+              <p class="plan-instalacion">{pricing.notaMeta}</p>
               <p class="card-body">{plan.resumen}</p>
               <p class="tag tag-neutral" style="align-self: flex-start">
-                {plan.conversaciones.toLocaleString('en-US')} conversations per month
+                Up to {plan.conversaciones.toLocaleString('en-US')} conversations per month
               </p>
               <a class="btn btn-primary btn-block" href="/en/precios">
                 See what is included

@@ -3,20 +3,20 @@ import Base from '../../layouts/Base.astro';
 import CaminosDelPlan from '../../components/CaminosDelPlan.astro';
 import { pricing } from '../../contenido/precios.en';
 
-const { planes, instalacion, excedente, comoContamos } = pricing;
+const { planes, instalacion, bolsas, bolsasTexto, excepcional, quePagas, queNecesitamos, comoContamos } =
+  pricing;
 ---
 
 <Base
   titulo="NovuChat pricing"
-  descripcion="Plans from USD 25 per month, with AI usage and WhatsApp conversations included. Live in 48 hours."
+  descripcion="Plans from USD 25 per month on your own WhatsApp Business account. AI included; WhatsApp messaging is paid directly to Meta. No long contracts."
   rutaAlterna="/precios"
 >
   <section class="seccion">
     <div class="contenedor">
       <h1>Plans and pricing</h1>
       <p class="seccion-bajada" style="font-size: 18px">
-        Prepaid monthly service. AI usage and WhatsApp conversations are
-        included in the price: no surprise charges at the end of the month.
+        {pricing.bajada}
       </p>
 
       <div class="rejilla">
@@ -35,9 +35,10 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
               <p class="plan-instalacion">
                 + USD {instalacion.estandar} one-time setup
               </p>
+              <p class="plan-instalacion">{pricing.notaMeta}</p>
               <p class="card-body">{plan.resumen}</p>
               <p class="tag tag-neutral" style="align-self: flex-start">
-                {plan.conversaciones.toLocaleString('en-US')} conversations per month
+                Up to {plan.conversaciones.toLocaleString('en-US')} conversations per month
               </p>
               <CaminosDelPlan
                 caminos={plan.caminos}
@@ -65,12 +66,10 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
       </div>
 
       <p class="texto-apagado" style="margin-top: var(--space-6); font-size: 14px">
-        Prepaid: each month of the plan is paid in advance. Setup is a one-time
-        payment of USD {instalacion.estandar}, on top of the monthly fee. A conversation is
-        up to 25 assistant replies to the same customer within 24 continuous
-        hours; from reply 26 another one is counted. Prices are in US dollars; billing is issued in
-        bolivianos at the official exchange rate published by the Central Bank of
-        Bolivia.
+        {pricing.pie} Setup is a one-time payment of USD {instalacion.estandar}, in
+        advance and on top of the monthly fee. A conversation is up to 25 assistant
+        replies to the same customer within 24 continuous hours; from reply 26
+        another one is counted.
       </p>
 
       <p class="texto-apagado" style="margin-top: var(--space-3); font-size: 14px">
@@ -84,12 +83,36 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
     <div class="contenedor">
       <div class="rejilla" style="align-items: start">
         <article class="card elev-sm">
-          <h2 class="card-title">If you go over your plan</h2>
-          <p class="card-body">
-            Each additional block of up to {excedente.conversaciones} conversations
-            costs USD {excedente.precioUsd} and never expires. We write to you at
-            80 % of your plan, and nothing is ever billed without your approval.
-          </p>
+          <h2 class="card-title">{quePagas.titulo}</h2>
+          <ul class="plan-lista">
+            {
+              quePagas.items.map((i) => (
+                <li>
+                  <span>
+                    <strong>{i.aQuien}.</strong> {i.que}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </article>
+        <article class="card elev-sm">
+          <h2 class="card-title">{queNecesitamos.titulo}</h2>
+          <ul class="plan-lista">{queNecesitamos.items.map((i) => <li>{i}</li>)}</ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <div class="rejilla" style="align-items: start">
+        <article class="card elev-sm">
+          <h2 class="card-title">{bolsasTexto.titulo}</h2>
+          <ul class="plan-lista">
+            {bolsas.map((b) => <li>{b.conversaciones} conversations for USD {b.precioUsd}</li>)}
+          </ul>
+          <p class="card-body">{bolsasTexto.texto}</p>
         </article>
 
         <article class="card elev-sm">
@@ -117,7 +140,7 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
     </div>
   </section>
 
-  <section class="seccion">
+  <section class="seccion seccion-alterna">
     <div class="contenedor">
       <h2 class="seccion-titulo">{comoContamos.titulo}</h2>
       <div style="max-width: var(--ancho-lectura)">
@@ -140,6 +163,36 @@ const { planes, instalacion, excedente, comoContamos } = pricing;
           }
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <section class="seccion" aria-label="Exceptional option">
+    <div class="contenedor">
+      <details class="acordeon" data-excepcional style="max-width: var(--ancho-lectura)">
+        <summary>{excepcional.titulo}</summary>
+        <div class="acordeon-cuerpo">
+          <p>{excepcional.paraQuien}</p>
+          <ul class="plan-lista">
+            {
+              planes.map((p) => (
+                <li>
+                  {p.nombre}: USD {p.precioUsd} per month, up to{' '}
+                  {excepcional.conversaciones[p.id].toLocaleString('en-US')} conversations
+                </li>
+              ))
+            }
+          </ul>
+          <ul class="plan-lista">{excepcional.diferencias.map((d) => <li>{d}</li>)}</ul>
+          <p>
+            Setup: USD {excepcional.instalacionUsd}, one-time payment in advance. Extra
+            bundle: {excepcional.bolsa.conversaciones} conversations for USD{' '}
+            {excepcional.bolsa.precioUsd}, never expires.
+          </p>
+          <p>
+            {excepcional.nota} <a href="/en/contacto">Go to the contact page</a>.
+          </p>
+        </div>
+      </details>
     </div>
   </section>
 </Base>
