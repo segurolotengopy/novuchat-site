@@ -45,7 +45,7 @@ const DENTRO: { pregunta: string; espera: string }[] = [
   { pregunta: 'sirve para una peluqueria?', espera: 'rubro-salud-belleza' },
   { pregunta: 'tengo una tienda de ropa, me sirve', espera: 'rubro-comercio' },
   { pregunta: '¿cuánto tardan en instalarlo?', espera: 'instalacion-proceso' },
-  { pregunta: 'que necesitan de mi para empezar', espera: 'instalacion-proceso' },
+  { pregunta: 'que necesitan de mi para empezar', espera: 'faq-que-necesitan-de-mi-para' },
   { pregunta: '¿la instalación se paga aparte?', espera: 'instalacion-costo' },
   { pregunta: 'que pasa si me paso de los mensajes incluidos', espera: 'excedentes' },
   { pregunta: '¿cómo cuentan las conversaciones?', espera: 'como-se-cuenta' },
@@ -65,6 +65,11 @@ const DENTRO: { pregunta: string; espera: string }[] = [
   { pregunta: 'quiero una demostracion', espera: 'contacto' },
   { pregunta: 'en que se diferencian de un chatbot normal', espera: 'ia-contra-botones' },
   { pregunta: 'porque deberia contratarlos', espera: 'problema' },
+  { pregunta: '¿tengo que pagarle algo a Meta?', espera: 'que-pagas' },
+  { pregunta: 'puedo usar el numero que ya tengo', espera: 'faq-puedo-usar-mi-numero-actual' },
+  { pregunta: 'hay algun plan con whatsapp incluido', espera: 'opcion-excepcional' },
+  { pregunta: 'cuanto cuesta una bolsa de conversaciones', espera: 'excedentes' },
+  { pregunta: 'que tengo que tener listo antes de la instalacion', espera: 'que-necesitamos' },
 ];
 
 /** Preguntas que el corpus NO puede responder. Deben quedar bajo el umbral. */

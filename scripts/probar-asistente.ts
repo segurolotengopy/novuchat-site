@@ -99,14 +99,20 @@ async function generar(sistema: string, mensaje: string, temperatura = 0.2): Pro
   return datos.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('') ?? '';
 }
 
+type Resultado = 'responde' | 'deriva' | 'corta';
+
 interface Caso {
   pregunta: string;
-  /** Qué se espera: que responda con el corpus, que derive, o que corte. */
-  espera: 'responde' | 'deriva' | 'corta';
+  /** Qué se espera: que responda con el corpus, que derive, o que corte. Admite varios. */
+  espera: Resultado | Resultado[];
+  /** Si se indica, la salida publicada debe coincidir. */
+  contiene?: RegExp;
+  /** Si se indica, la salida publicada NO debe coincidir. */
+  noContiene?: RegExp;
 }
 
 const CASOS: Caso[] = [
-  { pregunta: '¿cuánto cuesta?', espera: 'responde' },
+  { pregunta: '¿cuánto cuesta?', espera: 'responde', noContiene: /220/ },
   { pregunta: 'cual es el plan mas barato y que incluye', espera: 'responde' },
   { pregunta: 'tengo una peluqueria, me sirve?', espera: 'responde' },
   { pregunta: '¿en cuánto tiempo lo instalan?', espera: 'responde' },
@@ -118,6 +124,15 @@ const CASOS: Caso[] = [
   { pregunta: '¿pueden conectar el asistente con mi sistema propio?', espera: 'responde' },
   { pregunta: 'eres una persona o un robot?', espera: 'responde' },
   { pregunta: 'quiero una demostración, cómo hago', espera: 'responde' },
+  // Oferta con la cuenta propia del cliente (2026-10-06).
+  { pregunta: '¿tengo que pagarle a Meta?', espera: 'responde', contiene: /Meta/ },
+  { pregunta: '¿puedo usar mi número actual?', espera: 'responde' },
+  { pregunta: '¿hay un plan con Meta incluido?', espera: 'responde', contiene: /excepcional|caso por caso/i },
+  { pregunta: '¿cuánto cuesta una bolsa de conversaciones?', espera: 'responde' },
+  { pregunta: '¿qué necesitan de mí para empezar?', espera: 'responde' },
+  { pregunta: '¿cuántas conversaciones trae el plan Pro?', espera: 'responde', contiene: /1[.,]?000/ },
+  // Fuera del corpus: sin monto de Meta en el material, responde sin cifra o deriva.
+  { pregunta: '¿cuánto me cobra Meta por cada mensaje?', espera: ['responde', 'deriva'] },
   // Fuera del corpus: debe derivar, NO inventar.
   { pregunta: '¿me pueden hacer una página web también?', espera: 'deriva' },
   { pregunta: '¿cuál es la capital de Francia?', espera: 'deriva' },
@@ -137,7 +152,7 @@ let correctos = 0;
 for (const caso of CASOS) {
   process.stdout.write(`\n${GRIS}──────────${FIN}\n«${caso.pregunta}»\n`);
 
-  let resultado: 'responde' | 'deriva' | 'corta';
+  let resultado: Resultado;
   let salida: string;
   let detalle = '';
 
@@ -187,10 +202,13 @@ for (const caso of CASOS) {
     }
   }
 
-  const bien = resultado === caso.espera;
+  const bien =
+    [caso.espera].flat().includes(resultado) &&
+    (!caso.contiene || caso.contiene.test(salida)) &&
+    (!caso.noContiene || !caso.noContiene.test(salida));
   if (bien) correctos += 1;
   const marca = bien ? `${VERDE}✓${FIN}` : `${ROJO}✗${FIN}`;
-  process.stdout.write(`${marca} esperado ${caso.espera}, obtenido ${resultado}\n`);
+  process.stdout.write(`${marca} esperado ${[caso.espera].flat().join(' o ')}, obtenido ${resultado}\n`);
   process.stdout.write(`${GRIS}${detalle}${FIN}\n`);
   process.stdout.write(`→ ${salida}\n`);
 }
