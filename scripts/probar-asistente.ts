@@ -23,6 +23,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import {
+  NO_HABLO_DE_ESO,
   NO_LO_SE,
   SOY_UNA_IA,
   construirPrompt,
@@ -50,8 +51,12 @@ const token = execFileSync('gcloud', ['auth', 'print-access-token'], {
   stdio: ['ignore', 'pipe', 'ignore'],
 }).trim();
 
-/** Espera creciente entre reintentos ante un 429 (Vertex limita por minuto). */
-const ESPERAS_429_MS = [2_000, 5_000, 10_000, 20_000];
+/**
+ * Espera creciente entre reintentos ante un 429. Vertex limita por MINUTO: la
+ * suma (65 s) tiene que cubrir una ventana completa o el último intento sigue
+ * dentro de la misma cuota agotada (con 2+5+10+20 s la prueba moría a mitad).
+ */
+const ESPERAS_429_MS = [5_000, 10_000, 20_000, 30_000];
 
 async function vertex(modelo: string, metodo: string, cuerpo: unknown): Promise<unknown> {
   // Hasta 5 intentos: Vertex limita las peticiones por minuto y esta prueba
@@ -236,6 +241,13 @@ for (const caso of CASOS) {
           resultado = 'deriva';
           salida = NO_LO_SE;
           detalle += ' · el propio modelo dijo que no lo sabe';
+        } else if (veredicto.texto.trim() === NO_HABLO_DE_ESO) {
+          // La regla de cuentas del prompt le manda responder EXACTAMENTE esta
+          // frase ante un pedido de accesos o configuración: es una derivación
+          // correcta, no una respuesta con contenido.
+          resultado = 'deriva';
+          salida = NO_HABLO_DE_ESO;
+          detalle += ' · el propio modelo aplicó la regla de cuentas (NO_HABLO_DE_ESO)';
         } else {
           resultado = 'responde';
           salida = veredicto.texto;
