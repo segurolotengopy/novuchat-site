@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  NO_HABLO_DE_ESO,
   NO_LO_SE,
   construirPrompt,
   contieneTerminoBloqueado,
@@ -110,9 +111,17 @@ describe('prompt del sistema', () => {
     expect(prompt).toContain(NO_LO_SE);
   });
 
-  it('permite explicar la cuenta de WhatsApp Business del negocio, no las credenciales', () => {
-    expect(prompt).toContain('cuenta de WhatsApp Business del negocio');
-    expect(prompt).toContain('credenciales');
+  it('permite explicar la cuenta propia del negocio y deriva lo técnico a la respuesta fija', () => {
+    expect(prompt).toContain('el negocio que contrata usa su propia cuenta de WhatsApp Business, a su nombre');
+    expect(prompt).toContain('identificadores ni configuración técnica de ninguna cuenta');
+    // La derivación es el literal de NO_HABLO_DE_ESO, interpolado: si la
+    // constante cambia, el prompt la sigue; si se rompe la interpolación, falla.
+    expect(prompt).toContain(`respondes exactamente: "${NO_HABLO_DE_ESO}"`);
+  });
+
+  it('el recordatorio final repite que no se describen accesos ni configuración de cuentas', () => {
+    const recordatorio = prompt.slice(prompt.lastIndexOf('RECORDATORIO FINAL'));
+    expect(recordatorio).toContain('nunca describes accesos, credenciales ni configuración de ninguna cuenta');
   });
 });
 
