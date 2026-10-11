@@ -37,6 +37,21 @@ seguridad:
       aprobado_por: Andres Alberdi
       creado: '2026-09-02'
       vence: '2026-12-01'
+    - id: CVE-2026-93748
+      herramienta: trivy
+      componente: novuchat-site
+      justificacion: >-
+        http-cache-semantics@4.2.0 llega por astro@7.2.10 (pnpm why lo confirma)
+        y su aviso no tiene versión corregida. Solo se usa en el build, para la
+        caché HTTP de imágenes remotas de Astro, y el sitio no carga ninguna
+        imagen remota (prohibición 3 de CLAUDE.md): el código afectado no se
+        ejercita. No viaja al navegador ni a las Functions. Registrada por Claude
+        Code el 2026-10-11 por instrucción de Andres de publicar v0.5.0, con
+        vencimiento corto; se revisa cuando astro publique un rango con la
+        corrección.
+      aprobado_por: Andres Alberdi
+      creado: '2026-10-11'
+      vence: '2027-01-09'
     - id: CKV_GHA_7
       herramienta: checkov
       componente: novuchat-site
