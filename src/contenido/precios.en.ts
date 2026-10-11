@@ -23,14 +23,21 @@ const instalacion: Instalacion = {
 const bolsas: Bolsa[] = [{ conversaciones: 300, precioUsd: 15 }];
 
 // Marked "Coming soon": the platform does not sell it or count those messages
-// yet (prohibition 8 of CLAUDE.md). No Meta figures: it only says Meta charges separately.
+// yet (prohibition 8 of CLAUDE.md). Removing the label means setting
+// `proximamente: false` and reindexing. The 48-hour rules and the notice live
+// ONLY here (see `BolsaSeguimiento`). No Meta figures: it only says Meta charges separately.
 const bolsaSeguimiento: BolsaSeguimiento = {
   titulo: 'Follow-up message bundle',
   mensajes: 300,
   precioUsd: 10,
   proximamente: true,
-  texto:
-    "It covers the messages your business sends more than 48 hours after the customer's last message, for example a follow-up a week later. A follow-up sent within 48 hours goes inside the customer's conversation and is not billed separately, even if the customer replies. Plans do not include follow-up messages beyond 48 hours; they are bought with the bundle. Only with your own WhatsApp Business account. In addition, Meta charges each of those messages as a marketing template in your account. It is not available yet.",
+  descripcion:
+    "It covers the messages your business sends more than 48 hours after the customer's last message, for example a follow-up a week later. Those messages are bought with this bundle, only with your own WhatsApp Business account. In addition, Meta charges each of those messages as a marketing template in your account.",
+  reglas: [
+    "A follow-up sent within 48 hours goes inside the customer's conversation and is not billed separately, even if the customer replies.",
+    'Plans do not include follow-up messages beyond 48 hours.',
+  ],
+  avisoProximamente: 'The follow-up bundle is not available yet, it is an upcoming feature.',
 };
 
 const bolsasResumen = bolsas
@@ -39,7 +46,8 @@ const bolsasResumen = bolsas
   .replace(/, ([^,]+)$/, ' or $1');
 
 // Variant without free allowances or figures (Andres's decision, 2026-10-06; see ESTADO finding 61).
-// It is the ONLY sentence on the site about what Meta charges.
+// It is the ONLY sentence on the site about what Meta charges, except for the
+// figure-free mention of the marketing template in `bolsaSeguimiento.descripcion`.
 const mensajeriaMeta =
   "Meta charges for messaging per message, under its current rates. The amount depends on how many messages are sent and of which type; you can check the current rates on Meta's website.";
 
@@ -226,8 +234,10 @@ export const pricing: Precios = {
       },
       {
         termino: 'Follow-up message',
-        definicion:
-          "A message your business sends more than 48 hours after the customer's last message. Plans do not include it: it is bought with the follow-up bundle, which is not available yet.",
+        // Getter on purpose: derived from `bolsaSeguimiento` on every read (see precios.es.ts).
+        get definicion() {
+          return `A message your business sends more than 48 hours after the customer's last message. ${bolsaSeguimiento.reglas[1]}${bolsaSeguimiento.proximamente ? ` ${bolsaSeguimiento.avisoProximamente}` : ''}`;
+        },
       },
     ],
   },

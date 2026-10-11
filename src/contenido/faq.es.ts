@@ -61,13 +61,20 @@ export const preguntas: Pregunta[] = [
   },
   {
     pregunta: '¿Qué es una bolsa de conversaciones?',
-    respuesta:
-      `Es un paquete de conversaciones adicionales para cuando superas las de tu plan: ${precios.bolsasResumen}. Las bolsas no vencen. Te avisamos al llegar al 80 % de tu plan para que decidas si te conviene una bolsa o subir de nivel, y nunca se cobra una bolsa sin que la apruebes. La mensajería de esas conversaciones la sigues pagando directamente a Meta. Próximamente habrá también una bolsa de mensajes de seguimiento: ${precios.bolsaSeguimiento.mensajes} mensajes por USD ${precios.bolsaSeguimiento.precioUsd}.`,
+    // Getters a propósito (esta y la siguiente): se derivan de `precios` en cada
+    // lectura, así `bolsaSeguimiento.proximamente` es la ÚNICA fuente del aviso y
+    // una prueba puede simularlo en `false` sin reescribir el archivo.
+    get respuesta() {
+      const seg = precios.bolsaSeguimiento;
+      return `Es un paquete de conversaciones adicionales para cuando superas las de tu plan: ${precios.bolsasResumen}. Las bolsas no vencen. Te avisamos al llegar al 80 % de tu plan para que decidas si te conviene una bolsa o subir de nivel, y nunca se cobra una bolsa sin que la apruebes. La mensajería de esas conversaciones la sigues pagando directamente a Meta. ${seg.proximamente ? 'Próximamente habrá también' : 'Hay también'} una bolsa de mensajes de seguimiento: ${seg.mensajes} mensajes por USD ${seg.precioUsd}.`;
+    },
   },
   {
     pregunta: '¿Puedo mandar mensajes de seguimiento a mis clientes después de varios días?',
-    respuesta:
-      `Todavía no está disponible: es una función próxima. Cuando esté, serán mensajes que tu negocio envía más de 48 horas después del último mensaje de su cliente, por ejemplo un seguimiento a la semana, y se comprarán con una bolsa de ${precios.bolsaSeguimiento.mensajes} mensajes por USD ${precios.bolsaSeguimiento.precioUsd}, solo con tu propia cuenta de WhatsApp Business. Un seguimiento enviado dentro de las 48 horas va dentro de la conversación del cliente y no se cobra aparte, aunque el cliente responda. Los planes no incluyen mensajes de seguimiento fuera de las 48 horas. Además, Meta cobra cada uno de esos mensajes como plantilla de marketing en tu cuenta.`,
+    get respuesta() {
+      const seg = precios.bolsaSeguimiento;
+      return `${seg.proximamente ? `${seg.avisoProximamente} ` : ''}Los mensajes de seguimiento se compran con una bolsa de ${seg.mensajes} mensajes por USD ${seg.precioUsd}. ${seg.descripcion} ${seg.reglas.join(' ')}`;
+    },
   },
   {
     pregunta: '¿Dónde están mis datos?',

@@ -75,17 +75,30 @@ export interface Bolsa {
 
 /**
  * Bolsa de mensajes de seguimiento: los que el negocio ENVÍA más de 48 horas
- * después del último mensaje de su cliente. No vence. En dólares. Solo con la
- * cuenta propia del cliente. `proximamente: true` mientras la plataforma no la
- * venda ni cuente esos mensajes (prohibición 8 de CLAUDE.md).
+ * después del último mensaje de su cliente. En dólares. Solo con la cuenta
+ * propia del cliente. `proximamente: true` mientras la plataforma no la venda
+ * ni cuente esos mensajes (prohibición 8 de CLAUDE.md).
+ *
+ * FUENTE ÚNICA: las reglas de las 48 horas viven SOLO en `reglas`, y la
+ * disponibilidad SOLO en `proximamente`. La tarjeta, la FAQ, `/terminos`, el
+ * glosario y el corpus las interpolan; ninguno las reescribe. Quitar el rótulo
+ * es poner `proximamente: false` y reindexar.
  */
 export interface BolsaSeguimiento {
   titulo: string;
   mensajes: number;
   precioUsd: number;
   proximamente: boolean;
-  /** La regla de las 48 horas y lo que cobra Meta aparte, sin cifras de Meta. */
-  texto: string;
+  /**
+   * Qué cubre y sus condiciones (solo con la cuenta propia; Meta cobra cada
+   * mensaje aparte como plantilla de marketing, sin cifras de Meta). No lleva
+   * las reglas de las 48 horas ni el aviso de disponibilidad.
+   */
+  descripcion: string;
+  /** Las dos reglas de las 48 horas, literales, cada una una oración completa. */
+  reglas: string[];
+  /** Aviso de disponibilidad. Se muestra SOLO mientras `proximamente` sea true. */
+  avisoProximamente: string;
 }
 
 /**
@@ -113,7 +126,11 @@ export interface Precios {
   notaMeta: string;
   /** Pie oficial de la oferta (decisión de Andres, 2026-10-06). */
   pie: string;
-  /** ÚNICA frase del sitio sobre lo que cobra Meta. Ningún otro monto de Meta. */
+  /**
+   * ÚNICA frase del sitio sobre lo que cobra Meta, salvo una excepción: la
+   * descripción de la bolsa de seguimiento dice que Meta cobra cada mensaje como
+   * plantilla de marketing, sin cifras. Ningún otro monto de Meta.
+   */
   mensajeriaMeta: string;
   quePagas: { titulo: string; items: { aQuien: string; que: string }[] };
   queNecesitamos: { titulo: string; items: string[] };

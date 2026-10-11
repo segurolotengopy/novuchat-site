@@ -313,8 +313,68 @@ describe('corpus derivado del sitio', () => {
     expect(f!.texto).toContain('plantilla de marketing');
     // La frase de Meta no lleva cifras: solo se dice que Meta cobra aparte.
     expect(f!.texto).not.toMatch(/\$|\bBs\b|centavo/i);
+    // Los únicos montos del fragmento son los de la bolsa: ninguna cifra de Meta.
+    expect(f!.texto.match(/USD\s?\d+(?:[.,]\d+)*/g)).toEqual([`USD ${precios.bolsaSeguimiento.precioUsd}`]);
     // Y no se presenta como contratable hoy.
     expect(f!.texto).not.toMatch(/ya puedes (comprar|contratar)/i);
+  });
+
+  // Los fragmentos que hablan de la bolsa de seguimiento: se reconocen por la
+  // palabra y por su monto, no por el id, para que una FAQ o el glosario nuevos
+  // que la mencionen queden cubiertos sin tocar la prueba.
+  const hablaDeLaBolsaDeSeguimiento = (c = corpus) =>
+    c.filter((x) => /seguimiento/i.test(x.texto) && /USD 10\b/.test(x.texto) && x.id !== 'opcion-excepcional').map((x) => x.id);
+
+  it('todo fragmento que ofrece la bolsa de seguimiento dice que es próxima mientras lo sea', () => {
+    expect(precios.bolsaSeguimiento.proximamente).toBe(true);
+    const ids = hablaDeLaBolsaDeSeguimiento();
+    // La prueba no está muda: la bolsa vive al menos en su fragmento y en la FAQ.
+    expect(ids).toEqual(expect.arrayContaining(['bolsa-seguimiento']));
+    expect(ids.length).toBeGreaterThanOrEqual(3);
+    for (const f of corpus.filter((x) => ids.includes(x.id))) {
+      expect(f.texto, `${f.id} ofrece la bolsa de seguimiento sin decir que es próxima`).toMatch(
+        /todavía no|próxim/i,
+      );
+    }
+  });
+
+  it('con `proximamente` en false ningún texto del corpus dice «no disponible» ni «próxima» para la bolsa de seguimiento', () => {
+    const seg = precios.bolsaSeguimiento;
+    const antes = seg.proximamente;
+    try {
+      // Copia en memoria: se simula el día en que la plataforma ya la vende. El
+      // contenido deriva el aviso de la bandera (FAQ y glosario, por getters).
+      seg.proximamente = false;
+      const simulado = construirCorpus();
+      // Aquí basta la palabra «seguimiento» (sin exigir el monto): así entra también
+      // el glosario, que define el término pero no cita USD 10.
+      const ids = simulado.filter((x) => /seguimiento/i.test(x.texto)).map((x) => x.id);
+      expect(ids, 'el corpus simulado perdió el glosario').toContain('como-se-cuenta');
+      expect(ids, 'el corpus simulado perdió el fragmento de la bolsa').toContain('bolsa-seguimiento');
+      for (const f of simulado.filter((x) => ids.includes(x.id))) {
+        expect(f.texto, `${f.id} sigue diciendo que no está disponible`).not.toMatch(
+          /todavía no está disponible|próxima|próximamente/i,
+        );
+      }
+    } finally {
+      seg.proximamente = antes;
+    }
+    expect(seg.proximamente).toBe(true);
+  });
+
+  it('las reglas de las 48 horas salen de `reglas` en cada texto que las dice', () => {
+    const { reglas } = precios.bolsaSeguimiento;
+    expect(reglas).toHaveLength(2);
+    const texto = (id: string) => corpus.find((x) => x.id === id)!.texto;
+    // El fragmento de la bolsa y la FAQ de seguimiento traen las dos, literales.
+    const idFaq = corpus.find((x) => x.id.startsWith('faq-') && /mensajes de seguimiento/i.test(x.titulo))!.id;
+    for (const id of ['bolsa-seguimiento', idFaq]) {
+      for (const regla of reglas) {
+        expect(texto(id), `${id} no trae la regla literal «${regla}»`).toContain(regla);
+      }
+    }
+    // El glosario (acotado por el tope de longitud) trae la de los planes.
+    expect(texto('como-se-cuenta'), 'el glosario no trae la regla de los planes').toContain(reglas[1]);
   });
 
   it('ningún fragmento usa el vocabulario que el sitio no publica', () => {

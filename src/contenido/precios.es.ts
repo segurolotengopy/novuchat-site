@@ -27,15 +27,22 @@ const instalacion: Instalacion = {
 const bolsas: Bolsa[] = [{ conversaciones: 300, precioUsd: 15 }];
 
 // Rotulada «Próximamente»: la plataforma todavía no la vende ni cuenta esos
-// mensajes (prohibición 8 de CLAUDE.md). Quitar `proximamente` exige que esté
-// construida. Sin cifras de Meta: solo se dice que Meta cobra aparte.
+// mensajes (prohibición 8 de CLAUDE.md). Quitar el rótulo es poner
+// `proximamente: false` y reindexar; exige que esté construida. Las reglas de
+// las 48 horas y el aviso viven SOLO aquí (ver `BolsaSeguimiento`). Sin cifras
+// de Meta: solo se dice que Meta cobra aparte.
 const bolsaSeguimiento: BolsaSeguimiento = {
   titulo: 'Bolsa de mensajes de seguimiento',
   mensajes: 300,
   precioUsd: 10,
   proximamente: true,
-  texto:
-    'Sirve para los mensajes que tu negocio envía más de 48 horas después del último mensaje de su cliente, por ejemplo un seguimiento a la semana. Un seguimiento enviado dentro de las 48 horas va dentro de la conversación del cliente y no se cobra aparte, aunque el cliente responda. Los planes no incluyen mensajes de seguimiento fuera de las 48 horas; se compran con la bolsa. Solo con tu propia cuenta de WhatsApp Business. Además, Meta cobra cada uno de esos mensajes como plantilla de marketing en tu cuenta. Todavía no está disponible.',
+  descripcion:
+    'Sirve para los mensajes que tu negocio envía más de 48 horas después del último mensaje de su cliente, por ejemplo un seguimiento a la semana. Esos mensajes se compran con esta bolsa, solo con tu propia cuenta de WhatsApp Business. Además, Meta cobra cada uno de esos mensajes como plantilla de marketing en tu cuenta.',
+  reglas: [
+    'Un seguimiento enviado dentro de las 48 horas va dentro de la conversación del cliente y no se cobra aparte, aunque el cliente responda.',
+    'Los planes no incluyen mensajes de seguimiento fuera de las 48 horas.',
+  ],
+  avisoProximamente: 'La bolsa de seguimiento todavía no está disponible, es una función próxima.',
 };
 
 const bolsasResumen = bolsas
@@ -44,7 +51,8 @@ const bolsasResumen = bolsas
   .replace(/, ([^,]+)$/, ' o $1');
 
 // Variante sin gratuidades ni cifras (decisión de Andres 2026-10-06, ver ESTADO hallazgo 61). Las fuentes sobre la tarifa de Meta discrepan y
-// Andres elige. Es la ÚNICA frase del sitio sobre lo que cobra Meta.
+// Andres elige. Es la ÚNICA frase del sitio sobre lo que cobra Meta, salvo la
+// mención sin cifras de la plantilla de marketing en `bolsaSeguimiento.descripcion`.
 const mensajeriaMeta =
   'Meta cobra la mensajería por mensaje, según su tarifa vigente. El monto depende de cuántos mensajes se envían y de qué tipo son; puedes consultar la tarifa actual en el sitio de Meta.';
 
@@ -245,8 +253,12 @@ export const precios: Precios = {
       },
       {
         termino: 'Mensaje de seguimiento',
-        definicion:
-          'Un mensaje que tu negocio envía más de 48 horas después del último mensaje de su cliente. No va en los planes: se compra con la bolsa de seguimiento, que todavía no está disponible.',
+        // Getter a propósito: se deriva de `bolsaSeguimiento` en cada lectura, así
+        // `proximamente` es la ÚNICA fuente del aviso y una prueba puede simularlo
+        // en `false` sin reescribir el archivo (`pruebas/unidad/rag.test.ts`).
+        get definicion() {
+          return `Un mensaje que tu negocio envía más de 48 horas después del último mensaje de su cliente. ${bolsaSeguimiento.reglas[1]}${bolsaSeguimiento.proximamente ? ` ${bolsaSeguimiento.avisoProximamente}` : ''}`;
+        },
       },
     ],
   },

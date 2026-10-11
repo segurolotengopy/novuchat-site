@@ -37,8 +37,13 @@ describe('paridad numérica entre precios.es y precios.en', () => {
 
   it('la bolsa de seguimiento coincide en mensajes, precio y rótulo de próxima', () => {
     expect(datosSeguimiento(pricing)).toEqual(datosSeguimiento(precios));
-    // La regla de las 48 horas lleva la misma cifra en ambos idiomas.
-    expect(pricing.bolsaSeguimiento.texto.match(/\d+/g)).toEqual(precios.bolsaSeguimiento.texto.match(/\d+/g));
+    // La descripción y las reglas de las 48 horas llevan las mismas cifras en ambos idiomas.
+    const cifras = (t: typeof precios) => [
+      t.bolsaSeguimiento.descripcion.match(/\d+/g),
+      ...t.bolsaSeguimiento.reglas.map((r) => r.match(/\d+/g)),
+    ];
+    expect(cifras(pricing)).toEqual(cifras(precios));
+    expect(pricing.bolsaSeguimiento.reglas).toHaveLength(precios.bolsaSeguimiento.reglas.length);
   });
 
   it('la opción excepcional coincide en conversaciones y bolsa', () => {
@@ -64,5 +69,9 @@ describe('paridad numérica entre precios.es y precios.en', () => {
     expect(resumen(copia)).not.toEqual(resumen(precios));
     copia.bolsaSeguimiento.precioUsd = 11;
     expect(datosSeguimiento(copia)).not.toEqual(datosSeguimiento(precios));
+    copia.bolsaSeguimiento.reglas[1] = copia.bolsaSeguimiento.reglas[1]!.replace('48', '72');
+    expect(copia.bolsaSeguimiento.reglas.map((r) => r.match(/\d+/g))).not.toEqual(
+      precios.bolsaSeguimiento.reglas.map((r) => r.match(/\d+/g)),
+    );
   });
 });

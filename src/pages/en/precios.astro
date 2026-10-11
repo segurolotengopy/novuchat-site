@@ -127,7 +127,9 @@ const { planes, instalacion, bolsas, bolsasTexto, bolsaSeguimiento, excepcional,
           <p data-bolsa-seguimiento>
             {bolsaSeguimiento.mensajes} messages for USD {bolsaSeguimiento.precioUsd}
           </p>
-          <p class="card-body">{bolsaSeguimiento.texto}</p>
+          <p class="card-body">{bolsaSeguimiento.descripcion}</p>
+          <ul class="plan-lista">{bolsaSeguimiento.reglas.map((r) => <li>{r}</li>)}</ul>
+          {bolsaSeguimiento.proximamente && <p class="card-body">{bolsaSeguimiento.avisoProximamente}</p>}
         </article>
 
         <article class="card elev-sm">
