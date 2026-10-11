@@ -179,7 +179,7 @@ const CASOS: Caso[] = [
     espera: 'responde',
     contiene: /próxim|todavía no|no está disponible/i,
     // Que no la presente como contratable hoy.
-    noContiene: /ya (puedes|está disponible)|puedes (comprar|contratar)(la|lo)?|disponible hoy/i,
+    noContiene: /ya (puedes|está disponible)|puedes (comprar|contratar)(la|lo)?|disponible hoy|^\s*s[ií]\s*[,.:;]/i,
   },
   { pregunta: '¿qué necesitan de mí para empezar?', espera: 'responde' },
   { pregunta: '¿cuántas conversaciones trae el plan Pro?', espera: 'responde', contiene: /1[.,]?000/ },

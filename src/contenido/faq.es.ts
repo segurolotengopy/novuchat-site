@@ -73,7 +73,7 @@ export const preguntas: Pregunta[] = [
     pregunta: '¿Puedo mandar mensajes de seguimiento a mis clientes después de varios días?',
     get respuesta() {
       const seg = precios.bolsaSeguimiento;
-      return `${seg.proximamente ? `${seg.avisoProximamente} ` : ''}Los mensajes de seguimiento se compran con una bolsa de ${seg.mensajes} mensajes por USD ${seg.precioUsd}. ${seg.descripcion} ${seg.reglas.join(' ')}`;
+      return `${seg.proximamente ? `Todavía no. ${seg.avisoProximamente} ` : ''}Los mensajes de seguimiento se compran con una bolsa de ${seg.mensajes} mensajes por USD ${seg.precioUsd}. ${seg.descripcion} ${seg.reglas.join(' ')}`;
     },
   },
   {
