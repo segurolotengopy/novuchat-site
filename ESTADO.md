@@ -563,8 +563,8 @@ que alguien lo reporte como una diferencia.
 - *Oferta con cuenta propia (`v0.5.0`, publicada):* **avisar la huella del
   índice vigente a la sesión de la plataforma** (la captación de WhatsApp
   copia el corpus) y comprobar que la plataforma aplica los topes
-  200 / 500 / 1.000 y la bolsa de 300 conversaciones por USD 15 que el sitio ya
-  promete (`v0.5.1`); la bolsa de mensajes de seguimiento (300 por USD 10) sale
+  200 / 500 / 1.000 y la bolsa de 300 conversaciones por USD 15 que el sitio
+  prometerá en `v0.5.1`; la bolsa de mensajes de seguimiento (300 por USD 10) sale
   como «Próximamente» hasta que la plataforma la venda y cuente esos mensajes.
 - *Dependencias:* resueltas en `v0.5.0` (`proxy-addr`, `devalue`,
   `source-map-js`, `sharp`, `http-cache-semantics`), sin excepciones nuevas. Queda `braces` (osv-scanner, sin versión corregida): ni Trivy ni
@@ -631,15 +631,33 @@ que alguien lo reporte como una diferencia.
    igual con cuenta propia, porque la mensajería la paga el negocio a Meta:
    decidir si se reescribe o se acota a la opción excepcional; (b) la opción
    excepcional en inglés (`/en/precios`): confirmar si se mantiene.
-0 bis. *Bolsas de `v0.5.1`, dos decisiones:* (a) la regla de **48 horas** del
+0 bis. *Bolsas de `v0.5.1`, decisiones pendientes:* (a) la regla de **48 horas** del
    seguimiento convive con la definición de conversación en **24 horas
    continuas**: confirmar la redacción pública, porque hoy un mismo cliente
    tiene dos relojes (24 h para contar una conversación, 48 h para saber si un
    mensaje del negocio es un seguimiento) y un lector atento puede preguntar
    qué pasa entre la hora 24 y la 48; (b) **cuándo quitar el rótulo
    «Próximamente»** de la bolsa de seguimiento: cuando la plataforma la venda y
-   cuente esos mensajes (es `proximamente: false` en `precios.es.ts` y
-   `precios.en.ts`, más el reindexado del corpus).
+   cuente esos mensajes. Quitarlo es poner `proximamente: false` en
+   `precios.es.ts` y `precios.en.ts` y reindexar el corpus: el aviso y las
+   reglas de las 48 horas viven solo en `bolsaSeguimiento` (`reglas`,
+   `avisoProximamente`) y la tarjeta, la FAQ, `/terminos`, el glosario y el
+   corpus los derivan de ahí, así que no queda ningún otro literal que
+   cambiar (una prueba simula el `false` y exige que ningún texto diga «no
+   disponible»); (c) **recordatorios de cita:** el glosario «Mensaje de
+   seguimiento» y «los planes no incluyen mensajes de seguimiento fuera de las
+   48 horas» chocan en teoría con el recordatorio de 24 h antes de la cita (una
+   cita agendada con una semana de anticipación: el recordatorio sale más de
+   48 h después del último mensaje del cliente). Decidir si los recordatorios de
+   cita quedan fuera de la regla y, si es así, decirlo; (d) **«no se cobra
+   aparte»:** la regla del seguimiento dentro de las 48 horas debe decir de
+   forma explícita que lo que no se cobra aparte es lo de NovuChat, porque Meta
+   puede cobrar su plantilla entre las 24 y las 48 horas; redacción pendiente
+   de Andres. *Para el abogado, junto con la revisión de `/terminos`:* (e) el §3
+   anuncia el precio de una bolsa que todavía no se vende, y afirma cómo
+   clasifica Meta el mensaje («plantilla de marketing»; podría ser de
+   utilidad); (f) la fecha «actualizada» de `/terminos` no se tocó en esta
+   rama: se fija el día del pase.
 1. Reemplazar la identidad legal provisional por el NIT propio de NovuChat
    cuando salga (`src/contenido/pendientes.ts`, dos valores).
 2. ID del píxel de Meta; confirmar zona horaria La Paz y moneda BOB en GA4.
