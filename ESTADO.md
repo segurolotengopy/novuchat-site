@@ -78,6 +78,7 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | 2026-10-11 | **Se publica la oferta con cuenta propia (`v0.5.0`, acta en `docs/produccion/acta-v0.5.0.md`)** y se vacía `PENDIENTES`. Cierre de los siete: (1) `plataforma-limites-y-bolsas`: manda la oferta y la plataforma se alinea a ella; (2) `frase-mensajeria-meta`: se publica la variante sin gratuidades ni cifras; (3) `numeros-de-whatsapp`: Andres confirmó los roles (+591 76988663 asistente de IA, +591 70661250 Silvana) y el reparto publicado; (4) `terminos-revision-legal`, (5) `privacidad-whatsapp-asistente`, (6) `alcance-instalacion` y (7) `numero-actual-aplicacion` se publican **sin revisión externa** y quedan como riesgos aceptados por Andres (ver «De Andres») | Instrucción de Andres: «el sitio tiene que prometer lo que ofertamos». La compuerta `listo` se vació por esa instrucción, no porque los siete estuvieran resueltos de fondo |
 | 2026-10-11 | **`fix(deps)` en el mismo pase:** `proxy-addr` 2.0.7 → 2.0.8 (CRITICAL, en `functions/`), `devalue` → 5.9.4, `source-map-js` → 1.2.2, `sharp` → 0.35.5 (con sus binarios de libvips) y `http-cache-semantics` 4.2.0 → 4.3.0. **Sin excepciones nuevas**: Trivy decía que `http-cache-semantics` no tenía versión corregida, pero `pnpm audit` del CI sí la conocía (4.3.0, dentro del rango); se registró una excepción por error y se retiró antes de fusionar | Los avisos nuevos del 2026-10-01/05 hacían fallar `compuerta-pr` de cualquier PR. `package.json` no cambió; solo los lockfiles. `package.json` no cambió; solo los lockfiles. Lección: cuando dos herramientas discrepan sobre si hay versión corregida, probar `pnpm update <paquete> --depth Infinity` antes de pedir una excepción |
 | 2026-10-11 | **Bolsas públicas (`v0.5.1`, en preparación):** las tres bolsas de conversaciones (50 por USD 10, 100 por USD 20, 300 por USD 40) se **reemplazan por dos**: (1) **300 conversaciones por USD 15**, no vence, aviso al 80 % del plan, nunca se cobra sin aprobación (disponible: se registra como pago manual); (2) **300 mensajes de seguimiento por USD 10**, para lo que el negocio envía más de 48 horas después del último mensaje de su cliente, solo con la cuenta propia (no en la opción excepcional), con la aclaración de que Meta cobra cada mensaje aparte como plantilla de marketing (sin cifras de Meta). Reglas: un seguimiento dentro de las 48 horas va dentro de la conversación del cliente y no se cobra aparte, aunque responda; los planes no incluyen seguimientos fuera de las 48 horas. **La de seguimiento va rotulada «Próximamente»** (`bolsaSeguimiento.proximamente`, tag `tag-proximamente`, y en el corpus «todavía no está disponible, es una función próxima»). No cambian los planes, la opción excepcional (bolsa de 30 por USD 10), la frase de Meta, el pie ni los contactos. El corpus pasa de 46 a 48 fragmentos (`bolsa-seguimiento` y la pregunta nueva de la FAQ sobre seguimiento) y el índice se regenera | Decisión de Andres en el chat del sitio (fuente: `NovuChat/Analisis/50` §3). Se rotula «Próximamente» por la prohibición 8: **la plataforma todavía no vende esa bolsa ni cuenta esos mensajes**, y el sitio no puede publicar como disponible lo que el servidor no cumple. La bolsa de 300 por USD 15 se anuncia como disponible porque la decisión así lo indica; que el servidor la acredite y respete el aviso al 80 % se confirma con la sesión de la plataforma |
+| 2026-10-11 | **Cuatro decisiones de Andres sobre `v0.5.1`** (aceptó las recomendaciones): (1) el sitio se publica en la ventana de la **noche del 15 al 16/10** (23:30–01:30), junto con la etiqueta del servidor; (2) la frase del celular va en esta versión, con la redacción de WAM sin «API»; (3) los recordatorios de cita quedan fuera de la regla de las 48 horas; (4) la regla dice «NovuChat no lo cobra aparte» | Evita que el sitio venda algo que el servidor aún no cuenta; cierra el riesgo aceptado (iii); y elimina la contradicción entre el glosario y los recordatorios que los planes ya incluyen. El tope de cordura de los fragmentos del corpus subió de 2000 a 2200 caracteres porque el glosario de `como-se-cuenta` suma la tercera regla |
 | 2026-09-02 | **Vertex AI en vez de la API de AI Studio** | La API de AI Studio se paga con créditos de prepago que se agotan aparte; Vertex cobra a la cuenta de facturación del proyecto, que ya tiene presupuesto y alertas. Y no necesita clave: se autentica con la cuenta de servicio. Un secreto que no existe no se filtra |
 
 ---
@@ -620,10 +621,9 @@ que alguien lo reporte como una diferencia.
    tope sin bolsa, a nombre de quién queda el número de la opción excepcional,
    si Meta suspende la cuenta, baja y desconexión del número; (ii) `/privacidad`
    no declara el WhatsApp del asistente de NovuChat (+591 76988663), donde
-   NovuChat es responsable del tratamiento; (iii) la FAQ dice que un número
-   conectado al asistente deja de poder usarse desde la aplicación del
-   celular: confirmarlo con la plataforma, porque la coexistencia de Meta
-   podría cambiarlo; (iv) alcance de la instalación (conexión del número y
+   NovuChat es responsable del tratamiento; (iii) ~~la FAQ dice que un número conectado deja de usarse desde la
+   aplicación del celular~~: **cerrado el 2026-10-11** con la redacción de WAM
+   (sin «API», sin prometer coexistencia), publicada en `v0.5.1`; (iv) alcance de la instalación (conexión del número y
    acompañamiento en la verificación ante Meta) y si la opción excepcional
    cuesta USD 65; (v) la frase de Meta no lleva cifras: si quieres cifras,
    elige y se agregan. Además, dos decisiones: (a) la
@@ -644,20 +644,15 @@ que alguien lo reporte como una diferencia.
    `avisoProximamente`) y la tarjeta, la FAQ, `/terminos`, el glosario y el
    corpus los derivan de ahí, así que no queda ningún otro literal que
    cambiar (una prueba simula el `false` y exige que ningún texto diga «no
-   disponible»); (c) **recordatorios de cita:** el glosario «Mensaje de
-   seguimiento» y «los planes no incluyen mensajes de seguimiento fuera de las
-   48 horas» chocan en teoría con el recordatorio de 24 h antes de la cita (una
-   cita agendada con una semana de anticipación: el recordatorio sale más de
-   48 h después del último mensaje del cliente). Decidir si los recordatorios de
-   cita quedan fuera de la regla y, si es así, decirlo; (d) **«no se cobra
-   aparte»:** la regla del seguimiento dentro de las 48 horas debe decir de
-   forma explícita que lo que no se cobra aparte es lo de NovuChat, porque Meta
-   puede cobrar su plantilla entre las 24 y las 48 horas; redacción pendiente
-   de Andres. *Para el abogado, junto con la revisión de `/terminos`:* (e) el §3
+   disponible»); (c) **recordatorios de cita:** **decidido el 2026-10-11** (recomendación aceptada): quedan
+   fuera de la regla, incluidos en el plan; es la tercera regla de
+   `bolsaSeguimiento.reglas` y el glosario la dice; (d) **«no se cobra
+   aparte»:** **decidido el 2026-10-11**: la regla dice «NovuChat no lo cobra
+   aparte», porque Meta puede cobrar su plantilla igual. *Para el abogado, junto con la revisión de `/terminos`:* (e) el §3
    anuncia el precio de una bolsa que todavía no se vende, y afirma cómo
    clasifica Meta el mensaje («plantilla de marketing»; podría ser de
-   utilidad); (f) la fecha «actualizada» de `/terminos` no se tocó en esta
-   rama: se fija el día del pase.
+   utilidad); (f) la fecha «actualizada» de `/terminos` quedó en el **16 de octubre
+   de 2026**, la del pase previsto; si el pase se mueve, corregirla.
 1. Reemplazar la identidad legal provisional por el NIT propio de NovuChat
    cuando salga (`src/contenido/pendientes.ts`, dos valores).
 2. ID del píxel de Meta; confirmar zona horaria La Paz y moneda BOB en GA4.

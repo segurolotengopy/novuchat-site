@@ -137,7 +137,10 @@ describe('corpus derivado del sitio', () => {
   it('ningún fragmento queda vacío ni desmesurado', () => {
     for (const f of corpus) {
       expect(f.texto.trim().length, f.id).toBeGreaterThan(40);
-      expect(f.texto.length, f.id).toBeLessThan(2000);
+      // Guarda de cordura, no un límite del modelo de embeddings: 2200 caracteres son
+      // unos 550 tokens. Se subió de 2000 el 2026-10-11 porque el glosario de
+      // `como-se-cuenta` suma la regla de los recordatorios de cita.
+      expect(f.texto.length, f.id).toBeLessThan(2200);
     }
   });
 
@@ -309,7 +312,7 @@ describe('corpus derivado del sitio', () => {
     // Misma advertencia que las prestaciones próximas de los planes (prohibición 8).
     expect(f!.texto).toContain('todavía no está disponible, es una función próxima');
     expect(f!.texto).toContain('48 horas');
-    expect(f!.texto).toContain('no se cobra aparte');
+    expect(f!.texto).toContain('NovuChat no lo cobra aparte');
     expect(f!.texto).toContain('plantilla de marketing');
     // La frase de Meta no lleva cifras: solo se dice que Meta cobra aparte.
     expect(f!.texto).not.toMatch(/\$|\bBs\b|centavo/i);
@@ -364,7 +367,7 @@ describe('corpus derivado del sitio', () => {
 
   it('las reglas de las 48 horas salen de `reglas` en cada texto que las dice', () => {
     const { reglas } = precios.bolsaSeguimiento;
-    expect(reglas).toHaveLength(2);
+    expect(reglas).toHaveLength(3);
     const texto = (id: string) => corpus.find((x) => x.id === id)!.texto;
     // El fragmento de la bolsa y la FAQ de seguimiento traen las dos, literales.
     const idFaq = corpus.find((x) => x.id.startsWith('faq-') && /mensajes de seguimiento/i.test(x.titulo))!.id;
@@ -375,6 +378,7 @@ describe('corpus derivado del sitio', () => {
     }
     // El glosario (acotado por el tope de longitud) trae la de los planes.
     expect(texto('como-se-cuenta'), 'el glosario no trae la regla de los planes').toContain(reglas[1]);
+    expect(texto('como-se-cuenta'), 'el glosario no trae la regla de los recordatorios').toContain(reglas[2]);
   });
 
   it('ningún fragmento usa el vocabulario que el sitio no publica', () => {

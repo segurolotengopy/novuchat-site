@@ -95,7 +95,7 @@ export interface BolsaSeguimiento {
    * las reglas de las 48 horas ni el aviso de disponibilidad.
    */
   descripcion: string;
-  /** Las dos reglas de las 48 horas, literales, cada una una oración completa. */
+  /** Las reglas del seguimiento (48 horas, planes y recordatorios de cita), literales, cada una una oración completa. */
   reglas: string[];
   /** Aviso de disponibilidad. Se muestra SOLO mientras `proximamente` sea true. */
   avisoProximamente: string;

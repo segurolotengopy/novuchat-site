@@ -34,8 +34,9 @@ const bolsaSeguimiento: BolsaSeguimiento = {
   descripcion:
     "It covers the messages your business sends more than 48 hours after the customer's last message, for example a follow-up a week later. Those messages are bought with this bundle, only with your own WhatsApp Business account. In addition, Meta charges each of those messages as a marketing template in your account.",
   reglas: [
-    "A follow-up sent within 48 hours goes inside the customer's conversation and is not billed separately, even if the customer replies.",
+    "A follow-up sent within 48 hours goes inside the customer's conversation and NovuChat does not bill it separately, even if the customer replies.",
     'Plans do not include follow-up messages beyond 48 hours.',
+    'The appointment reminders already included in your plan do not count as follow-up messages.',
   ],
   avisoProximamente: 'The follow-up bundle is not available yet, it is an upcoming feature.',
 };
@@ -236,7 +237,7 @@ export const pricing: Precios = {
         termino: 'Follow-up message',
         // Getter on purpose: derived from `bolsaSeguimiento` on every read (see precios.es.ts).
         get definicion() {
-          return `A message your business sends more than 48 hours after the customer's last message. ${bolsaSeguimiento.reglas[1]}${bolsaSeguimiento.proximamente ? ` ${bolsaSeguimiento.avisoProximamente}` : ''}`;
+          return `A message your business sends more than 48 hours after the customer's last message. ${bolsaSeguimiento.reglas[1]} ${bolsaSeguimiento.reglas[2]}${bolsaSeguimiento.proximamente ? ` ${bolsaSeguimiento.avisoProximamente}` : ''}`;
         },
       },
     ],

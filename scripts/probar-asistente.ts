@@ -165,6 +165,7 @@ const CASOS: Caso[] = [
   // Oferta con la cuenta propia del cliente (2026-10-06).
   { pregunta: '¿tengo que pagarle a Meta?', espera: 'responde', contiene: /directamente a Meta|no la cobra/i },
   { pregunta: '¿puedo usar mi número actual?', espera: 'responde' },
+  { pregunta: '¿mi número actual va a seguir funcionando en la aplicación del celular?', espera: 'responde', contiene: /deja de funcionar/i, noContiene: /coexist|seguirá funcionando|podrás seguir/i },
   { pregunta: '¿hay un plan con Meta incluido?', espera: 'responde', contiene: /excepcional|caso por caso/i },
   {
     pregunta: '¿cuánto cuesta una bolsa de conversaciones?',
