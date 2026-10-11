@@ -34,8 +34,7 @@ const bolsasResumen = bolsas
   .join(', ')
   .replace(/, ([^,]+)$/, ' o $1');
 
-// Variante sin gratuidades ni cifras (decisión de Andres 2026-10-06, ver ESTADO hallazgo 61). PENDIENTE
-// `frase-mensajeria-meta`: las fuentes sobre la tarifa de Meta discrepan y
+// Variante sin gratuidades ni cifras (decisión de Andres 2026-10-06, ver ESTADO hallazgo 61). Las fuentes sobre la tarifa de Meta discrepan y
 // Andres elige. Es la ÚNICA frase del sitio sobre lo que cobra Meta.
 const mensajeriaMeta =
   'Meta cobra la mensajería por mensaje, según su tarifa vigente. El monto depende de cuántos mensajes se envían y de qué tipo son; puedes consultar la tarifa actual en el sitio de Meta.';
@@ -200,7 +199,7 @@ export const precios: Precios = {
       'El número nuevo lo conseguimos nosotros y va incluido en la instalación',
       'La instalación incluye la verificación del número ante Meta',
     ],
-    // PENDIENTE `alcance-instalacion`: se asume el mismo precio que la estándar.
+    // Se asume el mismo precio que la estándar; riesgo aceptado (ESTADO, 2026-10-11).
     instalacionUsd: instalacion.estandar,
     bolsa: { conversaciones: 30, precioUsd: 10 },
     nota: 'Se ofrece caso por caso. Si es tu situación, escríbenos y lo vemos contigo.',

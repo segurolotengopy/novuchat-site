@@ -3,7 +3,7 @@
 > Bitácora viva del proyecto. Se actualiza al cerrar cada sesión de trabajo.
 > **Nunca** contiene secretos: claves, tokens ni valores de `.env`.
 
-Última actualización: **2026-10-06** (oferta con cuenta propia, con siete `PENDIENTES` abiertos que impiden desplegar; el resto del documento, 2026-10-01 y antes)
+Última actualización: **2026-10-11** (oferta con cuenta propia publicada en `v0.5.0`; el resto del documento, 2026-10-01 y antes)
 
 ---
 
@@ -74,7 +74,9 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | 2026-09-15 | Sitio alineado con la plataforma: EN al modelo de bloques, «24 horas continuas» también en la FAQ, sin «nunca deja a medias» (lo contradice el umbral de bloqueo), «soporte técnico prioritario» en `/terminos`, índice regenerado | Revisión contra los cambios de `~/NovuChat` del 13 al 15/09. La captación de WhatsApp copia este corpus: su huella cambió |
 | 2026-09-15 | **El precio de instalación junto al precio de cada plan** («+ USD 65 de instalación, pago único»), en la nota bajo los planes y en una FAQ propia | Reclamo de un prospecto: estaba solo en la tarjeta de `/precios`, dos pantallas por debajo (cuatro en celular). Quien entra por la portada o un rubro veía «USD 25 / mes» y descubría los USD 65 en la propuesta |
 | 2026-09-15 | **`v0.4.0` en producción** (Cloud Run `00017`): la definición de bloques (#46), el inglés, la instalación y el índice al día (#49). Acta en `docs/produccion/acta-v0.4.0.md` | Autorización de Andres en el chat. La prueba de humo del CI falló por un 404 transitorio del canal de previa y se reejecutó |
-| 2026-10-06 | **Oferta con la cuenta propia de WhatsApp Business del cliente** (**no desplegar mientras `pnpm listo` liste PENDIENTES**): topes de **200 / 500 / 1.000** conversaciones (Impulso / Crecimiento / Pro, mismos precios USD 25 / 50 / 90), **bolsas** de 50 por USD 10, 100 por USD 20 y 300 por USD 40, mensajería de WhatsApp pagada por el cliente directamente a Meta (nota junto a cada precio y pie oficial), la opción con Meta incluido (100 / 220 / 500, bolsa de 30 por USD 10) **colapsada al final de `/precios`**, también en `/terminos` §3 y en el corpus del asistente, nunca en la portada, las tarjetas, la FAQ ni el JSON-LD, y contactos separados: +591 70661250 = persona, +591 76988663 = asistente de IA | Decisión de Andres. Siete entradas de `PENDIENTES` hacen fallar `pnpm listo` a propósito (la plataforma aún no aplica los topes ni las bolsas; frase de Meta; reparto de números; revisión legal de `/terminos`; privacidad; alcance de la instalación; número en la aplicación del celular). La línea del prompt del asistente sobre «cuentas» se reformuló y queda para revisión de `seguridad` |
+| 2026-10-06 | **Oferta con la cuenta propia de WhatsApp Business del cliente** (publicada en `v0.5.0`, 2026-10-11): topes de **200 / 500 / 1.000** conversaciones (Impulso / Crecimiento / Pro, mismos precios USD 25 / 50 / 90), **bolsas** de 50 por USD 10, 100 por USD 20 y 300 por USD 40, mensajería de WhatsApp pagada por el cliente directamente a Meta (nota junto a cada precio y pie oficial), la opción con Meta incluido (100 / 220 / 500, bolsa de 30 por USD 10) **colapsada al final de `/precios`**, también en `/terminos` §3 y en el corpus del asistente, nunca en la portada, las tarjetas, la FAQ ni el JSON-LD, y contactos separados: +591 70661250 = persona, +591 76988663 = asistente de IA | Decisión de Andres. Se abrieron siete `PENDIENTES` que hacían fallar `pnpm listo` a propósito; se cerraron el 2026-10-11 (fila siguiente). La línea del prompt del asistente sobre «cuentas» se reformuló y queda para revisión de `seguridad` |
+| 2026-10-11 | **Se publica la oferta con cuenta propia (`v0.5.0`)** y se vacía `PENDIENTES`. Cierre de los siete: (1) `plataforma-limites-y-bolsas`: manda la oferta y la plataforma se alinea a ella; (2) `frase-mensajeria-meta`: se publica la variante sin gratuidades ni cifras; (3) `numeros-de-whatsapp`: Andres confirmó los roles (+591 76988663 asistente de IA, +591 70661250 Silvana) y el reparto publicado; (4) `terminos-revision-legal`, (5) `privacidad-whatsapp-asistente`, (6) `alcance-instalacion` y (7) `numero-actual-aplicacion` se publican **sin revisión externa** y quedan como riesgos aceptados por Andres (ver «De Andres») | Instrucción de Andres: «el sitio tiene que prometer lo que ofertamos». La compuerta `listo` se vació por esa instrucción, no porque los siete estuvieran resueltos de fondo |
+| 2026-10-11 | **`fix(deps)` en el mismo pase:** `proxy-addr` 2.0.7 → 2.0.8 (CRITICAL, en `functions/`), `devalue` → 5.9.4, `source-map-js` → 1.2.2, `sharp` → 0.35.5 (con sus binarios de libvips). Excepción **CVE-2026-93748** (`http-cache-semantics`, sin versión corregida) en `.devsecops.yml` hasta 2027-01-09 | Los avisos nuevos del 2026-10-01/05 hacían fallar `compuerta-pr` de cualquier PR. `package.json` no cambió; solo los lockfiles. La excepción: solo se usa en el build y el sitio no carga imágenes remotas |
 | 2026-09-02 | **Vertex AI en vez de la API de AI Studio** | La API de AI Studio se paga con créditos de prepago que se agotan aparte; Vertex cobra a la cuenta de facturación del proyecto, que ya tiene presupuesto y alertas. Y no necesita clave: se autentica con la cuenta de servicio. Un secreto que no existe no se filtra |
 
 ---
@@ -557,18 +559,16 @@ que alguien lo reporte como una diferencia.
 
 **De Claude Code:**
 
-- *Oferta con cuenta propia:* la plataforma tiene que aplicar los topes
-  200 / 500 / 1.000 y las bolsas 50 / 100 / 300 antes de publicar; resolver
-  los 7 `PENDIENTES` (`pnpm listo` los lista) y, con Andres, abrir el PR y
-  etiquetar `v0.5.0`. El pase redespliega las Functions (índice y prompt
-  viajan dentro de `functions/`). **Al fusionar, avisar la huella del índice
-  vigente (`c6085c6c…` si no se reindexa antes) a la sesión de la
-  plataforma**: la captación de WhatsApp copia el corpus.
-- *Dependencias heredadas de `main` (`fix(deps)` previo a cualquier PR):*
-  `proxy-addr` 2.0.7 (CRITICAL, en `functions/`), `devalue` 5.9.2,
-  `source-map-js` 1.2.1, `sharp` 0.35.4, y excepciones documentadas para
-  `http-cache-semantics` y `braces`. Bloquean `compuerta-pr` de cualquier PR,
-  no solo de este.
+- *Oferta con cuenta propia (`v0.5.0`, publicada):* **avisar la huella del
+  índice vigente a la sesión de la plataforma** (la captación de WhatsApp
+  copia el corpus) y comprobar que la plataforma aplica los topes
+  200 / 500 / 1.000 y las bolsas 50 / 100 / 300 que el sitio ya promete.
+- *Dependencias:* resueltas en `v0.5.0` (`proxy-addr`, `devalue`,
+  `source-map-js`, `sharp`) y excepción de `http-cache-semantics` hasta
+  2027-01-09. Queda `braces` (osv-scanner, sin versión corregida): Trivy no lo
+  bloquea; si la auditoría nativa del job SCA lo bloquea, registrar excepción
+  con el mismo formato. Los PR de Dependabot abiertos (#53, #55, #56, #61,
+  #65) se rebasan sobre `main` después de este pase.
 - *`pnpm listo` no corre en el CI de despliegue:* hoy depende de que alguien
   lo ejecute a mano antes de etiquetar. Pasarlo al flujo del pase para que los
   `PENDIENTES` bloqueen de verdad.
@@ -614,7 +614,18 @@ que alguien lo reporte como una diferencia.
 
 **De Andres:**
 
-0. *Oferta con cuenta propia, dos decisiones sin PENDIENTE nuevo:* (a) la
+0. *Oferta con cuenta propia, riesgos aceptados al publicar sin revisión:*
+   (i) `/terminos` §2 a §5 reescritos sin revisión legal: qué pasa al llegar al
+   tope sin bolsa, a nombre de quién queda el número de la opción excepcional,
+   si Meta suspende la cuenta, baja y desconexión del número; (ii) `/privacidad`
+   no declara el WhatsApp del asistente de NovuChat (+591 76988663), donde
+   NovuChat es responsable del tratamiento; (iii) la FAQ dice que un número
+   conectado al asistente deja de poder usarse desde la aplicación del
+   celular: confirmarlo con la plataforma, porque la coexistencia de Meta
+   podría cambiarlo; (iv) alcance de la instalación (conexión del número y
+   acompañamiento en la verificación ante Meta) y si la opción excepcional
+   cuesta USD 65; (v) la frase de Meta no lleva cifras: si quieres cifras,
+   elige y se agregan. Además, dos decisiones: (a) la
    prohibición 9 de `CLAUDE.md` («cada mensaje cuesta 0,89 Bs») ya no aplica
    igual con cuenta propia, porque la mensajería la paga el negocio a Meta:
    decidir si se reescribe o se acota a la opción excepcional; (b) la opción
