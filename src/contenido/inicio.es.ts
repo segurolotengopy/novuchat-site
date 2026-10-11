@@ -6,12 +6,12 @@ export const heroe = {
   titulo: 'El primer empleado de tu negocio que',
   tituloDestacado: 'nunca duerme',
   bajada:
-    'NovuChat atiende a tus clientes por WhatsApp las 24 horas: responde, agenda citas en tu calendario, toma pedidos y cobra por QR. Lo instalamos en 48 horas y tú lo controlas desde tu celular.',
+    'NovuChat atiende a tus clientes por WhatsApp las 24 horas: responde, agenda citas en tu calendario, toma pedidos y cobra por QR. Lo instalamos en 48 horas desde que tengas tu cuenta de WhatsApp Business lista y nos entregues tu información, y tú lo controlas desde tu celular.',
   ctaPrimario: { texto: 'Pedir una demostración', ruta: '/demo' },
   ctaSecundario: { texto: 'Ver cómo funciona', ruta: '/como-funciona' },
   pruebas: [
     'Canal oficial de Meta',
-    'Instalación en 48 horas',
+    'Instalación en 48 horas desde que tu cuenta y tu información están listas',
     'Responde en menos de un minuto',
     'Tú ves todo desde la consola',
   ],
@@ -134,10 +134,11 @@ export const comparativa = {
   ],
 };
 
-/** Instalación en 48 horas. */
+/** Instalación en 48 horas desde que la cuenta del cliente está lista. */
 export const instalacion48 = {
-  titulo: 'Lo instalamos en 48 horas',
-  bajada: 'Tú no programas nada. Nosotros hacemos la conexión con el canal oficial de Meta.',
+  titulo: 'Lo instalamos en 48 horas desde que tu cuenta está lista',
+  bajada:
+    'Las 48 horas corren desde que tengas tu cuenta de WhatsApp Business lista y nos entregues tu información. Tú no programas nada: conectamos tu número al canal oficial de WhatsApp Business de Meta; la cuenta queda a tu nombre.',
   pasos: [
     {
       titulo: 'Análisis',
@@ -147,7 +148,7 @@ export const instalacion48 = {
     {
       titulo: 'Desarrollo',
       texto:
-        'Damos de alta tu negocio, cargamos tu configuración y conseguimos el número nuevo de tu asistente.',
+        'Damos de alta tu negocio, cargamos tu configuración y conectamos tu número al canal oficial de WhatsApp Business de Meta; la cuenta queda a tu nombre.',
     },
     {
       titulo: 'Pruebas',
@@ -167,7 +168,7 @@ export const compromiso = {
   puntos: [
     'Nuestro asistente siempre dice que es una inteligencia artificial si le preguntan. Nunca se hace pasar por una persona.',
     'Los cobros de demostración se rotulan como simulados en la imagen, en el pie y en la confirmación.',
-    'Usamos únicamente el canal oficial de WhatsApp Business de Meta. Nada de dispositivos vinculados ni APIs no oficiales que hagan que te bloqueen el número.',
+    'Usamos únicamente el canal oficial de WhatsApp Business de Meta. Nada de dispositivos vinculados ni conexiones no oficiales que hagan que te bloqueen el número.',
   ],
 };
 

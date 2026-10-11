@@ -1,8 +1,48 @@
-import type { Precios } from './tipos';
+import type { Bolsa, Instalacion, Precios } from './tipos';
+
+// Presentación 8 (Silvana, 2026-09-11): terminó la Rueda de Negocios y la
+// instalación deja de estar bonificada. Se paga por adelantado, al inicio
+// del servicio, y se entrega «llave en mano».
+const instalacion: Instalacion = {
+  estandar: 65,
+  aMedidaDesde: 125,
+  aMedidaEjemplos: [
+    'Integración con tu ERP o tu sistema propio',
+    'Consultas a tus sistemas en tiempo real',
+    'Flujos complejos entre varios departamentos',
+  ],
+  aMedidaNota:
+    'Es desarrollo a medida, cotizado caso por caso: no son funciones que el asistente traiga de serie.',
+  incluye: [
+    'Configuración inicial llave en mano: recibes el asistente listo para atender',
+    'Nadie de NovuChat lee tus conversaciones sin que tú abras el acceso',
+    'Conectamos tu número al canal oficial de WhatsApp Business de Meta; la cuenta queda a tu nombre',
+    'Carga de tus servicios, precios, horarios y el tono del asistente',
+    'Conexión con tu Google Calendar',
+    'Pruebas con casos reales antes de salir en vivo',
+  ],
+};
+
+const bolsas: Bolsa[] = [
+  { conversaciones: 50, precioUsd: 10 },
+  { conversaciones: 100, precioUsd: 20 },
+  { conversaciones: 300, precioUsd: 40 },
+];
+
+const bolsasResumen = bolsas
+  .map((b, i) => `${b.conversaciones}${i === 0 ? ' conversaciones' : ''} por USD ${b.precioUsd}`)
+  .join(', ')
+  .replace(/, ([^,]+)$/, ' o $1');
+
+// Variante sin gratuidades ni cifras (decisión de Andres 2026-10-06, ver ESTADO hallazgo 61). Las fuentes sobre la tarifa de Meta discrepan y
+// Andres elige. Es la ÚNICA frase del sitio sobre lo que cobra Meta.
+const mensajeriaMeta =
+  'Meta cobra la mensajería por mensaje, según su tarifa vigente. El monto depende de cuántos mensajes se envían y de qué tipo son; puedes consultar la tarifa actual en el sitio de Meta.';
 
 /**
- * Planes y precios — cifras definitivas del 2026-09-08, tras la propuesta de
- * Silvana analizada y adoptada. Impulso 25/100, Crecimiento 50/220, Pro 90/500.
+ * Oferta con la cuenta propia de WhatsApp Business del cliente (decisión de
+ * Andres, 2026-10-06): Impulso 25 / hasta 200, Crecimiento 50 / hasta 500, Pro
+ * 90 / hasta 1.000. La mensajería la paga el cliente directamente a Meta.
  *
  * **Los importes están en dólares** y se cobran en bolivianos al Tipo de Cambio
  * Oficial del Banco Central de Bolivia (primer día hábil del mes facturado).
@@ -10,19 +50,24 @@ import type { Precios } from './tipos';
  * error de un orden de magnitud.
  *
  * Nombres: Impulso / Crecimiento / Pro (decisión de Andres, 2026-09-02).
- * Los precios de esta tabla alimentan también el JSON-LD `SoftwareApplication`,
- * así que no se duplican en ningún otro lugar del sitio.
+ * Los precios de esta tabla alimentan también el JSON-LD `SoftwareApplication`.
+ * Ojo: `precios.en.ts` copia a mano las cifras (planes, bolsas, opción
+ * excepcional, instalación); `pruebas/unidad/paridad-precios.test.ts` falla si
+ * alguna deja de coincidir con esta tabla.
  *
  * `proximamente: true` en todo lo que la plataforma aún no hace. Quitarlo exige
  * que la función esté construida (prohibición 8 de CLAUDE.md).
  */
 export const precios: Precios = {
+  bajada:
+    'Servicio prepago mensual, con tu propia cuenta de WhatsApp Business. A NovuChat le pagas la mensualidad y la instalación; la mensajería de WhatsApp la pagas directamente a Meta, en tu cuenta. Más abajo te explicamos qué pagas, a quién y qué necesitamos de ti.',
+
   planes: [
     {
       id: 'impulso',
       nombre: 'Impulso',
       precioUsd: 25,
-      conversaciones: 100,
+      conversaciones: 200,
       resumen: 'Para el negocio que empieza a perder mensajes por no dar abasto.',
       caminos: [
         {
@@ -42,23 +87,21 @@ export const precios: Precios = {
       ],
       incluye: [
         { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
-        { texto: '100 conversaciones al mes' },
         { texto: 'Consola para ver todo desde el celular' },
-        { texto: 'Canal oficial de WhatsApp Business' },
       ],
     },
     {
       id: 'crecimiento',
       nombre: 'Crecimiento',
       precioUsd: 50,
-      conversaciones: 220,
+      conversaciones: 500,
       resumen: 'Para el negocio con varias personas atendiendo y agenda llena.',
       destacado: true,
       caminos: [
         {
           icono: '📅',
           titulo: 'Citas',
-          texto: 'Hasta 5 agendas, una por persona: nadie queda con dos citas a la vez. Con recordatorio automático 24 horas antes.',
+          texto: 'Hasta 5 agendas, una por persona: nadie queda con 2 citas a la vez. Con recordatorio automático 24 horas antes.',
         },
         {
           icono: '🛒',
@@ -68,16 +111,14 @@ export const precios: Precios = {
       ],
       incluye: [
         { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
-        { texto: '220 conversaciones al mes' },
         { texto: 'Consola para ver todo desde el celular' },
-        { texto: 'Canal oficial de WhatsApp Business' },
       ],
     },
     {
       id: 'pro',
       nombre: 'Pro',
       precioUsd: 90,
-      conversaciones: 500,
+      conversaciones: 1000,
       resumen: 'Para varias sucursales o un volumen alto de pedidos.',
       caminos: [
         {
@@ -93,38 +134,76 @@ export const precios: Precios = {
       ],
       incluye: [
         { texto: 'Asistente con IA que entiende lenguaje natural, 24 horas' },
-        { texto: '500 conversaciones al mes' },
         { texto: 'Consola para ver todo desde el celular' },
-        { texto: 'Canal oficial de WhatsApp Business' },
         { texto: 'Soporte técnico prioritario' },
       ],
     },
   ],
 
-  // Presentación 8 (Silvana, 2026-09-11): terminó la Rueda de Negocios y la
-  // instalación deja de estar bonificada. Se paga por adelantado, al inicio
-  // del servicio, y se entrega «llave en mano».
-  instalacion: {
-    estandar: 65,
-    aMedidaDesde: 125,
-    aMedidaEjemplos: [
-      'Integración con tu ERP o tu sistema propio',
-      'Consultas a tus sistemas en tiempo real',
-      'Flujos complejos entre varios departamentos',
-    ],
-    aMedidaNota:
-      'Es desarrollo a medida, cotizado caso por caso: no son funciones que el asistente traiga de serie.',
-    incluye: [
-      'Configuración inicial llave en mano: recibes el asistente listo para atender',
-      'Nadie de NovuChat lee tus conversaciones sin que tú abras el acceso',
-      'Verificación oficial de tu número ante Meta',
-      'Carga de tus servicios, precios, horarios y el tono del asistente',
-      'Conexión con tu Google Calendar',
-      'Pruebas con casos reales antes de salir en vivo',
+  notaMeta: '+ la mensajería de WhatsApp, que pagas directamente a Meta',
+  pie: 'Servicio prepago mensual. Precios en USD, cobrados en Bs al Tipo de Cambio Oficial del BCB. El cliente paga directamente a Meta los costos de mensajería.',
+  mensajeriaMeta,
+
+  quePagas: {
+    titulo: 'Qué pagas y a quién',
+    items: [
+      {
+        aQuien: 'A NovuChat, cada mes',
+        que: 'La mensualidad de tu plan, por adelantado. Está en dólares y se cobra en bolivianos al Tipo de Cambio Oficial del Banco Central de Bolivia del primer día hábil del mes. Incluye el asistente, la inteligencia artificial y la consola.',
+      },
+      {
+        aQuien: 'A NovuChat, una sola vez',
+        que: `La instalación: USD ${instalacion.estandar}, pago único por adelantado, al inicio del servicio.`,
+      },
+      {
+        aQuien: 'A Meta, según lo que uses',
+        que: `La mensajería de WhatsApp. La pagas directamente a Meta, con tu tarjeta y en tu propia cuenta: NovuChat no la cobra. ${mensajeriaMeta}`,
+      },
+      {
+        aQuien: 'A NovuChat, solo si la apruebas',
+        que: `Una bolsa de conversaciones, si superas las de tu plan: ${bolsasResumen}.`,
+      },
     ],
   },
 
-  excedente: { precioUsd: 10, conversaciones: 30 },
+  queNecesitamos: {
+    titulo: 'Qué necesitamos de ti',
+    items: [
+      'Tu cuenta de WhatsApp Business en Meta, a nombre de tu negocio, y el número que va a usar el asistente',
+      'Una tarjeta registrada en tu cuenta de Meta, para la mensajería',
+      'La lista de tus servicios o productos con sus precios',
+      'Tus horarios de atención y quién atiende cada servicio, si son varias personas',
+      'Tu calendario de Google, si agendas citas',
+      'El tono con el que quieres que hable el asistente',
+    ],
+  },
+
+  instalacion,
+
+  bolsas,
+  bolsasResumen,
+
+  bolsasTexto: {
+    titulo: 'Bolsas de conversaciones',
+    texto:
+      'Si superas las conversaciones de tu plan, puedes sumar una bolsa. Las bolsas no vencen. Te avisamos al llegar al 80 % de tu plan para que decidas si te conviene una bolsa o subir de nivel, y nunca se cobra una bolsa sin que la apruebes.',
+  },
+
+  excepcional: {
+    titulo: 'Opción excepcional: con la mensajería de Meta incluida',
+    paraQuien:
+      'Para el negocio que no tiene ni quiere gestionar una cuenta de Meta. En esta modalidad las conversaciones de WhatsApp van incluidas en el precio y el número nuevo lo conseguimos nosotros. No es la oferta habitual: se ofrece caso por caso.',
+    conversaciones: { impulso: 100, crecimiento: 220, pro: 500 },
+    diferencias: [
+      'Las conversaciones de WhatsApp con tus clientes van incluidas en el precio: no las pagas a Meta',
+      'El número nuevo lo conseguimos nosotros y va incluido en la instalación',
+      'La instalación incluye la verificación del número ante Meta',
+    ],
+    // Se asume el mismo precio que la estándar; riesgo aceptado (ESTADO, 2026-10-11).
+    instalacionUsd: instalacion.estandar,
+    bolsa: { conversaciones: 30, precioUsd: 10 },
+    nota: 'Se ofrece caso por caso. Si es tu situación, escríbenos y lo vemos contigo.',
+  },
 
   comoContamos: {
     titulo: 'Cómo contamos las conversaciones',
@@ -150,9 +229,8 @@ export const precios: Precios = {
           'Una cita agendada o un pedido confirmado. Es lo que mide si el asistente está vendiendo, no solo respondiendo.',
       },
       {
-        termino: 'Excedente',
-        definicion:
-          'Si superas las conversaciones de tu plan, cada bloque adicional de hasta 30 conversaciones cuesta USD 10 y no vence. Te avisamos al llegar al 80 % de tu plan, y nunca se te cobra sin que lo apruebes.',
+        termino: 'Bolsa',
+        definicion: `Conversaciones adicionales para cuando superas las de tu plan: ${bolsasResumen}. No vencen. Te avisamos al llegar al 80 % de tu plan, y nunca se cobra una bolsa sin que la apruebes.`,
       },
     ],
   },

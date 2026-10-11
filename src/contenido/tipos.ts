@@ -19,9 +19,9 @@ export interface Plan {
   nombre: string;
   precioUsd: number;
   /**
-   * Conversaciones incluidas al mes. Una conversación = un bloque de hasta 25
-   * respuestas del asistente a un cliente dentro de 24 h; la respuesta 26 en
-   * el mismo día abre otra, y a las 24 h la cuenta vuelve a cero.
+   * Tope de conversaciones al mes ("hasta"). Una conversación = un bloque de
+   * hasta 25 respuestas del asistente a un cliente dentro de 24 h; la respuesta
+   * 26 en el mismo día abre otra, y a las 24 h la cuenta vuelve a cero.
    */
   conversaciones: number;
   resumen: string;
@@ -67,16 +67,47 @@ export interface Instalacion {
   bonificacion?: string;
 }
 
-/** Excedente por consumo sobre lo incluido en el plan. En dólares. */
-export interface Excedente {
-  precioUsd: number;
+/** Bolsa de conversaciones adicionales. No vence. En dólares. */
+export interface Bolsa {
   conversaciones: number;
+  precioUsd: number;
+}
+
+/**
+ * Modalidad excepcional: conversaciones de WhatsApp incluidas y número nuevo
+ * conseguido por NovuChat. NO se publicita: va colapsada al final de /precios,
+ * nunca en la portada ni en las tarjetas. Mismos precios que `planes`, otro volumen.
+ */
+export interface ModalidadExcepcional {
+  /** Texto del <summary>. */
+  titulo: string;
+  paraQuien: string;
+  /** Tope mensual por plan en esta modalidad. Record: no puede faltar un plan. */
+  conversaciones: Record<Plan['id'], number>;
+  diferencias: string[];
+  instalacionUsd: number;
+  bolsa: Bolsa;
+  nota: string;
 }
 
 export interface Precios {
+  /** Bajada de /precios. */
+  bajada: string;
   planes: Plan[];
+  /** Línea junto a CADA precio: la mensajería no la cobra NovuChat. */
+  notaMeta: string;
+  /** Pie oficial de la oferta (decisión de Andres, 2026-10-06). */
+  pie: string;
+  /** ÚNICA frase del sitio sobre lo que cobra Meta. Ningún otro monto de Meta. */
+  mensajeriaMeta: string;
+  quePagas: { titulo: string; items: { aQuien: string; que: string }[] };
+  queNecesitamos: { titulo: string; items: string[] };
   instalacion: Instalacion;
-  excedente: Excedente;
+  bolsas: Bolsa[];
+  /** «50 conversaciones por USD 10, 100 por USD 20 o 300 por USD 40», derivado de `bolsas`. */
+  bolsasResumen: string;
+  bolsasTexto: { titulo: string; texto: string };
+  excepcional: ModalidadExcepcional;
   /** Definición de la unidad de cobro. Va en nota al pie y en el modal. */
   comoContamos: {
     titulo: string;
@@ -126,9 +157,14 @@ export interface EjemploDeUso {
 
 export interface Contacto {
   correo: string;
+  /** WhatsApp de una PERSONA (ventas y soporte humano). Va donde se promete atención humana. */
   whatsapp: string;
   /** El mismo número en formato E.164 sin signos, para los enlaces wa.me. */
   whatsappEnlace: string;
+  /** WhatsApp del asistente de IA de NovuChat. Nunca donde se promete una persona (prohibición 7). */
+  whatsappAsistente: string;
+  /** El número del asistente en formato E.164 sin signos, para los enlaces wa.me. */
+  whatsappAsistenteEnlace: string;
   ciudad: string;
   pais: string;
 }

@@ -12,6 +12,7 @@
 import { precios } from '../contenido/precios.es';
 import { preguntas } from '../contenido/faq.es';
 import { sitio } from '../contenido/sitio.es';
+import type { Pregunta } from '../contenido/tipos';
 
 interface Migaja {
   nombre: string;
@@ -21,10 +22,12 @@ interface Migaja {
 interface Props {
   /** Incluir el bloque FAQPage (solo en las páginas que muestran el FAQ). */
   conFaq?: boolean;
+  /** Preguntas a publicar; deben coincidir con las visibles en la página. */
+  faq?: Pregunta[];
   migajas?: Migaja[];
 }
 
-const { conFaq = false, migajas = [] } = Astro.props;
+const { conFaq = false, faq = preguntas, migajas = [] } = Astro.props;
 const base = 'https://novuchat.site';
 
 const grafo: Record<string, unknown>[] = [
@@ -66,7 +69,7 @@ const grafo: Record<string, unknown>[] = [
       // anunciaría el plan a 20 bolivianos.
       price: String(plan.precioUsd),
       priceCurrency: 'USD',
-      description: plan.resumen,
+      description: `${plan.resumen} Hasta ${plan.conversaciones.toLocaleString('es-BO')} conversaciones al mes. ${precios.pie}`,
       url: `${base}/precios`,
     })),
   },
@@ -75,7 +78,7 @@ const grafo: Record<string, unknown>[] = [
 if (conFaq) {
   grafo.push({
     '@type': 'FAQPage',
-    mainEntity: preguntas.map((p) => ({
+    mainEntity: faq.map((p) => ({
       '@type': 'Question',
       name: p.pregunta,
       acceptedAnswer: { '@type': 'Answer', text: p.respuesta },

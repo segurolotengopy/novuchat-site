@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { precios } from '../../src/contenido/precios.es';
 
 /**
  * Humo del sitio estático.
@@ -255,6 +256,55 @@ for (const ruta of ['/', '/precios', '/demo', '/preguntas-frecuentes']) {
     });
   }
 }
+
+test('/precios: la opción excepcional está colapsada y se abre con el teclado', async ({ page }) => {
+  await page.goto('/precios');
+  const detalle = page.locator('details[data-excepcional]');
+  await expect(detalle).not.toHaveAttribute('open', /.*/);
+
+  await detalle.locator('summary').focus();
+  await expect(detalle.locator('summary')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(detalle).toHaveAttribute('open', /.*/);
+  await expect(detalle.getByText(/caso por caso/).first()).toBeVisible();
+});
+
+for (const tema of ['claro', 'oscuro'] as const) {
+  test(`axe con la opción excepcional abierta (tema ${tema})`, async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate((t) => localStorage.setItem('novuchat.tema', t), tema);
+    await page.goto('/precios');
+    await page.locator('details[data-excepcional] summary').click();
+    await expect(page.locator('details[data-excepcional]')).toHaveAttribute('open', /.*/);
+
+    const { violations } = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      .analyze();
+
+    const graves = violations.filter((v) => v.impact === 'critical' || v.impact === 'serious');
+    expect(
+      graves.map((v) => `${v.id}: ${v.nodes[0]?.target.join(' ')}`),
+      `axe encontró fallos graves con la opción excepcional abierta (${tema})`,
+    ).toEqual([]);
+  });
+}
+
+test('la portada no ofrece la opción excepcional', async ({ page }) => {
+  // `page.content()` incluye el JSON-LD: cubre también lo que ve un buscador.
+  await page.goto('/');
+  expect(await page.content()).not.toContain(precios.excepcional.titulo);
+});
+
+test('/precios muestra las 3 bolsas', async ({ page }) => {
+  await page.goto('/precios');
+  for (const texto of [
+    '50 conversaciones por USD 10',
+    '100 conversaciones por USD 20',
+    '300 conversaciones por USD 40',
+  ]) {
+    await expect(page.getByText(texto, { exact: true })).toBeVisible();
+  }
+});
 
 test('el asistente flota y su logo tiene tamaño real', async ({ page }) => {
   // El logo estuvo en producción con `width: 0px`: el SVG cargaba, el elemento

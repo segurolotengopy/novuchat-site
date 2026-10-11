@@ -8,6 +8,7 @@ import Consentimiento from '../components/Consentimiento.astro';
 import DatosEstructurados from '../components/DatosEstructurados.astro';
 import Asistente from '../components/Asistente';
 import { sitio } from '../contenido/sitio.es';
+import type { Pregunta } from '../contenido/tipos';
 
 interface Props {
   titulo: string;
@@ -15,10 +16,12 @@ interface Props {
   /** Ruta equivalente en el otro idioma; sin ella no se emite `hreflang`. */
   rutaAlterna?: string;
   conFaq?: boolean;
+  /** Preguntas del bloque FAQPage; por defecto, todas. Debe coincidir con las visibles. */
+  faq?: Pregunta[];
   migajas?: { nombre: string; ruta: string }[];
 }
 
-const { titulo, descripcion, rutaAlterna, conFaq = false, migajas = [] } =
+const { titulo, descripcion, rutaAlterna, conFaq = false, faq, migajas = [] } =
   Astro.props;
 
 const base = 'https://novuchat.site';
@@ -122,7 +125,7 @@ const antiDestello = `(function(){try{var t=localStorage.getItem('novuchat.tema'
     <meta property="og:locale" content={idioma === 'es' ? 'es_BO' : 'en_US'} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <DatosEstructurados conFaq={conFaq} migajas={migajas} />
+    <DatosEstructurados conFaq={conFaq} faq={faq} migajas={migajas} />
   </head>
 
   <body>

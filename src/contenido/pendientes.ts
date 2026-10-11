@@ -49,6 +49,9 @@ export const identidadLegal: { razonSocial: string; nit: string } | null = {
   nit: '2441214012',
 };
 
+// Vacía desde 2026-10-11: Andres ordenó publicar la oferta con cuenta propia
+// (v0.5.0). Cómo se cerró cada uno de los siete está en ESTADO.md (decisión
+// 2026-10-11); lo que sigue abierto como riesgo aceptado está en «De Andres».
 export const PENDIENTES: Pendiente[] = [];
 
 /** Verdadero si no queda ningún dato sin confirmar. */

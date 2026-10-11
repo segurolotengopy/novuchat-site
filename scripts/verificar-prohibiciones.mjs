@@ -17,6 +17,9 @@
  *   5. `PUBLIC_URL_CONSOLA` fuera de la lista blanca. → riesgo S-13
  *   6. Una Function llamable con `enforceAppCheck: false`. → prohibición 6
  *   7. «Pago confirmado» y parientes en los textos públicos. → prohibición 9
+ *   8. Vocabulario que el sitio no publica (decisión 2026-10-06): las siglas
+ *      del modelo de cuenta propia, el nombre del programa de proveedores de
+ *      Meta y los montos de Meta en centavos. → decisión 2026-10-06
  *
  * Uso:  pnpm prohibiciones
  */
@@ -115,6 +118,12 @@ const REGLAS = [
     id: 'pago-confirmado',
     prohibicion: 'CLAUDE.md 9 — el asistente recibe el comprobante; quien confirma el pago es el banco',
     patron: /pago\s+(fue\s+|est[áa]\s+|ha\s+sido\s+)?(confirmado|acreditado|verificado)|asegurar\s+el\s+pago|pago\s+exitoso|transferencia\s+exitosa|payment\s+(is\s+|was\s+|has\s+been\s+)?(confirmed|verified|credited)/gi,
+    aplicaA: (ruta) => ruta.startsWith('src/'),
+  },
+  {
+    id: 'vocabulario-oferta',
+    prohibicion: 'Decisión 2026-10-06 — en el sitio no se dice BYOC ni Tech Provider, y lo de Meta no se presenta como centavos',
+    patron: /\bBYOC\b|Tech\s+Provider|\bcentavos?\b/gi,
     aplicaA: (ruta) => ruta.startsWith('src/'),
   },
 ];

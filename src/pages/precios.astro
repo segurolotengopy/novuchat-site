@@ -3,12 +3,13 @@ import Base from '../layouts/Base.astro';
 import CaminosDelPlan from '../components/CaminosDelPlan.astro';
 import { precios } from '../contenido/precios.es';
 
-const { planes, instalacion, excedente, comoContamos } = precios;
+const { planes, instalacion, bolsas, bolsasTexto, excepcional, quePagas, queNecesitamos, comoContamos } =
+  precios;
 ---
 
 <Base
   titulo="Planes y precios de NovuChat"
-  descripcion="Planes desde USD 25 al mes, con el consumo de la IA y de WhatsApp incluido. Instalación en 48 horas. Sin contratos largos."
+  descripcion="Planes desde USD 25 al mes con tu propia cuenta de WhatsApp Business. La IA va incluida y la mensajería la pagas directamente a Meta. Sin contratos largos."
   rutaAlterna="/en/precios"
   migajas={[
     { nombre: 'Inicio', ruta: '/' },
@@ -19,9 +20,7 @@ const { planes, instalacion, excedente, comoContamos } = precios;
     <div class="contenedor">
       <h1>Planes y precios</h1>
       <p class="seccion-bajada" style="font-size: 18px">
-        Servicio prepago mensual. El consumo del modelo de inteligencia
-        artificial y las conversaciones de WhatsApp están incluidos en el
-        precio: no hay cargos sorpresa a fin de mes.
+        {precios.bajada}
       </p>
 
       <div class="rejilla">
@@ -40,9 +39,10 @@ const { planes, instalacion, excedente, comoContamos } = precios;
               <p class="plan-instalacion">
                 + USD {instalacion.estandar} de instalación, pago único
               </p>
+              <p class="plan-instalacion">{precios.notaMeta}</p>
               <p class="card-body">{plan.resumen}</p>
               <p class="tag tag-neutral" style="align-self: flex-start">
-                {plan.conversaciones.toLocaleString('es-BO')} conversaciones al mes
+                Hasta {plan.conversaciones.toLocaleString('es-BO')} conversaciones al mes
               </p>
               <CaminosDelPlan
                 caminos={plan.caminos}
@@ -72,14 +72,10 @@ const { planes, instalacion, excedente, comoContamos } = precios;
       </div>
 
       <p class="texto-apagado" style="margin-top: var(--space-6); font-size: 14px">
-        Modalidad prepago: cada mes del plan se paga por adelantado. La
-        instalación es un pago único de USD {instalacion.estandar}, aparte de la
-        mensualidad. Una
-        conversación son hasta 25 respuestas del asistente a un mismo cliente
-        en 24 horas continuas; a partir de la respuesta 26 en el mismo día se
-        cuenta otra. Los precios están expresados en dólares
-        estadounidenses; el cobro se realiza en bolivianos, al Tipo de Cambio
-        Oficial que publica el Banco Central de Bolivia.
+        {precios.pie} La instalación es un pago único de USD {instalacion.estandar},
+        por adelantado y aparte de la mensualidad. Una conversación son hasta 25
+        respuestas del asistente a un mismo cliente en 24 horas continuas; a partir
+        de la respuesta 26 en el mismo día se cuenta otra.
       </p>
 
       <p class="texto-apagado" style="margin-top: var(--space-3); font-size: 14px">
@@ -90,18 +86,42 @@ const { planes, instalacion, excedente, comoContamos } = precios;
     </div>
   </section>
 
-  <!-- ── Excedentes e instalación ──────────────────────────────────────── -->
+  <!-- ── Qué pagas y qué necesitamos ───────────────────────────────────── -->
   <section class="seccion seccion-alterna">
     <div class="contenedor">
       <div class="rejilla" style="align-items: start">
         <article class="card elev-sm">
-          <h2 class="card-title">Si te pasas del plan</h2>
-          <p class="card-body">
-            Cada bloque adicional de hasta {excedente.conversaciones} conversaciones
-            cuesta USD {excedente.precioUsd} y no vence. Te escribimos cuando
-            llegas al 80 % de tu plan para que decidas si conviene subir de
-            nivel, y nunca se te cobra sin que lo apruebes.
-          </p>
+          <h2 class="card-title">{quePagas.titulo}</h2>
+          <ul class="plan-lista">
+            {
+              quePagas.items.map((i) => (
+                <li>
+                  <span>
+                    <strong>{i.aQuien}.</strong> {i.que}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </article>
+        <article class="card elev-sm">
+          <h2 class="card-title">{queNecesitamos.titulo}</h2>
+          <ul class="plan-lista">{queNecesitamos.items.map((i) => <li>{i}</li>)}</ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Bolsas e instalación ──────────────────────────────────────── -->
+  <section class="seccion">
+    <div class="contenedor">
+      <div class="rejilla" style="align-items: start">
+        <article class="card elev-sm">
+          <h2 class="card-title">{bolsasTexto.titulo}</h2>
+          <ul class="plan-lista">
+            {bolsas.map((b) => <li>{b.conversaciones} conversaciones por USD {b.precioUsd}</li>)}
+          </ul>
+          <p class="card-body">{bolsasTexto.texto}</p>
         </article>
 
         <article class="card elev-sm">
@@ -137,7 +157,7 @@ const { planes, instalacion, excedente, comoContamos } = precios;
   </section>
 
   <!-- ── Cómo contamos ─────────────────────────────────────────────────── -->
-  <section class="seccion" id="como-contamos">
+  <section class="seccion seccion-alterna" id="como-contamos">
     <div class="contenedor">
       <h2 class="seccion-titulo">{comoContamos.titulo}</h2>
       <div style="max-width: var(--ancho-lectura)">
@@ -165,6 +185,37 @@ const { planes, instalacion, excedente, comoContamos } = precios;
           }
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- ── Opción excepcional (colapsada: no se publicita) ───────────────── -->
+  <section class="seccion" aria-label="Opción excepcional">
+    <div class="contenedor">
+      <details class="acordeon" data-excepcional style="max-width: var(--ancho-lectura)">
+        <summary>{excepcional.titulo}</summary>
+        <div class="acordeon-cuerpo">
+          <p>{excepcional.paraQuien}</p>
+          <ul class="plan-lista">
+            {
+              planes.map((p) => (
+                <li>
+                  {p.nombre}: USD {p.precioUsd} al mes, hasta{' '}
+                  {excepcional.conversaciones[p.id].toLocaleString('es-BO')} conversaciones
+                </li>
+              ))
+            }
+          </ul>
+          <ul class="plan-lista">{excepcional.diferencias.map((d) => <li>{d}</li>)}</ul>
+          <p>
+            Instalación: USD {excepcional.instalacionUsd}, pago único por adelantado.
+            Bolsa adicional: {excepcional.bolsa.conversaciones} conversaciones por USD{' '}
+            {excepcional.bolsa.precioUsd}, no vence.
+          </p>
+          <p>
+            {excepcional.nota} <a href="/contacto">Ir a la página de contacto</a>.
+          </p>
+        </div>
+      </details>
     </div>
   </section>
 

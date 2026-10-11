@@ -4,8 +4,8 @@ import IdentidadLegal from '../components/IdentidadLegal.astro';
 import { precios } from '../contenido/precios.es';
 import { sitio } from '../contenido/sitio.es';
 
-const actualizado = '2 de septiembre de 2026';
-const { instalacion, excedente, comoContamos } = precios;
+const actualizado = '6 de octubre de 2026';
+const { instalacion, bolsasResumen, comoContamos } = precios;
 ---
 
 <Base
@@ -28,14 +28,16 @@ const { instalacion, excedente, comoContamos } = precios;
       <p>
         NovuChat configura y opera un asistente conversacional que atiende a tus
         clientes por WhatsApp, usando exclusivamente el canal oficial de WhatsApp
-        Business Cloud API de Meta. Incluye una consola web desde la que
-        administras tu configuración y ves tus conversaciones.
+        Business Cloud API de Meta, sobre tu propia cuenta de WhatsApp Business,
+        que está a tu nombre. Incluye una consola web desde la que administras tu
+        configuración y ves tus conversaciones.
       </p>
 
       <h2>3. Cómo se cobra</h2>
       <p>
-        Los planes se facturan por mes adelantado. Cada plan incluye una cantidad
-        de conversaciones.
+        Los planes se facturan por mes adelantado. Cada plan incluye hasta una
+        cantidad máxima de conversaciones al mes y funciona sobre tu propia cuenta
+        de WhatsApp Business.
       </p>
       <p>
         Los precios se expresan en dólares estadounidenses. La facturación se
@@ -48,12 +50,18 @@ const { instalacion, excedente, comoContamos } = precios;
         <strong>{comoContamos.parrafos[0]}</strong>
       </p>
       <p>
-        Si superas lo incluido, cada bloque adicional de hasta {excedente.conversaciones}
-        {' '}conversaciones cuesta USD {excedente.precioUsd} y no vence. Te
-        avisamos al llegar al 80 % de tu plan para que decidas antes de que
-        ocurra, y no se cobra ningún excedente sin tu aprobación. El consumo del
-        modelo de inteligencia artificial y las conversaciones de WhatsApp están
-        incluidos en el precio del plan.
+        Si superas lo incluido, puedes comprar una bolsa de conversaciones
+        adicionales: {bolsasResumen}. Las bolsas no vencen. Te avisamos al llegar
+        al 80 % de tu plan para que decidas antes de que ocurra, y no se cobra
+        ninguna bolsa sin tu aprobación. El consumo del modelo de inteligencia
+        artificial está incluido en el precio del plan.
+      </p>
+      <p>
+        La mensajería de WhatsApp no está incluida en el precio del plan: la pagas
+        directamente a Meta, en tu cuenta y con el medio de pago que registres
+        allí, según la tarifa vigente de Meta. NovuChat no cobra ni intermedia
+        esos pagos, y los cargos que Meta haga en tu cuenta se rigen por sus
+        propias condiciones.
       </p>
       <p>
         La instalación es un pago único, que se hace por adelantado al inicio
@@ -61,14 +69,21 @@ const { instalacion, excedente, comoContamos } = precios;
         desde USD {instalacion.aMedidaDesde} cuando requiere integraciones a
         medida.
       </p>
+      <p>
+        Excepcionalmente, y solo cuando se acuerde caso por caso, NovuChat puede
+        ofrecer una modalidad con las conversaciones de WhatsApp incluidas en el
+        precio y un número conseguido por NovuChat, con los volúmenes y la bolsa
+        que se indican en la página de precios.
+      </p>
 
       <h2>4. Plazo de instalación</h2>
       <p>
-        Ponemos tu asistente en funcionamiento en 48 horas contadas desde que nos
-        entregas la información completa: servicios o productos con precios,
-        horarios, calendario y número de WhatsApp. Los trámites de verificación
-        de tu negocio ante Meta no dependen de nosotros y pueden tomar más
-        tiempo; te acompañamos en ellos.
+        Ponemos tu asistente en funcionamiento en 48 horas contadas desde que
+        tengas tu cuenta de WhatsApp Business lista y nos entregues la información
+        completa: servicios o productos con precios, horarios, calendario y número
+        de WhatsApp. Crear la cuenta y completar la verificación de tu negocio ante
+        Meta es un trámite tuyo, que no depende de nosotros y puede tomar más
+        tiempo; te acompañamos en ese proceso.
       </p>
 
       <h2>5. Tus obligaciones</h2>
@@ -77,6 +92,7 @@ const { instalacion, excedente, comoContamos } = precios;
         <li>No enviar mensajes masivos no solicitados.</li>
         <li>Mantener veraz y actualizada la información que carga el asistente: precios, horarios y disponibilidad.</li>
         <li>Responder a las derivaciones que el asistente haga a tu equipo.</li>
+        <li>Mantener activa tu cuenta de WhatsApp Business y al día el medio de pago que registraste en Meta.</li>
       </ul>
       <p>
         El incumplimiento de las políticas de Meta puede llevar a que Meta

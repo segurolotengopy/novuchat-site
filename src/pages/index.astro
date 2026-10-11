@@ -23,9 +23,10 @@ import { urlConsola } from '../lib/consola';
 
 <Base
   titulo="NovuChat — Asistente de WhatsApp con IA para tu negocio en Bolivia"
-  descripcion="Atiende 24/7, agenda citas, toma pedidos y cobra por QR. Instalación en 48 horas y consola desde tu celular."
+  descripcion="Atiende 24/7, agenda citas, toma pedidos y cobra por QR. Lo instalamos en 48 horas desde que tengas tu cuenta de WhatsApp Business lista y nos entregues tu información."
   rutaAlterna="/en"
   conFaq
+  faq={preguntasDestacadas}
 >
   <!-- ── Héroe ─────────────────────────────────────────────────────────── -->
   <section class="heroe">
@@ -216,8 +217,9 @@ import { urlConsola } from '../lib/consola';
     <div class="contenedor">
       <h2 class="seccion-titulo">Planes y precios</h2>
       <p class="seccion-bajada">
-        Sin contratos largos. Cada plan lleva un camino —citas o ventas— y el
-        consumo de la inteligencia artificial y de WhatsApp está incluido.
+        Sin contratos largos y con tu propia cuenta de WhatsApp Business. Cada
+        plan lleva un camino —citas o ventas— y la inteligencia artificial va
+        incluida; la mensajería de WhatsApp la pagas directamente a Meta.
       </p>
       <div class="rejilla">
         {
@@ -231,9 +233,10 @@ import { urlConsola } from '../lib/consola';
               <p class="plan-instalacion">
                 + USD {precios.instalacion.estandar} de instalación, pago único
               </p>
+              <p class="plan-instalacion">{precios.notaMeta}</p>
               <p class="card-body">{plan.resumen}</p>
               <p class="tag tag-neutral" style="align-self: flex-start">
-                {plan.conversaciones.toLocaleString('es-BO')} conversaciones al mes
+                Hasta {plan.conversaciones.toLocaleString('es-BO')} conversaciones al mes
               </p>
               <p class="card-body" style="font-size: 14px">
                 Eliges uno: {plan.caminos.map((c) => c.titulo).join(' o ')}.
@@ -245,6 +248,9 @@ import { urlConsola } from '../lib/consola';
           ))
         }
       </div>
+      <p class="texto-apagado" style="margin-top: var(--space-4); font-size: 14px">
+        {precios.pie}
+      </p>
       <p style="margin-top: var(--space-6)">
         <a class="btn btn-ghost" href="/precios">Ver qué incluye cada plan</a>
       </p>
@@ -300,11 +306,11 @@ import { urlConsola } from '../lib/consola';
         <a class="btn btn-cta btn-grande" href="/demo">Pedir una demostración</a>
         <a
           class="btn btn-secondary btn-grande"
-          href={`https://wa.me/${sitio.contacto.whatsappEnlace}`}
+          href={`https://wa.me/${sitio.contacto.whatsappAsistenteEnlace}`}
           rel="noopener"
           style="color: var(--banda-texto)"
         >
-          Escribir por WhatsApp
+          Escribir a nuestro asistente virtual por WhatsApp
         </a>
       </div>
     </div>

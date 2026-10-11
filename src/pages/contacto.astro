@@ -33,12 +33,24 @@ const planes = precios.planes.map((p) => ({ id: p.id, nombre: p.nombre }));
             href={`https://wa.me/${sitio.contacto.whatsappEnlace}`}
             rel="noopener"
           >
-            WhatsApp {sitio.contacto.whatsapp}
+            WhatsApp de ventas {sitio.contacto.whatsapp}
           </a>
           <a class="btn btn-secondary btn-grande" href={`mailto:${sitio.contacto.correo}`}>
             {sitio.contacto.correo}
           </a>
         </div>
+
+        <p class="heroe-bajada" style="margin-top: var(--space-6)">
+          También puedes escribirle a nuestro asistente virtual por WhatsApp: es una
+          inteligencia artificial, no una persona.
+        </p>
+        <a
+          class="btn btn-secondary"
+          href={`https://wa.me/${sitio.contacto.whatsappAsistenteEnlace}`}
+          rel="noopener"
+        >
+          Asistente virtual por WhatsApp {sitio.contacto.whatsappAsistente}
+        </a>
 
         <p class="texto-apagado" style="margin-top: var(--space-8)">
           {sitio.contacto.ciudad}, {sitio.contacto.pais}
