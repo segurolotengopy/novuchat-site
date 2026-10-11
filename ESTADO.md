@@ -3,7 +3,7 @@
 > Bitácora viva del proyecto. Se actualiza al cerrar cada sesión de trabajo.
 > **Nunca** contiene secretos: claves, tokens ni valores de `.env`.
 
-Última actualización: **2026-10-11** (oferta con cuenta propia publicada en `v0.5.0`; el resto del documento, 2026-10-01 y antes)
+Última actualización: **2026-10-11** (oferta con cuenta propia publicada en `v0.5.0`; bolsas nuevas en preparación para `v0.5.1`; el resto del documento, 2026-10-01 y antes)
 
 ---
 
@@ -74,9 +74,10 @@ encienden el formulario y el asistente. Falta **generar el índice del RAG** (la
 | 2026-09-15 | Sitio alineado con la plataforma: EN al modelo de bloques, «24 horas continuas» también en la FAQ, sin «nunca deja a medias» (lo contradice el umbral de bloqueo), «soporte técnico prioritario» en `/terminos`, índice regenerado | Revisión contra los cambios de `~/NovuChat` del 13 al 15/09. La captación de WhatsApp copia este corpus: su huella cambió |
 | 2026-09-15 | **El precio de instalación junto al precio de cada plan** («+ USD 65 de instalación, pago único»), en la nota bajo los planes y en una FAQ propia | Reclamo de un prospecto: estaba solo en la tarjeta de `/precios`, dos pantallas por debajo (cuatro en celular). Quien entra por la portada o un rubro veía «USD 25 / mes» y descubría los USD 65 en la propuesta |
 | 2026-09-15 | **`v0.4.0` en producción** (Cloud Run `00017`): la definición de bloques (#46), el inglés, la instalación y el índice al día (#49). Acta en `docs/produccion/acta-v0.4.0.md` | Autorización de Andres en el chat. La prueba de humo del CI falló por un 404 transitorio del canal de previa y se reejecutó |
-| 2026-10-06 | **Oferta con la cuenta propia de WhatsApp Business del cliente** (publicada en `v0.5.0`, 2026-10-11): topes de **200 / 500 / 1.000** conversaciones (Impulso / Crecimiento / Pro, mismos precios USD 25 / 50 / 90), **bolsas** de 50 por USD 10, 100 por USD 20 y 300 por USD 40, mensajería de WhatsApp pagada por el cliente directamente a Meta (nota junto a cada precio y pie oficial), la opción con Meta incluido (100 / 220 / 500, bolsa de 30 por USD 10) **colapsada al final de `/precios`**, también en `/terminos` §3 y en el corpus del asistente, nunca en la portada, las tarjetas, la FAQ ni el JSON-LD, y contactos separados: +591 70661250 = persona, +591 76988663 = asistente de IA | Decisión de Andres. Se abrieron siete `PENDIENTES` que hacían fallar `pnpm listo` a propósito; se cerraron el 2026-10-11 (fila siguiente). La línea del prompt del asistente sobre «cuentas» se reformuló y queda para revisión de `seguridad` |
+| 2026-10-06 | **Oferta con la cuenta propia de WhatsApp Business del cliente** (publicada en `v0.5.0`, 2026-10-11): topes de **200 / 500 / 1.000** conversaciones (Impulso / Crecimiento / Pro, mismos precios USD 25 / 50 / 90), **bolsas** de 50 por USD 10, 100 por USD 20 y 300 por USD 40 (reemplazadas el 2026-10-11 por dos; ver la fila «Bolsas»), mensajería de WhatsApp pagada por el cliente directamente a Meta (nota junto a cada precio y pie oficial), la opción con Meta incluido (100 / 220 / 500, bolsa de 30 por USD 10) **colapsada al final de `/precios`**, también en `/terminos` §3 y en el corpus del asistente, nunca en la portada, las tarjetas, la FAQ ni el JSON-LD, y contactos separados: +591 70661250 = persona, +591 76988663 = asistente de IA | Decisión de Andres. Se abrieron siete `PENDIENTES` que hacían fallar `pnpm listo` a propósito; se cerraron el 2026-10-11 (fila siguiente). La línea del prompt del asistente sobre «cuentas» se reformuló y queda para revisión de `seguridad` |
 | 2026-10-11 | **Se publica la oferta con cuenta propia (`v0.5.0`, acta en `docs/produccion/acta-v0.5.0.md`)** y se vacía `PENDIENTES`. Cierre de los siete: (1) `plataforma-limites-y-bolsas`: manda la oferta y la plataforma se alinea a ella; (2) `frase-mensajeria-meta`: se publica la variante sin gratuidades ni cifras; (3) `numeros-de-whatsapp`: Andres confirmó los roles (+591 76988663 asistente de IA, +591 70661250 Silvana) y el reparto publicado; (4) `terminos-revision-legal`, (5) `privacidad-whatsapp-asistente`, (6) `alcance-instalacion` y (7) `numero-actual-aplicacion` se publican **sin revisión externa** y quedan como riesgos aceptados por Andres (ver «De Andres») | Instrucción de Andres: «el sitio tiene que prometer lo que ofertamos». La compuerta `listo` se vació por esa instrucción, no porque los siete estuvieran resueltos de fondo |
 | 2026-10-11 | **`fix(deps)` en el mismo pase:** `proxy-addr` 2.0.7 → 2.0.8 (CRITICAL, en `functions/`), `devalue` → 5.9.4, `source-map-js` → 1.2.2, `sharp` → 0.35.5 (con sus binarios de libvips) y `http-cache-semantics` 4.2.0 → 4.3.0. **Sin excepciones nuevas**: Trivy decía que `http-cache-semantics` no tenía versión corregida, pero `pnpm audit` del CI sí la conocía (4.3.0, dentro del rango); se registró una excepción por error y se retiró antes de fusionar | Los avisos nuevos del 2026-10-01/05 hacían fallar `compuerta-pr` de cualquier PR. `package.json` no cambió; solo los lockfiles. `package.json` no cambió; solo los lockfiles. Lección: cuando dos herramientas discrepan sobre si hay versión corregida, probar `pnpm update <paquete> --depth Infinity` antes de pedir una excepción |
+| 2026-10-11 | **Bolsas públicas (`v0.5.1`, en preparación):** las tres bolsas de conversaciones (50 por USD 10, 100 por USD 20, 300 por USD 40) se **reemplazan por dos**: (1) **300 conversaciones por USD 15**, no vence, aviso al 80 % del plan, nunca se cobra sin aprobación (disponible: se registra como pago manual); (2) **300 mensajes de seguimiento por USD 10**, para lo que el negocio envía más de 48 horas después del último mensaje de su cliente, solo con la cuenta propia (no en la opción excepcional), con la aclaración de que Meta cobra cada mensaje aparte como plantilla de marketing (sin cifras de Meta). Reglas: un seguimiento dentro de las 48 horas va dentro de la conversación del cliente y no se cobra aparte, aunque responda; los planes no incluyen seguimientos fuera de las 48 horas. **La de seguimiento va rotulada «Próximamente»** (`bolsaSeguimiento.proximamente`, tag `tag-proximamente`, y en el corpus «todavía no está disponible, es una función próxima»). No cambian los planes, la opción excepcional (bolsa de 30 por USD 10), la frase de Meta, el pie ni los contactos. El corpus pasa de 46 a 48 fragmentos (`bolsa-seguimiento` y la pregunta nueva de la FAQ sobre seguimiento) y el índice se regenera | Decisión de Andres en el chat del sitio (fuente: `NovuChat/Analisis/50` §3). Se rotula «Próximamente» por la prohibición 8: **la plataforma todavía no vende esa bolsa ni cuenta esos mensajes**, y el sitio no puede publicar como disponible lo que el servidor no cumple. La bolsa de 300 por USD 15 se anuncia como disponible porque la decisión así lo indica; que el servidor la acredite y respete el aviso al 80 % se confirma con la sesión de la plataforma |
 | 2026-09-02 | **Vertex AI en vez de la API de AI Studio** | La API de AI Studio se paga con créditos de prepago que se agotan aparte; Vertex cobra a la cuenta de facturación del proyecto, que ya tiene presupuesto y alertas. Y no necesita clave: se autentica con la cuenta de servicio. Un secreto que no existe no se filtra |
 
 ---
@@ -562,7 +563,9 @@ que alguien lo reporte como una diferencia.
 - *Oferta con cuenta propia (`v0.5.0`, publicada):* **avisar la huella del
   índice vigente a la sesión de la plataforma** (la captación de WhatsApp
   copia el corpus) y comprobar que la plataforma aplica los topes
-  200 / 500 / 1.000 y las bolsas 50 / 100 / 300 que el sitio ya promete.
+  200 / 500 / 1.000 y la bolsa de 300 conversaciones por USD 15 que el sitio ya
+  promete (`v0.5.1`); la bolsa de mensajes de seguimiento (300 por USD 10) sale
+  como «Próximamente» hasta que la plataforma la venda y cuente esos mensajes.
 - *Dependencias:* resueltas en `v0.5.0` (`proxy-addr`, `devalue`,
   `source-map-js`, `sharp`, `http-cache-semantics`), sin excepciones nuevas. Queda `braces` (osv-scanner, sin versión corregida): ni Trivy ni
   `pnpm audit` lo bloquean hoy. Los PR de Dependabot abiertos (#53, #55, #56, #61,
@@ -628,6 +631,15 @@ que alguien lo reporte como una diferencia.
    igual con cuenta propia, porque la mensajería la paga el negocio a Meta:
    decidir si se reescribe o se acota a la opción excepcional; (b) la opción
    excepcional en inglés (`/en/precios`): confirmar si se mantiene.
+0 bis. *Bolsas de `v0.5.1`, dos decisiones:* (a) la regla de **48 horas** del
+   seguimiento convive con la definición de conversación en **24 horas
+   continuas**: confirmar la redacción pública, porque hoy un mismo cliente
+   tiene dos relojes (24 h para contar una conversación, 48 h para saber si un
+   mensaje del negocio es un seguimiento) y un lector atento puede preguntar
+   qué pasa entre la hora 24 y la 48; (b) **cuándo quitar el rótulo
+   «Próximamente»** de la bolsa de seguimiento: cuando la plataforma la venda y
+   cuente esos mensajes (es `proximamente: false` en `precios.es.ts` y
+   `precios.en.ts`, más el reindexado del corpus).
 1. Reemplazar la identidad legal provisional por el NIT propio de NovuChat
    cuando salga (`src/contenido/pendientes.ts`, dos valores).
 2. ID del píxel de Meta; confirmar zona horaria La Paz y moneda BOB en GA4.
