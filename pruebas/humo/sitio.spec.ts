@@ -311,6 +311,16 @@ test('/precios muestra la bolsa de conversaciones y la de seguimiento rotulada �
   }
 });
 
+test('/en/precios muestra la bolsa de seguimiento rotulada «Coming soon»', async ({ page }) => {
+  await page.goto('/en/precios');
+  await expect(page.getByText('300 conversations for USD 15', { exact: true })).toBeVisible();
+  // Mismo patrón que en español: la bolsa no está en la plataforma todavía (prohibición 8).
+  await expect(page.locator('[data-bolsa-seguimiento]')).toHaveText(/300 messages for USD 10/);
+  await expect(page.getByRole('heading', { name: /Follow-up message bundle/ }).locator('.tag-proximamente')).toHaveText(
+    'Coming soon',
+  );
+});
+
 test('el asistente flota y su logo tiene tamaño real', async ({ page }) => {
   // El logo estuvo en producción con `width: 0px`: el SVG cargaba, el elemento
   // existía y no se veía nada. Lo causaba `min-width: 0` en el contenedor —el

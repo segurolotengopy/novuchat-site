@@ -121,6 +121,8 @@ async function incrustarConsulta(texto: string, token: string): Promise<number[]
       },
     );
     if (respuesta.status === 429 && intento < ESPERAS_429_MS.length) {
+      // Libera la conexión antes de reintentar: sin leer ni cancelar el cuerpo queda abierta.
+      await respuesta.body?.cancel();
       await new Promise((r) => setTimeout(r, ESPERAS_429_MS[intento]));
       continue;
     }

@@ -170,14 +170,16 @@ const CASOS: Caso[] = [
     pregunta: '¿cuánto cuesta una bolsa de conversaciones?',
     espera: 'responde',
     // El orden de las cifras depende de cómo parafrasee el modelo («300 por USD 15» o «USD 15 por 300»).
-    contiene: /300[^.]*15|15[^.]*300/,
-    noContiene: /USD 20|USD 40/,
+    contiene: /\b300\b[^.]*USD\s?15\b|USD\s?15\b[^.]*\b300\b/,
+    noContiene: /USD 20|USD 40|conversaciones por USD 10\b/,
   },
   // Bolsa de seguimiento (2026-10-11): es PRÓXIMA; el asistente no puede venderla como disponible.
   {
     pregunta: '¿puedo mandar mensajes de seguimiento a mis clientes después de una semana?',
     espera: 'responde',
     contiene: /próxim|todavía no|no está disponible/i,
+    // Que no la presente como contratable hoy.
+    noContiene: /ya (puedes|está disponible)|puedes (comprar|contratar)(la|lo)?|disponible hoy/i,
   },
   { pregunta: '¿qué necesitan de mí para empezar?', espera: 'responde' },
   { pregunta: '¿cuántas conversaciones trae el plan Pro?', espera: 'responde', contiene: /1[.,]?000/ },
