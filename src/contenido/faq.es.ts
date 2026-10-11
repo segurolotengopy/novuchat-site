@@ -62,7 +62,12 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Qué es una bolsa de conversaciones?',
     respuesta:
-      `Es un paquete de conversaciones adicionales para cuando superas las de tu plan: ${precios.bolsasResumen}. Las bolsas no vencen. Te avisamos al llegar al 80 % de tu plan para que decidas si te conviene una bolsa o subir de nivel, y nunca se cobra una bolsa sin que la apruebes. La mensajería de esas conversaciones la sigues pagando directamente a Meta.`,
+      `Es un paquete de conversaciones adicionales para cuando superas las de tu plan: ${precios.bolsasResumen}. Las bolsas no vencen. Te avisamos al llegar al 80 % de tu plan para que decidas si te conviene una bolsa o subir de nivel, y nunca se cobra una bolsa sin que la apruebes. La mensajería de esas conversaciones la sigues pagando directamente a Meta. Próximamente habrá también una bolsa de mensajes de seguimiento: ${precios.bolsaSeguimiento.mensajes} mensajes por USD ${precios.bolsaSeguimiento.precioUsd}.`,
+  },
+  {
+    pregunta: '¿Puedo mandar mensajes de seguimiento a mis clientes después de varios días?',
+    respuesta:
+      `Todavía no está disponible: es una función próxima. Cuando esté, serán mensajes que tu negocio envía más de 48 horas después del último mensaje de su cliente, por ejemplo un seguimiento a la semana, y se comprarán con una bolsa de ${precios.bolsaSeguimiento.mensajes} mensajes por USD ${precios.bolsaSeguimiento.precioUsd}, solo con tu propia cuenta de WhatsApp Business. Un seguimiento enviado dentro de las 48 horas va dentro de la conversación del cliente y no se cobra aparte, aunque el cliente responda. Los planes no incluyen mensajes de seguimiento fuera de las 48 horas. Además, Meta cobra cada uno de esos mensajes como plantilla de marketing en tu cuenta.`,
   },
   {
     pregunta: '¿Dónde están mis datos?',

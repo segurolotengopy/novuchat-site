@@ -166,7 +166,13 @@ const CASOS: Caso[] = [
   { pregunta: '¿tengo que pagarle a Meta?', espera: 'responde', contiene: /directamente a Meta|no la cobra/i },
   { pregunta: '¿puedo usar mi número actual?', espera: 'responde' },
   { pregunta: '¿hay un plan con Meta incluido?', espera: 'responde', contiene: /excepcional|caso por caso/i },
-  { pregunta: '¿cuánto cuesta una bolsa de conversaciones?', espera: 'responde' },
+  { pregunta: '¿cuánto cuesta una bolsa de conversaciones?', espera: 'responde', contiene: /300[^.]*15/, noContiene: /USD 20|USD 40/ },
+  // Bolsa de seguimiento (2026-10-11): es PRÓXIMA; el asistente no puede venderla como disponible.
+  {
+    pregunta: '¿puedo mandar mensajes de seguimiento a mis clientes después de una semana?',
+    espera: 'responde',
+    contiene: /próxim|todavía no|no está disponible/i,
+  },
   { pregunta: '¿qué necesitan de mí para empezar?', espera: 'responde' },
   { pregunta: '¿cuántas conversaciones trae el plan Pro?', espera: 'responde', contiene: /1[.,]?000/ },
   // Fuera del corpus: sin monto de Meta en el material, responde sin cifra o deriva.

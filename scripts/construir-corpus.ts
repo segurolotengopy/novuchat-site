@@ -172,6 +172,20 @@ export function construirCorpus(): Fragmento[] {
       `La mensajería de WhatsApp de esas conversaciones la sigue pagando el negocio directamente a Meta.`,
   });
 
+  // La bolsa de seguimiento es PRÓXIMA: el fragmento tiene que decirlo con la
+  // misma advertencia que los planes (prohibición 8), o el asistente la vendería.
+  // Cifras en dígitos, no en letras (hallazgo 56).
+  const seg = precios.bolsaSeguimiento;
+  fragmentos.push({
+    id: 'bolsa-seguimiento',
+    titulo: `${seg.titulo}: mensajes de seguimiento después de 48 horas`,
+    url: '/precios',
+    texto:
+      `${seg.titulo}: ${seg.mensajes} mensajes por ${usd(seg.precioUsd)}. ` +
+      (seg.proximamente ? `La bolsa de seguimiento todavía no está disponible, es una función próxima. ` : '') +
+      `${seg.texto}`,
+  });
+
   const ex = precios.excepcional;
   fragmentos.push({
     id: 'opcion-excepcional',

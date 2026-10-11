@@ -1,4 +1,4 @@
-import type { Bolsa, Instalacion, Precios } from './tipos';
+import type { Bolsa, BolsaSeguimiento, Instalacion, Precios } from './tipos';
 
 const instalacion: Instalacion = {
   estandar: 65,
@@ -20,11 +20,18 @@ const instalacion: Instalacion = {
   ],
 };
 
-const bolsas: Bolsa[] = [
-  { conversaciones: 50, precioUsd: 10 },
-  { conversaciones: 100, precioUsd: 20 },
-  { conversaciones: 300, precioUsd: 40 },
-];
+const bolsas: Bolsa[] = [{ conversaciones: 300, precioUsd: 15 }];
+
+// Marked "Coming soon": the platform does not sell it or count those messages
+// yet (prohibition 8 of CLAUDE.md). No Meta figures: it only says Meta charges separately.
+const bolsaSeguimiento: BolsaSeguimiento = {
+  titulo: 'Follow-up message bundle',
+  mensajes: 300,
+  precioUsd: 10,
+  proximamente: true,
+  texto:
+    "It covers the messages your business sends more than 48 hours after the customer's last message, for example a follow-up a week later. A follow-up sent within 48 hours goes inside the customer's conversation and is not billed separately, even if the customer replies. Plans do not include follow-up messages beyond 48 hours; they are bought with the bundle. Only with your own WhatsApp Business account. In addition, Meta charges each of those messages as a marketing template in your account. It is not available yet.",
+};
 
 const bolsasResumen = bolsas
   .map((b, i) => `${b.conversaciones}${i === 0 ? ' conversations' : ''} for USD ${b.precioUsd}`)
@@ -167,6 +174,8 @@ export const pricing: Precios = {
   bolsas,
   bolsasResumen,
 
+  bolsaSeguimiento,
+
   bolsasTexto: {
     titulo: 'Conversation bundles',
     texto:
@@ -213,7 +222,12 @@ export const pricing: Precios = {
       },
       {
         termino: 'Bundle',
-        definicion: `Additional conversations for when you go over your plan: ${bolsasResumen}. They never expire. We warn you at 80 % of your plan, and no bundle is ever billed without your approval.`,
+        definicion: `Additional conversations for when you go over your plan: ${bolsasResumen}. It never expires. We warn you at 80 % of your plan, and no bundle is ever billed without your approval.`,
+      },
+      {
+        termino: 'Follow-up message',
+        definicion:
+          "A message your business sends more than 48 hours after the customer's last message. Plans do not include it: it is bought with the follow-up bundle, which is not available yet.",
       },
     ],
   },

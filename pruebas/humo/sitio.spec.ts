@@ -295,14 +295,19 @@ test('la portada no ofrece la opción excepcional', async ({ page }) => {
   expect(await page.content()).not.toContain(precios.excepcional.titulo);
 });
 
-test('/precios muestra las 3 bolsas', async ({ page }) => {
+test('/precios muestra la bolsa de conversaciones y la de seguimiento rotulada «Próximamente»', async ({ page }) => {
   await page.goto('/precios');
-  for (const texto of [
-    '50 conversaciones por USD 10',
-    '100 conversaciones por USD 20',
-    '300 conversaciones por USD 40',
-  ]) {
-    await expect(page.getByText(texto, { exact: true })).toBeVisible();
+  await expect(page.getByText('300 conversaciones por USD 15', { exact: true })).toBeVisible();
+  // La de seguimiento no está en la plataforma todavía: sale con su rótulo (prohibición 8).
+  const seguimiento = page.locator('[data-bolsa-seguimiento]');
+  await expect(seguimiento).toHaveText(/300 mensajes por USD 10/);
+  await expect(page.getByRole('heading', { name: /Bolsa de mensajes de seguimiento/ }).locator('.tag-proximamente')).toHaveText(
+    'Próximamente',
+  );
+  // Las bolsas retiradas no quedan en ninguna parte de la página.
+  const html = await page.content();
+  for (const retirada of ['conversaciones por USD 20', 'conversaciones por USD 40', '50 conversaciones por USD 10']) {
+    expect(html, retirada).not.toContain(retirada);
   }
 });
 

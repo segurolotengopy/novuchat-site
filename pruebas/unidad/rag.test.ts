@@ -233,13 +233,12 @@ describe('corpus derivado del sitio', () => {
     }
   });
 
-  it('los literales de la decisión de Andres (2026-10-06) no cambian sin que la prueba lo note', () => {
+  it('los literales de la decisión de Andres (2026-10-06 y 2026-10-11) no cambian sin que la prueba lo note', () => {
     expect(precios.planes.map((p) => p.conversaciones)).toEqual([200, 500, 1000]);
     expect(precios.bolsas.map((b) => ({ conversaciones: b.conversaciones, precioUsd: b.precioUsd }))).toEqual([
-      { conversaciones: 50, precioUsd: 10 },
-      { conversaciones: 100, precioUsd: 20 },
-      { conversaciones: 300, precioUsd: 40 },
+      { conversaciones: 300, precioUsd: 15 },
     ]);
+    expect(precios.bolsaSeguimiento).toMatchObject({ mensajes: 300, precioUsd: 10, proximamente: true });
     expect(Object.values(precios.excepcional.conversaciones)).toEqual([100, 220, 500]);
     expect(precios.excepcional.bolsa).toEqual({ conversaciones: 30, precioUsd: 10 });
   });
@@ -278,11 +277,9 @@ describe('corpus derivado del sitio', () => {
     expect(f!.texto).toContain('EXCEPCIONAL');
   });
 
-  it('el fragmento de bolsas cita cada bolsa y no mezcla la de la opción excepcional', () => {
+  it('el fragmento de bolsas cita la bolsa vigente y no mezcla la de la opción excepcional', () => {
     const f = corpus.find((x) => x.id === 'excedentes')!;
-    expect(f.texto).toContain('50 conversaciones por USD 10');
-    expect(f.texto).toContain('100 por USD 20');
-    expect(f.texto).toContain('300 por USD 40');
+    expect(f.texto).toContain('300 conversaciones por USD 15');
     for (const b of precios.bolsas) {
       expect(f.texto).toContain(`USD ${b.precioUsd}`);
     }
@@ -292,6 +289,32 @@ describe('corpus derivado del sitio', () => {
     for (const otro of corpus.filter((x) => x.id !== 'opcion-excepcional')) {
       expect(otro.texto, `${otro.id} cita la bolsa excepcional`).not.toContain(bolsaExcepcional);
     }
+  });
+
+  it('ningún fragmento conserva las bolsas retiradas el 2026-10-11', () => {
+    // 50 por USD 10, 100 por USD 20 y 300 por USD 40 ya no se venden. «USD 40»
+    // no se confunde con otra cifra vigente (los planes son 25 / 50 / 90).
+    for (const f of corpus) {
+      expect(f.texto, `${f.id} cita USD 40`).not.toContain('USD 40');
+      expect(f.texto, `${f.id} cita la bolsa de 100 por USD 20`).not.toContain('100 por USD 20');
+      expect(f.texto, `${f.id} cita la bolsa de 100 por USD 20`).not.toContain('100 conversaciones por USD 20');
+      expect(f.texto, `${f.id} cita la bolsa de 50 por USD 10`).not.toContain('50 conversaciones por USD 10');
+    }
+  });
+
+  it('la bolsa de seguimiento se rotula como próxima y trae la regla de las 48 horas', () => {
+    const f = corpus.find((x) => x.id === 'bolsa-seguimiento');
+    expect(f, 'falta el fragmento bolsa-seguimiento').toBeDefined();
+    expect(f!.texto).toContain('300 mensajes por USD 10');
+    // Misma advertencia que las prestaciones próximas de los planes (prohibición 8).
+    expect(f!.texto).toContain('todavía no está disponible, es una función próxima');
+    expect(f!.texto).toContain('48 horas');
+    expect(f!.texto).toContain('no se cobra aparte');
+    expect(f!.texto).toContain('plantilla de marketing');
+    // La frase de Meta no lleva cifras: solo se dice que Meta cobra aparte.
+    expect(f!.texto).not.toMatch(/\$|\bBs\b|centavo/i);
+    // Y no se presenta como contratable hoy.
+    expect(f!.texto).not.toMatch(/ya puedes (comprar|contratar)/i);
   });
 
   it('ningún fragmento usa el vocabulario que el sitio no publica', () => {
@@ -317,7 +340,7 @@ describe('corpus derivado del sitio', () => {
   });
 
   it('las cantidades de la oferta van en cifras, no en letras (hallazgo 56)', () => {
-    const ids = ['precios-resumen', 'que-pagas', 'que-necesitamos', 'excedentes', 'opcion-excepcional'];
+    const ids = ['precios-resumen', 'que-pagas', 'que-necesitamos', 'excedentes', 'bolsa-seguimiento', 'opcion-excepcional'];
     for (const f of corpus.filter((x) => ids.includes(x.id) || x.id.startsWith('plan-'))) {
       expect(f.texto, f.id).not.toMatch(/\b(dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|veinte|treinta|cuarenta|cincuenta|cien|doscientos|trescientos|quinientos|mil)\b/i);
     }

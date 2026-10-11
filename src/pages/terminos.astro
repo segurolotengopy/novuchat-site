@@ -5,7 +5,7 @@ import { precios } from '../contenido/precios.es';
 import { sitio } from '../contenido/sitio.es';
 
 const actualizado = '6 de octubre de 2026';
-const { instalacion, bolsasResumen, comoContamos } = precios;
+const { instalacion, bolsasResumen, bolsaSeguimiento, comoContamos } = precios;
 ---
 
 <Base
@@ -55,6 +55,17 @@ const { instalacion, bolsasResumen, comoContamos } = precios;
         al 80 % de tu plan para que decidas antes de que ocurra, y no se cobra
         ninguna bolsa sin tu aprobación. El consumo del modelo de inteligencia
         artificial está incluido en el precio del plan.
+      </p>
+      <p>
+        Próximamente, solo con tu propia cuenta de WhatsApp Business, habrá una
+        bolsa de mensajes de seguimiento: {bolsaSeguimiento.mensajes} mensajes por
+        USD {bolsaSeguimiento.precioUsd}, para los mensajes que tu negocio envía más
+        de 48 horas después del último mensaje de su cliente. Todavía no está
+        disponible. Un seguimiento enviado dentro de las 48 horas va dentro de la
+        conversación del cliente y no se cobra aparte, aunque el cliente responda.
+        Los planes no incluyen mensajes de seguimiento fuera de las 48 horas.
+        Además, Meta cobra cada uno de esos mensajes como plantilla de marketing
+        en tu cuenta.
       </p>
       <p>
         La mensajería de WhatsApp no está incluida en el precio del plan: la pagas

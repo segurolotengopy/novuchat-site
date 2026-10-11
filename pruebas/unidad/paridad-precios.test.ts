@@ -10,6 +10,12 @@ import { precios } from '../../src/contenido/precios.es';
  * distinta entre idiomas sería publicar dos ofertas a la vez: esta prueba la
  * detecta.
  */
+const datosSeguimiento = (t: typeof precios) => ({
+  mensajes: t.bolsaSeguimiento.mensajes,
+  precioUsd: t.bolsaSeguimiento.precioUsd,
+  proximamente: t.bolsaSeguimiento.proximamente,
+});
+
 describe('paridad numérica entre precios.es y precios.en', () => {
   it('cada plan tiene el mismo id, precio y tope de conversaciones', () => {
     const resumen = (t: typeof precios) =>
@@ -27,6 +33,12 @@ describe('paridad numérica entre precios.es y precios.en', () => {
 
   it('las bolsas coinciden en cantidad y precio', () => {
     expect(pricing.bolsas).toEqual(precios.bolsas);
+  });
+
+  it('la bolsa de seguimiento coincide en mensajes, precio y rótulo de próxima', () => {
+    expect(datosSeguimiento(pricing)).toEqual(datosSeguimiento(precios));
+    // La regla de las 48 horas lleva la misma cifra en ambos idiomas.
+    expect(pricing.bolsaSeguimiento.texto.match(/\d+/g)).toEqual(precios.bolsaSeguimiento.texto.match(/\d+/g));
   });
 
   it('la opción excepcional coincide en conversaciones y bolsa', () => {
@@ -50,5 +62,7 @@ describe('paridad numérica entre precios.es y precios.en', () => {
     copia.planes[2]!.conversaciones = 999;
     const resumen = (t: typeof precios) => t.planes.map((p) => p.conversaciones);
     expect(resumen(copia)).not.toEqual(resumen(precios));
+    copia.bolsaSeguimiento.precioUsd = 11;
+    expect(datosSeguimiento(copia)).not.toEqual(datosSeguimiento(precios));
   });
 });

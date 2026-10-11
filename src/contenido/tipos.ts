@@ -74,6 +74,21 @@ export interface Bolsa {
 }
 
 /**
+ * Bolsa de mensajes de seguimiento: los que el negocio ENVÍA más de 48 horas
+ * después del último mensaje de su cliente. No vence. En dólares. Solo con la
+ * cuenta propia del cliente. `proximamente: true` mientras la plataforma no la
+ * venda ni cuente esos mensajes (prohibición 8 de CLAUDE.md).
+ */
+export interface BolsaSeguimiento {
+  titulo: string;
+  mensajes: number;
+  precioUsd: number;
+  proximamente: boolean;
+  /** La regla de las 48 horas y lo que cobra Meta aparte, sin cifras de Meta. */
+  texto: string;
+}
+
+/**
  * Modalidad excepcional: conversaciones de WhatsApp incluidas y número nuevo
  * conseguido por NovuChat. NO se publicita: va colapsada al final de /precios,
  * nunca en la portada ni en las tarjetas. Mismos precios que `planes`, otro volumen.
@@ -104,9 +119,10 @@ export interface Precios {
   queNecesitamos: { titulo: string; items: string[] };
   instalacion: Instalacion;
   bolsas: Bolsa[];
-  /** «50 conversaciones por USD 10, 100 por USD 20 o 300 por USD 40», derivado de `bolsas`. */
+  /** «300 conversaciones por USD 15», derivado de `bolsas` (con varias: «A por X, B por Y o C por Z»). */
   bolsasResumen: string;
   bolsasTexto: { titulo: string; texto: string };
+  bolsaSeguimiento: BolsaSeguimiento;
   excepcional: ModalidadExcepcional;
   /** Definición de la unidad de cobro. Va en nota al pie y en el modal. */
   comoContamos: {
