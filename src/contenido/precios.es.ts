@@ -1,4 +1,4 @@
-import type { Bolsa, Instalacion, Precios } from './tipos';
+import type { Bolsa, BolsaSeguimiento, Instalacion, Precios } from './tipos';
 
 // Presentación 8 (Silvana, 2026-09-11): terminó la Rueda de Negocios y la
 // instalación deja de estar bonificada. Se paga por adelantado, al inicio
@@ -23,11 +23,28 @@ const instalacion: Instalacion = {
   ],
 };
 
-const bolsas: Bolsa[] = [
-  { conversaciones: 50, precioUsd: 10 },
-  { conversaciones: 100, precioUsd: 20 },
-  { conversaciones: 300, precioUsd: 40 },
-];
+// Decisión de Andres (2026-10-11): una sola bolsa de conversaciones pública.
+const bolsas: Bolsa[] = [{ conversaciones: 300, precioUsd: 15 }];
+
+// Rotulada «Próximamente»: la plataforma todavía no la vende ni cuenta esos
+// mensajes (prohibición 8 de CLAUDE.md). Quitar el rótulo es poner
+// `proximamente: false` y reindexar; exige que esté construida. Las reglas de
+// las 48 horas y el aviso viven SOLO aquí (ver `BolsaSeguimiento`). Sin cifras
+// de Meta: solo se dice que Meta cobra aparte.
+const bolsaSeguimiento: BolsaSeguimiento = {
+  titulo: 'Bolsa de mensajes de seguimiento',
+  mensajes: 300,
+  precioUsd: 10,
+  proximamente: true,
+  descripcion:
+    'Sirve para los mensajes que tu negocio envía más de 48 horas después del último mensaje de su cliente, por ejemplo un seguimiento a la semana. Esos mensajes se compran con esta bolsa, solo con tu propia cuenta de WhatsApp Business. Además, Meta cobra cada uno de esos mensajes como plantilla de marketing en tu cuenta.',
+  reglas: [
+    'Un seguimiento enviado dentro de las 48 horas va dentro de la conversación del cliente y NovuChat no lo cobra aparte, aunque el cliente responda.',
+    'Los planes no incluyen mensajes de seguimiento fuera de las 48 horas.',
+    'Los recordatorios de cita que ya incluye tu plan no cuentan como mensajes de seguimiento.',
+  ],
+  avisoProximamente: 'La bolsa de seguimiento todavía no está disponible, es una función próxima.',
+};
 
 const bolsasResumen = bolsas
   .map((b, i) => `${b.conversaciones}${i === 0 ? ' conversaciones' : ''} por USD ${b.precioUsd}`)
@@ -35,7 +52,8 @@ const bolsasResumen = bolsas
   .replace(/, ([^,]+)$/, ' o $1');
 
 // Variante sin gratuidades ni cifras (decisión de Andres 2026-10-06, ver ESTADO hallazgo 61). Las fuentes sobre la tarifa de Meta discrepan y
-// Andres elige. Es la ÚNICA frase del sitio sobre lo que cobra Meta.
+// Andres elige. Es la ÚNICA frase del sitio sobre lo que cobra Meta, salvo la
+// mención sin cifras de la plantilla de marketing en `bolsaSeguimiento.descripcion`.
 const mensajeriaMeta =
   'Meta cobra la mensajería por mensaje, según su tarifa vigente. El monto depende de cuántos mensajes se envían y de qué tipo son; puedes consultar la tarifa actual en el sitio de Meta.';
 
@@ -183,6 +201,8 @@ export const precios: Precios = {
   bolsas,
   bolsasResumen,
 
+  bolsaSeguimiento,
+
   bolsasTexto: {
     titulo: 'Bolsas de conversaciones',
     texto:
@@ -230,7 +250,16 @@ export const precios: Precios = {
       },
       {
         termino: 'Bolsa',
-        definicion: `Conversaciones adicionales para cuando superas las de tu plan: ${bolsasResumen}. No vencen. Te avisamos al llegar al 80 % de tu plan, y nunca se cobra una bolsa sin que la apruebes.`,
+        definicion: `Conversaciones adicionales para cuando superas las de tu plan: ${bolsasResumen}. No vence. Te avisamos al llegar al 80 % de tu plan, y nunca se cobra una bolsa sin que la apruebes.`,
+      },
+      {
+        termino: 'Mensaje de seguimiento',
+        // Getter a propósito: se deriva de `bolsaSeguimiento` en cada lectura, así
+        // `proximamente` es la ÚNICA fuente del aviso y una prueba puede simularlo
+        // en `false` sin reescribir el archivo (`pruebas/unidad/rag.test.ts`).
+        get definicion() {
+          return `Un mensaje que tu negocio envía más de 48 horas después del último mensaje de su cliente. ${bolsaSeguimiento.reglas[1]} ${bolsaSeguimiento.reglas[2]}${bolsaSeguimiento.proximamente ? ` ${bolsaSeguimiento.avisoProximamente}` : ''}`;
+        },
       },
     ],
   },

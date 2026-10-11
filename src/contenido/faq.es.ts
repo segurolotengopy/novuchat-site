@@ -12,7 +12,7 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Necesito un número nuevo de WhatsApp?',
     respuesta:
-      'No es obligatorio. El asistente atiende en un número a tu nombre, registrado en tu propia cuenta de WhatsApp Business: puede ser el que ya tienes o uno nuevo que consigas para el asistente. Lo que conviene saber es que, mientras un número está conectado al asistente, ya no puedes responder con ese número desde la aplicación de WhatsApp de tu celular. Por eso, si hoy atiendes con tu número desde la aplicación y quieres seguir haciéndolo, te recomendamos un número nuevo para el asistente.',
+      'No es obligatorio. El asistente atiende en un número a tu nombre, registrado en tu propia cuenta de WhatsApp Business: puede ser el que ya tienes o uno nuevo que consigas para el asistente. Al conectar tu número con el asistente, ese número pasa al canal oficial de WhatsApp Business y deja de funcionar en la aplicación del celular. Por eso recomendamos un número nuevo y dedicado al asistente.',
   },
   {
     pregunta: '¿Los costos de WhatsApp y de la inteligencia artificial son aparte?',
@@ -42,7 +42,7 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Puedo usar mi número actual?',
     respuesta:
-      'Sí, siempre que esté a tu nombre y lo registres en tu cuenta de WhatsApp Business. Ten en cuenta que, mientras esté conectado al asistente, ya no puedes responder con ese número desde la aplicación de WhatsApp de tu celular. Si eso te complica, usa un número nuevo para el asistente y deja el de siempre en tu celular. Lo revisamos contigo antes de conectar.',
+      'Sí, siempre que esté a tu nombre y lo registres en tu cuenta de WhatsApp Business. Ten en cuenta que, al conectarlo con el asistente, ese número pasa al canal oficial de WhatsApp Business y deja de funcionar en la aplicación del celular. Por eso recomendamos un número nuevo y dedicado al asistente, y dejar el de siempre en tu celular. Lo revisamos contigo antes de conectar.',
   },
   {
     pregunta: '¿Cuánto cuesta la instalación?',
@@ -61,8 +61,20 @@ export const preguntas: Pregunta[] = [
   },
   {
     pregunta: '¿Qué es una bolsa de conversaciones?',
-    respuesta:
-      `Es un paquete de conversaciones adicionales para cuando superas las de tu plan: ${precios.bolsasResumen}. Las bolsas no vencen. Te avisamos al llegar al 80 % de tu plan para que decidas si te conviene una bolsa o subir de nivel, y nunca se cobra una bolsa sin que la apruebes. La mensajería de esas conversaciones la sigues pagando directamente a Meta.`,
+    // Getters a propósito (esta y la siguiente): se derivan de `precios` en cada
+    // lectura, así `bolsaSeguimiento.proximamente` es la ÚNICA fuente del aviso y
+    // una prueba puede simularlo en `false` sin reescribir el archivo.
+    get respuesta() {
+      const seg = precios.bolsaSeguimiento;
+      return `Es un paquete de conversaciones adicionales para cuando superas las de tu plan: ${precios.bolsasResumen}. Las bolsas no vencen. Te avisamos al llegar al 80 % de tu plan para que decidas si te conviene una bolsa o subir de nivel, y nunca se cobra una bolsa sin que la apruebes. La mensajería de esas conversaciones la sigues pagando directamente a Meta. ${seg.proximamente ? 'Próximamente habrá también' : 'Hay también'} una bolsa de mensajes de seguimiento: ${seg.mensajes} mensajes por USD ${seg.precioUsd}.`;
+    },
+  },
+  {
+    pregunta: '¿Puedo mandar mensajes de seguimiento a mis clientes después de varios días?',
+    get respuesta() {
+      const seg = precios.bolsaSeguimiento;
+      return `${seg.proximamente ? `Todavía no. ${seg.avisoProximamente} ` : ''}Los mensajes de seguimiento se compran con una bolsa de ${seg.mensajes} mensajes por USD ${seg.precioUsd}. ${seg.descripcion} ${seg.reglas.join(' ')}`;
+    },
   },
   {
     pregunta: '¿Dónde están mis datos?',

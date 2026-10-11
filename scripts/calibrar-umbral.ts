@@ -69,6 +69,7 @@ const DENTRO: { pregunta: string; espera: string }[] = [
   { pregunta: 'puedo usar el numero que ya tengo', espera: 'faq-puedo-usar-mi-numero-actual' },
   { pregunta: 'hay algun plan con whatsapp incluido', espera: 'opcion-excepcional' },
   { pregunta: 'cuanto cuesta una bolsa de conversaciones', espera: 'excedentes' },
+  { pregunta: 'puedo mandar mensajes de seguimiento a mis clientes despues de una semana', espera: 'bolsa-seguimiento' },
   { pregunta: 'que tengo que tener listo antes de la instalacion', espera: 'que-necesitamos' },
 ];
 
@@ -93,29 +94,44 @@ function tokenDeAcceso(): string {
   }).trim();
 }
 
+/**
+ * Espera creciente ante un 429. Vertex limita las incrustaciones por MINUTO y
+ * esta calibración dispara ~45 seguidas: sin reintento moría siempre a mitad.
+ * La suma (65 s) cubre una ventana completa (mismo patrón que `probar-asistente.ts`).
+ */
+const ESPERAS_429_MS = [5_000, 10_000, 20_000, 30_000];
+
 async function incrustarConsulta(texto: string, token: string): Promise<number[]> {
-  const respuesta = await fetch(
-    `https://${REGION}-aiplatform.googleapis.com/v1/projects/${PROYECTO}/locations/${REGION}/publishers/google/models/${MODELO}:predict`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'X-Goog-User-Project': PROYECTO,
+  for (let intento = 0; ; intento += 1) {
+    const respuesta = await fetch(
+      `https://${REGION}-aiplatform.googleapis.com/v1/projects/${PROYECTO}/locations/${REGION}/publishers/google/models/${MODELO}:predict`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'X-Goog-User-Project': PROYECTO,
+        },
+        body: JSON.stringify({
+          // RETRIEVAL_QUERY, no RETRIEVAL_DOCUMENT: son operaciones distintas y
+          // usar el mismo tipo para las dos degrada la recuperación.
+          instances: [{ task_type: 'RETRIEVAL_QUERY', content: texto }],
+          parameters: { outputDimensionality: DIMENSIONES },
+        }),
       },
-      body: JSON.stringify({
-        // RETRIEVAL_QUERY, no RETRIEVAL_DOCUMENT: son operaciones distintas y
-        // usar el mismo tipo para las dos degrada la recuperación.
-        instances: [{ task_type: 'RETRIEVAL_QUERY', content: texto }],
-        parameters: { outputDimensionality: DIMENSIONES },
-      }),
-    },
-  );
-  if (!respuesta.ok) throw new Error(`${respuesta.status}: ${await respuesta.text()}`);
-  const datos = (await respuesta.json()) as {
-    predictions: { embeddings: { values: number[] } }[];
-  };
-  return datos.predictions[0]!.embeddings.values;
+    );
+    if (respuesta.status === 429 && intento < ESPERAS_429_MS.length) {
+      // Libera la conexión antes de reintentar: sin leer ni cancelar el cuerpo queda abierta.
+      await respuesta.body?.cancel();
+      await new Promise((r) => setTimeout(r, ESPERAS_429_MS[intento]));
+      continue;
+    }
+    if (!respuesta.ok) throw new Error(`${respuesta.status}: ${await respuesta.text()}`);
+    const datos = (await respuesta.json()) as {
+      predictions: { embeddings: { values: number[] } }[];
+    };
+    return datos.predictions[0]!.embeddings.values;
+  }
 }
 
 function coseno(a: number[], b: number[]): number {

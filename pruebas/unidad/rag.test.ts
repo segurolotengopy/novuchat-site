@@ -137,7 +137,10 @@ describe('corpus derivado del sitio', () => {
   it('ningún fragmento queda vacío ni desmesurado', () => {
     for (const f of corpus) {
       expect(f.texto.trim().length, f.id).toBeGreaterThan(40);
-      expect(f.texto.length, f.id).toBeLessThan(2000);
+      // Guarda de cordura, no un límite del modelo de embeddings: 2200 caracteres son
+      // unos 550 tokens. Se subió de 2000 el 2026-10-11 porque el glosario de
+      // `como-se-cuenta` suma la regla de los recordatorios de cita.
+      expect(f.texto.length, f.id).toBeLessThan(2200);
     }
   });
 
@@ -233,13 +236,12 @@ describe('corpus derivado del sitio', () => {
     }
   });
 
-  it('los literales de la decisión de Andres (2026-10-06) no cambian sin que la prueba lo note', () => {
+  it('los literales de la decisión de Andres (2026-10-06 y 2026-10-11) no cambian sin que la prueba lo note', () => {
     expect(precios.planes.map((p) => p.conversaciones)).toEqual([200, 500, 1000]);
     expect(precios.bolsas.map((b) => ({ conversaciones: b.conversaciones, precioUsd: b.precioUsd }))).toEqual([
-      { conversaciones: 50, precioUsd: 10 },
-      { conversaciones: 100, precioUsd: 20 },
-      { conversaciones: 300, precioUsd: 40 },
+      { conversaciones: 300, precioUsd: 15 },
     ]);
+    expect(precios.bolsaSeguimiento).toMatchObject({ mensajes: 300, precioUsd: 10, proximamente: true });
     expect(Object.values(precios.excepcional.conversaciones)).toEqual([100, 220, 500]);
     expect(precios.excepcional.bolsa).toEqual({ conversaciones: 30, precioUsd: 10 });
   });
@@ -278,11 +280,9 @@ describe('corpus derivado del sitio', () => {
     expect(f!.texto).toContain('EXCEPCIONAL');
   });
 
-  it('el fragmento de bolsas cita cada bolsa y no mezcla la de la opción excepcional', () => {
+  it('el fragmento de bolsas cita la bolsa vigente y no mezcla la de la opción excepcional', () => {
     const f = corpus.find((x) => x.id === 'excedentes')!;
-    expect(f.texto).toContain('50 conversaciones por USD 10');
-    expect(f.texto).toContain('100 por USD 20');
-    expect(f.texto).toContain('300 por USD 40');
+    expect(f.texto).toContain('300 conversaciones por USD 15');
     for (const b of precios.bolsas) {
       expect(f.texto).toContain(`USD ${b.precioUsd}`);
     }
@@ -292,6 +292,93 @@ describe('corpus derivado del sitio', () => {
     for (const otro of corpus.filter((x) => x.id !== 'opcion-excepcional')) {
       expect(otro.texto, `${otro.id} cita la bolsa excepcional`).not.toContain(bolsaExcepcional);
     }
+  });
+
+  it('ningún fragmento conserva las bolsas retiradas el 2026-10-11', () => {
+    // 50 por USD 10, 100 por USD 20 y 300 por USD 40 ya no se venden. «USD 40»
+    // no se confunde con otra cifra vigente (los planes son 25 / 50 / 90).
+    for (const f of corpus) {
+      expect(f.texto, `${f.id} cita USD 40`).not.toContain('USD 40');
+      expect(f.texto, `${f.id} cita la bolsa de 100 por USD 20`).not.toContain('100 por USD 20');
+      expect(f.texto, `${f.id} cita la bolsa de 100 por USD 20`).not.toContain('100 conversaciones por USD 20');
+      expect(f.texto, `${f.id} cita la bolsa de 50 por USD 10`).not.toContain('50 conversaciones por USD 10');
+    }
+  });
+
+  it('la bolsa de seguimiento se rotula como próxima y trae la regla de las 48 horas', () => {
+    const f = corpus.find((x) => x.id === 'bolsa-seguimiento');
+    expect(f, 'falta el fragmento bolsa-seguimiento').toBeDefined();
+    expect(f!.texto).toContain('300 mensajes por USD 10');
+    // Misma advertencia que las prestaciones próximas de los planes (prohibición 8).
+    expect(f!.texto).toContain('todavía no está disponible, es una función próxima');
+    expect(f!.texto).toContain('48 horas');
+    expect(f!.texto).toContain('NovuChat no lo cobra aparte');
+    expect(f!.texto).toContain('plantilla de marketing');
+    // La frase de Meta no lleva cifras: solo se dice que Meta cobra aparte.
+    expect(f!.texto).not.toMatch(/\$|\bBs\b|centavo/i);
+    // Los únicos montos del fragmento son los de la bolsa: ninguna cifra de Meta.
+    expect(f!.texto.match(/USD\s?\d+(?:[.,]\d+)*/g)).toEqual([`USD ${precios.bolsaSeguimiento.precioUsd}`]);
+    // Y no se presenta como contratable hoy.
+    expect(f!.texto).not.toMatch(/ya puedes (comprar|contratar)/i);
+  });
+
+  // Los fragmentos que hablan de la bolsa de seguimiento: se reconocen por la
+  // palabra y por su monto, no por el id, para que una FAQ o el glosario nuevos
+  // que la mencionen queden cubiertos sin tocar la prueba.
+  const hablaDeLaBolsaDeSeguimiento = (c = corpus) =>
+    c.filter((x) => /seguimiento/i.test(x.texto) && /USD 10\b/.test(x.texto) && x.id !== 'opcion-excepcional').map((x) => x.id);
+
+  it('todo fragmento que ofrece la bolsa de seguimiento dice que es próxima mientras lo sea', () => {
+    expect(precios.bolsaSeguimiento.proximamente).toBe(true);
+    const ids = hablaDeLaBolsaDeSeguimiento();
+    // La prueba no está muda: la bolsa vive al menos en su fragmento y en la FAQ.
+    expect(ids).toEqual(expect.arrayContaining(['bolsa-seguimiento']));
+    expect(ids.length).toBeGreaterThanOrEqual(3);
+    for (const f of corpus.filter((x) => ids.includes(x.id))) {
+      expect(f.texto, `${f.id} ofrece la bolsa de seguimiento sin decir que es próxima`).toMatch(
+        /todavía no|próxim/i,
+      );
+    }
+  });
+
+  it('con `proximamente` en false ningún texto del corpus dice «no disponible» ni «próxima» para la bolsa de seguimiento', () => {
+    const seg = precios.bolsaSeguimiento;
+    const antes = seg.proximamente;
+    try {
+      // Copia en memoria: se simula el día en que la plataforma ya la vende. El
+      // contenido deriva el aviso de la bandera (FAQ y glosario, por getters).
+      seg.proximamente = false;
+      const simulado = construirCorpus();
+      // Aquí basta la palabra «seguimiento» (sin exigir el monto): así entra también
+      // el glosario, que define el término pero no cita USD 10.
+      const ids = simulado.filter((x) => /seguimiento/i.test(x.texto)).map((x) => x.id);
+      expect(ids, 'el corpus simulado perdió el glosario').toContain('como-se-cuenta');
+      expect(ids, 'el corpus simulado perdió el fragmento de la bolsa').toContain('bolsa-seguimiento');
+      for (const f of simulado.filter((x) => ids.includes(x.id))) {
+        expect(f.texto, `${f.id} sigue diciendo que no está disponible`).not.toMatch(
+          /todavía no está disponible|próxima|próximamente/i,
+        );
+      }
+    } finally {
+      seg.proximamente = antes;
+    }
+    expect(seg.proximamente).toBe(true);
+  });
+
+  it('las reglas de las 48 horas salen de `reglas` en cada texto que las dice', () => {
+    const { reglas } = precios.bolsaSeguimiento;
+    expect(reglas).toHaveLength(3);
+    const texto = (id: string) => corpus.find((x) => x.id === id)!.texto;
+    // El fragmento de la bolsa y la FAQ de seguimiento traen las dos, literales.
+    const idFaq = corpus.find((x) => x.id.startsWith('faq-') && /mensajes de seguimiento/i.test(x.titulo))!.id;
+    for (const id of ['bolsa-seguimiento', idFaq]) {
+      for (const regla of reglas) {
+        expect(texto(id), `${id} no trae la regla literal «${regla}»`).toContain(regla);
+      }
+    }
+    // El glosario (acotado por el tope de longitud) trae la de los planes.
+    expect(texto('como-se-cuenta'), 'el glosario no trae la regla de los planes').toContain(reglas[1]);
+    expect(texto('como-se-cuenta'), 'el glosario no trae la regla de los recordatorios').toContain(reglas[2]);
   });
 
   it('ningún fragmento usa el vocabulario que el sitio no publica', () => {
@@ -317,7 +404,7 @@ describe('corpus derivado del sitio', () => {
   });
 
   it('las cantidades de la oferta van en cifras, no en letras (hallazgo 56)', () => {
-    const ids = ['precios-resumen', 'que-pagas', 'que-necesitamos', 'excedentes', 'opcion-excepcional'];
+    const ids = ['precios-resumen', 'que-pagas', 'que-necesitamos', 'excedentes', 'bolsa-seguimiento', 'opcion-excepcional'];
     for (const f of corpus.filter((x) => ids.includes(x.id) || x.id.startsWith('plan-'))) {
       expect(f.texto, f.id).not.toMatch(/\b(dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|veinte|treinta|cuarenta|cincuenta|cien|doscientos|trescientos|quinientos|mil)\b/i);
     }

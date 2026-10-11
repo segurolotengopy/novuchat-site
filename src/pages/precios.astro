@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import CaminosDelPlan from '../components/CaminosDelPlan.astro';
 import { precios } from '../contenido/precios.es';
 
-const { planes, instalacion, bolsas, bolsasTexto, excepcional, quePagas, queNecesitamos, comoContamos } =
+const { planes, instalacion, bolsas, bolsasTexto, bolsaSeguimiento, excepcional, quePagas, queNecesitamos, comoContamos } =
   precios;
 ---
 
@@ -122,6 +122,23 @@ const { planes, instalacion, bolsas, bolsasTexto, excepcional, quePagas, queNece
             {bolsas.map((b) => <li>{b.conversaciones} conversaciones por USD {b.precioUsd}</li>)}
           </ul>
           <p class="card-body">{bolsasTexto.texto}</p>
+
+          <h3 class="card-title" style="margin-top: var(--space-6)">
+            {bolsaSeguimiento.titulo}
+            {
+              bolsaSeguimiento.proximamente && (
+                <span class="tag tag-proximamente" style="margin-left: 6px">
+                  Próximamente
+                </span>
+              )
+            }
+          </h3>
+          <p data-bolsa-seguimiento>
+            {bolsaSeguimiento.mensajes} mensajes por USD {bolsaSeguimiento.precioUsd}
+          </p>
+          <p class="card-body">{bolsaSeguimiento.descripcion}</p>
+          <ul class="plan-lista">{bolsaSeguimiento.reglas.map((r) => <li>{r}</li>)}</ul>
+          {bolsaSeguimiento.proximamente && <p class="card-body">{bolsaSeguimiento.avisoProximamente}</p>}
         </article>
 
         <article class="card elev-sm">

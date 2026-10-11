@@ -4,8 +4,8 @@ import IdentidadLegal from '../components/IdentidadLegal.astro';
 import { precios } from '../contenido/precios.es';
 import { sitio } from '../contenido/sitio.es';
 
-const actualizado = '6 de octubre de 2026';
-const { instalacion, bolsasResumen, comoContamos } = precios;
+const actualizado = '16 de octubre de 2026';
+const { instalacion, bolsasResumen, bolsaSeguimiento, comoContamos } = precios;
 ---
 
 <Base
@@ -55,6 +55,12 @@ const { instalacion, bolsasResumen, comoContamos } = precios;
         al 80 % de tu plan para que decidas antes de que ocurra, y no se cobra
         ninguna bolsa sin tu aprobación. El consumo del modelo de inteligencia
         artificial está incluido en el precio del plan.
+      </p>
+      <p>
+        Bolsa de mensajes de seguimiento: {bolsaSeguimiento.mensajes} mensajes por
+        USD {bolsaSeguimiento.precioUsd}.
+        {bolsaSeguimiento.proximamente && ` ${bolsaSeguimiento.avisoProximamente}`}
+        {bolsaSeguimiento.descripcion} {bolsaSeguimiento.reglas.join(' ')}
       </p>
       <p>
         La mensajería de WhatsApp no está incluida en el precio del plan: la pagas

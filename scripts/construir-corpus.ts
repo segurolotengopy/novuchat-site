@@ -163,13 +163,34 @@ export function construirCorpus(): Fragmento[] {
     texto: `${precios.queNecesitamos.titulo} para empezar: ${precios.queNecesitamos.items.join('; ')}. Tú no programas nada.`,
   });
 
+  // Una sola bolsa: «La bolsa disponible es…»; varias: «Las bolsas disponibles son: …».
+  const bolsasDisponibles =
+    precios.bolsas.length === 1
+      ? `La bolsa disponible es ${precios.bolsasResumen}.`
+      : `Las bolsas disponibles son: ${precios.bolsasResumen}.`;
   fragmentos.push({
     id: 'excedentes',
     titulo: `${precios.bolsasTexto.titulo}: qué pasa si me paso del plan`,
     url: '/precios',
     texto:
-      `${precios.bolsasTexto.titulo}. ${precios.bolsasTexto.texto} Las bolsas disponibles son: ${precios.bolsasResumen}. ` +
+      `${precios.bolsasTexto.titulo}. ${precios.bolsasTexto.texto} ${bolsasDisponibles} ` +
       `La mensajería de WhatsApp de esas conversaciones la sigue pagando el negocio directamente a Meta.`,
+  });
+
+  // La bolsa de seguimiento es PRÓXIMA mientras `proximamente` sea true: el
+  // fragmento tiene que decirlo con la misma advertencia que los planes
+  // (prohibición 8), o el asistente la vendería. Las reglas de las 48 horas se
+  // interpolan de `reglas` (fuente única); el aviso sale SOLO de `proximamente`
+  // y se dice una vez. Cifras en dígitos, no en letras (hallazgo 56).
+  const seg = precios.bolsaSeguimiento;
+  fragmentos.push({
+    id: 'bolsa-seguimiento',
+    titulo: `${seg.titulo}: mensajes de seguimiento después de 48 horas`,
+    url: '/precios',
+    texto:
+      `${seg.titulo}: ${seg.mensajes} mensajes por ${usd(seg.precioUsd)}. ` +
+      (seg.proximamente ? `${seg.avisoProximamente} ` : '') +
+      `${seg.descripcion} ${seg.reglas.join(' ')}`,
   });
 
   const ex = precios.excepcional;
