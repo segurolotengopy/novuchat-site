@@ -52,6 +52,20 @@ No cambian: planes (25/200, 50/500, 90/1.000), opción excepcional (100/220/500,
 
 La ventana de 23:30–01:30 de la plataforma no aplica a este pase: es para cambios que afectan a clientes en producción y el sitio no es un cliente. El despliegue crea revisiones nuevas de las Functions sin cortar las vigentes.
 
+## Promesas del sitio que el servidor aún no cumple, hasta la etiqueta
+
+Estado real del servidor al 12/10, informado por la sesión principal de la plataforma (no verificado en este repositorio):
+
+| Lo que el sitio promete | Lo que el servidor hace hoy | Cómo se cubre mientras tanto |
+|---|---|---|
+| **Topes de 200 / 500 / 1.000 conversaciones** (publicados desde `v0.5.0`) | Corta en **100 / 220 / 500** (los límites de `planes.ts`, comportamiento «Meta incluido») | El tope contratado se asigna a **cada cuenta nueva** con `asignar-plan --conversaciones` (200 / 500 / 1.000), con el «sí» de Andres, y lo corre Cartera. Bellido y las cuentas existentes siguen con sus topes actuales |
+| **Aviso al 80 %** | **Existe** y mide el consumo contra las conversaciones incluidas de la cuenta (el tope que tenga asignado): funciona con el tope contratado | — |
+| **Aviso al 80 % de la bolsa** | No existe; llega con el bloque 2 | — |
+| **Bolsa de conversaciones, 300 por USD 15** | Pagar solo vende la de 30 por USD 10 | Pago manual desde Plataforma, con el «sí» de Andres. Se vende y se acredita en Pagar con la etiqueta del bloque 1 |
+| **Bolsa de seguimiento, 300 por USD 10** | No se vende ni se cuentan los mensajes salientes de más de 48 h | El sitio la rotula **«Próximamente»**. Llega con el bloque 2 (depende del contador de salientes) |
+
+**Fecha de la etiqueta de planes y bolsas del servidor: estimada para la noche del 15 al 16/10 (23:30–01:30), sin fecha firme.** Depende de una decisión de Andres sobre cuánto trabajo cabe en la cuota semanal: hoy solo están comprometidos el PR-1 y el PR-2 (tarifa y bolsa de conversaciones); los demás van después del viernes. La sesión principal confirma cuando Andres decida.
+
 ## Plan de rollback
 
 Estado anterior: `v0.5.0`, Cloud Run `asistente-00018-cag` · `lead-00018-cut`.
@@ -68,9 +82,10 @@ Volver atrás republica las bolsas 50 / 100 / 300, que la plataforma ya no vende
 
 | Asunto | Estado |
 |---|---|
+| **Topes publicados distintos de los del servidor** | El sitio promete 200 / 500 / 1.000 y el servidor corta en 100 / 220 / 500 hasta la etiqueta; una cuenta nueva vendida con el tope publicado necesita que Cartera ejecute `asignar-plan --conversaciones` con el «sí» de Andres. **Si se olvida, el cliente recibe un corte que el sitio no le anunció** |
 | **La bolsa de 300 por USD 15 se cumple como pago manual** | `registrarPagoManual` solo conoce la de 30 por USD 10: se registra como 10 unidades con lo recibido en USD 15 y `motivoDiferencia`; queda auditada como diferencia hasta que el bloque de Central agregue la bolsa. Lo opera Plataforma con el «sí» de Andres, no el comercio desde la consola |
-| **Bolsa de seguimiento: «Próximamente»** | El servidor no la vende ni cuenta esos mensajes (bloque de Core sin fecha). Quitar el rótulo: `proximamente: false` en `precios.es.ts` y `precios.en.ts` + `pnpm rag:indexar` |
-| **Etiqueta de planes y bolsas del servidor** | Prevista para la noche del 15 al 16/10 (23:30–01:30). El sitio ya promete lo que traerá. **Sin confirmar** por la sesión principal de la plataforma: el aviso al 80 % y los topes 200 / 500 / 1.000 que el servidor cumple hoy |
+| **Bolsa de seguimiento: «Próximamente»** | El servidor no la vende ni cuenta esos mensajes (llega con el bloque 2, que depende del contador de salientes de más de 48 h). Quitar el rótulo: `proximamente: false` en `precios.es.ts` y `precios.en.ts` + `pnpm rag:indexar` |
+| **Fecha de la etiqueta de planes y bolsas del servidor** | **Estimada** para la noche del 15 al 16/10, sin fecha firme: sujeta a una decisión de Andres sobre la cuota semanal (hoy solo PR-1 y PR-2). Hasta entonces rige la sección «Promesas del sitio que el servidor aún no cumple» |
 | **Reglas de 48 horas frente a la definición de conversación (24 h continuas)** | Un mismo cliente tiene dos relojes. Decisión de redacción pública pendiente de Andres (`ESTADO.md`, 0 bis a) |
 | **`/terminos` §3 sin revisión legal** | Anuncia con «habrá» el precio de una bolsa que aún no se vende y afirma cómo clasifica Meta el mensaje («plantilla de marketing»; podría tratarlo como utilidad). Además, los riesgos de §2 a §5 de `v0.5.0` |
 | **`/privacidad` no declara el WhatsApp del asistente** (+591 76988663) | Riesgo aceptado en `v0.5.0`; cerrar en 30 días |
@@ -92,4 +107,4 @@ Volver atrás republica las bolsas 50 / 100 / 300, que la plataforma ya no vende
 | TypeScript 6 | `@astrojs/check` no lo admite de verdad |
 | Leads de prueba | Rotulados, se conservan como evidencia (conteo no revisado desde `v0.2.6`) |
 
-**Se cierran** los riesgos de `v0.5.0` «la afirmación del número en el celular sin confirmar» (se alineó con la redacción de WAM) y «el sitio muestra bolsas que la plataforma no vende». Huella del corpus desplegado: `e16b733b…` (48 fragmentos, generado el 2026-10-12). Según Novuchat chat, su chat de captación no copia el corpus del sitio.
+**Se cierran** los riesgos de `v0.5.0` «la afirmación del número en el celular sin confirmar» (se alineó con la redacción de WAM) y «el sitio muestra bolsas que la plataforma no vende». Huella del corpus desplegado: `e16b733b…` (48 fragmentos, generado el 2026-10-12). El chat de captación de NovuChat no copia el corpus del sitio (lo confirmaron la sesión de Novuchat chat y la principal): no hay nada que recopiar.
