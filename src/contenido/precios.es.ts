@@ -39,9 +39,10 @@ const bolsaSeguimiento: BolsaSeguimiento = {
   descripcion:
     'Sirve para los mensajes que tu negocio envía más de 48 horas después del último mensaje de su cliente, por ejemplo un seguimiento a la semana. Esos mensajes se compran con esta bolsa, solo con tu propia cuenta de WhatsApp Business. Además, Meta cobra cada uno de esos mensajes como plantilla de marketing en tu cuenta.',
   reglas: [
-    'Un seguimiento enviado dentro de las 48 horas va dentro de la conversación del cliente y NovuChat no lo cobra aparte, aunque el cliente responda.',
+    'Un seguimiento enviado dentro de las 48 horas va dentro de la conversación del cliente y NovuChat no lo cobra aparte, aunque el cliente responda. Meta puede cobrarlo en tu cuenta.',
     'Los planes no incluyen mensajes de seguimiento fuera de las 48 horas.',
-    'Los recordatorios de cita que ya incluye tu plan no cuentan como mensajes de seguimiento.',
+    'Los recordatorios de una cita agendada, hasta 2 por cita, no cuentan como mensajes de seguimiento; Meta puede cobrarlos en tu cuenta.',
+    'Cualquier otro mensaje que tu negocio inicie más de 48 horas después del último mensaje de su cliente sí cuenta como seguimiento.',
   ],
   avisoProximamente: 'La bolsa de seguimiento todavía no está disponible, es una función próxima.',
 };

@@ -34,9 +34,10 @@ const bolsaSeguimiento: BolsaSeguimiento = {
   descripcion:
     "It covers the messages your business sends more than 48 hours after the customer's last message, for example a follow-up a week later. Those messages are bought with this bundle, only with your own WhatsApp Business account. In addition, Meta charges each of those messages as a marketing template in your account.",
   reglas: [
-    "A follow-up sent within 48 hours goes inside the customer's conversation and NovuChat does not bill it separately, even if the customer replies.",
+    "A follow-up sent within 48 hours goes inside the customer's conversation and NovuChat does not bill it separately, even if the customer replies. Meta may charge it in your account.",
     'Plans do not include follow-up messages beyond 48 hours.',
-    'The appointment reminders already included in your plan do not count as follow-up messages.',
+    'Reminders for a booked appointment, up to 2 per appointment, do not count as follow-up messages; Meta may charge them in your account.',
+    "Any other message your business starts more than 48 hours after the customer's last message does count as a follow-up.",
   ],
   avisoProximamente: 'The follow-up bundle is not available yet, it is an upcoming feature.',
 };
