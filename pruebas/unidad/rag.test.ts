@@ -313,6 +313,7 @@ describe('corpus derivado del sitio', () => {
     expect(f!.texto).toContain('todavía no está disponible, es una función próxima');
     expect(f!.texto).toContain('48 horas');
     expect(f!.texto).toContain('NovuChat no lo cobra aparte');
+    expect(f!.texto, 'la regla no aclara que Meta puede cobrarlo').toContain('Meta puede cobrarlo en tu cuenta');
     expect(f!.texto).toContain('plantilla de marketing');
     // La frase de Meta no lleva cifras: solo se dice que Meta cobra aparte.
     expect(f!.texto).not.toMatch(/\$|\bBs\b|centavo/i);
@@ -367,7 +368,9 @@ describe('corpus derivado del sitio', () => {
 
   it('las reglas de las 48 horas salen de `reglas` en cada texto que las dice', () => {
     const { reglas } = precios.bolsaSeguimiento;
-    expect(reglas).toHaveLength(3);
+    expect(reglas).toHaveLength(4);
+    expect(reglas[2], 'la regla de los recordatorios no dice «hasta 2 por cita»').toContain('hasta 2 por cita');
+    expect(reglas[3], 'falta la regla de los demás mensajes').toContain('sí cuenta como seguimiento');
     const texto = (id: string) => corpus.find((x) => x.id === id)!.texto;
     // El fragmento de la bolsa y la FAQ de seguimiento traen las dos, literales.
     const idFaq = corpus.find((x) => x.id.startsWith('faq-') && /mensajes de seguimiento/i.test(x.titulo))!.id;
