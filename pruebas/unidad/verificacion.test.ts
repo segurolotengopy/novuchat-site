@@ -155,3 +155,32 @@ describe('verificar', () => {
     expect(verificar('   ', RECUPERADOS).motivo).toBe('vacia');
   });
 });
+
+describe('términos sensibles en la respuesta (P16)', () => {
+  const conServidores: Recuperado[] = [
+    {
+      id: 'faq-donde-estan-mis-datos',
+      titulo: 'Dónde están mis datos',
+      url: '/preguntas-frecuentes',
+      texto: 'Los datos viven en servidores de Google Cloud en Estados Unidos.',
+      similitud: 0.9,
+    },
+  ];
+
+  it('descarta un término bloqueado que no está en los fragmentos', () => {
+    const v = verificar('Tu clave de acceso se cambia desde la consola.', RECUPERADOS);
+    expect(v.aceptada).toBe(false);
+    expect(v.motivo).toBe('termino-sensible');
+    expect(v.detalle).toBe('clave');
+  });
+
+  it('deja pasar el término si los fragmentos recuperados lo traen', () => {
+    const v = verificar('Los datos viven en servidores de Google Cloud.', conServidores);
+    expect(v.aceptada).toBe(true);
+  });
+
+  it('no se dispara por subcadenas inocentes', () => {
+    const v = verificar('La instalación es rápida y la terapia queda agendada.', RECUPERADOS);
+    expect(v.aceptada).toBe(true);
+  });
+});

@@ -17,6 +17,8 @@ import {
   SUGERENCIAS,
   construirPrompt,
   contieneTerminoBloqueado,
+  filtrarHistorial,
+  partirPreguntas,
   preguntaPorIdentidad,
 } from './asistente-logica.js';
 import indiceCrudo from './rag/indice.json' with { type: 'json' };
@@ -43,6 +45,16 @@ const esquema = z.object({
   pagina: z.string().max(120).default('/'),
   sesion: z.string().min(8).max(64),
 });
+
+/** Une fragmentos de varias recuperaciones: sin repetidos y el más parecido primero. */
+function unirRecuperados(lista: Recuperado[]): Recuperado[] {
+  const mejores = new Map<string, Recuperado>();
+  for (const r of lista) {
+    const previo = mejores.get(r.id);
+    if (!previo || r.similitud > previo.similitud) mejores.set(r.id, r);
+  }
+  return [...mejores.values()].sort((a, b) => b.similitud - a.similitud);
+}
 
 export const asistente = onCall(
   {
@@ -166,8 +178,16 @@ export const asistente = onCall(
 
     // — Recuperación —
     const recuperador = new RecuperadorEnMemoria(indice, incrustacionesVertex);
-    const recuperados = await recuperador.recuperar(mensaje, CUANTOS);
-    const utiles = filtrarPorUmbral(recuperados);
+    // Con varias preguntas se recupera por cada una y se juntan los fragmentos
+    // (P17): con el mensaje entero solo se traía el material de la primera.
+    const preguntas = partirPreguntas(mensaje);
+    const porPregunta = await Promise.all(
+      preguntas.map((p) => recuperador.recuperar(p, CUANTOS)),
+    );
+    const recuperados = unirRecuperados(porPregunta.flat());
+    const utiles = unirRecuperados(
+      porPregunta.flatMap((r) => filtrarPorUmbral(r)),
+    ).slice(0, CUANTOS + 2);
 
     // Lo estricto del RAG: sin material suficiente NO se llama al modelo. Se
     // ahorra el costo y se elimina de raíz la posibilidad de alucinar.
@@ -181,7 +201,7 @@ export const asistente = onCall(
     try {
       bruta = await vertex.generar({
         sistema: construirPrompt(utiles, idioma),
-        historial: historial.map((t) => ({ rol: t.rol, texto: t.texto })),
+        historial: filtrarHistorial(historial).map((t) => ({ rol: t.rol, texto: t.texto })),
         mensaje,
         // 400 no alcanzaba: el razonamiento del modelo se comía el
         // presupuesto y la respuesta salía truncada. Con el tope de
