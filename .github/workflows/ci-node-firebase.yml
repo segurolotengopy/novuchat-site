@@ -149,6 +149,15 @@ jobs:
       - name: Instalar dependencias
         run: ${{ needs.preparar.outputs.instalar }}
 
+      - name: Compuerta de producción (pnpm listo, solo en etiqueta)
+        # P15: `pnpm verificar` no bloquea por datos sin confirmar (prohibición 8
+        # de CLAUDE.md); esta compuerta sí, pero antes dependía de que alguien la
+        # corriera a mano. Solo en una etiqueta o en un despliegue de etiqueta
+        # aprobada: en un PR no, para no frenar el trabajo mientras un dato esté
+        # en trámite. Usa solo Node estándar; no necesita dependencias.
+        if: ${{ startsWith(github.ref, 'refs/tags/') || inputs.tag != '' }}
+        run: node scripts/verificar-listo.mjs
+
       - name: Lint
         run: npm run lint --if-present
 
