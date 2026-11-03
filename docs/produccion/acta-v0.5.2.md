@@ -1,9 +1,9 @@
-# Acta de pase a producción — novuchat.site — v0.5.2 — 2026-11-03 (preparada, sin ejecutar)
+# Acta de pase a producción — novuchat.site — v0.5.2 — 2026-11-03 (desplegado)
 
-Commit candidato: `21b5670` (`origin/main`) · Modo: A · Run CI de main: [41692028480](https://github.com/segurolotengopy/novuchat-site/actions/runs/41692028480), `success`
-Preparado por: Claude Code (skill `pase-a-produccion`) · Aprueba: Andres Alberdi (pendiente) · Producción hoy: `v0.5.1`, `https://novuchat.site` responde 200.
+Commit candidato: `21b5670` (`origin/main`) · Modo: A · Run CI de main: [41692028480](https://github.com/segurolotengopy/novuchat-site/actions/runs/41692028480), `success` · Tag `v0.5.2` firmado (ED25519, firma verificada) · Run de despliegue: [41692757819](https://github.com/segurolotengopy/novuchat-site/actions/runs/41692757819), `success` (desplegar-produccion y post-despliegue)
+Preparado por: Claude Code (skill `pase-a-produccion`) · Autorizó: Andres Alberdi en el chat de la sesión («Sí, PR y etiqueta», «Sí, aprobar»); la etiqueta y la aprobación del Environment las ejecutó Claude Code · Producción hoy: `v0.5.1`, `https://novuchat.site` responde 200.
 
-## Veredicto: se puede proceder. Es un pase de mantenimiento sin cambio visible para el cliente.
+## Veredicto: desplegado y verificado (`/` y `/precios` responden 200 con CSP). Es un pase de mantenimiento sin cambio visible para el cliente.
 
 Versión propuesta: **patch** (`v0.5.2`). Todo son `chore`/`ci`: no hay `feat` ni `fix` de producto. No cambió contenido público, así que no hace falta reindexar el asistente (`pnpm rag:cotejar` pasó en la verificación local).
 
@@ -34,7 +34,7 @@ Versión propuesta: **patch** (`v0.5.2`). Todo son `chore`/`ci`: no hay `feat` n
 | 9 | Requisitos modo A | cumple | repo público; Environment `production` con revisor `segurolotengopy`; rulesets `proteger-main` y `proteger-tags`; `APROBADORES_PROD` definida |
 | 10 | Firma de tags | cumple | `user.signingkey` ED25519 y `tag.gpgSign=true` |
 | 11 | Reglas Firestore / IAM | sin cambios | `git diff v0.5.1..main` no toca `firestore.rules` |
-| 12 | Smoke en producción tras el despliegue | pendiente | se hace después del pase |
+| 12 | Smoke tras el despliegue | cumple | `novuchat.site` y `/precios` 200 con CSP; no se vio en navegador real |
 
 ## Riesgos y lo no verificado
 
@@ -45,7 +45,7 @@ Versión propuesta: **patch** (`v0.5.2`). Todo son `chore`/`ci`: no hay `feat` n
 
 Hosting: el pipeline copia `live` a `previa` antes de desplegar; vuelta atrás con `firebase hosting:clone novuchat-site:previa novuchat-site:live`. Functions: redesplegar la etiqueta `v0.5.1`.
 
-## Pendientes antes de aprobar
+## Pendientes
 
-1. Andres autoriza etiquetar `v0.5.2` y aprobar el Environment `production`.
-2. Verificar `https://novuchat.site` y el asistente después del despliegue.
+1. Renovar o cerrar la excepción CVE-2026-41907 antes del 2026-12-01.
+2. Mirar el sitio en un navegador real (CSP resellada por Astro 7.4.2).
