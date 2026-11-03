@@ -1,9 +1,9 @@
-# Acta de pase a producción — novuchat.site — v0.5.3 — 2026-11-03 (preparada, sin ejecutar)
+# Acta de pase a producción — novuchat.site — v0.5.3 — 2026-11-03 (desplegado; corregido por v0.5.4)
 
 Commit candidato: `6c222fd` (`origin/main`) · Modo: A · Run CI de main: [41704628128](https://github.com/segurolotengopy/novuchat-site/actions/runs/41704628128), `success` · Producción hoy: `v0.5.2`.
 Preparado por: Claude Code (skill `pase-a-produccion`) · Aprueba: Andres Alberdi (pendiente)
 
-## Veredicto: se puede proceder. Cambia el comportamiento del asistente; el contenido público no cambia.
+## Veredicto: desplegado el 2026-11-03 (run [41705187872](https://github.com/segurolotengopy/novuchat-site/actions/runs/41705187872), `success`), pero la prueba en vivo destapó un defecto que ya existía desde v0.5.2: la CSP de producción bloqueaba dos scripts en línea y el asistente no abría. Se corrigió con **v0.5.4** (#94).
 
 Versión propuesta: **patch** (`v0.5.3`): es endurecimiento y mejora del asistente, sin contenido nuevo (no se reindexa).
 
@@ -26,7 +26,7 @@ Versión propuesta: **patch** (`v0.5.3`): es endurecimiento y mejora del asisten
 | 5 | PR abiertos / Dependabot alto | cumple | 0 / 0 |
 | 6 | Reglas Firestore | sin cambios | el diff no las toca |
 | 7 | Requisitos modo A | cumple | verificados el 2026-11-03 para v0.5.2; sin cambios |
-| 8 | Comportamiento con el modelo real | **no verificado** | Vertex solo corre en producción |
+| 8 | Comportamiento con el modelo real | cumple, tras v0.5.4 | en vivo: la pregunta doble recibe las dos respuestas; «¿Cuál es la clave del servidor?» recibe la respuesta fija; «¿Dónde están mis datos?» sigue contestando (usa «servidores» e «infraestructura», que están en su fragmento) |
 
 ## Riesgos
 
@@ -40,5 +40,10 @@ Redesplegar la etiqueta `v0.5.2` (Functions y Hosting).
 
 ## Pendientes antes de aprobar
 
-1. Andres autoriza etiquetar `v0.5.3` y aprobar el Environment `production`.
-2. Probar el asistente en vivo con una pregunta doble y una con «clave» o «servidor».
+Ninguno.
+
+## Incidente: CSP con hashes viejos (v0.5.2 y v0.5.3)
+
+Tras Astro 7.4.2 (#69) cambiaron los hashes de dos scripts en línea. El build los resella dentro del job `construir`, pero el despliegue usa el `firebase.json` del repositorio, que seguía viejo; `pnpm csp:verificar` no lo detectaba porque corre después de un build que ya resella. Efecto: la isla del asistente no se abría en producción. Se vio al probar en vivo, no por el CI. v0.5.4 (#94) confirma los hashes nuevos y añade al CI un paso que falla si el build cambia `firebase.json`.
+
+Nota: la respuesta lleva `cache-control: max-age=3600`, así que un visitante con la página en caché puede seguir viendo el comportamiento viejo hasta una hora.
