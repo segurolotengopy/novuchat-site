@@ -1,3 +1,4 @@
+import { terminosBloqueadosEn } from '../asistente-logica.js';
 import type { Recuperado } from './tipos.js';
 
 /**
@@ -16,6 +17,11 @@ import type { Recuperado } from './tipos.js';
  *     corpus. Un modelo que inventa una URL manda al cliente a ninguna parte, o
  *     peor, a un dominio de otro.
  *
+ *  4. **Términos sensibles.** Una palabra de la lista de términos bloqueados
+ *     (claves, servidores, firebase…) solo puede salir en la respuesta si está
+ *     en los fragmentos recuperados. Hoy la contención de «cuentas» era solo la
+ *     regla del prompt; esto la vuelve un control que no depende del modelo.
+ *
  * Las citas siguen pidiéndose en el prompt y siguen sirviendo —cuando están,
  * los números se contrastan solo contra los fragmentos citados— pero **ya no
  * son obligatorias**: exigirlas descartaba respuestas correctas cada vez que el
@@ -31,7 +37,12 @@ export interface Veredicto {
   texto: string;
   /** Identificadores citados que sí existen entre lo recuperado. */
   citas: string[];
-  motivo?: 'fuga-de-prompt' | 'numero-inventado' | 'enlace-inventado' | 'vacia';
+  motivo?:
+    | 'fuga-de-prompt'
+    | 'numero-inventado'
+    | 'enlace-inventado'
+    | 'termino-sensible'
+    | 'vacia';
   /** El dato concreto que falló, para la traza. Nunca se le muestra al cliente. */
   detalle?: string;
 }
@@ -171,6 +182,19 @@ export function verificar(
         detalle: enlace,
       };
     }
+  }
+
+  // — 5. Términos sensibles —
+  const delMaterial = new Set(terminosBloqueadosEn(material));
+  const ajeno = terminosBloqueadosEn(texto).find((t) => !delMaterial.has(t));
+  if (ajeno) {
+    return {
+      aceptada: false,
+      texto,
+      citas,
+      motivo: 'termino-sensible',
+      detalle: ajeno,
+    };
   }
 
   return { aceptada: true, texto, citas };
