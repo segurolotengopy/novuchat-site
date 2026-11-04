@@ -3,11 +3,15 @@ import Base from '../layouts/Base.astro';
 import { urlConsola } from '../lib/consola';
 
 const pantallas = [
-  { titulo: 'Conversaciones', texto: 'Todo lo que tus clientes escribieron y lo que el asistente respondió, en vivo.' },
-  { titulo: 'Configuración', texto: 'Horarios, servicios, precios y el tono del asistente. Cambias algo y se aplica al instante.' },
+  { titulo: 'Conversaciones', texto: 'Todo lo que tus clientes escribieron y lo que el asistente respondió, en vivo. Busca por teléfono, nombre o palabra, filtra y mira primero lo que no has leído.' },
+  { titulo: 'Tomar la conversación', texto: 'Una persona de tu equipo toma el chat, el asistente se calla, escribe desde la consola y luego se lo devuelve. Se activa negocio por negocio.' },
+  { titulo: 'Fotos, audios y documentos', texto: 'Lo que tu cliente envía (fotos, audios, video, PDF) se guarda 90 días y tu equipo lo ve o lo escucha dentro de la conversación. Se activa a pedido del negocio.' },
+  { titulo: 'Configuración', texto: 'Horarios (con turno partido, por ejemplo 09:00-12:00 y 14:00-18:00), servicios, precios y el tono del asistente. Cambias algo y se aplica al instante.' },
   { titulo: 'Funcionarios', texto: 'Cada profesional con su agenda, sus especialidades y sus horarios propios.' },
   { titulo: 'Cierres', texto: 'Cuántas citas y pedidos se confirmaron, y cuánto de tu plan llevas consumido.' },
-  { titulo: 'Contactos', texto: 'Quiénes te escribieron, cuándo y qué compraron.' },
+  { titulo: 'Contactos', texto: 'Quiénes te escribieron, cuándo y qué compraron. Si un número no debe recibir respuesta, lo bloqueas y el asistente guarda silencio con él.' },
+  { titulo: 'Comprobantes recibidos', texto: 'La lista de comprobantes que mandaron tus clientes, con su foto y un estado en palabras simples. Tú confirmas en tu banco que el dinero entró.' },
+  { titulo: 'miniCRM', texto: 'La ficha de cada contacto en una hoja de Google de tu negocio, con columnas que llena el asistente y columnas tuyas que nunca pisa.' },
   { titulo: 'Reclamos y bitácora', texto: 'Los reclamos registrados y el historial de cada cambio, con quién lo hizo.' },
 ];
 
