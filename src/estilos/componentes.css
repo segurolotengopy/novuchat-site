@@ -1025,3 +1025,50 @@ textarea.input {
   flex-wrap: wrap;
   gap: var(--space-2);
 }
+
+/* ── Botón flotante de WhatsApp ─────────────────────────────────────────── */
+
+.whatsapp-boton {
+  position: fixed;
+  z-index: 50;
+  bottom: var(--space-4);
+  left: var(--space-4);
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  min-height: 56px;
+  padding: 0 var(--space-6) 0 var(--space-4);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-pildora);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: var(--font-heading-weight);
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+}
+
+.whatsapp-boton:hover {
+  background: var(--color-bg);
+}
+
+/* En móvil solo el ícono: el texto competiría con el botón del asistente. */
+@media (width < 560px) {
+  .whatsapp-boton {
+    padding: 0 var(--space-4);
+  }
+
+  .whatsapp-boton span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  body:has(.consentimiento:not([hidden])) .whatsapp-boton {
+    display: none;
+  }
+}
