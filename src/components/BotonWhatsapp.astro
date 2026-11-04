@@ -9,7 +9,7 @@ const { idioma = 'es' } = Astro.props;
 const texto =
   idioma === 'en' ? 'Chat with our virtual assistant' : 'Chatea con nuestro asistente virtual';
 const mensaje =
-  idioma === 'en' ? 'Hello, I would like to know about NovuChat.' : 'Hola, quiero conocer NovuChat.';
+  idioma === 'en' ? 'Hello, I would like information about NovuChat' : 'Hola, quiero información sobre NovuChat';
 const enlace = `https://wa.me/${sitio.contacto.whatsappAsistenteEnlace}?text=${encodeURIComponent(mensaje)}`;
 ---
 
