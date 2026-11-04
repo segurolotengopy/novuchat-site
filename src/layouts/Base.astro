@@ -7,6 +7,7 @@ import Pie from '../components/Pie.astro';
 import Consentimiento from '../components/Consentimiento.astro';
 import DatosEstructurados from '../components/DatosEstructurados.astro';
 import Asistente from '../components/Asistente';
+import BotonWhatsapp from '../components/BotonWhatsapp.astro';
 import { sitio } from '../contenido/sitio.es';
 import type { Pregunta } from '../contenido/tipos';
 
@@ -141,6 +142,7 @@ const antiDestello = `(function(){try{var t=localStorage.getItem('novuchat.tema'
       prioridad que le corresponde a un chat en una página comercial.
     */}
     <Asistente client:idle whatsapp={sitio.contacto.whatsappEnlace} />
+    <BotonWhatsapp idioma={idioma} />
     <Consentimiento />
 
     <script>
