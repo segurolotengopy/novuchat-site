@@ -3,11 +3,15 @@ import Base from '../../layouts/Base.astro';
 import { urlConsola } from '../../lib/consola';
 
 const pantallas = [
-  { titulo: 'Conversations', texto: 'Everything your customers wrote and how the assistant replied, live.' },
-  { titulo: 'Configuration', texto: 'Hours, services, prices and the assistant tone. Change something and it applies at once.' },
+  { titulo: 'Conversations', texto: 'Everything your customers wrote and how the assistant replied, live. Search by phone, name or word, filter, and see unread ones first.' },
+  { titulo: 'Take over a chat', texto: 'Someone on your team takes the chat, the assistant goes quiet, they write from the console and then hand it back. Turned on business by business.' },
+  { titulo: 'Photos, audio and documents', texto: 'What your customer sends (photos, audio, video, PDF) is kept for 90 days and your team can view or play it inside the conversation. Turned on at the business request.' },
+  { titulo: 'Configuration', texto: 'Hours (including split shifts, e.g. 09:00-12:00 and 14:00-18:00), services, prices and the assistant tone. Change something and it applies at once.' },
   { titulo: 'Staff', texto: 'Each professional with their own calendar, specialties and working hours.' },
   { titulo: 'Closes', texto: 'How many appointments and orders were confirmed, and how much of your plan you have used.' },
-  { titulo: 'Contacts', texto: 'Who wrote to you, when, and what they bought.' },
+  { titulo: 'Contacts', texto: 'Who wrote to you, when, and what they bought. If a number should not get replies, block it and the assistant stays silent with it.' },
+  { titulo: 'Receipts received', texto: 'The list of receipts your customers sent, with their photo and a plain-words status. You confirm in your bank that the money arrived.' },
+  { titulo: 'miniCRM', texto: 'Each contact card in a Google sheet of your business, with columns the assistant fills and columns of your own that it never overwrites.' },
   { titulo: 'Claims and audit log', texto: 'Registered claims and the history of every change, with who made it.' },
 ];
 ---
