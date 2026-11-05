@@ -38,7 +38,7 @@ seguridad:
         cuando cloudevents o functions-framework actualicen uuid.
       aprobado_por: Andres Alberdi
       creado: '2026-09-02'
-      vence: '2026-12-01'
+      vence: '2027-01-31'   # renovada el 2026-11-05 con el OK de Andres: cloudevents 10.0.0 y functions-framework 5.0.5 siguen siendo las últimas
     - id: CKV_GHA_7
       herramienta: checkov
       componente: novuchat-site
