@@ -39,7 +39,7 @@ updates:
       # y Dependabot rechaza el archivo entero si se le pasan
       # `semver-*-days` aquí.
     open-pull-requests-limit: 5
-    labels: [dependencias, github-actions, seguridad]
+    labels: [dependencies]
     commit-message:
       prefix: "chore(ci)"
     groups:
@@ -65,7 +65,7 @@ updates:
       semver-minor-days: 7
       semver-patch-days: 3
     open-pull-requests-limit: 10
-    labels: [dependencias, npm]
+    labels: [dependencies]
     commit-message:
       prefix: "chore(deps)"
       prefix-development: "chore(deps-dev)"
