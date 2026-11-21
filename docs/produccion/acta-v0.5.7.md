@@ -1,6 +1,6 @@
 # Acta de pase a producción — novuchat.site — v0.5.7 — 2026-11-21
 
-Commit: 5f97e6f (main) | Run CI: 44849644295 | Modo: A (repositorio público) | Preparado por: Claude Code | Aprueba: Andres (pendiente)
+Commit: 5f97e6f (main) | Run CI: 44849644295 | Modo: A (repositorio público) | Preparado por: Claude Code | Aprobó: Andres (2026-11-21, chat); desplegado, run 44903002529
 
 ## Cambios incluidos (desde v0.5.6)
 - feat(sitio): página `/plataforma` (y `/en/plataforma`): cada negocio aislado de los demás, tu número y tu cuenta de WhatsApp Business, cómo entran los mensajes (receptor) y NovuTienda con rótulo «Próximamente». Entrada «Plataforma» en el menú y enlace en el pie (#112).
