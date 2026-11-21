@@ -1,0 +1,88 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const bloques = [
+  {
+    titulo: 'Every business, kept apart from the rest',
+    bajada: 'Picture a building with one office per business, each with its own key. Everyone shares the building, but nobody walks into a neighbour’s office.',
+    puntos: [
+      { titulo: 'Your information is yours alone', texto: 'Your conversations, catalogue, calendar and settings are kept apart from any other business. Nobody from another business can see them.' },
+      { titulo: 'Each person signs in with a role', texto: 'The owner and the operator of your business sign in with their own account and see only what their role allows.' },
+      { titulo: 'Your customers never get mixed up', texto: 'The assistant keeps each customer’s conversation separate, by phone number. What one customer says never shows up in another’s chat.' },
+      { titulo: 'Your assistant is built around you', texto: 'Each business has its own assistant, with its own hours, services and tone. A change we make for another business cannot affect yours.' },
+      { titulo: 'The system enforces your limits', texto: 'The conversations, products and calendars in your plan are counted and enforced on the server, not just on screen.' },
+    ],
+  },
+  {
+    titulo: 'Your number, your WhatsApp Business account',
+    bajada: 'The number and the WhatsApp Business account are yours, in your name and in your own Meta account. NovuChat connects them to your assistant.',
+    puntos: [
+      { titulo: 'What you do', texto: 'You have (or create, with our guidance) your Meta account and WhatsApp Business. You own the number and the card Meta charges for its conversations.' },
+      { titulo: 'What we do', texto: 'We guide you through setup step by step, connect your number to your assistant, approve message templates with you and keep watch that everything works.' },
+      { titulo: 'How it is paid', texto: 'Meta charges the business directly for its messages. NovuChat charges for its service separately, on the plan you choose.' },
+      { titulo: 'The messages are yours', texto: 'Messages and conversations belong to your business, not to NovuChat. Setup is done with our help, not automatically.' },
+    ],
+  },
+  {
+    titulo: 'How messages arrive: the receiver (WAM)',
+    bajada: 'WAM is the front door. It receives, on behalf of WhatsApp, the messages your customers write to you and hands them to your assistant.',
+    puntos: [
+      { titulo: 'It receives', texto: 'It takes each message arriving at your number through the official WhatsApp Business channel from Meta, the only channel we use.' },
+      { titulo: 'It checks', texto: 'It verifies the message really comes from WhatsApp and from your account, and drops repeats, before your assistant reads it.' },
+      { titulo: 'It delivers only to your assistant', texto: 'Each message reaches only the business it belongs to. The door is shared, but every business receives only its own.' },
+    ],
+  },
+];
+---
+
+<Base
+  titulo="The NovuChat platform"
+  descripcion="Every business with its own data, its own WhatsApp Business number and an official message receiver, in plain English."
+  rutaAlterna="/plataforma"
+>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>One platform, a dedicated assistant for each business</h1>
+      <p class="seccion-bajada" style="font-size: 18px">
+        Many businesses use NovuChat, yet each keeps its own number, data, conversations and assistant.
+      </p>
+    </div>
+  </section>
+
+  {
+    bloques.map((b, i) => (
+      <section class={i % 2 === 0 ? 'seccion seccion-alterna' : 'seccion'}>
+        <div class="contenedor">
+          <h2 class="seccion-titulo">{b.titulo}</h2>
+          <p class="seccion-bajada">{b.bajada}</p>
+          <div class="rejilla">
+            {b.puntos.map((p) => (
+              <article class="card elev-sm">
+                <h3 class="card-title">{p.titulo}</h3>
+                <p class="card-body">{p.texto}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">
+        NovuTienda <span class="tag tag-proximamente" style="margin-left: 8px">Coming soon</span>
+      </h2>
+      <p class="seccion-bajada">
+        We are preparing a tool for shops: inventory across warehouses, a till, receipts and your own sales site, connected to your WhatsApp assistant. It is still in testing and cannot be hired yet.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion banda">
+    <div class="contenedor" style="text-align: center">
+      <h2 class="seccion-titulo" style="margin-inline: auto">Want us to connect your number?</h2>
+      <a class="btn btn-cta btn-grande" href="/demo">Request a demo</a>
+    </div>
+  </section>
+</Base>

@@ -99,7 +99,7 @@ export const preguntas: Pregunta[] = [
   {
     pregunta: '¿Puedo tener citas y ventas a la vez?',
     respuesta:
-      'Sí. Cada camino vive en su propio número de WhatsApp, así que se contrata un plan para cada uno, cada número en tu cuenta de WhatsApp Business, y los 2 se administran desde la misma consola. Escríbenos y lo armamos contigo: no hace falta que elijas hoy y te arrepientas después, se puede sumar el segundo cuando quieras.',
+      'Sí. Cada camino vive en su propio número de WhatsApp, así que se contrata un plan para cada uno, y cada plan se paga completo, al mismo precio, cada número en tu cuenta de WhatsApp Business, y los 2 se administran desde la misma consola. Escríbenos y lo armamos contigo: no hace falta que elijas hoy y te arrepientas después, se puede sumar el segundo cuando quieras.',
   },
   {
     pregunta: '¿Por qué tengo que elegir entre citas y ventas?',

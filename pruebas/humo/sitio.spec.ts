@@ -25,6 +25,7 @@ const RUTAS = [
   '/soluciones/gastronomia',
   '/soluciones/comercio',
   '/consola',
+  '/plataforma',
   '/precios',
   '/demo',
   '/nosotros',
@@ -35,6 +36,7 @@ const RUTAS = [
   '/en',
   '/en/precios',
   '/en/consola',
+  '/en/plataforma',
   '/en/contacto',
   '/en/privacidad',
 ];

@@ -2,6 +2,7 @@ import { precios } from '../src/contenido/precios.es';
 import { preguntas } from '../src/contenido/faq.es';
 import { verticales } from '../src/contenido/verticales.es';
 import { sitio } from '../src/contenido/sitio.es';
+import { aislamiento, tuCuenta, receptor, novutienda } from '../src/contenido/plataforma.es';
 import {
   heroe,
   problema,
@@ -272,6 +273,26 @@ export function construirCorpus(): Fragmento[] {
       texto: `Pregunta: ${p.pregunta} Respuesta: ${p.respuesta}`,
     });
   }
+
+  // — La plataforma: aislamiento, cuenta propia, receptor y NovuTienda —
+  for (const [id, b] of [
+    ['plataforma-aislamiento', aislamiento],
+    ['plataforma-tu-cuenta', tuCuenta],
+    ['plataforma-receptor', receptor],
+  ] as const) {
+    fragmentos.push({
+      id,
+      titulo: b.titulo,
+      url: '/plataforma',
+      texto: `${b.titulo}. ${b.bajada} ${b.puntos.map((p) => `${p.titulo}: ${p.texto}`).join(' ')}`,
+    });
+  }
+  fragmentos.push({
+    id: 'plataforma-novutienda',
+    titulo: 'NovuTienda',
+    url: '/plataforma',
+    texto: `${novutienda.titulo} (${novutienda.etiqueta}). ${novutienda.bajada}`,
+  });
 
   return fragmentos;
 }

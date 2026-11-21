@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import {
+  plataformaIntro,
+  aislamiento,
+  tuCuenta,
+  receptor,
+  novutienda,
+  plataformaCierre,
+} from '../contenido/plataforma.es';
+
+const bloques = [aislamiento, tuCuenta, receptor];
+---
+
+<Base
+  titulo="La plataforma de NovuChat"
+  descripcion="Cada negocio con sus datos separados, su propio número de WhatsApp Business y un receptor oficial de mensajes. Explicado en español simple."
+  rutaAlterna="/en/plataforma"
+  migajas={[
+    { nombre: 'Inicio', ruta: '/' },
+    { nombre: 'La plataforma', ruta: '/plataforma' },
+  ]}
+>
+  <section class="seccion">
+    <div class="contenedor">
+      <h1>{plataformaIntro.titulo}</h1>
+      <p class="seccion-bajada" style="font-size: 18px">{plataformaIntro.bajada}</p>
+    </div>
+  </section>
+
+  {
+    bloques.map((b, i) => (
+      <section class={i % 2 === 0 ? 'seccion seccion-alterna' : 'seccion'}>
+        <div class="contenedor">
+          <h2 class="seccion-titulo">{b.titulo}</h2>
+          <p class="seccion-bajada">{b.bajada}</p>
+          <div class="rejilla">
+            {b.puntos.map((p) => (
+              <article class="card elev-sm">
+                <h3 class="card-title">{p.titulo}</h3>
+                <p class="card-body">{p.texto}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">
+        {novutienda.titulo}
+        <span class="tag tag-proximamente" style="margin-left: 8px">{novutienda.etiqueta}</span>
+      </h2>
+      <p class="seccion-bajada">{novutienda.bajada}</p>
+    </div>
+  </section>
+
+  <section class="seccion banda">
+    <div class="contenedor" style="text-align: center">
+      <h2 class="seccion-titulo" style="margin-inline: auto">{plataformaCierre.titulo}</h2>
+      <p class="seccion-bajada" style="margin-inline: auto">{plataformaCierre.bajada}</p>
+      <a class="btn btn-cta btn-grande" href="/demo">Pedir una demostración</a>
+    </div>
+  </section>
+</Base>
