@@ -14,6 +14,16 @@ const pantallas = [
   { titulo: 'miniCRM', texto: 'Each contact card in a Google sheet of your business, with columns the assistant fills and columns of your own that it never overwrites.' },
   { titulo: 'Claims and audit log', texto: 'Registered claims and the history of every change, with who made it.' },
 ];
+
+const capturas = [
+  { archivo: 'conversaciones', ancho: 390, alto: 844, alt: 'Sample conversation in the console: the customer asks for a haircut tomorrow and the assistant offers times and books it.', pie: 'Conversations: the assistant books an appointment.' },
+  { archivo: 'configuracion', ancho: 780, alto: 1688, alt: 'Business settings screen with name, description and address.', pie: 'Business settings.' },
+  { archivo: 'usuarios', ancho: 780, alto: 1688, alt: 'List of business users with their role and a form to invite someone.', pie: 'Business users and their profiles.' },
+  { archivo: 'consumo', ancho: 780, alto: 1688, alt: 'Monthly usage screen with conversations, attentions and closes, and what each number counts.', pie: 'Usage: what is counted and what is billed.' },
+  { archivo: 'contactos', ancho: 780, alto: 1688, alt: 'List of the business reference people with role, phone and email.', pie: 'Business reference people.' },
+  { archivo: 'reclamos', ancho: 780, alto: 1688, alt: 'Form to file a claim, with a notice not to write customer data.', pie: 'Claims.' },
+  { archivo: 'bitacora', ancho: 780, alto: 1688, alt: 'Log of messages sent and received, with filters and export, without message text.', pie: 'Log: a record that cannot be edited.' },
+];
 ---
 
 <Base
@@ -32,6 +42,23 @@ const pantallas = [
       <div class="heroe-acciones">
         <a class="btn btn-primary btn-grande" href={urlConsola} rel="noopener">Sign in</a>
         <a class="btn btn-secondary btn-grande" href="/demo">Request a demo</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">What it looks like</h2>
+      <p class="seccion-bajada">Real screenshots of the console on a phone, with a sample business.</p>
+      <div class="capturas">
+        {
+          capturas.map((c) => (
+            <figure class="captura">
+              <img src={`/imagenes/consola-${c.archivo}.webp`} alt={c.alt} width={c.ancho} height={c.alto} loading="lazy" decoding="async" />
+              <figcaption>{c.pie}</figcaption>
+            </figure>
+          ))
+        }
       </div>
     </div>
   </section>

@@ -15,6 +15,16 @@ const pantallas = [
   { titulo: 'Reclamos y bitácora', texto: 'Los reclamos registrados y el historial de cada cambio, con quién lo hizo.' },
 ];
 
+const capturas = [
+  { archivo: 'conversaciones', ancho: 390, alto: 844, alt: 'Conversación de ejemplo en la consola: el cliente pide un corte para mañana y el asistente le ofrece horarios y agenda la cita.', pie: 'Conversaciones: el asistente agenda una cita.' },
+  { archivo: 'configuracion', ancho: 780, alto: 1688, alt: 'Pantalla de configuración del negocio con nombre, descripción y dirección del local.', pie: 'Configuración del negocio.' },
+  { archivo: 'usuarios', ancho: 780, alto: 1688, alt: 'Lista de usuarios del negocio con su rol y un formulario para invitar a otra persona.', pie: 'Usuarios del negocio y sus perfiles.' },
+  { archivo: 'consumo', ancho: 780, alto: 1688, alt: 'Pantalla de consumo del mes con conversaciones, atenciones y cierres, y la explicación de qué cuenta cada número.', pie: 'Consumo: qué se cuenta y qué se factura.' },
+  { archivo: 'contactos', ancho: 780, alto: 1688, alt: 'Lista de personas de referencia del negocio con rol, teléfono y correo.', pie: 'Personas de referencia del negocio.' },
+  { archivo: 'reclamos', ancho: 780, alto: 1688, alt: 'Formulario para registrar un reclamo, con el aviso de no escribir datos de clientes.', pie: 'Reclamos.' },
+  { archivo: 'bitacora', ancho: 780, alto: 1688, alt: 'Bitácora de mensajes enviados y recibidos, con filtros y exportación, sin el texto de los mensajes.', pie: 'Bitácora: un registro que no se puede editar.' },
+];
+
 const roles = [
   { rol: 'Dueño', puede: 'Configura todo: horarios, precios, servicios, funcionarios y el tono del asistente.' },
   { rol: 'Operador', puede: 'Mira las conversaciones y registra reclamos. No puede cambiar la configuración.' },
@@ -44,6 +54,23 @@ const roles = [
           Ingresar a la consola
         </a>
         <a class="btn btn-secondary btn-grande" href="/demo">Pedir una demostración</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2 class="seccion-titulo">Así se ve</h2>
+      <p class="seccion-bajada">Capturas reales de la consola en el celular, con un negocio de ejemplo.</p>
+      <div class="capturas">
+        {
+          capturas.map((c) => (
+            <figure class="captura">
+              <img src={`/imagenes/consola-${c.archivo}.webp`} alt={c.alt} width={c.ancho} height={c.alto} loading="lazy" decoding="async" />
+              <figcaption>{c.pie}</figcaption>
+            </figure>
+          ))
+        }
       </div>
     </div>
   </section>
