@@ -1072,3 +1072,29 @@ textarea.input {
     display: none;
   }
 }
+
+/* Capturas de la consola: pantallas de celular, en fila que se desplaza en móvil. */
+.capturas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.captura {
+  margin: 0;
+}
+
+.captura img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-borde-control);
+  border-radius: var(--radius-md);
+}
+
+.captura figcaption {
+  margin-top: var(--space-2);
+  font-size: 14px;
+  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+}
