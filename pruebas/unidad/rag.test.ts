@@ -415,7 +415,7 @@ describe('corpus derivado del sitio', () => {
 
   it('cada fragmento apunta a una página real del sitio', () => {
     const rutas = new Set([
-      '/', '/precios', '/como-funciona', '/consola', '/demo', '/nosotros',
+      '/', '/precios', '/como-funciona', '/consola', '/plataforma', '/demo', '/nosotros',
       '/contacto', '/preguntas-frecuentes', '/terminos',
       '/soluciones/salud-belleza', '/soluciones/gastronomia', '/soluciones/comercio',
     ]);
