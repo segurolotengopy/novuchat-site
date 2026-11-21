@@ -1,6 +1,6 @@
 # Acta de pase a producción — novuchat.site — v0.5.8 — 2026-11-21
 
-Commit: 557dadb (main) | Run CI: 44905258775 | Modo: A (repositorio público) | Preparado por: Claude Code | Aprueba: Andres (pendiente)
+Commit: 557dadb (main) | Run CI: 44905258775 | Modo: A (repositorio público) | Preparado por: Claude Code | Aprobó: Andres (2026-11-21, chat); desplegado, run 44905483208
 
 ## Cambios incluidos (desde v0.5.7)
 - feat(consola): sección «Así se ve» en `/consola` y `/en/consola` con 7 capturas de un negocio de ejemplo (Salón Aurora, etiqueta PRUEBA, teléfonos ficticios), en webp, con texto alternativo y pie (#114).
